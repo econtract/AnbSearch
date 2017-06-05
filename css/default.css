@@ -1,0 +1,148 @@
+.sprite {
+  background-image: url("../images/common/sprites/service_sprite.png");
+  background-repeat: no-repeat;
+  display: block; }
+
+.sprite-mobile {
+  width: 15px;
+  height: 26px;
+  background-position: -5px -2px; }
+
+.sprite-phone {
+  width: 26px;
+  height: 26px;
+  background-position: -30px -3px; }
+
+.sprite-television {
+  width: 27px;
+  height: 26px;
+  background-position: -5px -39px; }
+
+.sprite-wifi {
+  width: 32px;
+  height: 32px;
+  background-position: -66px -5px; }
+
+.fancyRadio label {
+  padding-left: 0;
+  margin-right: 6px; }
+.fancyRadio label .checked, .fancyRadio label .unchecked {
+  font-size: 16px; }
+.fancyRadio label .unchecked {
+  color: #CCC; }
+.fancyRadio label .checked {
+  color: #41B9BF; }
+.fancyRadio input[type='radio'] {
+  display: none; }
+.fancyRadio input[type='radio'] + label .unchecked {
+  display: inline-block; }
+.fancyRadio input[type='radio'] + label .checked {
+  display: none; }
+.fancyRadio input[type='radio']:checked + label .unchecked {
+  display: none; }
+.fancyRadio input[type='radio']:checked + label .checked {
+  display: inline-block; }
+
+/* Section Search and Compare Deals*/
+.searchBoxContent {
+  position: relative;
+  padding-top: 60px; }
+.searchBoxContent .btn {
+  text-transform: uppercase; }
+.searchBoxContent .searchBox {
+  margin-bottom: -78px;
+  background: #FFFFFF;
+  padding: 35px 55px;
+  position: relative;
+  -webkit-box-shadow: 0px 0px 29px -5px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 0px 0px 29px -5px rgba(0, 0, 0, 0.75);
+  box-shadow: 0px 0px 29px -5px rgba(0, 0, 0, 0.75); }
+.searchBoxContent .searchBox .needHelp {
+  position: absolute;
+  background: #41B9BF;
+  color: #FFF;
+  padding: 14px 35px 12px 60px;
+  top: 12px;
+  right: -15px;
+  border-bottom-left-radius: 30px;
+  border-top-left-radius: 30px;
+  -webkit-box-shadow: 0px 0px 29px -5px rgba(0, 0, 0, 0.45);
+  -moz-box-shadow: 0px 0px 29px -5px rgba(0, 0, 0, 0.45);
+  box-shadow: 0px 0px 29px -5px rgba(0, 0, 0, 0.45); }
+.searchBoxContent .searchBox .needHelp:after {
+  content: '';
+  position: absolute;
+  right: 0;
+  bottom: -10px;
+  width: 0;
+  height: 0;
+  border-top: 10px solid #3daeb4;
+  border-right: 15px solid transparent; }
+.searchBoxContent .searchBox .needHelp a {
+  color: #FFFFFF;
+  font-size: 13px; }
+.searchBoxContent .searchBox .needHelp a:hover {
+  text-decoration: none; }
+.searchBoxContent .searchBox .needHelp a h6 {
+  margin-bottom: 2px;
+  color: #FFFFFF;
+  text-transform: uppercase;
+  font-size: 16px;
+  font-weight: 600; }
+.searchBoxContent .searchBox .needHelp a p {
+  margin-bottom: 0; }
+.searchBoxContent .searchBox .needHelp a .floating-icon {
+  font-size: 20px;
+  position: absolute;
+  left: 25px;
+  top: 22px;
+  cursor: default; }
+.searchBoxContent .selectServices input[type='checkbox'] {
+  display: none; }
+.searchBoxContent .selectServices input[type='checkbox']:checked + label {
+  position: relative;
+  border: 1px solid #41B9BF;
+  z-index: 1; }
+.searchBoxContent .selectServices input[type='checkbox']:checked + label .fa.fa-check {
+  display: inline-block; }
+.searchBoxContent .selectServices input[type='checkbox']:checked + label .fa.fa-square-o {
+  display: none; }
+.searchBoxContent .selectServices ul {
+  width: 100%;
+  float: left; }
+.searchBoxContent .selectServices ul li {
+  float: left;
+  width: 25%;
+  margin-left: -1px; }
+.searchBoxContent .selectServices ul li:first-child {
+  margin-left: 0; }
+.searchBoxContent .selectServices ul li label {
+  display: block;
+  cursor: pointer;
+  text-align: center;
+  border: 1px solid #EEE;
+  padding: 12px 6px;
+  border-collapse: collapse;
+  height: 110px; }
+.searchBoxContent .selectServices ul li label span {
+  display: block; }
+.searchBoxContent .selectServices ul li label span.icon {
+  font-size: 22px; }
+.searchBoxContent .selectServices ul li label span.icon i {
+  margin: 0 auto 5px;
+  height: 32px; }
+.searchBoxContent .selectServices ul li label span.description {
+  font-weight: normal; }
+.searchBoxContent .selectServices ul li label span.tick-icon {
+  padding-top: 6px; }
+.searchBoxContent .selectServices ul li label span.tick-icon i.fa.fa-check {
+  color: #41B9BF;
+  font-size: 22px;
+  display: none; }
+.searchBoxContent .selectServices ul li label span.tick-icon i.fa.fa-square-o {
+  margin-top: 8px;
+  color: #CCC;
+  font-size: 16px;
+  display: inline-block; }
+
+/* End Section Search and Compare Deals*/

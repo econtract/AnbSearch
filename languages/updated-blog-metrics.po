@@ -1,0 +1,220 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Updated Blog Metrics\n"
+"POT-Creation-Date: 2013-07-16 16:40-0700\n"
+"PO-Revision-Date: 2013-07-16 16:40-0700\n"
+"Last-Translator: Chris Reynolds <chris@jazzsequence.com>\n"
+"Language-Team: Chris Reynolds <chris@jazzsequence.com>\n"
+"Language: en_US\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.5.7\n"
+"X-Poedit-KeywordsList: _e;__;_n;_x\n"
+"X-Poedit-Basepath: .\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPath-1: ..\n"
+
+#: ../updated_blog_metrics_i18n.php:42
+msgid "Blog Metrics Configuration"
+msgstr ""
+
+#: ../updated_blog_metrics_i18n.php:42 ../updated_blog_metrics_i18n.php:363
+#: ../updated_blog_metrics_i18n.php:386
+msgid "Blog Metrics"
+msgstr ""
+
+#: ../updated_blog_metrics_i18n.php:63
+msgid "Settings"
+msgstr ""
+
+#: ../updated_blog_metrics_i18n.php:71
+msgid "You cannot edit the Blog Metrics options."
+msgstr ""
+
+#: ../updated_blog_metrics_i18n.php:90
+msgid "Blog Metrics options"
+msgstr ""
+
+#: ../updated_blog_metrics_i18n.php:102
+msgid "Show the standard deviation"
+msgstr ""
+
+#: ../updated_blog_metrics_i18n.php:110
+msgid "Show full stats"
+msgstr ""
+
+#: ../updated_blog_metrics_i18n.php:114
+msgid "Update Settings"
+msgstr ""
+
+#: ../updated_blog_metrics_i18n.php:117
+msgid "Like this plugin?"
+msgstr ""
+
+#: ../updated_blog_metrics_i18n.php:118
+msgid "Why not do any of the following:"
+msgstr ""
+
+#: ../updated_blog_metrics_i18n.php:120
+msgid "Link to it so other folks can find out about it."
+msgstr ""
+
+#: ../updated_blog_metrics_i18n.php:121
+msgid "Donate a token of your appreciation!"
+msgstr ""
+
+#: ../updated_blog_metrics_i18n.php:279
+msgid "per"
+msgstr ""
+
+#: ../updated_blog_metrics_i18n.php:281
+msgid "this"
+msgstr ""
+
+#: ../updated_blog_metrics_i18n.php:287 ../updated_blog_metrics_i18n.php:443
+msgid "Raw Author Contribution"
+msgstr ""
+
+#: ../updated_blog_metrics_i18n.php:290
+#, php-format
+msgid "%1$s post %2$s year"
+msgstr ""
+
+#: ../updated_blog_metrics_i18n.php:292
+#, php-format
+msgid "%1$s posts %2$s year"
+msgstr ""
+
+#: ../updated_blog_metrics_i18n.php:295 ../updated_blog_metrics_i18n.php:302
+#: ../updated_blog_metrics_i18n.php:307 ../updated_blog_metrics_i18n.php:309
+msgid "Avg:"
+msgstr ""
+
+#: ../updated_blog_metrics_i18n.php:295
+#, php-format
+msgid "%d words per post"
+msgstr ""
+
+#: ../updated_blog_metrics_i18n.php:298 ../updated_blog_metrics_i18n.php:304
+#: ../updated_blog_metrics_i18n.php:311
+msgid "Std dev:"
+msgstr ""
+
+#: ../updated_blog_metrics_i18n.php:298
+#, php-format
+msgid "%d words"
+msgstr ""
+
+#: ../updated_blog_metrics_i18n.php:300
+msgid "Conversation Rate Per Post"
+msgstr ""
+
+#: ../updated_blog_metrics_i18n.php:302 ../updated_blog_metrics_i18n.php:304
+#: ../updated_blog_metrics_i18n.php:440
+#, php-format
+msgid "%d comments"
+msgstr ""
+
+#: ../updated_blog_metrics_i18n.php:307 ../updated_blog_metrics_i18n.php:456
+#, php-format
+msgid "%d words in comments"
+msgstr ""
+
+#: ../updated_blog_metrics_i18n.php:309 ../updated_blog_metrics_i18n.php:311
+#: ../updated_blog_metrics_i18n.php:441
+#, php-format
+msgid "%d trackbacks"
+msgstr ""
+
+#: ../updated_blog_metrics_i18n.php:316 ../updated_blog_metrics_i18n.php:366
+msgid "Full Stats"
+msgstr ""
+
+#: ../updated_blog_metrics_i18n.php:319
+msgid "Author(s):"
+msgstr ""
+
+#: ../updated_blog_metrics_i18n.php:322
+msgid "Posts:"
+msgstr ""
+
+#: ../updated_blog_metrics_i18n.php:324
+msgid "Words in posts:"
+msgstr ""
+
+#: ../updated_blog_metrics_i18n.php:325
+msgid "Comments:"
+msgstr ""
+
+#: ../updated_blog_metrics_i18n.php:326
+msgid "Words in comments:"
+msgstr ""
+
+#: ../updated_blog_metrics_i18n.php:327
+msgid "Trackbacks:"
+msgstr ""
+
+#: ../updated_blog_metrics_i18n.php:329
+msgid "Months blogging:"
+msgstr ""
+
+#: ../updated_blog_metrics_i18n.php:367
+msgid "Last year"
+msgstr ""
+
+#: ../updated_blog_metrics_i18n.php:377
+msgid "Author stats for the last year"
+msgstr ""
+
+#: ../updated_blog_metrics_i18n.php:379
+msgid "Author stats"
+msgstr ""
+
+#: ../updated_blog_metrics_i18n.php:396
+msgid "Updated Blog Metrics"
+msgstr ""
+
+#: ../updated_blog_metrics_i18n.php:437
+msgid "Blog stats"
+msgstr ""
+
+#: ../updated_blog_metrics_i18n.php:439
+#, php-format
+msgid "%d posts"
+msgstr ""
+
+#: ../updated_blog_metrics_i18n.php:446
+#, php-format
+msgid "%d post %s year"
+msgstr ""
+
+#: ../updated_blog_metrics_i18n.php:448
+#, php-format
+msgid "%d posts %s year"
+msgstr ""
+
+#: ../updated_blog_metrics_i18n.php:450
+#, php-format
+msgid " %d words per post"
+msgstr ""
+
+#: ../updated_blog_metrics_i18n.php:452
+msgid "Conversation Rate"
+msgstr ""
+
+#: ../updated_blog_metrics_i18n.php:454
+#, php-format
+msgid "%d comments per post"
+msgstr ""
+
+#: ../updated_blog_metrics_i18n.php:458
+#, php-format
+msgid "%d trackbacks per post"
+msgstr ""
+
+#: ../updated_blog_metrics_i18n.php:465 ../updated_blog_metrics_i18n.php:466
+msgid "Blog Metrics Widget"
+msgstr ""

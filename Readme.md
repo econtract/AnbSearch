@@ -1,6 +1,6 @@
-#AnbSearch
+# AnbSearch
 
-##Search Form
+## Search Form
 The form can be rendered anywhere using below short-code.
 
 ```
@@ -15,16 +15,16 @@ This short_code can be copied to anywhere in post, page or can be even utilized 
 If you pass no parameters to this short_code and just write `[anb_search_form]`,
 it'll render empty form expected from internet already selected :) So all the parameters are optional.
 
-###List of keys for parameters which can be passed
+### List of keys for parameters which can be passed
 ```text
 cat = Product Type
 zip = Postal Code/Installation Area
  sg = Segment/Type of Use
 ```
 
-###Allowed values of the above keys
+### Allowed values of the above keys
 
-###For `cat`
+### For `cat`
 ```text
  internet = Internet
        tv = TV
@@ -32,11 +32,11 @@ telephone = Fixed Line
       gsm = Mobile 
 ```
 
-###For `sg`
+### For `sg`
 ```text
 consumer = Private
 business = Business 
 ```
 
-###For `zip`
+### For `zip`
 Any 4 digit number.

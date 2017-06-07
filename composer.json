@@ -1,0 +1,18 @@
+{
+  "name": "anb/AnbSearch",
+  "description": "Aanbieders Search Plugin for Wordpress",
+  "keywords": ["wordpress", "plugin", "AnbSearch"],
+  "homepage": "https://github.com/econtract/AnbSearch",
+  "license": "GPL3",
+  "authors": [
+    {
+      "name": "Imran Zahoor",
+      "email": "imran@zeropoint.it",
+      "homepage": "https://zeropoint.it/"
+    }
+  ],
+  "type": "wordpress-plugin",
+  "require": {
+    "php": ">=5.3.2"
+  }
+}

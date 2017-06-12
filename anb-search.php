@@ -11,7 +11,7 @@ License: A "Slug" license name e.g. GPL2
 */
 
 namespace AnbSearch;
-include_once(WP_PLUGIN_DIR . "/wp-autoload/wpal-autoload.php" );
+include_once(WP_PLUGIN_DIR . "/wp-autoload/wpal-autoload.php");
 // If this file is accessed directory, then abort.
 if ( ! defined( 'WPINC' ) ) {
     die;
@@ -19,6 +19,9 @@ if ( ! defined( 'WPINC' ) ) {
 
 //wpal_load(AnbProduct::class);
 //$product = new AnbProduct();
+
+include(__DIR__ . '/pll-register-trans.php');
+
 $result = wpal_create_instance(AnbCompare::class);
 
 add_shortcode( 'anb_search_result', [$result, 'getCompareResults'] );

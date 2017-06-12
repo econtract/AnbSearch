@@ -39,7 +39,7 @@ class AnbCompare {
             'cat' => 'internet',
             'zip' => '',
             'pref_cs' => '',
-            'detaillevel' => [],
+            'detaillevel' => ['null'],
             'sg' => 'consumer',
             'lang' => $this->getCurrentLang(),
 
@@ -121,16 +121,25 @@ class AnbCompare {
         }
 
         $this->loadFormStyles();
-        $this->loadJqSumoSelect();
+        //$this->loadJqSumoSelect();
+        $this->loadBootstrapSelect();
         //for self page esc_url( $_SERVER['REQUEST_URI'] )
+
+        //Generate option HTML for suppliers
+        $suppliers = $this->getSuppliers();
+        $supplierHtml = "";
+        foreach($suppliers as $supplier) {
+            $supplierHtml .= "<option value='{$supplier->supplier_id}' selected>{$supplier->name}</option>";
+        }
+
         $formNew = "<div class='searchBoxContent'>
                     <div class='searchBox'>
-                        <h3>".__('Search')."</h3>
-                        <p class='caption'>".__('Select the service you like to compare')."</p>
+                        <h3>".pll__('Search')."</h3>
+                        <p class='caption'>".pll__('Select the service you like to compare')."</p>
                         <div class='formWrapper'>
                             <form action='/search/'>
                                 <div class='form-group'>
-                                    <label>".__('Services')."</label>
+                                    <label>".pll__('Services')."</label>
                                     <div class='selectServices'>
                                         <ul class='list-unstyled'>
                                             <li>
@@ -140,7 +149,7 @@ class AnbCompare {
                                                         <span class='icon'>
                                                             <i class='sprite sprite-wifi'></i>
                                                         </span>
-                                                        <span class='description'>".__('Internet')."</span>
+                                                        <span class='description'>".pll__('Internet')."</span>
                                                         <span class='tick-icon'>
                                                             <i class='fa fa-check'></i>
                                                             <i class='fa fa-square-o'></i>
@@ -156,7 +165,7 @@ class AnbCompare {
                                                         <span class='icon'>
                                                             <i class='sprite sprite-television'></i>
                                                         </span>
-                                                        <span class='description'>".__('TV')."</span>
+                                                        <span class='description'>".pllpll__('TV')."</span>
                                                         <span class='tick-icon'>
                                                             <i class='fa fa-check'></i>
                                                             <i class='fa fa-square-o'></i>
@@ -172,7 +181,7 @@ class AnbCompare {
                                                         <span class='icon'>
                                                             <i class='sprite sprite-phone'></i>
                                                         </span>
-                                                        <span class='description'>".__('Fixed line')."</span>
+                                                        <span class='description'>".pll__('Fixed line')."</span>
                                                         <span class='tick-icon'>
                                                             <i class='fa fa-check'></i>
                                                             <i class='fa fa-square-o'></i>
@@ -188,7 +197,7 @@ class AnbCompare {
                                                         <span class='icon'>
                                                             <i class='sprite sprite-mobile'></i>
                                                         </span>
-                                                        <span class='description'>".__('Mobile')."</span>
+                                                        <span class='description'>".pll__('Mobile')."</span>
                                                         <span class='tick-icon'>
                                                             <i class='fa fa-check'></i>
                                                             <i class='fa fa-square-o'></i>
@@ -201,41 +210,51 @@ class AnbCompare {
     
                                 </div>
                                 <div class='form-group'>
-                                    <label for='installation_area'>".__('Installation area')."</label>
-                                    <input class='form-control' id='installation_area' name='zip' placeholder='".__('Enter Zipcode')."' type='text' required
+                                    <label for='installation_area'>".pll__('Installation area')."</label>
+                                    <input class='form-control' id='installation_area' name='zip' placeholder='".pll__('Enter Zipcode')."' type='text' required
                                     value='" . ((!empty($values['zip'])) ? $values['zip'] : '') . "'>
                                 </div>
                                 <div class='form-group' style='display: none;'>
-                                    <label for='provider_preferences'>".__('Provider preferences')."</label>
-                                    <input class='form-control' id='pref_cs' name='pref_cs' placeholder='".__('Select Provider')."' type='text'
+                                    <label for='provider_preferences'>".pll__('Provider preferences')."</label>
+                                    <input class='form-control' id='pref_cs' name='pref_cs' placeholder='".pll__('Select Provider')."' type='text'
                                     value='" . ((!empty($values['pref_cs'])) ? $values['pref_cs'] : '') . "'>
                                 </div>
                                 <div class='form-group'>
-                                    <label>".__('Type of Use')."</label>
+                                    <label for='provider_preferences'>".pll__('Provider preferences')."</label>
+                                    <!--<input type='text' class='form-control' id='provider_preferences' placeholder='Select Provider'>-->
+                                    <select name='provider_preferences[]' id='provider_preferences' class='form-control 
+                                    custom-select' data-live-search='true' title='".pll__('Select Provider')."' data-selected-text-format='count > 3' 
+                                    data-size='10'  data-actions-box='true' multiple>
+                                        {$supplierHtml}
+                                    </select>
+                                </div>
+                                <div class='form-group'>
+                                    <label>".pll__('Type of Use')."</label>
                                     <div class='radio fancyRadio'>
                                         <input name='sg' value='consumer' id='private_type' checked='checked' type='radio'
                                         ". (("private" == $values['sg']) ? 'checked="checked"' : '') .">
                                         <label for='private_type'>
                                             <i class='fa fa-circle-o unchecked'></i>
                                             <i class='fa fa-check-circle checked'></i>
-                                            <span>".__('Private')."</span>
+                                            <span>".pll__('Private')."</span>
                                         </label>
                                         <input name='sg' value='business' id='business_type' type='radio'
                                         ". (("business" == $values['sg']) ? 'checked="checked"' : '') .">
                                         <label for='business_type'>
                                             <i class='fa fa-circle-o unchecked'></i>
                                             <i class='fa fa-check-circle checked'></i>
-                                            <span>".__('Business')."</span>
+                                            <span>".pll__('Business')."</span>
                                         </label>
                                     </div>
                                 </div>
                                 <div class='btnWrapper'>
-                                    <button name='searchSubmit' type='submit' class='btn btn-default btn-block'>".__('Search Deals')."</button>
+                                    <button name='searchSubmit' type='submit' class='btn btn-default btn-block'>".pll__('Search Deals')."</button>
                                 </div>
                             </form>
                         </div>
                     </div>
                 </div>";
+
         return $formNew;
     }
 
@@ -256,15 +275,21 @@ class AnbCompare {
 
     function loadJqSumoSelect() {
         wp_enqueue_style( 'jq_sumoselect_css', 'https://cdnjs.cloudflare.com/ajax/libs/jquery.sumoselect/3.0.2/sumoselect.min.css' );
-        wp_enqueue_style( 'jq_sumoselect_js', 'https://cdnjs.cloudflare.com/ajax/libs/jquery.sumoselect/3.0.2/jquery.sumoselect.min.js' );
+        wp_enqueue_script( 'jq_sumoselect_js', 'https://cdnjs.cloudflare.com/ajax/libs/jquery.sumoselect/3.0.2/jquery.sumoselect.min.js' );
+    }
+
+    function loadBootstrapSelect() {
+        wp_enqueue_style( 'jq_bootstrapselect_css', 'https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/css/bootstrap-select.min.css' );
+        wp_enqueue_script( 'jq_bootstrapselect_js', 'https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/js/bootstrap-select.min.js' );
     }
 
     function getSuppliers($params = []) {
+        //'cat' => ['internet', 'idtv', 'telephony', 'mobile', 'packs'],
         $atts = array(
-            'cat' => 'internet',
+            'cat' => ['internet', 'packs'],//products relevant to internet and pack products
             'pref_cs' => '',
             'lang' => 'nl',
-            'detaillevel' => ['links']
+            'detaillevel' => ['null']
 
         );
 
@@ -277,7 +302,7 @@ class AnbCompare {
         print_r($suppliers);
         echo "</pre>";*/
 
-        return $suppliers;
+        return json_decode($suppliers);
     }
 
     function getCurrentLang() {

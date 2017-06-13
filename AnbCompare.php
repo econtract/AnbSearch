@@ -165,7 +165,7 @@ class AnbCompare {
                                                         <span class='icon'>
                                                             <i class='sprite sprite-television'></i>
                                                         </span>
-                                                        <span class='description'>".pllpll__('TV')."</span>
+                                                        <span class='description'>".pll_('TV')."</span>
                                                         <span class='tick-icon'>
                                                             <i class='fa fa-check'></i>
                                                             <i class='fa fa-square-o'></i>

@@ -41,7 +41,7 @@ class AnbCompare {
             'pref_cs' => '',
             'detaillevel' => ['null'],
             'sg' => 'consumer',
-            'lang' => $this->getCurrentLang(),
+            'lang' => $this->getCurrentLang()
 
         ), $atts, 'anb_search' );
         //print_r($atts);
@@ -81,8 +81,14 @@ class AnbCompare {
                 $params['s'] = 0;//TODO: This is just temporary solution as for internet products API currently expecting this value to be passed
             }
 
+            if(isset($params['hidden_sp']) && !empty($params['hidden_sp'])) {
+                $params['pref_cs'] = $params['hidden_sp'];
+                unset($params['hidden_sp']);
+            }
+
             $this->cleanArrayData($params);
             // get the products
+            echo "Passed Params>>>";
             print_r($params);
             $result = $this->anbApi->compare($params);
             return $result;
@@ -96,6 +102,7 @@ class AnbCompare {
             'pref_cs' => '',
             'sg' => 'consumer',
             'lang' => $this->getCurrentLang(),
+            'hidden_sp' => ''
 
         ), $atts, 'anb_search_form' );
 
@@ -105,14 +112,8 @@ class AnbCompare {
             $values = $_REQUEST + $atts;//append any missing but default values
         }
 
-        //convert coma separated values to array
-        if((isset($values['cat']) && (boolean)strpos($values['cat'], ",") !== false)) {
-            $values['cat'] = explode(",", $values['cat']);
-        }
-        //store cat in array if it's plain value
-        if(!empty($values['cat']) && !is_array($values['cat'])) {
-            $values['cat'] = [$values['cat']];
-        }
+        $this->convertMultiValToArray($values['cat']);
+
 
         if($_GET['debug']) {
             echo "<pre>";
@@ -124,12 +125,10 @@ class AnbCompare {
         //$this->loadJqSumoSelect();
         $this->loadBootstrapSelect();
         //for self page esc_url( $_SERVER['REQUEST_URI'] )
-
-        //Generate option HTML for suppliers
-        $suppliers = $this->getSuppliers();
-        $supplierHtml = "";
-        foreach($suppliers as $supplier) {
-            $supplierHtml .= "<option value='{$supplier->supplier_id}' selected>{$supplier->name}</option>";
+        if(!empty($values['hidden_sp'])) {
+            $supplierHtml = $this->generateHiddenSupplierHtml($values['hidden_sp']);
+        } else {
+            $supplierHtml = $this->generateSupplierHtml($values['pref_cs']);
         }
 
         $formNew = "<div class='searchBoxContent'>
@@ -211,23 +210,10 @@ class AnbCompare {
                                 </div>
                                 <div class='form-group'>
                                     <label for='installation_area'>".pll__('Installation area')."</label>
-                                    <input class='form-control' id='installation_area' name='zip' placeholder='".pll__('Enter Zipcode')."' type='text' required
-                                    value='" . ((!empty($values['zip'])) ? $values['zip'] : '') . "'>
+                                    <input class='form-control' id='installation_area' name='zip' placeholder='".pll__('Enter Zipcode')."' type='number' 
+                                    maxlength='4' pattern='\d{4, 4}' value='" . ((!empty($values['zip'])) ? $values['zip'] : '') . "' required>
                                 </div>
-                                <div class='form-group' style='display: none;'>
-                                    <label for='provider_preferences'>".pll__('Provider preferences')."</label>
-                                    <input class='form-control' id='pref_cs' name='pref_cs' placeholder='".pll__('Select Provider')."' type='text'
-                                    value='" . ((!empty($values['pref_cs'])) ? $values['pref_cs'] : '') . "'>
-                                </div>
-                                <div class='form-group'>
-                                    <label for='provider_preferences'>".pll__('Provider preferences')."</label>
-                                    <!--<input type='text' class='form-control' id='provider_preferences' placeholder='Select Provider'>-->
-                                    <select name='provider_preferences[]' id='provider_preferences' class='form-control 
-                                    custom-select' data-live-search='true' title='".pll__('Select Provider')."' data-selected-text-format='count > 3' 
-                                    data-size='10'  data-actions-box='true' multiple>
-                                        {$supplierHtml}
-                                    </select>
-                                </div>
+                                {$supplierHtml}
                                 <div class='form-group'>
                                     <label>".pll__('Type of Use')."</label>
                                     <div class='radio fancyRadio'>
@@ -311,5 +297,71 @@ class AnbCompare {
             $lang = (pll_current_language()) ? pll_current_language() : 'nl';
         }
         return $lang;
+    }
+
+    /**
+     * @param $value
+     */
+    public function comaSepToArray(&$value)
+    {
+        //convert coma separated values to array
+        if ((isset($value) && (boolean)strpos($value, ",") !== false)) {
+            $value = explode(",", $value);
+        }
+    }
+
+    /**
+     * @param $selectedSuppliers
+     * @return string
+     */
+    private function generateSupplierHtml($selectedSuppliers=[])
+    {
+        //Generate option HTML for suppliers
+        $suppliers = $this->getSuppliers();
+        $supplierHtml = "<div class='form-group'>
+                            <label for='provider_preferences'>".pll__('Provider preferences')."</label>
+                            <!--<input type='text' class='form-control' id='provider_preferences' placeholder='Select Provider'>-->
+                            <select name='pref_cs[]' id='provider_preferences' class='form-control 
+                            custom-select' data-live-search='true' title='".pll__('Select Provider')."' data-selected-text-format='count > 3' 
+                            data-size='10'  data-actions-box='true' multiple>";
+                            foreach ($suppliers as $supplier) {
+                                if (!empty($selectedSuppliers)) {
+                                    $selected = '';
+                                    if(in_array($supplier, $selectedSuppliers)) {
+                                        $selected = 'selected';
+                                    }
+                                    $supplierHtml .= "<option value='{$supplier->supplier_id}' {$selected}>{$supplier->name}</option>";
+                                } else {
+                                    $supplierHtml .= "<option value='{$supplier->supplier_id}' selected>{$supplier->name}</option>";
+                                }
+                            }
+        $supplierHtml .= "    </select>
+                          </div>";
+
+        return $supplierHtml;
+    }
+
+    private function generateHiddenSupplierHtml($supplierId) {
+        return "<input type='hidden' name='hidden_sp' value='{$supplierId}' />";
+    }
+
+    /**
+     * @param $value
+     */
+    private function plainInputToArray(&$value)
+    {
+        //store cat in array if it's plain value
+        if (!empty($value) && !is_array($value)) {
+            $value = [$value];
+        }
+    }
+
+    /**
+     * @param $value
+     */
+    private function convertMultiValToArray($value)
+    {
+        $this->comaSepToArray($value);
+        $this->plainInputToArray($value);
     }
 }

@@ -17,9 +17,10 @@ it'll render empty form expected from internet already selected :) So all the pa
 
 ### List of keys for parameters which can be passed
 ```text
-cat = Product Type
-zip = Postal Code/Installation Area
- sg = Segment/Type of Use
+hidden_sp = Hidden Supplier (Can be used to hide supplier's drop down, instead of that it'll pass a single hidden supplier id to the API) 
+      cat = Product Type
+      zip = Postal Code/Installation Area
+       sg = Segment/Type of Use
 ```
 
 ### Allowed values of the above keys

@@ -1,5 +1,5 @@
 # Sensitive or high-churn files:
-.idea/*
+.idea/**
 
 ## File-based project format:
 *.iws

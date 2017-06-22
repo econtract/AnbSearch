@@ -121,9 +121,9 @@ class AnbCompare {
             echo "</pre>";
         }
 
-        $this->loadFormStyles();
+        //$this->loadFormStyles();
         //$this->loadJqSumoSelect();
-        $this->loadBootstrapSelect();
+        //$this->loadBootstrapSelect();
         //for self page esc_url( $_SERVER['REQUEST_URI'] )
         if(!empty($values['hidden_sp'])) {
             $supplierHtml = $this->generateHiddenSupplierHtml($values['hidden_sp']);

@@ -105,7 +105,8 @@ class AnbCompare
             'pref_cs' => '',
             'sg' => 'consumer',
             'lang' => $this->getCurrentLang(),
-            'hidden_sp' => ''
+            'hidden_sp' => '',
+            'enable_need_help' => false
 
         ), $atts, 'anb_search_form');
 

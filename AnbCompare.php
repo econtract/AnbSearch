@@ -118,7 +118,6 @@ class AnbCompare
 
         $this->convertMultiValToArray($values['cat']);
 
-
         if ($_GET['debug']) {
             echo "<pre>";
             print_r($values);

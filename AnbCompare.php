@@ -178,7 +178,7 @@ class AnbCompare
                                                     " . ((in_array("tv", $values['cat']) === true) ? 'checked="checked"' : '') . ">
                                                     <label for='tv_service'>
                                                         <span class='icon'>
-                                                            <i class='sprite sprite-television'></i>
+                                                            <i class='sprite sprite-tv'></i>
                                                         </span>
                                                         <span class='description'>" . pll__('TV') . "</span>
                                                         <span class='tick-icon'>

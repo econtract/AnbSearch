@@ -388,4 +388,49 @@ class AnbCompare
         $this->comaSepToArray($value);
         $this->plainInputToArray($value);
     }
+
+    /**
+     * @param $product
+     * @return string
+     */
+    function getServiceDetail($product) {
+        $servicesHtml = '';
+        $product = (array) $product;
+
+        $types = [
+            'internet'  => 'internet',
+            'mobile'    => 'gsm abo.',
+            'telephony' => 'tel.',
+            'idtv'      => 'tv'
+        ];
+
+        $prdOrPckTypes = ($product['producttype'] == 'packs') ? $product['packtype'] : $product['producttype'];
+        $prdOrPckTypes = explode('+',strtolower($prdOrPckTypes));
+        sort($prdOrPckTypes);
+
+        foreach ($prdOrPckTypes as $key => $packType) {
+            //var_dump(trim($packType),$types); //die;
+            if(in_array(trim($packType),$types)) {
+                $currentType = array_search(trim($packType), $types);
+                $features = $product[$currentType]->core_features;
+
+                $featuresHtml = '';
+                foreach ($features as $feature) {
+                    $featuresHtml .= '<li>'.$feature->label.'</li>';
+                }
+
+                $servicesHtml .= '<div class="packageDetail '.$currentType.'">
+                                            <div class="iconWrapper">
+                                                <i class="service-icons '.$currentType.'"></i>
+                                            </div>
+                                            <h6>'.$product[$currentType]->product_name.'</h6>
+                                            <ul class="list-unstyled pkgSummary">
+                                               '.$featuresHtml.'
+                                            </ul>
+                                        </div>';
+            }
+        }
+
+        return $servicesHtml;
+    }
 }

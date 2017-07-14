@@ -43,7 +43,8 @@ class AnbCompare
             'pref_cs' => '',
             'detaillevel' => ['null'],
             'sg' => 'consumer',
-            'lang' => $this->getCurrentLang()
+            'lang' => $this->getCurrentLang(),
+            'limit' => ''
 
         ), $atts, 'anb_search');
         //print_r($atts);

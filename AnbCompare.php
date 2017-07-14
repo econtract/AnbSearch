@@ -91,8 +91,10 @@ class AnbCompare
 
             $this->cleanArrayData($params);
             // get the products
-            echo "Passed Params>>>";
-            print_r($params);
+            if(isset($_GET['debug'])) {
+                echo "Passed Params>>>";
+                print_r($params);
+            }
             $result = $this->anbApi->compare($params);
             return $result;
         }

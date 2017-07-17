@@ -28,4 +28,8 @@ add_shortcode( 'anb_search_result', [$result, 'getCompareResults'] );
 
 add_shortcode( 'anb_search_form', [$result, 'searchForm'] );
 
+// add ajax calls
+add_action('wp_ajax_moreResults', array($result, 'moreResults'));
+add_action( 'wp_ajax_nopriv_moreResults', array($result, 'moreResults'));
+
 //add_shortcode('anb_get_suppliers', [$result, 'anb_get_suppliers'] );

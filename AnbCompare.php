@@ -24,6 +24,28 @@ class AnbCompare
     public function __construct()
     {
         $this->anbApi = wpal_create_instance(Aanbieders::class, [$this->apiConf]);
+
+        //enqueue JS scripts
+        add_action('init', array($this, 'enqueueScripts'));
+    }
+
+
+    function enqueueScripts() {
+
+        wp_enqueue_script( 'load-more-script', plugins_url( '/js/load-more-results.js', __FILE__ ), array('jquery') );
+
+        // in JavaScript, object properties are accessed as ajax_object.ajax_url, ajax_object.we_value
+        wp_localize_script( 'load-more-script', 'load_more_object',
+            array( 'ajax_url' => admin_url( 'admin-ajax.php' )) );
+
+    }
+
+    function moreResults() {
+
+        $queryParams['detaillevel'] = 'supplier,logo,services,price,reviews,texts,promotions,core_features';
+       var_dump( $this->getCompareResults($queryParams));
+
+        wp_die(); // this is required to terminate immediately and return a proper response
     }
 
     function getCompareResults($atts)

@@ -9,6 +9,7 @@
 namespace AnbSearch;
 
 use AnbApiClient\Aanbieders;
+use AnbTopDeals\AnbProduct;
 
 class AnbCompare
 {
@@ -43,7 +44,59 @@ class AnbCompare
     function moreResults() {
 
         $queryParams['detaillevel'] = 'supplier,logo,services,price,reviews,texts,promotions,core_features';
-       var_dump( $this->getCompareResults($queryParams));
+        $products = $this->getCompareResults($queryParams);
+
+        $anbTopDeals = wpal_create_instance(AnbProduct::class);
+
+        $productResponse = '';
+
+        $products = json_decode($products);
+
+        foreach ($products->results as $listProduct) {
+
+            $currentProduct = $listProduct->product;
+
+            list($productData, $priceHtml, $servicesHtml) = $this->extractProductData($anbTopDeals, $currentProduct);
+
+            //Promotions, Installation/Activation HTML
+            //display installation and activation price
+            $promotionHtml = $anbTopDeals->getPromoInternalSection($productData, true);//True here will drop promotions
+
+            list($advPrice, $monthDurationPromo, $firstYearPrice) = $anbTopDeals->getPriceInfo($productData);
+
+            $productResponse .= '<div class="offer">
+                            <div class="row listRow">
+                                <div class="col-md-4">
+                                    
+                                    '.$anbTopDeals->getProductDetailSection($productData, $servicesHtml).'
+                                </div>
+                                <div class="col-md-3">
+                                
+                                '.$anbTopDeals->getPromoSection($promotionHtml, $advPrice, 'dealFeatures', '').'
+                                   
+                                </div>
+                                <div class="col-md-2">
+                                   '.$anbTopDeals->priceSection($priceHtml, $monthDurationPromo, $firstYearPrice, 'dealPrice', '').'
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="actionButtons">
+                                        <div class="comparePackage">
+                                            <label>
+                                                <input type="checkbox" value="pack1"> '.pll__('Compare').'
+                                            </label>
+                                        </div>
+                                        <div class="buttonWrapper">
+                                            <a href="#" class="btn btn-primary ">'.pll__('Info and options').'</a>
+                                            <a href="#" class="link block-link">'.pll__('Order Now').'</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>';
+        }
+
+
+        print $productResponse;
 
         wp_die(); // this is required to terminate immediately and return a proper response
     }
@@ -456,5 +509,23 @@ class AnbCompare
         }
 
         return $servicesHtml;
+    }
+
+    /**
+     * @param $anbTopDeals
+     * @param $currentProduct
+     * @return array
+     */
+    private function extractProductData($anbTopDeals, $currentProduct)
+    {
+        // prepare data
+        $productData = $anbTopDeals->prepareProductData($currentProduct);
+
+        //Price HTML
+        $priceHtml = $anbTopDeals->getPriceHtml($productData);
+
+        //Services HTML
+        $servicesHtml = $anbTopDeals->getServicesHtml($productData);
+        return array($productData, $priceHtml, $servicesHtml);
     }
 }

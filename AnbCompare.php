@@ -52,7 +52,15 @@ class AnbCompare
 
         $products = json_decode($products);
 
+        $countProducts = 0;
+
         foreach ($products->results as $listProduct) {
+
+            $countProducts++;
+
+            if ($countProducts <= 4) {
+                continue;
+            }
 
             $currentProduct = $listProduct->product;
 

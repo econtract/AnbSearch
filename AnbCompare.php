@@ -9,8 +9,10 @@
 namespace AnbSearch;
 
 use AnbApiClient\Aanbieders;
+use AnbTopDeals\AnbProduct;
 
-class AnbCompare {
+class AnbCompare
+{
 
     public $crmApiEndpoint = "http://api.econtract.be/";//Better to take it from Admin settings
     public $anbApi;
@@ -23,44 +25,120 @@ class AnbCompare {
     public function __construct()
     {
         $this->anbApi = wpal_create_instance(Aanbieders::class, [$this->apiConf]);
+
+        //enqueue JS scripts
+        add_action('init', array($this, 'enqueueScripts'));
     }
 
-    function getCompareResults( $atts ) {
+
+    function enqueueScripts() {
+
+        wp_enqueue_script( 'load-more-script', plugins_url( '/js/load-more-results.js', __FILE__ ), array('jquery') );
+
+        // in JavaScript, object properties are accessed as ajax_object.ajax_url, ajax_object.we_value
+        wp_localize_script( 'load-more-script', 'load_more_object',
+            array( 'ajax_url' => admin_url( 'admin-ajax.php' )) );
+
+    }
+
+    function moreResults() {
+
+        $queryParams['detaillevel'] = 'supplier,logo,services,price,reviews,texts,promotions,core_features';
+        $products = $this->getCompareResults($queryParams);
+
+        $anbTopDeals = wpal_create_instance(AnbProduct::class);
+
+        $productResponse = '';
+
+        $products = json_decode($products);
+
+        foreach ($products->results as $listProduct) {
+
+            $currentProduct = $listProduct->product;
+
+            list($productData, $priceHtml, $servicesHtml) = $this->extractProductData($anbTopDeals, $currentProduct);
+
+            //Promotions, Installation/Activation HTML
+            //display installation and activation price
+            $promotionHtml = $anbTopDeals->getPromoInternalSection($productData, true);//True here will drop promotions
+
+            list($advPrice, $monthDurationPromo, $firstYearPrice) = $anbTopDeals->getPriceInfo($productData);
+
+            $productResponse .= '<div class="offer">
+                            <div class="row listRow">
+                                <div class="col-md-4">
+                                    
+                                    '.$anbTopDeals->getProductDetailSection($productData, $servicesHtml).'
+                                </div>
+                                <div class="col-md-3">
+                                
+                                '.$anbTopDeals->getPromoSection($promotionHtml, $advPrice, 'dealFeatures', '').'
+                                   
+                                </div>
+                                <div class="col-md-2">
+                                   '.$anbTopDeals->priceSection($priceHtml, $monthDurationPromo, $firstYearPrice, 'dealPrice', '').'
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="actionButtons">
+                                        <div class="comparePackage">
+                                            <label>
+                                                <input type="checkbox" value="pack1"> '.pll__('Compare').'
+                                            </label>
+                                        </div>
+                                        <div class="buttonWrapper">
+                                            <a href="#" class="btn btn-primary ">'.pll__('Info and options').'</a>
+                                            <a href="#" class="link block-link">'.pll__('Order Now').'</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>';
+        }
+
+
+        print $productResponse;
+
+        wp_die(); // this is required to terminate immediately and return a proper response
+    }
+
+    function getCompareResults($atts)
+    {
         //print_r($atts);
-        if(!empty($atts['detaillevel'])) {
+        if (!empty($atts['detaillevel'])) {
             $atts['detaillevel'] = explode(',', $atts['detaillevel']);
         }
         //print_r($atts);
-        if(!empty($atts['product_ids'])) {
+        if (!empty($atts['product_ids'])) {
             $atts['product_ids'] = explode(",", $atts['product_ids']);
         }
 
-        $atts = shortcode_atts( array(
+        $atts = shortcode_atts(array(
             'cat' => 'internet',
             'zip' => '',
             'pref_cs' => '',
             'detaillevel' => ['null'],
             'sg' => 'consumer',
-            'lang' => $this->getCurrentLang()
+            'lang' => $this->getCurrentLang(),
+            'limit' => ''
 
-        ), $atts, 'anb_search' );
+        ), $atts, 'anb_search');
         //print_r($atts);
 
-        if(isset($_REQUEST['searchSubmit'])) {
+        if (isset($_REQUEST['searchSubmit'])) {
             //$this->cleanArrayData($_REQUEST);
             sort($_REQUEST['cat']);
-            if(count($_REQUEST['cat'])  >= 2) {
+            if (count($_REQUEST['cat']) >= 2) {
                 //if it's pack pass the pack type as well which are below
                 //Pack type: 'int_tel', 'tv_tel', 'int_tel_tv', 'gsm_int_tel_tv', 'int_tv', 'gsm_int_tv'
                 $packType = "";
-                foreach($_REQUEST['cat'] as $cat) {
-                    if(!empty($packType)) {
+                foreach ($_REQUEST['cat'] as $cat) {
+                    if (!empty($packType)) {
                         $packType .= "_";
                     }
                     $packType .= substr(strtolower($cat), 0, 3);
                 }
 
-                if($packType == "tel_tv") {
+                if ($packType == "tel_tv") {
                     $packType = "tv_tel";
                 }
 
@@ -68,7 +146,7 @@ class AnbCompare {
 
                 $_REQUEST['cat'] = 'packs';
             } else {
-                if(is_array($_REQUEST['cat'])) {
+                if (is_array($_REQUEST['cat'])) {
                     $_REQUEST['cat'] = $_REQUEST['cat'][0];
                 }
             }
@@ -77,45 +155,48 @@ class AnbCompare {
             //remove empty params
             $params = array_filter($params);
 
-            if(strtolower($params['cat']) == "internet") {
+            if (strtolower($params['cat']) == "internet") {
                 $params['s'] = 0;//TODO: This is just temporary solution as for internet products API currently expecting this value to be passed
             }
 
-            if(isset($params['hidden_sp']) && !empty($params['hidden_sp'])) {
+            if (isset($params['hidden_sp']) && !empty($params['hidden_sp'])) {
                 $params['pref_cs'] = $params['hidden_sp'];
                 unset($params['hidden_sp']);
             }
 
             $this->cleanArrayData($params);
             // get the products
-            echo "Passed Params>>>";
-            print_r($params);
+            if(isset($_GET['debug'])) {
+                echo "Passed Params>>>";
+                print_r($params);
+            }
             $result = $this->anbApi->compare($params);
             return $result;
         }
     }
 
-    function searchForm( $atts ){
-        $atts = shortcode_atts( array(
+    function searchForm($atts)
+    {
+        $atts = shortcode_atts(array(
             'cat' => '',
             'zip' => '',
             'pref_cs' => '',
             'sg' => 'consumer',
             'lang' => $this->getCurrentLang(),
-            'hidden_sp' => ''
+            'hidden_sp' => '',
+            'enable_need_help' => false
 
-        ), $atts, 'anb_search_form' );
+        ), $atts, 'anb_search_form');
 
         $values = $atts;
 
-        if(!empty($_REQUEST)) {
+        if (!empty($_REQUEST)) {
             $values = $_REQUEST + $atts;//append any missing but default values
         }
 
         $this->convertMultiValToArray($values['cat']);
 
-
-        if($_GET['debug']) {
+        if ($_GET['debug']) {
             echo "<pre>";
             print_r($values);
             echo "</pre>";
@@ -125,20 +206,33 @@ class AnbCompare {
         //$this->loadJqSumoSelect();
         //$this->loadBootstrapSelect();
         //for self page esc_url( $_SERVER['REQUEST_URI'] )
-        if(!empty($values['hidden_sp'])) {
+        if (!empty($values['hidden_sp'])) {
             $supplierHtml = $this->generateHiddenSupplierHtml($values['hidden_sp']);
         } else {
             $supplierHtml = $this->generateSupplierHtml($values['pref_cs']);
         }
 
+        $needHelpHtml = "";
+
+        if ($values['enable_need_help'] == true) {
+            $needHelpHtml .= "<div class='needHelp'>
+                                <a href='#'>
+                                    <i class='floating-icon fa fa-chevron-right'></i>
+                                    <h6>" . pll__('Need help?') . "</h6>
+                                    <p>" . pll__('We\'ll guide you') . "</p>
+                                </a>
+                              </div>";
+        }
+
         $formNew = "<div class='searchBoxContent'>
                     <div class='searchBox'>
-                        <h3>".pll__('Search')."</h3>
-                        <p class='caption'>".pll__('Select the service you like to compare')."</p>
+                        " . $needHelpHtml . "
+                        <h3>" . pll__('Search') . "</h3>
+                        <p class='caption'>" . pll__('Select the service you like to compare') . "</p>
                         <div class='formWrapper'>
                             <form action='/search/'>
                                 <div class='form-group'>
-                                    <label>".pll__('Services')."</label>
+                                    <label>" . pll__('Services') . "</label>
                                     <div class='selectServices'>
                                         <ul class='list-unstyled'>
                                             <li>
@@ -148,7 +242,7 @@ class AnbCompare {
                                                         <span class='icon'>
                                                             <i class='sprite sprite-wifi'></i>
                                                         </span>
-                                                        <span class='description'>".pll__('Internet')."</span>
+                                                        <span class='description'>" . pll__('Internet') . "</span>
                                                         <span class='tick-icon'>
                                                             <i class='fa fa-check'></i>
                                                             <i class='fa fa-square-o'></i>
@@ -159,12 +253,12 @@ class AnbCompare {
                                             <li>
                                                 <div>
                                                     <input name='cat[]' id='tv_service' type='checkbox' value='tv' 
-                                                    ". ((in_array("tv", $values['cat']) === true) ? 'checked="checked"' : '') .">
+                                                    " . ((in_array("tv", $values['cat']) === true) ? 'checked="checked"' : '') . ">
                                                     <label for='tv_service'>
                                                         <span class='icon'>
-                                                            <i class='sprite sprite-television'></i>
+                                                            <i class='sprite sprite-tv'></i>
                                                         </span>
-                                                        <span class='description'>".pll__('TV')."</span>
+                                                        <span class='description'>" . pll__('TV') . "</span>
                                                         <span class='tick-icon'>
                                                             <i class='fa fa-check'></i>
                                                             <i class='fa fa-square-o'></i>
@@ -175,12 +269,12 @@ class AnbCompare {
                                             <li>
                                                 <div>
                                                     <input name='cat[]' id='telephone_service' type='checkbox' value='telephone'
-                                                    ". ((in_array("telephone", $values['cat']) === true) ? 'checked="checked"' : '') .">
+                                                    " . ((in_array("telephone", $values['cat']) === true) ? 'checked="checked"' : '') . ">
                                                     <label for='telephone_service'>
                                                         <span class='icon'>
                                                             <i class='sprite sprite-phone'></i>
                                                         </span>
-                                                        <span class='description'>".pll__('Fixed line')."</span>
+                                                        <span class='description'>" . pll__('Fixed line') . "</span>
                                                         <span class='tick-icon'>
                                                             <i class='fa fa-check'></i>
                                                             <i class='fa fa-square-o'></i>
@@ -191,12 +285,12 @@ class AnbCompare {
                                             <li>
                                                 <div>
                                                     <input name='cat[]' id='mobile_service' type='checkbox' value='gsm'
-                                                    ". ((in_array("gsm", $values['cat']) === true) ? 'checked="checked"' : '') .">
+                                                    " . ((in_array("gsm", $values['cat']) === true) ? 'checked="checked"' : '') . ">
                                                     <label for='mobile_service'>
                                                         <span class='icon'>
                                                             <i class='sprite sprite-mobile'></i>
                                                         </span>
-                                                        <span class='description'>".pll__('Mobile')."</span>
+                                                        <span class='description'>" . pll__('Mobile') . "</span>
                                                         <span class='tick-icon'>
                                                             <i class='fa fa-check'></i>
                                                             <i class='fa fa-square-o'></i>
@@ -209,32 +303,32 @@ class AnbCompare {
     
                                 </div>
                                 <div class='form-group'>
-                                    <label for='installation_area'>".pll__('Installation area')."</label>
-                                    <input class='form-control' id='installation_area' name='zip' placeholder='".pll__('Enter Zipcode')."' type='number' 
+                                    <label for='installation_area'>" . pll__('Installation area') . "</label>
+                                    <input class='form-control' id='installation_area' name='zip' placeholder='" . pll__('Enter Zipcode') . "' type='number' 
                                     maxlength='4' pattern='\d{4, 4}' value='" . ((!empty($values['zip'])) ? $values['zip'] : '') . "' required>
                                 </div>
                                 {$supplierHtml}
                                 <div class='form-group'>
-                                    <label>".pll__('Type of Use')."</label>
+                                    <label>" . pll__('Type of Use') . "</label>
                                     <div class='radio fancyRadio'>
                                         <input name='sg' value='consumer' id='private_type' checked='checked' type='radio'
-                                        ". (("private" == $values['sg']) ? 'checked="checked"' : '') .">
+                                        " . (("private" == $values['sg']) ? 'checked="checked"' : '') . ">
                                         <label for='private_type'>
                                             <i class='fa fa-circle-o unchecked'></i>
                                             <i class='fa fa-check-circle checked'></i>
-                                            <span>".pll__('Private')."</span>
+                                            <span>" . pll__('Private') . "</span>
                                         </label>
                                         <input name='sg' value='business' id='business_type' type='radio'
-                                        ". (("business" == $values['sg']) ? 'checked="checked"' : '') .">
+                                        " . (("business" == $values['sg']) ? 'checked="checked"' : '') . ">
                                         <label for='business_type'>
                                             <i class='fa fa-circle-o unchecked'></i>
                                             <i class='fa fa-check-circle checked'></i>
-                                            <span>".pll__('Business')."</span>
+                                            <span>" . pll__('Business') . "</span>
                                         </label>
                                     </div>
                                 </div>
                                 <div class='btnWrapper'>
-                                    <button name='searchSubmit' type='submit' class='btn btn-default btn-block'>".pll__('Search Deals')."</button>
+                                    <button name='searchSubmit' type='submit' class='btn btn-default btn-block'>" . pll__('Search Deals') . "</button>
                                 </div>
                             </form>
                         </div>
@@ -244,32 +338,37 @@ class AnbCompare {
         return $formNew;
     }
 
-    function cleanArrayData(&$data) {
-        foreach($data as $key => $val) {
-            if(!is_array($val) || is_object($val)) {
+    function cleanArrayData(&$data)
+    {
+        foreach ($data as $key => $val) {
+            if (!is_array($val) || is_object($val)) {
                 $data[$key] = sanitize_text_field($val);
             }
         }
     }
 
-    function loadFormStyles() {
-        wp_enqueue_style( 'anbsearch_bootstrap', 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css' );
-        wp_enqueue_style( 'anbsearch_font_awesome', 'https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css' );
-        wp_enqueue_style( 'anbsearch_normalize',  plugin_dir_url(__FILE__ ) . 'css/normalize.css' );
-        wp_enqueue_style( 'anbsearch_default',  plugin_dir_url(__FILE__ ) . 'css/default.css' );
+    function loadFormStyles()
+    {
+        wp_enqueue_style('anbsearch_bootstrap', 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css');
+        wp_enqueue_style('anbsearch_font_awesome', 'https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css');
+        wp_enqueue_style('anbsearch_normalize', plugin_dir_url(__FILE__) . 'css/normalize.css');
+        wp_enqueue_style('anbsearch_default', plugin_dir_url(__FILE__) . 'css/default.css');
     }
 
-    function loadJqSumoSelect() {
-        wp_enqueue_style( 'jq_sumoselect_css', 'https://cdnjs.cloudflare.com/ajax/libs/jquery.sumoselect/3.0.2/sumoselect.min.css' );
-        wp_enqueue_script( 'jq_sumoselect_js', 'https://cdnjs.cloudflare.com/ajax/libs/jquery.sumoselect/3.0.2/jquery.sumoselect.min.js' );
+    function loadJqSumoSelect()
+    {
+        wp_enqueue_style('jq_sumoselect_css', 'https://cdnjs.cloudflare.com/ajax/libs/jquery.sumoselect/3.0.2/sumoselect.min.css');
+        wp_enqueue_script('jq_sumoselect_js', 'https://cdnjs.cloudflare.com/ajax/libs/jquery.sumoselect/3.0.2/jquery.sumoselect.min.js');
     }
 
-    function loadBootstrapSelect() {
-        wp_enqueue_style( 'jq_bootstrapselect_css', 'https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/css/bootstrap-select.min.css' );
-        wp_enqueue_script( 'jq_bootstrapselect_js', 'https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/js/bootstrap-select.min.js' );
+    function loadBootstrapSelect()
+    {
+        wp_enqueue_style('jq_bootstrapselect_css', 'https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/css/bootstrap-select.min.css');
+        wp_enqueue_script('jq_bootstrapselect_js', 'https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/js/bootstrap-select.min.js');
     }
 
-    function getSuppliers($params = []) {
+    function getSuppliers($params = [])
+    {
         //'cat' => ['internet', 'idtv', 'telephony', 'mobile', 'packs'],
         $atts = array(
             'cat' => ['internet', 'packs'],//products relevant to internet and pack products
@@ -291,9 +390,10 @@ class AnbCompare {
         return json_decode($suppliers);
     }
 
-    function getCurrentLang() {
+    function getCurrentLang()
+    {
         $lang = 'nl';
-        if(method_exists('pll_current_language')) {
+        if (method_exists('pll_current_language')) {
             $lang = (pll_current_language()) ? pll_current_language() : 'nl';
         }
         return $lang;
@@ -314,34 +414,35 @@ class AnbCompare {
      * @param $selectedSuppliers
      * @return string
      */
-    private function generateSupplierHtml($selectedSuppliers=[])
+    private function generateSupplierHtml($selectedSuppliers = [])
     {
         //Generate option HTML for suppliers
         $suppliers = $this->getSuppliers();
         $supplierHtml = "<div class='form-group'>
-                            <label for='provider_preferences'>".pll__('Provider preferences')."</label>
+                            <label for='provider_preferences'>" . pll__('Provider preferences') . "</label>
                             <!--<input type='text' class='form-control' id='provider_preferences' placeholder='Select Provider'>-->
                             <select name='pref_cs[]' id='provider_preferences' class='form-control 
-                            custom-select' data-live-search='true' title='".pll__('Select Provider')."' data-selected-text-format='count > 3' 
+                            custom-select' data-live-search='true' title='" . pll__('Select Provider') . "' data-selected-text-format='count > 3' 
                             data-size='10'  data-actions-box='true' multiple>";
-                            foreach ($suppliers as $supplier) {
-                                if (!empty($selectedSuppliers)) {
-                                    $selected = '';
-                                    if(in_array($supplier, $selectedSuppliers)) {
-                                        $selected = 'selected';
-                                    }
-                                    $supplierHtml .= "<option value='{$supplier->supplier_id}' {$selected}>{$supplier->name}</option>";
-                                } else {
-                                    $supplierHtml .= "<option value='{$supplier->supplier_id}' selected>{$supplier->name}</option>";
-                                }
-                            }
+        foreach ($suppliers as $supplier) {
+            if (!empty($selectedSuppliers)) {
+                $selected = '';
+                if (in_array($supplier, $selectedSuppliers)) {
+                    $selected = 'selected';
+                }
+                $supplierHtml .= "<option value='{$supplier->supplier_id}' {$selected}>{$supplier->name}</option>";
+            } else {
+                $supplierHtml .= "<option value='{$supplier->supplier_id}' selected>{$supplier->name}</option>";
+            }
+        }
         $supplierHtml .= "    </select>
                           </div>";
 
         return $supplierHtml;
     }
 
-    private function generateHiddenSupplierHtml($supplierId) {
+    private function generateHiddenSupplierHtml($supplierId)
+    {
         return "<input type='hidden' name='hidden_sp' value='{$supplierId}' />";
     }
 
@@ -363,5 +464,68 @@ class AnbCompare {
     {
         $this->comaSepToArray($value);
         $this->plainInputToArray($value);
+    }
+
+    /**
+     * @param $product
+     * @return string
+     */
+    function getServiceDetail($product) {
+        $servicesHtml = '';
+        $product = (array) $product;
+
+        $types = [
+            'internet'  => 'internet',
+            'mobile'    => 'gsm abo.',
+            'telephony' => 'tel.',
+            'idtv'      => 'tv'
+        ];
+
+        $prdOrPckTypes = ($product['producttype'] == 'packs') ? $product['packtype'] : $product['producttype'];
+        $prdOrPckTypes = explode('+',strtolower($prdOrPckTypes));
+        sort($prdOrPckTypes);
+
+        foreach ($prdOrPckTypes as $key => $packType) {
+            //var_dump(trim($packType),$types); //die;
+            if(in_array(trim($packType),$types)) {
+                $currentType = array_search(trim($packType), $types);
+                $features = $product[$currentType]->core_features;
+
+                $featuresHtml = '';
+                foreach ($features as $feature) {
+                    $featuresHtml .= '<li>'.$feature->label.'</li>';
+                }
+
+                $servicesHtml .= '<div class="packageDetail '.$currentType.'">
+                                            <div class="iconWrapper">
+                                                <i class="service-icons '.$currentType.'"></i>
+                                            </div>
+                                            <h6>'.$product[$currentType]->product_name.'</h6>
+                                            <ul class="list-unstyled pkgSummary">
+                                               '.$featuresHtml.'
+                                            </ul>
+                                        </div>';
+            }
+        }
+
+        return $servicesHtml;
+    }
+
+    /**
+     * @param $anbTopDeals
+     * @param $currentProduct
+     * @return array
+     */
+    private function extractProductData($anbTopDeals, $currentProduct)
+    {
+        // prepare data
+        $productData = $anbTopDeals->prepareProductData($currentProduct);
+
+        //Price HTML
+        $priceHtml = $anbTopDeals->getPriceHtml($productData);
+
+        //Services HTML
+        $servicesHtml = $anbTopDeals->getServicesHtml($productData);
+        return array($productData, $priceHtml, $servicesHtml);
     }
 }

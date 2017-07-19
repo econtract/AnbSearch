@@ -17,11 +17,13 @@ it'll render empty form expected from internet already selected :) So all the pa
 
 ### List of keys for parameters which can be passed
 ```text
-hidden_sp = Hidden Supplier (Can be used to hide supplier's drop down, instead of that it'll pass a single hidden supplier id to the API) 
+hidden_sp = Hidden Supplier ID (Can be used to hide supplier's drop down, instead of that it'll pass a single hidden supplier id to the API) 
       cat = Product Type
       zip = Postal Code/Installation Area
        sg = Segment/Type of Use
 ```
+
+To enable Need Help badge on search box you need to use this `enable_need_help = true`. So this code `[anb_search_form enable_need_help = true]` will introduce a need help badge on top of the search box.
 
 ### Allowed values of the above keys
 
@@ -41,3 +43,8 @@ business = Business
 
 ### For `zip`
 Any 4 digit number.
+
+### For `enable_need_help`
+```text
+enable_need_help = boolean (true/false)
+```

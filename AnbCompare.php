@@ -28,6 +28,7 @@ class AnbCompare
 
         //enqueue JS scripts
         add_action('init', array($this, 'enqueueScripts'));
+        $_GET = $this->cleanInputGet();
     }
 
 
@@ -52,7 +53,15 @@ class AnbCompare
 
         $products = json_decode($products);
 
+        $countProducts = 0;
+
         foreach ($products->results as $listProduct) {
+
+            $countProducts++;
+
+            if ($countProducts <= 4) {
+                continue;
+            }
 
             $currentProduct = $listProduct->product;
 
@@ -124,14 +133,14 @@ class AnbCompare
         ), $atts, 'anb_search');
         //print_r($atts);
 
-        if (isset($_REQUEST['searchSubmit'])) {
-            //$this->cleanArrayData($_REQUEST);
-            sort($_REQUEST['cat']);
-            if (count($_REQUEST['cat']) >= 2) {
+        if (isset($_GET['searchSubmit'])) {
+            //$this->cleanArrayData($_GET);
+            sort($_GET['cat']);
+            if (count($_GET['cat']) >= 2) {
                 //if it's pack pass the pack type as well which are below
                 //Pack type: 'int_tel', 'tv_tel', 'int_tel_tv', 'gsm_int_tel_tv', 'int_tv', 'gsm_int_tv'
                 $packType = "";
-                foreach ($_REQUEST['cat'] as $cat) {
+                foreach ($_GET['cat'] as $cat) {
                     if (!empty($packType)) {
                         $packType .= "_";
                     }
@@ -142,16 +151,16 @@ class AnbCompare
                     $packType = "tv_tel";
                 }
 
-                $_REQUEST['cp'] = $packType;
+                $_GET['cp'] = $packType;
 
-                $_REQUEST['cat'] = 'packs';
+                $_GET['cat'] = 'packs';
             } else {
-                if (is_array($_REQUEST['cat'])) {
-                    $_REQUEST['cat'] = $_REQUEST['cat'][0];
+                if (is_array($_GET['cat'])) {
+                    $_GET['cat'] = $_GET['cat'][0];
                 }
             }
 
-            $params = $_REQUEST + $atts;//append any missing but default values
+            $params = $_GET + $atts;//append any missing but default values
             //remove empty params
             $params = array_filter($params);
 
@@ -190,8 +199,8 @@ class AnbCompare
 
         $values = $atts;
 
-        if (!empty($_REQUEST)) {
-            $values = $_REQUEST + $atts;//append any missing but default values
+        if (!empty($_GET)) {
+            $values = $_GET + $atts;//append any missing but default values
         }
 
         $this->convertMultiValToArray($values['cat']);
@@ -224,116 +233,7 @@ class AnbCompare
                               </div>";
         }
 
-        $formNew = "<div class='searchBoxContent'>
-                    <div class='searchBox'>
-                        " . $needHelpHtml . "
-                        <h3>" . pll__('Search') . "</h3>
-                        <p class='caption'>" . pll__('Select the service you like to compare') . "</p>
-                        <div class='formWrapper'>
-                            <form action='/search/'>
-                                <div class='form-group'>
-                                    <label>" . pll__('Services') . "</label>
-                                    <div class='selectServices'>
-                                        <ul class='list-unstyled'>
-                                            <li>
-                                                <div>
-                                                    <input name='cat[]' id='internet_service' checked='checked' onclick='event.preventDefault();' type='checkbox' value='internet'>
-                                                    <label for='internet_service'>
-                                                        <span class='icon'>
-                                                            <i class='sprite sprite-wifi'></i>
-                                                        </span>
-                                                        <span class='description'>" . pll__('Internet') . "</span>
-                                                        <span class='tick-icon'>
-                                                            <i class='fa fa-check'></i>
-                                                            <i class='fa fa-square-o'></i>
-                                                        </span>
-                                                    </label>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div>
-                                                    <input name='cat[]' id='tv_service' type='checkbox' value='tv' 
-                                                    " . ((in_array("tv", $values['cat']) === true) ? 'checked="checked"' : '') . ">
-                                                    <label for='tv_service'>
-                                                        <span class='icon'>
-                                                            <i class='sprite sprite-tv'></i>
-                                                        </span>
-                                                        <span class='description'>" . pll__('TV') . "</span>
-                                                        <span class='tick-icon'>
-                                                            <i class='fa fa-check'></i>
-                                                            <i class='fa fa-square-o'></i>
-                                                        </span>
-                                                    </label>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div>
-                                                    <input name='cat[]' id='telephone_service' type='checkbox' value='telephone'
-                                                    " . ((in_array("telephone", $values['cat']) === true) ? 'checked="checked"' : '') . ">
-                                                    <label for='telephone_service'>
-                                                        <span class='icon'>
-                                                            <i class='sprite sprite-phone'></i>
-                                                        </span>
-                                                        <span class='description'>" . pll__('Fixed line') . "</span>
-                                                        <span class='tick-icon'>
-                                                            <i class='fa fa-check'></i>
-                                                            <i class='fa fa-square-o'></i>
-                                                        </span>
-                                                    </label>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div>
-                                                    <input name='cat[]' id='mobile_service' type='checkbox' value='gsm'
-                                                    " . ((in_array("gsm", $values['cat']) === true) ? 'checked="checked"' : '') . ">
-                                                    <label for='mobile_service'>
-                                                        <span class='icon'>
-                                                            <i class='sprite sprite-mobile'></i>
-                                                        </span>
-                                                        <span class='description'>" . pll__('Mobile') . "</span>
-                                                        <span class='tick-icon'>
-                                                            <i class='fa fa-check'></i>
-                                                            <i class='fa fa-square-o'></i>
-                                                        </span>
-                                                    </label>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                    </div>
-    
-                                </div>
-                                <div class='form-group'>
-                                    <label for='installation_area'>" . pll__('Installation area') . "</label>
-                                    <input class='form-control' id='installation_area' name='zip' placeholder='" . pll__('Enter Zipcode') . "' type='number' 
-                                    maxlength='4' pattern='\d{4, 4}' value='" . ((!empty($values['zip'])) ? $values['zip'] : '') . "' required>
-                                </div>
-                                {$supplierHtml}
-                                <div class='form-group'>
-                                    <label>" . pll__('Type of Use') . "</label>
-                                    <div class='radio fancyRadio'>
-                                        <input name='sg' value='consumer' id='private_type' checked='checked' type='radio'
-                                        " . (("private" == $values['sg']) ? 'checked="checked"' : '') . ">
-                                        <label for='private_type'>
-                                            <i class='fa fa-circle-o unchecked'></i>
-                                            <i class='fa fa-check-circle checked'></i>
-                                            <span>" . pll__('Private') . "</span>
-                                        </label>
-                                        <input name='sg' value='business' id='business_type' type='radio'
-                                        " . (("business" == $values['sg']) ? 'checked="checked"' : '') . ">
-                                        <label for='business_type'>
-                                            <i class='fa fa-circle-o unchecked'></i>
-                                            <i class='fa fa-check-circle checked'></i>
-                                            <span>" . pll__('Business') . "</span>
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class='btnWrapper'>
-                                    <button name='searchSubmit' type='submit' class='btn btn-default btn-block'>" . pll__('Search Deals') . "</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>";
+        $formNew = $this->getSearchBoxContentHtml($values, $needHelpHtml, $supplierHtml);
 
         return $formNew;
     }
@@ -516,7 +416,7 @@ class AnbCompare
      * @param $currentProduct
      * @return array
      */
-    private function extractProductData($anbTopDeals, $currentProduct)
+    public function extractProductData($anbTopDeals, $currentProduct)
     {
         // prepare data
         $productData = $anbTopDeals->prepareProductData($currentProduct);
@@ -527,5 +427,146 @@ class AnbCompare
         //Services HTML
         $servicesHtml = $anbTopDeals->getServicesHtml($productData);
         return array($productData, $priceHtml, $servicesHtml);
+    }
+
+    /**
+     * @param $values
+     * @param string $needHelpHtml
+     * @param string $supplierHtml
+     * @param string $submitBtnTxt
+     * @param bool $hideTitle
+     * @param string $infoMsg
+     * @return string
+     */
+    public function getSearchBoxContentHtml($values, $needHelpHtml="", $supplierHtml = "", $submitBtnTxt = "Search Deals", $hideTitle = false, $infoMsg = "")
+    {
+        $titleHtml = "<h3>" . pll__('Search') . "</h3>";
+        if($hideTitle) {
+            $titleHtml = "";
+        }
+
+        $hiddenMultipleProvidersHtml = "";
+
+        if(empty($supplierHtml)) {//If no supplier html generated but pref_cs are present keep them included as hidden values
+            foreach($values['pref_cs'] as $provider) {
+                $hiddenMultipleProvidersHtml .= "<input type='hidden' name='pref_cs[]' value='".$provider."' />";
+            }
+        }
+        $formNew = "<div class='searchBoxContent'>
+                    <div class='searchBox'>
+                        " . $needHelpHtml . "
+                        " . $titleHtml . "
+                        <p class='caption'>" . pll__('Select the service you like to compare') . "</p>
+                        <div class='formWrapper'>
+                            <form action='/search/'>
+                                <div class='form-group'>
+                                    <label>" . pll__('Services') . "</label>
+                                    <div class='selectServices'>
+                                        <ul class='list-unstyled'>
+                                            <li>
+                                                <div>
+                                                    <input name='cat[]' id='internet_service' checked='checked' onclick='event.preventDefault();' type='checkbox' value='internet'>
+                                                    <label for='internet_service'>
+                                                        <span class='icon'>
+                                                            <i class='sprite sprite-wifi'></i>
+                                                        </span>
+                                                        <span class='description'>" . pll__('Internet') . "</span>
+                                                        <span class='tick-icon'>
+                                                            <i class='fa fa-check'></i>
+                                                            <i class='fa fa-square-o'></i>
+                                                        </span>
+                                                    </label>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div>
+                                                    <input name='cat[]' id='tv_service' type='checkbox' value='tv' 
+                                                    " . ((in_array("tv", $values['cat']) === true) ? 'checked="checked"' : '') . ">
+                                                    <label for='tv_service'>
+                                                        <span class='icon'>
+                                                            <i class='sprite sprite-tv'></i>
+                                                        </span>
+                                                        <span class='description'>" . pll__('TV') . "</span>
+                                                        <span class='tick-icon'>
+                                                            <i class='fa fa-check'></i>
+                                                            <i class='fa fa-square-o'></i>
+                                                        </span>
+                                                    </label>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div>
+                                                    <input name='cat[]' id='telephone_service' type='checkbox' value='telephone'
+                                                    " . ((in_array("telephone", $values['cat']) === true) ? 'checked="checked"' : '') . ">
+                                                    <label for='telephone_service'>
+                                                        <span class='icon'>
+                                                            <i class='sprite sprite-phone'></i>
+                                                        </span>
+                                                        <span class='description'>" . pll__('Fixed line') . "</span>
+                                                        <span class='tick-icon'>
+                                                            <i class='fa fa-check'></i>
+                                                            <i class='fa fa-square-o'></i>
+                                                        </span>
+                                                    </label>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div>
+                                                    <input name='cat[]' id='mobile_service' type='checkbox' value='gsm'
+                                                    " . ((in_array("gsm", $values['cat']) === true) ? 'checked="checked"' : '') . ">
+                                                    <label for='mobile_service'>
+                                                        <span class='icon'>
+                                                            <i class='sprite sprite-mobile'></i>
+                                                        </span>
+                                                        <span class='description'>" . pll__('Mobile') . "</span>
+                                                        <span class='tick-icon'>
+                                                            <i class='fa fa-check'></i>
+                                                            <i class='fa fa-square-o'></i>
+                                                        </span>
+                                                    </label>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>    
+                                </div>
+                                {$infoMsg}
+                                <div class='form-group'>
+                                    <label for='installation_area'>" . pll__('Installation area') . "</label>
+                                    <input class='form-control' id='installation_area' name='zip' placeholder='" . pll__('Enter Zipcode') . "' type='text' 
+                                    maxlength='4' pattern='\d{4, 4}' value='" . ((!empty($values['zip'])) ? $values['zip'] : '') . "' required>
+                                </div>
+                                {$supplierHtml}
+                                <div class='form-group'>
+                                    <label>" . pll__('Type of Use') . "</label>
+                                    <div class='radio fancyRadio'>
+                                        <input name='sg' value='consumer' id='private_type' checked='checked' type='radio'
+                                        " . (("private" == $values['sg']) ? 'checked="checked"' : '') . ">
+                                        <label for='private_type'>
+                                            <i class='fa fa-circle-o unchecked'></i>
+                                            <i class='fa fa-check-circle checked'></i>
+                                            <span>" . pll__('Private') . "</span>
+                                        </label>
+                                        <input name='sg' value='business' id='business_type' type='radio'
+                                        " . (("business" == $values['sg']) ? 'checked="checked"' : '') . ">
+                                        <label for='business_type'>
+                                            <i class='fa fa-circle-o unchecked'></i>
+                                            <i class='fa fa-check-circle checked'></i>
+                                            <span>" . pll__('Business') . "</span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class='btnWrapper'>
+                                    {$hiddenMultipleProvidersHtml}
+                                    <button name='searchSubmit' type='submit' class='btn btn-default btn-block'>" . pll__($submitBtnTxt) . "</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>";
+        return $formNew;
+    }
+
+    public function cleanInputGet() {
+        return filter_input_array(INPUT_GET, FILTER_SANITIZE_STRING);//Clean Params
     }
 }

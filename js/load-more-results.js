@@ -10,7 +10,8 @@ jQuery(document).ready(function($){
         // We can also pass the url value separately from ajaxurl for front end AJAX implementations
         jQuery.get(load_more_object.ajax_url+urlParams, data, function(response) {
 
-            $('.resultsData').html(response)
+            $('.resultsData').html(response);
+            $('.loadMore').hide();
 
         });
     });

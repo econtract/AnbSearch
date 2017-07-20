@@ -377,8 +377,8 @@ class AnbCompare
         $types = [
             'internet'  => 'internet',
             'mobile'    => 'gsm abo.',
-            'telephony' => 'tel.',
-            'idtv'      => 'tv'
+            'idtv'      => 'tv',
+            'telephony' => 'tel.'
         ];
 
         $prdOrPckTypes = ($product['producttype'] == 'packs') ? $product['packtype'] : $product['producttype'];

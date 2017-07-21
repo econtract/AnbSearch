@@ -7,6 +7,7 @@ jQuery(document).ready(function($){
         };
         var urlParams = window.location.search;
 
+        $('.loadMore').html('LOADING...');
         // We can also pass the url value separately from ajaxurl for front end AJAX implementations
         jQuery.get(load_more_object.ajax_url+urlParams, data, function(response) {
 

@@ -379,15 +379,23 @@ class AnbCompare
         $product = (array)$product;
 
         $types = [
-            'internet' => 'internet',
-            'mobile' => 'gsm abo.',
-            'telephony' => 'tel.',
-            'idtv' => 'tv'
+            'internet'  => 'internet',
+            'mobile'    => 'gsm abo.',
+            'idtv'      => 'tv',
+            'telephony' => 'tel.'
         ];
 
         $prdOrPckTypes = ($product['producttype'] == 'packs') ? $product['packtype'] : $product['producttype'];
-        $prdOrPckTypes = explode('+', strtolower($prdOrPckTypes));
-        sort($prdOrPckTypes);
+        $prdOrPckTypes = explode('+',strtolower($prdOrPckTypes));
+
+        // custom sort with specific order :- (internet > mobile > tv > fixed telphony)
+        $target = array_values($types);
+
+        usort($prdOrPckTypes, function ($key, $key2) use ($target) {
+            $pos_a = array_search(trim($key), $target);
+            $pos_b = array_search(trim($key2), $target);
+            return $pos_a - $pos_b;
+        });
 
         foreach ($prdOrPckTypes as $key => $packType) {
             //var_dump(trim($packType),$types); //die;

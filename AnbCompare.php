@@ -21,6 +21,7 @@ class AnbCompare
         'key' => ANB_API_KEY,
         'secret' => ANB_API_SECRET
     ];
+    const RESULTS_PAGE_URI = "/telecom/results/";
 
     public function __construct()
     {
@@ -32,17 +33,19 @@ class AnbCompare
     }
 
 
-    function enqueueScripts() {
+    function enqueueScripts()
+    {
 
-        wp_enqueue_script( 'load-more-script', plugins_url( '/js/load-more-results.js', __FILE__ ), array('jquery') );
+        wp_enqueue_script('load-more-script', plugins_url('/js/load-more-results.js', __FILE__), array('jquery'));
 
         // in JavaScript, object properties are accessed as ajax_object.ajax_url, ajax_object.we_value
-        wp_localize_script( 'load-more-script', 'load_more_object',
-            array( 'ajax_url' => admin_url( 'admin-ajax.php' )) );
+        wp_localize_script('load-more-script', 'load_more_object',
+            array('ajax_url' => admin_url('admin-ajax.php')));
 
     }
 
-    function moreResults() {
+    function moreResults()
+    {
 
         $queryParams['detaillevel'] = 'supplier,logo,services,price,reviews,texts,promotions,core_features';
         $products = $this->getCompareResults($queryParams);
@@ -77,26 +80,26 @@ class AnbCompare
                             <div class="row listRow">
                                 <div class="col-md-4">
                                     
-                                    '.$anbTopDeals->getProductDetailSection($productData, $servicesHtml).'
+                                    ' . $anbTopDeals->getProductDetailSection($productData, $servicesHtml) . '
                                 </div>
                                 <div class="col-md-3">
                                 
-                                '.$anbTopDeals->getPromoSection($promotionHtml, $advPrice, 'dealFeatures', '').'
+                                ' . $anbTopDeals->getPromoSection($promotionHtml, $advPrice, 'dealFeatures', '') . '
                                    
                                 </div>
                                 <div class="col-md-2">
-                                   '.$anbTopDeals->priceSection($priceHtml, $monthDurationPromo, $firstYearPrice, 'dealPrice', '').'
+                                   ' . $anbTopDeals->priceSection($priceHtml, $monthDurationPromo, $firstYearPrice, 'dealPrice', '') . '
                                 </div>
                                 <div class="col-md-3">
                                     <div class="actionButtons">
                                         <div class="comparePackage">
                                             <label>
-                                                <input type="checkbox" value="pack1"> '.pll__('Compare').'
+                                                <input type="checkbox" value="pack1"> ' . pll__('Compare') . '
                                             </label>
                                         </div>
                                         <div class="buttonWrapper">
-                                            <a href="#" class="btn btn-primary ">'.pll__('Info and options').'</a>
-                                            <a href="#" class="link block-link">'.pll__('Order Now').'</a>
+                                            <a href="#" class="btn btn-primary ">' . pll__('Info and options') . '</a>
+                                            <a href="#" class="link block-link">' . pll__('Order Now') . '</a>
                                         </div>
                                     </div>
                                 </div>
@@ -175,7 +178,7 @@ class AnbCompare
 
             $this->cleanArrayData($params);
             // get the products
-            if(isset($_GET['debug'])) {
+            if (isset($_GET['debug'])) {
                 echo "Passed Params>>>";
                 print_r($params);
             }
@@ -370,39 +373,40 @@ class AnbCompare
      * @param $product
      * @return string
      */
-    function getServiceDetail($product) {
+    function getServiceDetail($product)
+    {
         $servicesHtml = '';
-        $product = (array) $product;
+        $product = (array)$product;
 
         $types = [
-            'internet'  => 'internet',
-            'mobile'    => 'gsm abo.',
+            'internet' => 'internet',
+            'mobile' => 'gsm abo.',
             'telephony' => 'tel.',
-            'idtv'      => 'tv'
+            'idtv' => 'tv'
         ];
 
         $prdOrPckTypes = ($product['producttype'] == 'packs') ? $product['packtype'] : $product['producttype'];
-        $prdOrPckTypes = explode('+',strtolower($prdOrPckTypes));
+        $prdOrPckTypes = explode('+', strtolower($prdOrPckTypes));
         sort($prdOrPckTypes);
 
         foreach ($prdOrPckTypes as $key => $packType) {
             //var_dump(trim($packType),$types); //die;
-            if(in_array(trim($packType),$types)) {
+            if (in_array(trim($packType), $types)) {
                 $currentType = array_search(trim($packType), $types);
                 $features = $product[$currentType]->core_features;
 
                 $featuresHtml = '';
                 foreach ($features as $feature) {
-                    $featuresHtml .= '<li>'.$feature->label.'</li>';
+                    $featuresHtml .= '<li>' . $feature->label . '</li>';
                 }
 
-                $servicesHtml .= '<div class="packageDetail '.$currentType.'">
+                $servicesHtml .= '<div class="packageDetail ' . $currentType . '">
                                             <div class="iconWrapper">
-                                                <i class="service-icons '.$currentType.'"></i>
+                                                <i class="service-icons ' . $currentType . '"></i>
                                             </div>
-                                            <h6>'.$product[$currentType]->product_name.'</h6>
+                                            <h6>' . $product[$currentType]->product_name . '</h6>
                                             <ul class="list-unstyled pkgSummary">
-                                               '.$featuresHtml.'
+                                               ' . $featuresHtml . '
                                             </ul>
                                         </div>';
             }
@@ -436,20 +440,22 @@ class AnbCompare
      * @param string $submitBtnTxt
      * @param bool $hideTitle
      * @param string $infoMsg
+     * @param string $resultsPageUri
      * @return string
      */
-    public function getSearchBoxContentHtml($values, $needHelpHtml="", $supplierHtml = "", $submitBtnTxt = "Search Deals", $hideTitle = false, $infoMsg = "")
+    public function getSearchBoxContentHtml($values, $needHelpHtml = "", $supplierHtml = "", $submitBtnTxt = "Search Deals",
+                                            $hideTitle = false, $infoMsg = "", $resultsPageUri = self::RESULTS_PAGE_URI)
     {
         $titleHtml = "<h3>" . pll__('Search') . "</h3>";
-        if($hideTitle) {
+        if ($hideTitle) {
             $titleHtml = "";
         }
 
         $hiddenMultipleProvidersHtml = "";
 
-        if(empty($supplierHtml)) {//If no supplier html generated but pref_cs are present keep them included as hidden values
-            foreach($values['pref_cs'] as $provider) {
-                $hiddenMultipleProvidersHtml .= "<input type='hidden' name='pref_cs[]' value='".$provider."' />";
+        if (empty($supplierHtml)) {//If no supplier html generated but pref_cs are present keep them included as hidden values
+            foreach ($values['pref_cs'] as $provider) {
+                $hiddenMultipleProvidersHtml .= "<input type='hidden' name='pref_cs[]' value='" . $provider . "' />";
             }
         }
         $formNew = "<div class='searchBoxContent'>
@@ -458,7 +464,7 @@ class AnbCompare
                         " . $titleHtml . "
                         <p class='caption'>" . pll__('Select the service you like to compare') . "</p>
                         <div class='formWrapper'>
-                            <form action='/search/'>
+                            <form action='" . $resultsPageUri . "'>
                                 <div class='form-group'>
                                     <label>" . pll__('Services') . "</label>
                                     <div class='selectServices'>
@@ -566,7 +572,8 @@ class AnbCompare
         return $formNew;
     }
 
-    public function cleanInputGet() {
+    public function cleanInputGet()
+    {
         return filter_input_array(INPUT_GET, FILTER_SANITIZE_STRING);//Clean Params
     }
 }

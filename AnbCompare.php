@@ -560,8 +560,8 @@ class AnbCompare
                                             <i class='fa fa-check-circle checked'></i>
                                             <span>" . pll__('Private') . "</span>
                                         </label>
-                                        <input name='sg' value='business' id='business_type' type='radio'
-                                        " . (("business" == $values['sg']) ? 'checked="checked"' : '') . ">
+                                        <input name='sg' value='sme' id='business_type' type='radio'
+                                        " . (("sme" == $values['sg']) ? 'checked="checked"' : '') . ">
                                         <label for='business_type'>
                                             <i class='fa fa-circle-o unchecked'></i>
                                             <i class='fa fa-check-circle checked'></i>

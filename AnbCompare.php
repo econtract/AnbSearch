@@ -582,6 +582,9 @@ class AnbCompare
 
     public function cleanInputGet()
     {
-        return filter_input_array(INPUT_GET, FILTER_SANITIZE_STRING);//Clean Params
+        $get = filter_input_array(INPUT_GET, FILTER_SANITIZE_STRING);//Clean Params
+        $get = (empty($get)) ? [] : $get;
+
+        return array_merge($_GET, $get);//preserve everything in core $_GET
     }
 }

@@ -286,9 +286,6 @@ class AnbCompare
         $params = array_filter($params);//remove empty entries
 
         $suppliers = $this->anbApi->getSuppliers($params);
-        /*echo "<pre>";
-        print_r($suppliers);
-        echo "</pre>";*/
 
         return json_decode($suppliers);
     }
@@ -346,7 +343,7 @@ class AnbCompare
 
     private function generateHiddenSupplierHtml($supplierId)
     {
-        return "<input type='hidden' name='hidden_sp' value='{$supplierId}' />";
+        return "<input type='hidden' name='pref_cs[]' value='{$supplierId}' />";
     }
 
     /**

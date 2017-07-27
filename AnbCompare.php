@@ -131,8 +131,10 @@ class AnbCompare
             'detaillevel' => ['null'],
             'sg' => 'consumer',
             'lang' => $this->getCurrentLang(),
-            'limit' => ''
-
+            'limit' => '',
+            's' => '',
+            'dl' => '',
+            'num_pc' => '',
         ), $atts, 'anb_search');
         //print_r($atts);
 

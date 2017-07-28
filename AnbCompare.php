@@ -135,6 +135,7 @@ class AnbCompare
             's' => '',
             'dl' => '',
             'num_pc' => '',
+            'sort' => '',
         ), $atts, 'anb_search');
         //print_r($atts);
 
@@ -184,6 +185,10 @@ class AnbCompare
                 echo "Passed Params>>>";
                 print_r($params);
             }
+            $params = $this->allowedParams($params, array_keys($atts));//Don't allow all variables to be passed to API
+            /*echo "<pre>";
+            print_r($params);
+            echo "</pre>";*/
             $result = $this->anbApi->compare($params);
             return $result;
         }
@@ -546,7 +551,7 @@ class AnbCompare
                                 <div class='form-group'>
                                     <label for='installation_area'>" . pll__('Installation area') . "</label>
                                     <input class='form-control' id='installation_area' name='zip' placeholder='" . pll__('Enter Zipcode') . "' type='text' 
-                                    maxlength='4' pattern='\d{4, 4}' value='" . ((!empty($values['zip'])) ? $values['zip'] : '') . "' required>
+                                    maxlength='4' pattern='^\d{4,4}$' value='" . ((!empty($values['zip'])) ? $values['zip'] : '') . "' required>
                                 </div>
                                 {$supplierHtml}
                                 <div class='form-group'>
@@ -585,5 +590,16 @@ class AnbCompare
         $get = (empty($get)) ? [] : $get;
 
         return array_merge($_GET, $get);//preserve everything in core $_GET
+    }
+
+    public function allowedParams($array, $allowed) {
+        return array_intersect_key($array, array_flip($allowed));
+        /*return array_filter(
+            $array,
+            function ($key) use ($allowed) {
+                return in_array($key, $allowed);
+            },
+            ARRAY_FILTER_USE_KEY
+        );*/
     }
 }

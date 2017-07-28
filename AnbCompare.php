@@ -158,7 +158,6 @@ class AnbCompare
                 }
 
                 $_GET['cp'] = $packType;
-
                 $_GET['cat'] = 'packs';
             } else {
                 if (is_array($_GET['cat'])) {
@@ -177,6 +176,11 @@ class AnbCompare
             if (isset($params['hidden_sp']) && !empty($params['hidden_sp'])) {
                 $params['pref_cs'] = $params['hidden_sp'];
                 unset($params['hidden_sp']);
+            }
+
+            if(!empty($params['ds'])) {
+                $params['s'] = $params['ds']/1000;//converting mbps to bps according to Anb farmula.
+                unset($params['ds']);
             }
 
             $this->cleanArrayData($params);

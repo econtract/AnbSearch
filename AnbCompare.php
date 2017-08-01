@@ -136,6 +136,7 @@ class AnbCompare
             'dl' => '',
             'num_pc' => '',
             'sort' => '',
+            'cp' => ''
         ), $atts, 'anb_search');
         //print_r($atts);
 
@@ -190,10 +191,11 @@ class AnbCompare
                 print_r($params);
             }
             $params = $this->allowedParams($params, array_keys($atts));//Don't allow all variables to be passed to API
-            /*echo "<pre>";
+           /* echo "<pre>";
             print_r($params);
             echo "</pre>";*/
             $result = $this->anbApi->compare($params);
+
             return $result;
         }
     }
@@ -409,7 +411,7 @@ class AnbCompare
             //var_dump(trim($packType),$types); //die;
             if (in_array(trim($packType), $types)) {
                 $currentType = array_search(trim($packType), $types);
-                $features = $product[$currentType]->core_features;
+                $features = empty($product[$currentType]) ? $product['core_features'] : $product[$currentType]->core_features;
 
                 $featuresHtml = '';
                 foreach ($features as $feature) {

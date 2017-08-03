@@ -13,26 +13,59 @@ use AnbTopDeals\AnbProduct;
 
 class AnbCompare
 {
-
+    /**
+     * @var string
+     */
     public $crmApiEndpoint = "http://api.econtract.be/";//Better to take it from Admin settings
+
+    /**
+     * @var mixed
+     */
     public $anbApi;
+
+    /**
+     * @var array
+     */
     public $apiConf = [
-        'staging' => ANB_API_STAGING,
-        'key' => ANB_API_KEY,
-        'secret' => ANB_API_SECRET
+        'staging'  => ANB_API_STAGING,
+        'key'      => ANB_API_KEY,
+        'secret'   => ANB_API_SECRET
     ];
+
+    /**
+     * @var mixed
+     */
+    public $anbTopDeals;
+
+    /**
+     * @var int
+     */
+    public $defaultNumberOfResults = 4;
+
+    /**
+     * constant form page URI
+     */
     const RESULTS_PAGE_URI = "/telecom/results/";
 
+    /**
+     * AnbCompare constructor.
+     */
     public function __construct()
     {
         $this->anbApi = wpal_create_instance(Aanbieders::class, [$this->apiConf]);
 
+        $this->anbTopDeals = wpal_create_instance(AnbProduct::class);
+
         //enqueue JS scripts
         add_action('init', array($this, 'enqueueScripts'));
+
         $_GET = $this->cleanInputGet();
     }
 
 
+    /**
+     * enqueue ajax scripts
+     */
     function enqueueScripts()
     {
 
@@ -42,80 +75,16 @@ class AnbCompare
         wp_localize_script('load-more-script', 'load_more_object',
             array('ajax_url' => admin_url('admin-ajax.php')));
 
-    }
+        wp_enqueue_script('compare-between-results-script', plugins_url('/js/compare-results.js', __FILE__), array('jquery'));
 
-    function moreResults()
-    {
+        // in JavaScript, object properties are accessed as ajax_object.ajax_url, ajax_object.we_value
+        wp_localize_script('compare-between-results-script', 'compare_between_results_object',
+            array('ajax_url' => admin_url('admin-ajax.php')));
 
-        $queryParams['detaillevel'] = 'supplier,logo,services,price,reviews,texts,promotions,core_features';
-        $products = $this->getCompareResults($queryParams);
-
-        $anbTopDeals = wpal_create_instance(AnbProduct::class);
-
-        $productResponse = '';
-
-        $products = json_decode($products);
-
-        $countProducts = 0;
-
-        foreach ($products->results as $listProduct) {
-
-            $countProducts++;
-
-            if ($countProducts <= 4) {
-                continue;
-            }
-
-            $currentProduct = $listProduct->product;
-
-            list($productData, $priceHtml, $servicesHtml) = $this->extractProductData($anbTopDeals, $currentProduct);
-
-            //Promotions, Installation/Activation HTML
-            //display installation and activation price
-            $promotionHtml = $anbTopDeals->getPromoInternalSection($productData, true);//True here will drop promotions
-
-            list($advPrice, $monthDurationPromo, $firstYearPrice) = $anbTopDeals->getPriceInfo($productData);
-
-            $productResponse .= '<div class="offer">
-                            <div class="row listRow">
-                                <div class="col-md-4">
-                                    
-                                    ' . $anbTopDeals->getProductDetailSection($productData, $servicesHtml) . '
-                                </div>
-                                <div class="col-md-3">
-                                
-                                ' . $anbTopDeals->getPromoSection($promotionHtml, $advPrice, 'dealFeatures', '') . '
-                                   
-                                </div>
-                                <div class="col-md-2">
-                                   ' . $anbTopDeals->priceSection($priceHtml, $monthDurationPromo, $firstYearPrice, 'dealPrice', '') . '
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="actionButtons">
-                                        <div class="comparePackage">
-                                            <label>
-                                                <input type="checkbox" value="pack1"> ' . pll__('Compare') . '
-                                            </label>
-                                        </div>
-                                        <div class="buttonWrapper">
-                                            <a href="#" class="btn btn-primary ">' . pll__('Info and options') . '</a>
-                                            <a href="#" class="link block-link">' . pll__('Order Now') . '</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>';
-        }
-
-
-        print $productResponse;
-
-        wp_die(); // this is required to terminate immediately and return a proper response
     }
 
     function getCompareResults($atts)
     {
-        //print_r($atts);
         if (!empty($atts['detaillevel'])) {
             $atts['detaillevel'] = explode(',', $atts['detaillevel']);
         }
@@ -136,9 +105,10 @@ class AnbCompare
             'dl' => '',
             'num_pc' => '',
             'sort' => '',
-            'cp' => ''
+            'cp' => '',
+            'pref_pids' => []
         ), $atts, 'anb_search');
-        //print_r($atts);
+        //print_r($atts);die;
 
         if (isset($_GET['searchSubmit'])) {
             //$this->cleanArrayData($_GET);
@@ -166,7 +136,8 @@ class AnbCompare
                 }
             }
 
-            $params = $_GET + $atts;//append any missing but default values
+            $params = array_filter($_GET) + $atts;//append any missing but default values
+            //print_r($params);
             //remove empty params
             $params = array_filter($params);
 
@@ -191,13 +162,143 @@ class AnbCompare
                 print_r($params);
             }
             $params = $this->allowedParams($params, array_keys($atts));//Don't allow all variables to be passed to API
-           /* echo "<pre>";
+            /*echo "<pre>";
             print_r($params);
             echo "</pre>";*/
             $result = $this->anbApi->compare($params);
 
             return $result;
         }
+    }
+
+    /**
+     * get more results and return in html form
+     */
+    function moreResults()
+    {
+        $productResponse = '';
+
+        $products = $this->getCompareResults([
+            'detaillevel' => 'supplier,logo,services,price,reviews,texts,promotions,core_features'
+        ]);
+
+        $products = json_decode($products);
+
+        $countProducts = 0;
+
+        foreach ($products->results as $listProduct) {
+
+            $countProducts++;
+
+            if ($countProducts <= $this->defaultNumberOfResults) {
+                continue;
+            }
+
+            $currentProduct = $listProduct->product;
+
+            list($productData, $priceHtml, $servicesHtml) = $this->extractProductData($this->anbTopDeals, $currentProduct);
+
+            //Promotions, Installation/Activation HTML
+            //display installation and activation price
+            $promotionHtml = $this->anbTopDeals->getPromoInternalSection($productData, true);//True here will drop promotions
+
+            list($advPrice, $monthDurationPromo, $firstYearPrice) = $this->anbTopDeals->getPriceInfo($productData);
+
+            $productResponse .= '<div class="offer">
+                            <div class="row listRow">
+                                <div class="col-md-4">
+                                    
+                                    ' . $this->anbTopDeals->getProductDetailSection($productData, $servicesHtml) . '
+                                </div>
+                                <div class="col-md-3">
+                                
+                                ' . $this->anbTopDeals->getPromoSection($promotionHtml, $advPrice, 'dealFeatures', '') . '
+                                   
+                                </div>
+                                <div class="col-md-2">
+                                   ' . $this->anbTopDeals->priceSection($priceHtml, $monthDurationPromo, $firstYearPrice, 'dealPrice', '') . '
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="actionButtons">
+                                        <div class="comparePackage">
+                                            <label>
+                                                <input type="checkbox" value="'.$currentProduct->product_id.'"> ' . pll__('Compare') . '
+                                            </label>
+                                        </div>
+                                        <div class="buttonWrapper">
+                                            <a href="#" class="btn btn-primary ">' . pll__('Info and options') . '</a>
+                                            <a href="#" class="link block-link">' . pll__('Order Now') . '</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>';
+        }
+
+        print $productResponse;
+
+        wp_die(); // this is required to terminate immediately and return a proper response
+    }
+
+    /**
+     * compare between already fetched results
+     */
+    function compareBetweenResults()
+    {
+        $productResponse = '';
+
+        $products = $this->getCompareResults([
+            'detaillevel' => 'supplier,logo,services,price,reviews,texts,promotions,core_features',
+            'pref_pids'   => $_REQUEST['products']
+        ]);
+
+        $products = json_decode($products);
+
+        $countProducts = 0;
+
+        foreach ($products->results as $listProduct) {
+
+            $countProducts++;
+
+            $currentProduct = $listProduct->product;
+
+            list($productData, $priceHtml, $servicesHtml) = $this->extractProductData($this->anbTopDeals, $currentProduct);
+
+            //Promotions, Installation/Activation HTML
+            //display installation and activation price
+            $promotionHtml = $this->anbTopDeals->getPromoInternalSection($productData, true);//True here will drop promotions
+
+            list($advPrice, $monthDurationPromo, $firstYearPrice) = $this->anbTopDeals->getPriceInfo($productData);
+
+
+            $productResponse .= '<div class="col-md-4 offer-col">
+                                        <div class="selection">
+                                            <h4>Selected Pack 1</h4>
+                                        </div>
+                                            
+                                         <div class="offer">'.
+                $this->anbTopDeals->getProductDetailSection($productData, $servicesHtml) .
+                $this->anbTopDeals->priceSection($priceHtml, $monthDurationPromo, $firstYearPrice) .
+                $this->anbTopDeals->getPromoSection($promotionHtml, $advPrice, 'dealFeatures',
+                    '<a href="#" class="btn btn-primary ">Info and options</a>
+                                                     <a href="#" class="link block-link">Order Now</a>
+                                                     <p class="message"></p>').
+                '<div class="packageInfo">'.
+                $this->getServiceDetail($currentProduct).
+                '</div>'.
+
+                $this->anbTopDeals->priceSection($priceHtml, $monthDurationPromo, $firstYearPrice, 'dealPrice last', '<div class="buttonWrapper">
+                                                        <a href="#" class="btn btn-primary ">Info and options</a>
+                                                        <a href="#" class="link block-link">Order Now</a>
+                                                </div>').'
+                                               
+                                          </div>
+                                 </div>';
+        }
+
+        print $productResponse;
+
+        wp_die(); // this is required to terminate immediately and return a proper response
     }
 
     function searchForm($atts)

@@ -32,4 +32,7 @@ add_shortcode( 'anb_search_form', [$result, 'searchForm'] );
 add_action('wp_ajax_moreResults', array($result, 'moreResults'));
 add_action( 'wp_ajax_nopriv_moreResults', array($result, 'moreResults'));
 
+add_action('wp_ajax_compareBetweenResults', array($result, 'compareBetweenResults'));
+add_action( 'wp_ajax_nopriv_compareBetweenResults', array($result, 'compareBetweenResults'));
+
 //add_shortcode('anb_get_suppliers', [$result, 'anb_get_suppliers'] );

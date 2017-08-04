@@ -36,7 +36,7 @@ class AnbCompare
     function enqueueScripts()
     {
 
-        wp_enqueue_script('load-more-script', plugins_url('/js/load-more-results.js', __FILE__), array('jquery'));
+        wp_enqueue_script('load-more-script', plugins_url('/js/search-results.js', __FILE__), array('jquery'));
 
         // in JavaScript, object properties are accessed as ajax_object.ajax_url, ajax_object.we_value
         wp_localize_script('load-more-script', 'load_more_object',
@@ -132,11 +132,20 @@ class AnbCompare
             'sg' => 'consumer',
             'lang' => $this->getCurrentLang(),
             'limit' => '',
+
             's' => '',
             'dl' => '',
             'num_pc' => '',
             'sort' => '',
-            'cp' => ''
+            'cp' => '',
+            'nm' => '',
+            'ns' => '',
+            'int' => '',
+            'fleet' => '',
+            'pr' => '',
+            'cm' => '',
+            'f' => '',
+
         ), $atts, 'anb_search');
         //print_r($atts);
 
@@ -581,6 +590,108 @@ class AnbCompare
                                 </div>
                                 <div class='btnWrapper'>
                                     {$hiddenMultipleProvidersHtml}
+                                    <button name='searchSubmit' type='submit' class='btn btn-default btn-block'>" . pll__($submitBtnTxt) . "</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>";
+        return $formNew;
+    }
+
+    /**
+     * @param $values
+     * @param string $submitBtnTxt
+     * @param bool $hideTitle
+     * @param string $resultsPageUri
+     * @return string
+     */
+    public function getWizardSearchBoxContentHtml($values, $submitBtnTxt = "Search Deals", $hideTitle = false, $resultsPageUri = self::RESULTS_PAGE_URI)
+    {
+        $titleHtml = "<h3>" . pll__('Change Profile') . "</h3>";
+        if ($hideTitle) {
+            $titleHtml = "";
+        }
+
+        $hiddenCatsHtml = "";
+
+        if (empty($supplierHtml)) {//If no supplier html generated but pref_cs are present keep them included as hidden values
+            foreach ($_GET['cat'] as $cat) {
+                $hiddenCatsHtml .= "<input type='hidden' name='cat[]' value='" . $cat . "' />";
+            }
+        }
+        $formNew = "<div class='searchBoxContent'>
+                    <div class='searchBox'>
+                        " . $titleHtml . "
+                        <p class='caption'>" . pll__('Select the service you like to compare') . "</p>
+                        <div class='formWrapper'>
+                            <form action='" . $resultsPageUri . "' id='yourProfileWizardForm'>
+                                <div class='form-group'>
+                                    <label for='installation_area'>" . pll__('Installation area') . "</label>
+                                    <input class='form-control' id='installation_area' name='zip' placeholder='" . pll__('Enter Zipcode') . "' type='text' 
+                                    maxlength='4' pattern='^\d{4,4}$' value='" . ((!empty($values['zip'])) ? $values['zip'] : '') . "' required>
+                                </div>
+                                <div class='form-group'>
+                                    <label>" . pll__('Type of Use') . "</label>
+                                    <div class='radio fancyRadio'>
+                                        <input name='sg' value='consumer' id='private_type' checked='checked' type='radio'
+                                        " . (("private" == $values['sg']) ? 'checked="checked"' : '') . ">
+                                        <label for='private_type'>
+                                            <i class='fa fa-circle-o unchecked'></i>
+                                            <i class='fa fa-check-circle checked'></i>
+                                            <span>" . pll__('Private') . "</span>
+                                        </label>
+                                        <input name='sg' value='sme' id='business_type' type='radio'
+                                        " . (("sme" == $values['sg']) ? 'checked="checked"' : '') . ">
+                                        <label for='business_type'>
+                                            <i class='fa fa-circle-o unchecked'></i>
+                                            <i class='fa fa-check-circle checked'></i>
+                                            <span>" . pll__('Business') . "</span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class='form-group'>
+                                    <label for='num_pc'>" . pll__('Number of PCs') . "</label>
+                                    <input class='form-control' id='num_pc' name='num_pc' placeholder='" . pll__('Number of PCs') . "' type='text' 
+                                    maxlength='4' pattern='^\d{1,3}$' value='" . ((!empty($values['num_pc'])) ? $values['num_pc'] : '') . "'>
+                                </div>
+                                <div class='form-group'>
+                                    <label for='nm'>" . pll__('Monthly call minutes') . "</label>
+                                    <input class='form-control' id='nm' name='nm' placeholder='" . pll__('Monthly call minutes') . "' type='text' 
+                                    maxlength='4' pattern='^\d{1,3}$' value='" . ((!empty($values['nm'])) ? $values['nm'] : '') . "'>
+                                </div>
+                                <div class='form-group'>
+                                    <label for='ns'>" . pll__('Monthly SMS') . "</label>
+                                    <input class='form-control' id='ns' name='ns' placeholder='" . pll__('Monthly SMS') . "' type='text' 
+                                    maxlength='4' pattern='^\d{1,4}$' value='" . ((!empty($values['ns'])) ? $values['ns'] : '') . "'>
+                                </div>
+                                <div class='form-group'>
+                                    <label for='int'>" . pll__('Mobile data MBs') . "</label>
+                                    <input class='form-control' id='int' name='int' placeholder='" . pll__('Mobile data MBs') . "' type='text' 
+                                    maxlength='6' pattern='^\d{1,6}$' value='" . ((!empty($values['int'])) ? $values['int'] : '') . "'>
+                                </div>
+                                <div class='form-group'>
+                                    <label for='fleet'>" . pll__('Family Fleet (Yes/No)') . "</label>
+                                    <input class='form-control' id='fleet' name='fleet' placeholder='" . pll__('1 for Yes, 0 for No') . "' type='text' 
+                                    value='" . ((!empty($values['fleet'])) ? $values['fleet'] : '') . "'>
+                                </div>
+                                <div class='form-group'>
+                                    <label for='pr'>" . pll__('Max monthly price for mobile subscription') . "</label>
+                                    <input class='form-control' id='pr' name='pr' placeholder='" . pll__('Max monthly price for mobile subscription') . "' type='text' 
+                                    maxlength='5' pattern='^\d{1,5}$' value='" . ((!empty($values['pr'])) ? $values['pr'] : '') . "'>
+                                </div>
+                                <div class='form-group'>
+                                    <label for='pr'>" . pll__('Call moment preference') . "</label>
+                                    <input class='form-control' id='pr' name='pr' placeholder='" . pll__('1 : peak, 2: off peak, 0: no preference') . "' type='text' 
+                                    value='" . ((!empty($values['pr'])) ? $values['pr'] : '') . "'>
+                                </div>
+                                <div class='form-group'>
+                                    <label for='f'>" . pll__('Free landline calling') . "</label>
+                                    <input class='form-control' id='f' name='f' placeholder='" . pll__('1 for yes, 0 for no') . "' type='text' 
+                                    value='" . ((!empty($values['f'])) ? $values['f'] : '') . "'>
+                                </div>
+                                <div class='btnWrapper'>
+                                    {$hiddenCatsHtml}
                                     <button name='searchSubmit' type='submit' class='btn btn-default btn-block'>" . pll__($submitBtnTxt) . "</button>
                                 </div>
                             </form>

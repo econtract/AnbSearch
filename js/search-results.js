@@ -44,7 +44,7 @@ jQuery(document).ready(function($){
         var sortBy = $(this).val();
         var redirectUrl = "";
         if(location.search.indexOf('profile_wizard') >= 0) {
-            redirectUrl = wizardProfileFormSubmitRedirect();
+            redirectUrl = wizardProfileFormSubmitRedirect() + '&sort='+sortBy;
         } else {
             redirectUrl = '?' + jQuery('#searchFilterNav').serialize()+'&sort='+sortBy+'&searchSubmit=';
         }

@@ -281,7 +281,7 @@ class AnbCompare
 
             $productResponse .= '<div class="col-md-4 offer-col">
                                         <div class="selection">
-                                            <h4>Selected Pack 1</h4>
+                                            <h4>'. pll__('Selected Pack'). ' '.$countProducts .'</h4>
                                         </div>
                                             
                                          <div class="offer">'.

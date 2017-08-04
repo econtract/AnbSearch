@@ -1,3 +1,18 @@
+function wizardProfileFormSubmitRedirect() {
+    var searchFilterNav = jQuery('#searchFilterNav').serialize();
+    var yourProfileWizardForm = jQuery('#yourProfileWizardForm').serialize();
+
+    var redirectTo = yourProfileWizardForm + '&' + searchFilterNav + '&searchSubmit=&profile_wizard=';
+
+    //remove any duplicate params
+    var redToArr = redirectTo.split('&');
+    //remove duplicates with lodash
+    if(typeof _ != "undefined"){
+        redToArr = _.uniq(redToArr);
+    }
+    var finalRedirect = '?' + redToArr.join('&');
+    return finalRedirect;
+}
 
 jQuery(document).ready(function($){
 
@@ -21,19 +36,19 @@ jQuery(document).ready(function($){
     jQuery('#yourProfileWizardForm').on('submit', function(e){
         e.preventDefault();
 
-        var searchFilterNav = jQuery('#searchFilterNav').serialize();
-        var yourProfileWizardForm = jQuery('#yourProfileWizardForm').serialize();
+        window.location = wizardProfileFormSubmitRedirect();
+    });
 
-        var redirectTo = yourProfileWizardForm + '&' + searchFilterNav + '&searchSubmit=&profile_wizard=';
-
-        //remove any duplicate params
-        var redToArr = redirectTo.split('&');
-        //remove duplicates with lodash
-        if(typeof _ != "undefined"){
-            redToArr = _.uniq(redToArr);
+    //sort feature
+    jQuery('#sortResults').on('change', function() {
+        var sortBy = $(this).val();
+        var redirectUrl = "";
+        if(location.search.indexOf('profile_wizard') >= 0) {
+            redirectUrl = wizardProfileFormSubmitRedirect();
+        } else {
+            redirectUrl = '?' + jQuery('#searchFilterNav').serialize()+'&sort='+sortBy+'&searchSubmit=';
         }
-        var finalRedirect = '?' + redToArr.join('&');
-        window.location = finalRedirect;
+        window.location = redirectUrl;
     });
 });
 

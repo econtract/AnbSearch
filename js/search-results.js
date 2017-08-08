@@ -1,17 +1,32 @@
-function wizardProfileFormSubmitRedirect() {
-    var searchFilterNav = jQuery('#searchFilterNav').serialize();
-    var yourProfileWizardForm = jQuery('#yourProfileWizardForm').serialize();
-
-    var redirectTo = yourProfileWizardForm + '&' + searchFilterNav + '&searchSubmit=&profile_wizard=';
-
+function removeDuplicatesFromUri(uri) {
     //remove any duplicate params
-    var redToArr = redirectTo.split('&');
+    var redToArr = uri.split('&');
     //remove duplicates with lodash
     if(typeof _ != "undefined"){
         redToArr = _.uniq(redToArr);
     }
     var finalRedirect = '?' + redToArr.join('&');
     return finalRedirect;
+}
+
+function wizardProfileFormSubmitRedirect() {
+    var searchFilterNav = jQuery('#searchFilterNav').serialize();
+    var yourProfileWizardForm = jQuery('#yourProfileWizardForm').serialize();
+
+    var redirectTo = yourProfileWizardForm + '&' + searchFilterNav + '&searchSubmit=&profile_wizard=';
+    var finalRedirect = removeDuplicatesFromUri(redirectTo);
+    return finalRedirect;
+}
+
+function getRedirectUrl() {
+    var redirectUrl = "";
+    if(location.search.indexOf('profile_wizard') >= 0) {
+        redirectUrl = wizardProfileFormSubmitRedirect();
+    } else {
+        redirectUrl = '?' + jQuery('#searchFilterNav').serialize();
+    }
+
+    return redirectUrl;
 }
 
 jQuery(document).ready(function($){
@@ -24,7 +39,7 @@ jQuery(document).ready(function($){
 
         $('.loadMore').html('LOADING...');
         // We can also pass the url value separately from ajaxurl for front end AJAX implementations
-        jQuery.get(load_more_object.ajax_url+urlParams, data, function(response) {
+        $.get(load_more_object.ajax_url+urlParams, data, function(response) {
 
             $('.resultsData').html(response);
             $('.loadMore').hide();
@@ -33,21 +48,29 @@ jQuery(document).ready(function($){
     });
 
     //Search results wizard your profile popup
-    jQuery('#yourProfileWizardForm').on('submit', function(e){
+    $('#yourProfileWizardForm').on('submit', function(e){
         e.preventDefault();
 
         window.location = wizardProfileFormSubmitRedirect();
     });
 
     //sort feature
-    jQuery('#sortResults').on('change', function() {
+    $('#sortResults').on('change', function() {
         var sortBy = $(this).val();
-        var redirectUrl = "";
-        if(location.search.indexOf('profile_wizard') >= 0) {
-            redirectUrl = wizardProfileFormSubmitRedirect() + '&sort='+sortBy;
-        } else {
-            redirectUrl = '?' + jQuery('#searchFilterNav').serialize()+'&sort='+sortBy+'&searchSubmit=';
+        var redirectUrl = getRedirectUrl() + '&sort='+sortBy+'&searchSubmit=';
+        redirectUrl = removeDuplicatesFromUri(redirectUrl);
+        window.location = redirectUrl;
+    });
+
+    //filter results left nav
+    $('#searchFilterNav').on('submit', function(e) {
+        e.preventDefault();
+        var redirectUrl = getRedirectUrl() + '&searchSubmit=';
+        var sortBy = $('#sortResults').val();
+        if(typeof sortBy != "undefined") {
+            redirectUrl += '&sort='+sortBy+'&searchSubmit=';
         }
+        redirectUrl = removeDuplicatesFromUri(redirectUrl);
         window.location = redirectUrl;
     });
 });

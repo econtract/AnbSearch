@@ -60,11 +60,30 @@ jQuery(document).ready(function($){
         jQuery.get(compare_between_results_object.ajax_url + urlParams, data, function(response) {
 
             $('#crntPackSelectionSection').hide();
-            $('#crntPackSelectionResponse').html(response);
+            $('#crntPackSelectionResponse').html(response).show();
         });
     });
 
 
+    // Close Current Pack
+    $('body #compareSearch').on('click', '.offer-col a.close', function(e){
+        e.preventDefault();
+
+        console.log('event calls');
+
+        var _self = $(this);
+
+        _self.parents('.offer-col')
+            .removeClass('selected')
+            .addClass('unselected');
+
+        if ($("#crntPackSelectionSection").is(':hidden')) {
+
+            $('#crntPackSelectionSection').show();
+            $('#crntPackSelectionResponse').hide();
+        }
+        console.log('event calls at the end');
+    });
 
 });
 

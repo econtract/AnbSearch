@@ -8,40 +8,10 @@
 
 namespace AnbSearch;
 
-use AnbApiClient\Aanbieders;
-use AnbTopDeals\AnbProduct;
 
-class AnbCompare
+
+class AnbCompare extends Base
 {
-    /**
-     * @var string
-     */
-    public $crmApiEndpoint = "http://api.econtract.be/";//Better to take it from Admin settings
-
-    /**
-     * @var mixed
-     */
-    public $anbApi;
-
-    /**
-     * @var array
-     */
-    public $apiConf = [
-        'staging'  => ANB_API_STAGING,
-        'key'      => ANB_API_KEY,
-        'secret'   => ANB_API_SECRET
-    ];
-
-    /**
-     * @var mixed
-     */
-    public $anbTopDeals;
-
-    /**
-     * @var int
-     */
-    public $defaultNumberOfResults = 4;
-
     /**
      * constant form page URI
      */
@@ -52,14 +22,12 @@ class AnbCompare
      */
     public function __construct()
     {
-        $this->anbApi = wpal_create_instance(Aanbieders::class, [$this->apiConf]);
-
-        $this->anbTopDeals = wpal_create_instance(AnbProduct::class);
-
-        //enqueue JS scripts
+       //enqueue JS scripts
         add_action('init', array($this, 'enqueueScripts'));
 
         $_GET = $this->cleanInputGet();
+
+        parent::__construct();
     }
 
 
@@ -79,7 +47,7 @@ class AnbCompare
 
         // in JavaScript, object properties are accessed as ajax_object.ajax_url, ajax_object.we_value
         wp_localize_script('compare-between-results-script', 'compare_between_results_object',
-            array('ajax_url' => admin_url('admin-ajax.php')));
+            array('ajax_url' => admin_url('admin-ajax.php'), 'current_pack'  => pll__('your current pack') ));
 
     }
 
@@ -254,10 +222,12 @@ class AnbCompare
     function compareBetweenResults()
     {
         $productResponse = '';
+        $crntpackSelected = $crntpackSelectedEnd =  $crntpackSelectedClass = '';
 
         $products = $this->getCompareResults([
             'detaillevel' => 'supplier,logo,services,price,reviews,texts,promotions,core_features',
-            'pref_pids'   => $_REQUEST['products']
+            'pref_pids'   => $_REQUEST['products'],
+            'status'      => $this->productStatus
         ]);
 
         $products = json_decode($products);
@@ -278,13 +248,25 @@ class AnbCompare
 
             list($advPrice, $monthDurationPromo, $firstYearPrice) = $this->anbTopDeals->getPriceInfo($productData);
 
+            $selectedVal = !empty($_REQUEST['crntPack']) ? $_REQUEST['crntPack'] :  pll__('Selected Pack'). ' '.$countProducts;
 
-            $productResponse .= '<div class="col-md-4 offer-col">
-                                        <div class="selection">
-                                            <h4>'. pll__('Selected Pack'). ' '.$countProducts .'</h4>
-                                        </div>
-                                            
-                                         <div class="offer">'.
+            if (!empty($_REQUEST['crntPack'])) {
+                $crntpackSelected = '<div class="selectedOfferWrapper">';
+                $crntpackSelectedEnd = '</div>';
+                $crntpackSelectedClass = 'selected';
+                $crntPackHtml = '<a href="#" class="edit" data-toggle="modal" data-target="#selectCurrentPack">
+                                 <i class="fa fa-chevron-right"></i>'.pll__('change pack').'</a>
+                                 <a href="#" class="close closeCrntPack"><span>×</span></a>';
+            }
+
+            $productResponse .= '<div class="col-md-4 offer-col '.$crntpackSelectedClass.'">'.
+                                        $crntpackSelected.
+                                        '<div class="selection">
+                                            <h4>'. $selectedVal .'</h4>'.
+                                        $crntPackHtml.
+                                        '</div>'.
+
+                                         '<div class="offer">'.
                 $this->anbTopDeals->getProductDetailSection($productData, $servicesHtml) .
                 $this->anbTopDeals->priceSection($priceHtml, $monthDurationPromo, $firstYearPrice) .
                 $this->anbTopDeals->getPromoSection($promotionHtml, $advPrice, 'dealFeatures',
@@ -300,14 +282,52 @@ class AnbCompare
                                                         <a href="#" class="link block-link">Order Now</a>
                                                 </div>').'
                                                
-                                          </div>
-                                 </div>';
+                                          </div>'.
+                                $crntpackSelectedEnd.
+                                 '</div>';
         }
 
         print $productResponse;
 
         wp_die(); // this is required to terminate immediately and return a proper response
     }
+
+    /**
+     *  call back will fetch data from API
+     *  detail level added just to minimize response time
+     */
+    public function productsCallback()
+    {
+        $getProducts = $this->anbApi->getProducts(
+            [
+                'sid'         => $_REQUEST['supplier'],
+                'lang'        => $this->getCurrentLang(),
+                'cat'         => $this->productTypes,
+                'status'      => $this->productStatus,
+                'sort'        => 'n',
+                'detaillevel' => ['contract_periods']
+            ]
+        );
+
+        $products = json_decode($getProducts, true);
+
+
+
+        if (empty($products)) {
+            return $html = '';
+        }
+       
+        $html = '<option value="">'. pll__('Select your pack').'</option>';
+
+        foreach ($products as $product) {
+            $html .= '<option value="' . $product['product_id'] . '">' . $product['product_name'] . '</option>';
+        }
+
+        print $html;
+
+        wp_die(); // this is required to terminate immediately and return a proper response
+    }
+
 
     function searchForm($atts)
     {
@@ -412,14 +432,6 @@ class AnbCompare
         return json_decode($suppliers);
     }
 
-    function getCurrentLang()
-    {
-        $lang = 'nl';
-        if (method_exists('pll_current_language')) {
-            $lang = (pll_current_language()) ? pll_current_language() : 'nl';
-        }
-        return $lang;
-    }
 
     /**
      * @param $value

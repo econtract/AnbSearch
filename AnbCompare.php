@@ -222,6 +222,7 @@ class AnbCompare extends Base
     function compareBetweenResults()
     {
         $productResponse = '';
+        $crntpackSelected = $crntpackSelectedEnd =  $crntpackSelectedClass = '';
 
         $products = $this->getCompareResults([
             'detaillevel' => 'supplier,logo,services,price,reviews,texts,promotions,core_features',
@@ -249,14 +250,23 @@ class AnbCompare extends Base
 
             $selectedVal = !empty($_REQUEST['crntPack']) ? $_REQUEST['crntPack'] :  pll__('Selected Pack'). ' '.$countProducts;
 
-            $class = !empty($_REQUEST['crntPack']) ? 'selected' : '';
+            if (!empty($_REQUEST['crntPack'])) {
+                $crntpackSelected = '<div class="selectedOfferWrapper">';
+                $crntpackSelectedEnd = '</div>';
+                $crntpackSelectedClass = 'selected';
+                $crntPackHtml = '<a href="#" class="edit" data-toggle="modal" data-target="#selectCurrentPack">
+                                 <i class="fa fa-chevron-right"></i>'.pll__('change pack').'</a>
+                                 <a href="#" class="close closeCrntPack"><span>×</span></a>';
+            }
 
-            $productResponse .= '<div class="col-md-4 offer-col '.$class.'">
-                                        <div class="selection">
-                                            <h4>'. $selectedVal .'</h4>
-                                        </div>
-                                            
-                                         <div class="offer">'.
+            $productResponse .= '<div class="col-md-4 offer-col '.$crntpackSelectedClass.'">'.
+                                        $crntpackSelected.
+                                        '<div class="selection">
+                                            <h4>'. $selectedVal .'</h4>'.
+                                        $crntPackHtml.
+                                        '</div>'.
+
+                                         '<div class="offer">'.
                 $this->anbTopDeals->getProductDetailSection($productData, $servicesHtml) .
                 $this->anbTopDeals->priceSection($priceHtml, $monthDurationPromo, $firstYearPrice) .
                 $this->anbTopDeals->getPromoSection($promotionHtml, $advPrice, 'dealFeatures',
@@ -272,8 +282,9 @@ class AnbCompare extends Base
                                                         <a href="#" class="link block-link">Order Now</a>
                                                 </div>').'
                                                
-                                          </div>
-                                 </div>';
+                                          </div>'.
+                                $crntpackSelectedEnd.
+                                 '</div>';
         }
 
         print $productResponse;

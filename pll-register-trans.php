@@ -6,7 +6,11 @@
  * Time: 4:38 PM
  */
 if ( !function_exists( 'pll_register_string' ) ) {
-    require_once WP_PLUGIN_DIR . '/polylang/include/api.php';
+	if(!file_exists(WP_PLUGIN_DIR . '/polylang-pro/include/api.php')) {
+		require_once WP_PLUGIN_DIR . '/polylang/include/api.php';
+	} else {
+		require_once WP_PLUGIN_DIR . '/polylang-pro/include/api.php';
+	}
 }
 
 function anbSearchTrans() {

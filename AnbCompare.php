@@ -202,7 +202,7 @@ class AnbCompare extends Base
                                             </label>
                                         </div>
                                         <div class="buttonWrapper">
-                                            <a href="#" class="btn btn-primary ">' . pll__('Info and options') . '</a>
+                                            <a href="/'.pll__('brands').'/'.$currentProduct->supplier_slug.'/'.$currentProduct->product_slug.'" class="btn btn-primary ">' . pll__('Info and options') . '</a>
                                             <a href="#" class="link block-link">' . pll__('Order Now') . '</a>
                                         </div>
                                     </div>
@@ -270,7 +270,7 @@ class AnbCompare extends Base
                 $this->anbTopDeals->getProductDetailSection($productData, $servicesHtml) .
                 $this->anbTopDeals->priceSection($priceHtml, $monthDurationPromo, $firstYearPrice) .
                 $this->anbTopDeals->getPromoSection($promotionHtml, $advPrice, 'dealFeatures',
-                    '<a href="#" class="btn btn-primary ">Info and options</a>
+                    '<a href="/'.pll__('brands').'/'.$productData['supplier_slug'].'/'.$productData['product_slug'].'" class="btn btn-primary ">'.pll__('Info and options').'</a>
                                                      <a href="#" class="link block-link">Order Now</a>
                                                      <p class="message"></p>').
                 '<div class="packageInfo">'.
@@ -278,8 +278,8 @@ class AnbCompare extends Base
                 '</div>'.
 
                 $this->anbTopDeals->priceSection($priceHtml, $monthDurationPromo, $firstYearPrice, 'dealPrice last', '<div class="buttonWrapper">
-                                                        <a href="#" class="btn btn-primary ">Info and options</a>
-                                                        <a href="#" class="link block-link">Order Now</a>
+                                                        <a href="/'.pll__('brands').'/'.$productData['supplier_slug'].'/'.$productData['product_slug'].'" class="btn btn-primary ">'.pll__('Info and options').'</a>
+                                                        <a href="#" class="link block-link">'.pll__('Order Now').'</a>
                                                 </div>').'
                                                
                                           </div>'.

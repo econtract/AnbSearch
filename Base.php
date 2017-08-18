@@ -65,7 +65,7 @@ class Base
      */
     public $productStatus = [
         '1', // 1=active
-       // '2'  // 2=archived
+        '2'  // 2=archived
     ];
 
     /**

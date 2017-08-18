@@ -6,7 +6,11 @@ jQuery(document).ready(function($){
 
         var selected = [];
         $('.comparePackage input:checked').each(function() {
-            selected.push($(this).val());
+            var value = $(this).val();
+
+            if(selected.indexOf(value) === -1){
+                selected.push(value);
+            }
         });
         // to make it access in other object assign to array
         selectedProducts = selected;
@@ -69,8 +73,6 @@ jQuery(document).ready(function($){
     $('body #compareSearch').on('click', '.offer-col a.close', function(e){
         e.preventDefault();
 
-        console.log('event calls');
-
         var _self = $(this);
 
         _self.parents('.offer-col')
@@ -82,7 +84,6 @@ jQuery(document).ready(function($){
             $('#crntPackSelectionSection').show();
             $('#crntPackSelectionResponse').hide();
         }
-        console.log('event calls at the end');
     });
 
 });

@@ -202,7 +202,7 @@ class AnbCompare extends Base
                                             </label>
                                         </div>
                                         <div class="buttonWrapper">
-                                            <a href="#" class="btn btn-primary ">' . pll__('Info and options') . '</a>
+                                            <a href="/'.pll__('brands').'/'.$currentProduct->supplier_slug.'/'.$currentProduct->product_slug.'" class="btn btn-primary ">' . pll__('Info and options') . '</a>
                                             <a href="#" class="link block-link">' . pll__('Order Now') . '</a>
                                         </div>
                                     </div>
@@ -224,21 +224,26 @@ class AnbCompare extends Base
         $productResponse = '';
         $crntpackSelected = $crntpackSelectedEnd =  $crntpackSelectedClass = '';
 
-        $products = $this->getCompareResults([
-            'detaillevel' => 'supplier,logo,services,price,reviews,texts,promotions,core_features',
-            'pref_pids'   => $_REQUEST['products'],
-            'status'      => $this->productStatus
-        ]);
+        $getProducts = $this->anbApi->getProducts(
+            [
+                'productid'   => $_REQUEST['products'],
+                'sg'          => trim($_REQUEST['sg']),
+                'lang'        => $this->getCurrentLang(),
+                'status'      => $this->productStatus,
+                'cat'         => $this->productTypes,
+                'detaillevel' => ['supplier', 'logo', 'services', 'price', 'reviews', 'texts', 'promotions']
+            ]
+        );
 
-        $products = json_decode($products);
+        $products = json_decode($getProducts);
 
         $countProducts = 0;
 
-        foreach ($products->results as $listProduct) {
+        foreach ($products as $listProduct) {
 
             $countProducts++;
 
-            $currentProduct = $listProduct->product;
+            $currentProduct = $listProduct;
 
             list($productData, $priceHtml, $servicesHtml) = $this->extractProductData($this->anbTopDeals, $currentProduct);
 
@@ -260,31 +265,31 @@ class AnbCompare extends Base
             }
 
             $productResponse .= '<div class="col-md-4 offer-col '.$crntpackSelectedClass.'">'.
-                                        $crntpackSelected.
-                                        '<div class="selection">
+                $crntpackSelected.
+                '<div class="selection">
                                             <h4>'. $selectedVal .'</h4>'.
-                                        $crntPackHtml.
-                                        '</div>'.
+                $crntPackHtml.
+                '</div>'.
 
-                                         '<div class="offer">'.
+                '<div class="offer">'.
                 $this->anbTopDeals->getProductDetailSection($productData, $servicesHtml) .
                 $this->anbTopDeals->priceSection($priceHtml, $monthDurationPromo, $firstYearPrice) .
                 $this->anbTopDeals->getPromoSection($promotionHtml, $advPrice, 'dealFeatures',
-                    '<a href="#" class="btn btn-primary ">Info and options</a>
-                                                     <a href="#" class="link block-link">Order Now</a>
+                    '<a href="/'.pll__('brands').'/'.$productData['supplier_slug'].'/'.$productData['product_slug'].'" class="btn btn-primary ">'.pll__('Info and options').'</a>
+                                                     <a href="#" class="link block-link">'.pll__('Order Now').'</a>
                                                      <p class="message"></p>').
                 '<div class="packageInfo">'.
                 $this->getServiceDetail($currentProduct).
                 '</div>'.
 
                 $this->anbTopDeals->priceSection($priceHtml, $monthDurationPromo, $firstYearPrice, 'dealPrice last', '<div class="buttonWrapper">
-                                                        <a href="#" class="btn btn-primary ">Info and options</a>
-                                                        <a href="#" class="link block-link">Order Now</a>
+                                                        <a href="/'.pll__('brands').'/'.$productData['supplier_slug'].'/'.$productData['product_slug'].'" class="btn btn-primary ">'.pll__('Info and options').'</a>
+                                                        <a href="#" class="link block-link">'.pll__('Order Now').'</a>
                                                 </div>').'
                                                
                                           </div>'.
-                                $crntpackSelectedEnd.
-                                 '</div>';
+                $crntpackSelectedEnd.
+                '</div>';
         }
 
         print $productResponse;
@@ -301,6 +306,7 @@ class AnbCompare extends Base
         $getProducts = $this->anbApi->getProducts(
             [
                 'sid'         => $_REQUEST['supplier'],
+                'sg'          => $_REQUEST['sg'],
                 'lang'        => $this->getCurrentLang(),
                 'cat'         => $this->productTypes,
                 'status'      => $this->productStatus,
@@ -316,7 +322,7 @@ class AnbCompare extends Base
         if (empty($products)) {
             return $html = '';
         }
-       
+
         $html = '<option value="">'. pll__('Select your pack').'</option>';
 
         foreach ($products as $product) {
@@ -327,7 +333,6 @@ class AnbCompare extends Base
 
         wp_die(); // this is required to terminate immediately and return a proper response
     }
-
 
     function searchForm($atts)
     {

@@ -2,25 +2,38 @@
 jQuery(document).ready(function($){
 
     var selectedProducts = [];
+    var selectedProductTypes = [];
+
     $('body .rightPanel').on('change', '.comparePackage input[type=checkbox]', function() {
 
         var selected = [];
+        var captureProductTypes = [];
+
         $('.comparePackage input:checked').each(function() {
             var value = $(this).val();
+            var productType = $(this).siblings('input[type="hidden"]').val();
+
 
             if(selected.indexOf(value) === -1){
                 selected.push(value);
             }
+
+            if(captureProductTypes.indexOf(productType) === -1){
+                captureProductTypes.push(productType);
+            }
         });
+
         // to make it access in other object assign to array
         selectedProducts = selected;
+        selectedProductTypes = captureProductTypes;
     });
 
     $('#compareResultsBtn').on('click', function() {
 
         var data = {
-            'action'   : 'compareBetweenResults',
-            'products' :  selectedProducts
+            'action'       : 'compareBetweenResults',
+            'products'     :  selectedProducts,
+            'productTypes' :  selectedProductTypes
         };
 
         var urlParams = window.location.search;
@@ -52,10 +65,13 @@ jQuery(document).ready(function($){
     // Get current pack product
     $('#currentPackBtn').on('click', function() {
 
+        var currentPack = $('#currentPack').val().split('|');
+
         var data = {
-            'action'   : 'compareBetweenResults',
-            'products' :  $('#currentPack').val(),
-            'crntPack' : compare_between_results_object.current_pack
+            'action'       : 'compareBetweenResults',
+            'productTypes' :  currentPack[0],
+            'products'     :  currentPack[1],
+            'crntPack'     : compare_between_results_object.current_pack
         };
 
         var urlParams = window.location.search;

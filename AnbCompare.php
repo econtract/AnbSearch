@@ -22,7 +22,7 @@ class AnbCompare extends Base
      */
     public function __construct()
     {
-       //enqueue JS scripts
+        //enqueue JS scripts
         add_action('init', array($this, 'enqueueScripts'));
 
         $_GET = $this->cleanInputGet();
@@ -198,6 +198,7 @@ class AnbCompare extends Base
                                     <div class="actionButtons">
                                         <div class="comparePackage">
                                             <label>
+                                                <input type="hidden" name="compareProductType'.$currentProduct->product_id.'>" value="'.$currentProduct->producttype.'">
                                                 <input type="checkbox" value="'.$currentProduct->product_id.'"> ' . pll__('Compare') . '
                                             </label>
                                         </div>
@@ -224,13 +225,15 @@ class AnbCompare extends Base
         $productResponse = '';
         $crntpackSelected = $crntpackSelectedEnd =  $crntpackSelectedClass = '';
 
+        $category = (is_array($_REQUEST['productTypes'])? $_REQUEST['productTypes'][0] : $_REQUEST['productTypes']);
+
         $getProducts = $this->anbApi->getProducts(
             [
                 'productid'   => $_REQUEST['products'],
                 'sg'          => trim($_REQUEST['sg']),
                 'lang'        => $this->getCurrentLang(),
                 'status'      => $this->productStatus,
-                'cat'         => $this->productTypes,
+                'cat'         => $category,
                 'detaillevel' => ['supplier', 'logo', 'services', 'price', 'reviews', 'texts', 'promotions']
             ]
         );
@@ -326,7 +329,7 @@ class AnbCompare extends Base
         $html = '<option value="">'. pll__('Select your pack').'</option>';
 
         foreach ($products as $product) {
-            $html .= '<option value="' . $product['product_id'] . '">' . $product['product_name'] . '</option>';
+            $html .= '<option value="' . $product['producttype'].'|'.$product['product_id'] . '">' . $product['product_name'] . '</option>';
         }
 
         print $html;

@@ -719,107 +719,321 @@ class AnbCompare extends Base
         return $formNew;
     }
 
-    /**
-     * @param $values
-     * @param string $submitBtnTxt
-     * @param bool $hideTitle
-     * @param string $resultsPageUri
-     * @return string
-     */
-    public function getWizardSearchBoxContentHtml($values, $submitBtnTxt = "Search Deals", $hideTitle = false, $resultsPageUri = self::RESULTS_PAGE_URI)
-    {
-        $titleHtml = "<h3>" . pll__('Change Profile') . "</h3>";
-        if ($hideTitle) {
-            $titleHtml = "";
-        }
+	/**
+	 * @param $values
+	 * @param string $submitBtnTxt
+	 * @param bool $hideTitle
+	 * @param string $resultsPageUri
+	 *
+	 * @return string
+	 */
+	public function getWizardSearchBoxContentHtml( $values, $submitBtnTxt = "Search Deals", $hideTitle = false, $resultsPageUri = self::RESULTS_PAGE_URI ) {
+		$titleHtml = "<h3>" . pll__( 'Change Profile' ) . "</h3>";
+		if ( $hideTitle ) {
+			$titleHtml = "";
+		}
 
-        $hiddenCatsHtml = "";
+		$hiddenCatsHtml = "";
 
-        if (empty($supplierHtml)) {//If no supplier html generated but pref_cs are present keep them included as hidden values
-            foreach ($_GET['cat'] as $cat) {
-                $hiddenCatsHtml .= "<input type='hidden' name='cat[]' value='" . $cat . "' />";
-            }
-        }
-        $formNew = "<div class='searchBoxContent'>
-                    <div class='searchBox'>
-                        " . $titleHtml . "
-                        <p class='caption'>" . pll__('Select the service you like to compare') . "</p>
-                        <div class='formWrapper'>
-                            <form action='" . $resultsPageUri . "' id='yourProfileWizardForm'>
-                                <div class='form-group'>
-                                    <label for='installation_area'>" . pll__('Installation area') . "</label>
-                                    <input class='form-control' id='installation_area' name='zip' placeholder='" . pll__('Enter Zipcode') . "' type='text' 
-                                    maxlength='4' pattern='^\d{4,4}$' value='" . ((!empty($values['zip'])) ? $values['zip'] : '') . "' required>
-                                </div>
-                                <div class='form-group'>
-                                    <label>" . pll__('Type of Use') . "</label>
-                                    <div class='radio fancyRadio'>
-                                        <input name='sg' value='consumer' id='private_type' checked='checked' type='radio'
-                                        " . (("private" == $values['sg']) ? 'checked="checked"' : '') . ">
-                                        <label for='private_type'>
-                                            <i class='fa fa-circle-o unchecked'></i>
-                                            <i class='fa fa-check-circle checked'></i>
-                                            <span>" . pll__('Private') . "</span>
-                                        </label>
-                                        <input name='sg' value='sme' id='business_type' type='radio'
-                                        " . (("sme" == $values['sg']) ? 'checked="checked"' : '') . ">
-                                        <label for='business_type'>
-                                            <i class='fa fa-circle-o unchecked'></i>
-                                            <i class='fa fa-check-circle checked'></i>
-                                            <span>" . pll__('Business') . "</span>
-                                        </label>
+		if ( empty( $supplierHtml ) ) {//If no supplier html generated but pref_cs are present keep them included as hidden values
+			foreach ( $_GET['cat'] as $cat ) {
+				$hiddenCatsHtml .= "<input type='hidden' name='cat[]' value='" . $cat . "' />";
+			}
+		}
+		$formNew = "<div class='formWrapper'>
+                        <form action='" . $resultsPageUri . "' class='form-horizontal' id='yourProfileWizardForm' data-toggle='validator' role='form'>
+                        	<div class='container-fluid'>
+	                            <div class='panel-group' id='accordion' role='tablist' aria-multiselectable='true'>
+	                            	<div class='panel panel-default'>
+                                        <div class='panel-heading active' role='tab' id='installationHeading'>
+                                            <h4 class='panel-title'>
+                                                <a role='button' data-toggle='collapse' data-parent='#accordion'
+                                                   href='#installationPanel' aria-expanded='true'
+                                                   aria-controls='collapseOne'>
+                                                            <span class='headingTitle'>
+                                                                <i class='icon wizard location'></i>
+                                                                <span class='caption'>" . pll__( 'Installation area' ) . "</span>
+                                                                <span class='selectedInfo'></span>
+                                                            </span>
+                                                </a>
+                                            </h4>
+                                        </div>
+                                        <div id='installationPanel' class='panel-collapse collapse in' role='tabpanel'
+                                             aria-labelledby='headingOne'>
+                                            <div class='panel-body text-center'>
+                                                <div class='form-group has-feedback'>
+                                                    <div class='col-sm-2'>
+                                                        <label for='installation_area' class='control-label'>" . pll__( 'Installation area' ) . "</label>
+                                                    </div>
+                                                    <div class='col-sm-8'>
+                                                        <input class='form-control' id='installation_area' name='zip'
+                                                               placeholder='Enter Zipcode' maxlength='4'
+                                                               pattern='^\d{4,4}$' value='" . ( ( ! empty( $values['zip'] ) ) ? $values['zip'] : '' ) . "' required type='text'>
+                                                        <span class='staricicon form-control-feedback'
+                                                              aria-hidden='true'></span>
+                                                        <div class='help-block with-errors'></div>
+                                                    </div>
+                                                </div>
+                                                <div class='buttonWrapper'>
+                                                    <button type='button' class='btn btn-primary'><i
+                                                                class='fa fa-check'></i> " . pll__( 'Ok' ) . "
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class='form-group'>
-                                    <label for='num_pc'>" . pll__('Number of PCs') . "</label>
-                                    <input class='form-control' id='num_pc' name='num_pc' placeholder='" . pll__('Number of PCs') . "' type='text' 
-                                    maxlength='4' pattern='^\d{1,3}$' value='" . ((!empty($values['num_pc'])) ? $values['num_pc'] : '') . "'>
-                                </div>
-                                <div class='form-group'>
-                                    <label for='nm'>" . pll__('Monthly call minutes') . "</label>
-                                    <input class='form-control' id='nm' name='nm' placeholder='" . pll__('Monthly call minutes') . "' type='text' 
-                                    maxlength='4' pattern='^\d{1,3}$' value='" . ((!empty($values['nm'])) ? $values['nm'] : '') . "'>
-                                </div>
-                                <div class='form-group'>
-                                    <label for='ns'>" . pll__('Monthly SMS') . "</label>
-                                    <input class='form-control' id='ns' name='ns' placeholder='" . pll__('Monthly SMS') . "' type='text' 
-                                    maxlength='4' pattern='^\d{1,4}$' value='" . ((!empty($values['ns'])) ? $values['ns'] : '') . "'>
-                                </div>
-                                <div class='form-group'>
-                                    <label for='int'>" . pll__('Mobile data MBs') . "</label>
-                                    <input class='form-control' id='int' name='int' placeholder='" . pll__('Mobile data MBs') . "' type='text' 
-                                    maxlength='6' pattern='^\d{1,6}$' value='" . ((!empty($values['int'])) ? $values['int'] : '') . "'>
-                                </div>
-                                <div class='form-group'>
-                                    <label for='fleet'>" . pll__('Family Fleet (Yes/No)') . "</label>
-                                    <input class='form-control' id='fleet' name='fleet' placeholder='" . pll__('1 for Yes, 0 for No') . "' type='text' 
-                                    value='" . ((!empty($values['fleet'])) ? $values['fleet'] : '') . "'>
-                                </div>
-                                <div class='form-group'>
-                                    <label for='pr'>" . pll__('Max monthly price for mobile subscription') . "</label>
-                                    <input class='form-control' id='pr' name='pr' placeholder='" . pll__('Max monthly price for mobile subscription') . "' type='text' 
-                                    maxlength='5' pattern='^\d{1,5}$' value='" . ((!empty($values['pr'])) ? $values['pr'] : '') . "'>
-                                </div>
-                                <div class='form-group'>
-                                    <label for='pr'>" . pll__('Call moment preference') . "</label>
-                                    <input class='form-control' id='pr' name='pr' placeholder='" . pll__('1 : peak, 2: off peak, 0: no preference') . "' type='text' 
-                                    value='" . ((!empty($values['pr'])) ? $values['pr'] : '') . "'>
-                                </div>
-                                <div class='form-group'>
-                                    <label for='f'>" . pll__('Free landline calling') . "</label>
-                                    <input class='form-control' id='f' name='f' placeholder='" . pll__('1 for yes, 0 for no') . "' type='text' 
-                                    value='" . ((!empty($values['f'])) ? $values['f'] : '') . "'>
-                                </div>
-                                <div class='btnWrapper'>
-                                    {$hiddenCatsHtml}
-                                    <button name='searchSubmit' type='submit' class='btn btn-default btn-block'>" . pll__($submitBtnTxt) . "</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>";
-        return $formNew;
-    }
+                                    <div class='panel panel-default'>
+                                        <div class='panel-heading' role='tab' id='consumerHeading'>
+                                            <h4 class='panel-title'>
+                                                <a role='button' data-toggle='collapse' data-parent='#accordion'
+                                                   href='#consumerPanel' aria-expanded='true'
+                                                   aria-controls='collapseOne'>
+                                                            <span class='headingTitle'>
+                                                                <i class='icon wizard location'></i>
+                                                                <span class='caption'> " . pll__( 'Use' ) . "</span>
+                                                                <span class='selectedInfo'></span>
+                                                            </span>
+                                                </a>
+                                            </h4>
+                                        </div>
+                                        <div id='consumerPanel' class='panel-collapse collapse' role='tabpanel'
+                                             aria-labelledby='headingOne'>
+                                            <div class='panel-body text-center'>
+                                                <div class='form-group'>
+                                                    <label>" . pll__( 'Type of Use' ) . "</label>
+                                                    <div class='radio fancyRadio'>
+                                                        <input name='sg' value='1' id='private_type' type='radio'
+                                                               " . ( ( "private" == $values['sg'] || empty( $values['sg'] ) ) ? 'checked="checked"' : '' ) . ">
+                                                        <label for='private_type'>
+                                                            <i class='fa fa-circle-o unchecked'></i>
+                                                            <i class='fa fa-check-circle checked'></i>
+                                                            <span>" . pll__( 'Private' ) . "</span>
+                                                        </label>
+                                                        <input name='sg' value='sme' id='business_type' type='radio'
+                                                        " . ( ( "sme" == $values['sg'] ) ? 'checked="checked"' : '' ) . ">
+                                                        <label for='business_type'>
+                                                            <i class='fa fa-circle-o unchecked'></i>
+                                                            <i class='fa fa-check-circle checked'></i>
+                                                            <span>" . pll__( 'Business' ) . "</span>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class='buttonWrapper'>
+                                                    <button type='button' class='btn btn-primary'><i
+                                                                class='fa fa-check'></i> " . pll__( 'Ok' ) . "
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class='panel panel-default'>
+                                        <div class='panel-heading' role='tab' id='headingTwo'>
+                                            <h4 class='panel-title'>
+                                                <a class='collapsed' role='button' data-toggle='collapse'
+                                                   data-parent='#accordion' href='#collapseTwo' aria-expanded='false'
+                                                   aria-controls='collapseTwo'>
+                                                            <span class='headingTitle'>
+                                                                <i class='icon wizard multidevice'></i>
+                                                                <span class='caption'>" . pll__( 'How many devices do you have?' ) . "</span>
+                                                                <span class='selectedInfo'></span>
+                                                            </span>
+                                                </a>
+                                            </h4>
+                                        </div>
+                                        <div id='collapseTwo' class='panel-collapse collapse' role='tabpanel'
+                                             aria-labelledby='headingTwo'>
+                                            <div class='panel-body text-center'>
+                                                <div class='counterPanel'>
+                                                    <ul class='list-unstyled'>
+                                                        <li>
+                                                            <div class='itemWrapper'>
+                                                                <div class='counterBox'>
+                                                                    <input class='form-control' id='num_pc'
+                                                                           name='num_pc' placeholder='" . pll__( 'Number of PCs' ) . "'
+                                                                           maxlength='4' pattern='^\d{1,3}$' value='" . ( ( ! empty( $values['num_pc'] ) ) ? $values['num_pc'] : 0 ) . "'
+                                                                           type='text'>
+                                                                    <span class='counterBtn dec'>
+                                                                                <a href='#' data-value='-'><i
+                                                                                            class='fa fa-minus-circle'></i></a>
+                                                                            </span>
+                                                                    <div class='counterWrapper'>
+                                                                        <span class='currentValue'>0</span>
+                                                                        <label class='label'>
+                                                                                <span class='icon'>
+                                                                                    <i class='device-icon md computer'></i>
+                                                                                </span>
+                                                                            <span class='caption'>" . pll__( 'Computers' ) . "</span>
+                                                                        </label>
+                                                                    </div>
+                                                                    <span class='counterBtn inc'>
+                                                                                <a href='#' data-value='+'><i
+                                                                                            class='fa fa-plus-circle'></i></a>
+                                                                            </span>
+                                                                </div>
+                                                            </div>
+                                                        </li>
+                                                    </ul>
+                                                    <!--div class='info'>
+                                                        <p>Some information will come here as well just like any other
+                                                            information so current putting lorem ipsum to see how it
+                                                            looks</p>
+                                                    </div-->
+                                                    <div class='buttonWrapper'>
+                                                        <button type='button' class='btn btn-primary'><i
+                                                                    class='fa fa-check'></i> " . pll__( 'Ok' ) . "
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class='panel panel-default'>
+                                        <div class='panel-heading' role='tab' id='headingThree'>
+                                            <h4 class='panel-title'>
+                                                <a class='collapsed' role='button' data-toggle='collapse'
+                                                   data-parent='#accordion' href='#collapseThree' aria-expanded='false'
+                                                   aria-controls='collapseThree'>
+                                                            <span class='headingTitle'>
+                                                                <i class='icon wizard mobile'></i>
+                                                                <span class='caption'>" . pll__( 'Mobile Subscription' ) . "</span>
+                                                                <span class='selectedInfo'></span>
+                                                            </span>
+                                                </a>
+                                            </h4>
+                                        </div>
+                                        <div id='collapseThree' class='panel-collapse collapse' role='tabpanel'
+                                             aria-labelledby='headingThree'>
+                                            <div class='panel-body'>
+                                                <div class='form-group has-feedback'>
+                                                    <label for='nm' class='col-sm-2 control-label'>" . pll__( 'Monthly call minutes' ) . "</label>
+                                                    <div class='col-sm-8'>
+                                                        <input class='form-control' id='nm' name='nm'
+                                                               placeholder='" . pll__( 'Monthly call minutes' ) . "' maxlength='4'
+                                                               pattern='^\d{1,3}$' value='" . ( ( ! empty( $values['nm'] ) ) ? $values['nm'] : '' ) . "' type='text'>
+                                                        <span class='form-control-feedback' aria-hidden='true'></span>
+                                                        <div class='help-block with-errors'></div>
+                                                    </div>
+                                                </div>
+                                                <div class='form-group has-feedback'>
+                                                    <label for='ns' class='col-sm-2 control-label'>" . pll__( 'Monthly SMS' ) . "</label>
+                                                    <div class='col-sm-8'>
+                                                        <input class='form-control' id='ns' name='ns'
+                                                               placeholder='" . pll__( 'Monthly SMS' ) . "' maxlength='4'
+                                                               pattern='^\d{1,6}$' value='" . ( ( ! empty( $values['ns'] ) ) ? $values['ns'] : '' ) . "' type='text'>
+                                                        <span class='form-control-feedback' aria-hidden='true'></span>
+                                                        <div class='help-block with-errors'></div>
+                                                    </div>
+                                                </div>
+                                                <div class='form-group has-feedback'>
+                                                    <label for='int' class='col-sm-2 control-label'>" . pll__( 'Monthly mobile data (in MBs)' ) . "</label>
+                                                    <div class='col-sm-8'>
+                                                        <input class='form-control' id='int' name='int'
+                                                               placeholder='" . pll__( 'Mobile data MBs' ) . "' maxlength='6'
+                                                               pattern='^\d{1,6}$' value='" . ( ( ! empty( $values['int'] ) ) ? $values['int'] : '' ) . "' type='text'>
+                                                        <span class='form-control-feedback' aria-hidden='true'></span>
+                                                        <div class='help-block with-errors'></div>
+                                                    </div>
+                                                </div>
+                                                <div class='form-group has-feedback'>
+                                                    <label class='col-sm-2 control-label'>" . pll__( 'Family Fleet' ) . "</label>
+                                                    <div class='col-sm-8'>
+                                                        <div class='radio fancyRadio'>
+                                                            <input type='radio' name='fleet' value='1' id='family-call-yes'
+                                                            " . ( ( "1" == $values['fleet'] ) ? 'checked="checked"' : '' ) . ">
+                                                            <label for='family-call-yes'>
+                                                                <i class='fa fa-circle-o unchecked'></i>
+                                                                <i class='fa fa-check-circle checked'></i>
+                                                                <span>" . pll__( 'Yes' ) . "</span>
+                                                            </label>
+                                                            <input type='radio' name='fleet' value='0' id='family-call-no'
+                                                            " . ( ( "0" == $values['fleet'] ) ? 'checked="checked"' : '' ) . ">
+                                                            <label for='family-call-no'>
+                                                                <i class='fa fa-circle-o unchecked'></i>
+                                                                <i class='fa fa-check-circle checked'></i>
+                                                                <span>" . pll__( 'No' ) . "</span>
+                                                            </label>
+                                                        </div>
+                                                        <span class='form-control-feedback' aria-hidden='true'></span>
+                                                        <div class='help-block with-errors'></div>
+                                                    </div>
+                                                </div>
+                                                <div class='form-group has-feedback'>
+                                                    <label for='mmf' class='col-sm-2 control-label'>" . pll__( 'Max monthly price for mobile subscription' ) . "</label>
+                                                    <div class='col-sm-8'>
+                                                        <input class='form-control' id='pr' name='pr'
+                                                               placeholder='" . pll__( 'Max monthly price for mobile subscription' ) . "'
+                                                               maxlength='5' pattern='^\d{1,5}$' value='" . ( ( ! empty( $values['pr'] ) ) ? $values['pr'] : '' ) . "' type='text'>
+                                                        <span class='form-control-feedback' aria-hidden='true'></span>
+                                                        <div class='help-block with-errors'></div>
+                                                    </div>
+                                                </div>
+                                                <div class='form-group has-feedback'>
+                                                    <label class='col-sm-2 control-label'>" . pll__( 'Call moment preference' ) . "</label>
+                                                    <div class='col-sm-8'>
+                                                        <div class='radio fancyRadio'>
+                                                            <input type='radio' name='cm' value='1' id='peak'
+                                                            " . ( ( "1" == $values['cm'] ) ? 'checked="checked"' : '' ) . ">
+                                                            <label for='peak'>
+                                                                <i class='fa fa-circle-o unchecked'></i>
+                                                                <i class='fa fa-check-circle checked'></i>
+                                                                <span>" . pll__( 'Peak' ) . "</span>
+                                                            </label>
+                                                            <input type='radio' name='cm' value='2' id='off_peak'
+                                                            " . ( ( "2" == $values['cm'] ) ? 'checked="checked"' : '' ) . ">
+                                                            <label for='off_peak'>
+                                                                <i class='fa fa-circle-o unchecked'></i>
+                                                                <i class='fa fa-check-circle checked'></i>
+                                                                <span>" . pll__( 'Off Peak' ) . "</span>
+                                                            </label>
+                                                            <input type='radio' name='cm' value='0' id='no_pref'
+                                                            " . ( ( "0" == $values['cm'] ) ? 'checked="checked"' : '' ) . ">
+                                                            <label for='no_pref'>
+                                                                <i class='fa fa-circle-o unchecked'></i>
+                                                                <i class='fa fa-check-circle checked'></i>
+                                                                <span>" . pll__( 'No preference' ) . "</span>
+                                                            </label>
+                                                        </div>
+                                                        <span class='form-control-feedback' aria-hidden='true'></span>
+                                                        <div class='help-block with-errors'></div>
+                                                    </div>
+                                                </div>
+                                                <div class='form-group has-feedback'>
+                                                    <label class='col-sm-2 control-label'>" . pll__( 'Free landline calling' ) . "</label>
+                                                    <div class='col-sm-8'>
+                                                        <div class='radio fancyRadio'>
+                                                            <input name='f' value='1' id='yes_free' type='radio'
+                                                            " . ( ( "1" == $values['f'] ) ? 'checked="checked"' : '' ) . ">
+                                                            <label for='yes_free'>
+                                                                <i class='fa fa-circle-o unchecked'></i>
+                                                                <i class='fa fa-check-circle checked'></i>
+                                                                <span>" . pll__( 'Yes' ) . "</span>
+                                                            </label>
+                                                            <input name='f' value='0' id='no_free' type='radio'
+                                                            " . ( ( "0" == $values['f'] ) ? 'checked="checked"' : '' ) . ">
+                                                            <label for='no_free'>
+                                                                <i class='fa fa-circle-o unchecked'></i>
+                                                                <i class='fa fa-check-circle checked'></i>
+                                                                <span>" . pll__( 'No' ) . "</span>
+                                                            </label>
+                                                        </div>
+                                                        <span class='form-control-feedback' aria-hidden='true'></span>
+                                                        <div class='help-block with-errors'></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+		                            <div class='btnWrapper'>
+		                                {$hiddenCatsHtml}
+		                                <button name='searchSubmit' type='submit' class='btn btn-default'>" . pll__( $submitBtnTxt ) . "</button>
+		                            </div>
+	                            </div>
+                            </div>
+                        </form>
+                    </div>";
+
+		return $formNew;
+	}
 
     public function cleanInputGet()
     {

@@ -1,14 +1,14 @@
 //Function copied from https://stackoverflow.com/questions/31075133/strip-duplicate-parameters-from-the-url
-function stripUrlParams(uri) {
+function stripUriParams(uri) {
     var stuff = decodeURIComponent(uri);
     var pars = stuff.split("&");
     var finalPars = [];
     var comps = {};
-    for (i = pars.length - 1; i >= 0; i--)
+    for (var i = pars.length - 1; i >= 0; i--)
     {
         spl = pars[i].split("=");
         //ignore arrays
-        if(!_.endsWith(spl[0], ']')) {
+        if(!spl[0].endsWith(']')) {
             comps[spl[0]] = spl[1];
         } else {
             //this is array so enter it into final url array
@@ -29,7 +29,7 @@ function removeDuplicatesFromUri(uri) {
     if(typeof _ != "undefined"){
         redToArr = _.uniq(redToArr);
     }*/
-    var finalRedirect = stripUrlParams(uri);
+    var finalRedirect = stripUriParams(uri);
     finalRedirect = '?' + finalRedirect;
     return finalRedirect;
 }

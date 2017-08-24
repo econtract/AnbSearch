@@ -1,11 +1,36 @@
+//Function copied from https://stackoverflow.com/questions/31075133/strip-duplicate-parameters-from-the-url
+function stripUrlParams(uri) {
+    var stuff = decodeURIComponent(uri);
+    var pars = stuff.split("&");
+    var finalPars = [];
+    var comps = {};
+    for (i = pars.length - 1; i >= 0; i--)
+    {
+        spl = pars[i].split("=");
+        //ignore arrays
+        if(!_.endsWith(spl[0], ']')) {
+            comps[spl[0]] = spl[1];
+        } else {
+            //this is array so enter it into final url array
+            finalPars.push(spl[0] + "=" + spl[1]);
+        }
+    }
+    for (var a in comps)
+        finalPars.push(a + "=" + comps[a]);
+    url = finalPars.join('&');
+    return url;
+}
+
 function removeDuplicatesFromUri(uri) {
     //remove any duplicate params
-    var redToArr = uri.split('&');
+    /*var redToArr = uri.split('&');
+
     //remove duplicates with lodash
     if(typeof _ != "undefined"){
         redToArr = _.uniq(redToArr);
-    }
-    var finalRedirect = '?' + redToArr.join('&');
+    }*/
+    var finalRedirect = stripUrlParams(uri);
+    finalRedirect = '?' + finalRedirect;
     return finalRedirect;
 }
 
@@ -16,6 +41,15 @@ function wizardProfileFormSubmitRedirect() {
     var redirectTo = yourProfileWizardForm + '&' + searchFilterNav + '&searchSubmit=&profile_wizard=';
     var finalRedirect = removeDuplicatesFromUri(redirectTo);
     return finalRedirect;
+}
+
+function getFirstUrlParamByName(name, uri) {
+
+    var match = RegExp('[&]' + name + '=([^&]*)')
+        .exec(uri);
+
+    return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
+
 }
 
 function getRedirectUrl() {

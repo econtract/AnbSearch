@@ -788,16 +788,16 @@ class AnbCompare extends Base {
                                                 <div class='form-group'>
                                                     <label>" . pll__( 'Type of Use' ) . "</label>
                                                     <div class='radio fancyRadio'>
-                                                        <input name='sg' value='1' id='private_type' type='radio'
+                                                        <input name='sg' value='1' id='wiz_private_type' type='radio'
                                                                " . ( ( "private" == $values['sg'] || empty( $values['sg'] ) ) ? 'checked="checked"' : '' ) . ">
-                                                        <label for='private_type'>
+                                                        <label for='wiz_private_type'>
                                                             <i class='fa fa-circle-o unchecked'></i>
                                                             <i class='fa fa-check-circle checked'></i>
                                                             <span>" . pll__( 'Private' ) . "</span>
                                                         </label>
-                                                        <input name='sg' value='sme' id='business_type' type='radio'
+                                                        <input name='sg' value='sme' id='wiz_business_type' type='radio'
                                                         " . ( ( "sme" == $values['sg'] ) ? 'checked="checked"' : '' ) . ">
-                                                        <label for='business_type'>
+                                                        <label for='wiz_business_type'>
                                                             <i class='fa fa-circle-o unchecked'></i>
                                                             <i class='fa fa-check-circle checked'></i>
                                                             <span>" . pll__( 'Business' ) . "</span>
@@ -1009,7 +1009,7 @@ class AnbCompare extends Base {
                                             </div>
                                         </div>
                                     </div>
-		                            <div class='btnWrapper'>
+		                            <div class='buttonWrapper'>
 		                                {$hiddenCatsHtml}
 		                                <button name='searchSubmit' type='submit' class='btn btn-default'>" . pll__( $submitBtnTxt ) . "</button>
 		                            </div>

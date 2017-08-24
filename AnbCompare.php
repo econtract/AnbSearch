@@ -788,8 +788,8 @@ class AnbCompare extends Base {
                                                 <div class='form-group'>
                                                     <label>" . pll__( 'Type of Use' ) . "</label>
                                                     <div class='radio fancyRadio'>
-                                                        <input name='sg' value='1' id='wiz_private_type' type='radio'
-                                                               " . ( ( "private" == $values['sg'] || empty( $values['sg'] ) ) ? 'checked="checked"' : '' ) . ">
+                                                        <input name='sg' value='consumer' id='wiz_private_type' type='radio'
+                                                               " . ( ( "consumer" == $values['sg'] || empty( $values['sg'] ) ) ? 'checked="checked"' : '' ) . ">
                                                         <label for='wiz_private_type'>
                                                             <i class='fa fa-circle-o unchecked'></i>
                                                             <i class='fa fa-check-circle checked'></i>

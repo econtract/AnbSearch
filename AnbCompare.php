@@ -596,7 +596,7 @@ class AnbCompare extends Base {
                         " . $titleHtml . "
                         <p class='caption'>" . pll__( 'Select the service you like to compare' ) . "</p>
                         <div class='formWrapper'>
-                            <form action='" . $resultsPageUri . "'>
+                            <form action='" . $resultsPageUri . "' id='anbSearchForm'>
                                 <div class='form-group'>
                                     <label>" . pll__( 'Services' ) . "</label>
                                     <div class='selectServices'>
@@ -695,7 +695,7 @@ class AnbCompare extends Base {
                                 </div>
                                 <div class='btnWrapper'>
                                     {$hiddenMultipleProvidersHtml}
-                                    <button name='searchSubmit' type='submit' class='btn btn-default btn-block'>" . pll__( $submitBtnTxt ) . "</button>
+                                    <button name='searchSubmit' type='submit' class='btn btn-default btn-block' >" . pll__( $submitBtnTxt ) . "</button>
                                 </div>
                             </form>
                         </div>

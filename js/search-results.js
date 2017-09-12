@@ -57,7 +57,7 @@ function getRedirectUrl() {
     if(location.search.indexOf('profile_wizard') >= 0) {
         redirectUrl = wizardProfileFormSubmitRedirect();
     } else {
-        redirectUrl = '?' + jQuery('#searchFilterNav').serialize();
+        redirectUrl = jQuery('#searchFilterNav').serialize();
     }
 
     return redirectUrl;
@@ -105,6 +105,7 @@ jQuery(document).ready(function($){
             redirectUrl += '&sort='+sortBy+'&searchSubmit=';
         }
         redirectUrl = removeDuplicatesFromUri(redirectUrl);
+        //console.log(redirectUrl);
         window.location = redirectUrl;
     });
 });

@@ -174,6 +174,10 @@ class AnbCompare extends Base {
 
 			list( $advPrice, $monthDurationPromo, $firstYearPrice ) = $this->anbTopDeals->getPriceInfo( $productData );
 
+			$parentSegment = getSectorOnCats( $_SESSION['product']['cat'] );
+			$checkoutPageLink = '/' . $parentSegment . '/' . pll__( 'checkout' );
+			$toCartLinkHtml = "href='" . $checkoutPageLink."?product_to_cart&product_id=".$productData['product_id'] .
+			                  "&provider_id=" . $productData['supplier_id'] . "'";
 			$productResponse .= '<div class="offer">
                             <div class="row listRow">
                                 <div class="col-md-4">
@@ -198,7 +202,7 @@ class AnbCompare extends Base {
                                         </div>
                                         <div class="buttonWrapper">
                                             <a href="/' . pll__( 'brands' ) . '/' . $currentProduct->supplier_slug . '/' . $currentProduct->product_slug . '" class="btn btn-primary ">' . pll__( 'Info and options' ) . '</a>
-                                            <a href="#" class="link block-link">' . pll__( 'Order Now' ) . '</a>
+                                            <a '.$toCartLinkHtml.' class="link block-link">' . pll__( 'Order Now' ) . '</a>
                                         </div>
                                     </div>
                                 </div>
@@ -249,6 +253,11 @@ class AnbCompare extends Base {
 
 			list( $advPrice, $monthDurationPromo, $firstYearPrice ) = $this->anbTopDeals->getPriceInfo( $productData );
 
+			$parentSegment = getSectorOnCats( $_SESSION['product']['cat'] );
+			$checkoutPageLink = '/' . $parentSegment . '/' . pll__( 'checkout' );
+			$toCartLinkHtml = "href='" . $checkoutPageLink."?product_to_cart&product_id=".$productData['product_id'] .
+			                  "&provider_id=" . $productData['supplier_id'] . "'";
+
 			$selectedVal = ! empty( $_REQUEST['crntPack'] ) ? $_REQUEST['crntPack'] : pll__( 'Selected Pack' ) . ' ' . $countProducts;
 
 			if ( ! empty( $_REQUEST['crntPack'] ) ) {
@@ -272,7 +281,7 @@ class AnbCompare extends Base {
 			                    $this->anbTopDeals->priceSection( $priceHtml, $monthDurationPromo, $firstYearPrice ) .
 			                    $this->anbTopDeals->getPromoSection( $promotionHtml, $advPrice, 'dealFeatures',
 				                    '<a href="/' . pll__( 'brands' ) . '/' . $productData['supplier_slug'] . '/' . $productData['product_slug'] . '" class="btn btn-primary ">' . pll__( 'Info and options' ) . '</a>
-                                                     <a href="#" class="link block-link">' . pll__( 'Order Now' ) . '</a>
+                                                     <a '.$toCartLinkHtml.' class="link block-link">' . pll__( 'Order Now' ) . '</a>
                                                      <p class="message"></p>' ) .
 			                    '<div class="packageInfo">' .
 			                    $this->getServiceDetail( $currentProduct ) .
@@ -280,7 +289,7 @@ class AnbCompare extends Base {
 
 			                    $this->anbTopDeals->priceSection( $priceHtml, $monthDurationPromo, $firstYearPrice, 'dealPrice last', '<div class="buttonWrapper">
                                                         <a href="/' . pll__( 'brands' ) . '/' . $productData['supplier_slug'] . '/' . $productData['product_slug'] . '" class="btn btn-primary ">' . pll__( 'Info and options' ) . '</a>
-                                                        <a href="#" class="link block-link">' . pll__( 'Order Now' ) . '</a>
+                                                        <a '.$toCartLinkHtml.' class="link block-link">' . pll__( 'Order Now' ) . '</a>
                                                 </div>' ) . '
                                                
                                           </div>' .

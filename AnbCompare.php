@@ -405,7 +405,7 @@ class AnbCompare extends Base {
 
 		if ( $values['enable_need_help'] == true ) {
 			$needHelpHtml .= "<div class='needHelp'>
-                                <a href='#'>
+                                <a href='javascript:void(0)' data-toggle='modal' data-target='#widgetPopup' data-backdrop='static' data-keyboard='false'>
                                     <i class='floating-icon fa fa-chevron-right'></i>
                                     <h6>" . pll__( 'Need help?' ) . "</h6>
                                     <p>" . pll__( 'We\'ll guide you' ) . "</p>

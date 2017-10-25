@@ -9,6 +9,8 @@
 namespace AnbSearch;
 
 
+use GuzzleHttp\Psr7\Request;
+
 class AnbCompare extends Base {
 	/**
 	 * constant form page URI
@@ -45,7 +47,14 @@ class AnbCompare extends Base {
 		wp_localize_script( 'compare-between-results-script', 'compare_between_results_object',
 			array( 'ajax_url' => admin_url( 'admin-ajax.php' ), 'current_pack' => pll__( 'your current pack' ) ) );
 
-	}
+        wp_enqueue_script( 'wizard-script', plugins_url( '/js/wizard.js', __FILE__ ), array( 'jquery' ) );
+
+        // in JavaScript, object properties are accessed as ajax_object.ajax_url, ajax_object.we_value
+        wp_localize_script( 'wizard-script', 'wizard_object',
+            array( 'ajax_url' => admin_url( 'admin-ajax.php' ) ) );
+
+
+    }
 
 	function getCompareResults( $atts ) {
 		if ( ! empty( $atts['detaillevel'] ) ) {
@@ -57,31 +66,39 @@ class AnbCompare extends Base {
 		}
 
 		$atts = shortcode_atts( array(
-			'cat'         => 'internet',
-			'zip'         => '',
-			'pref_cs'     => '',
-			'detaillevel' => [ 'null' ],
-			'sg'          => 'consumer',
-			'lang'        => $this->getCurrentLang(),
-			'limit'       => '',
+			'cat'             => 'internet',
+			'zip'             => '',
+			'pref_cs'         => '',
+			'detaillevel'     => [ 'null' ],
+			'sg'              => 'consumer',
+			'lang'            => $this->getCurrentLang(),
+			'limit'           => '',
 
-			's'         => '',
-			'dl'        => '',
-			'num_pc'    => '',
-			'sort'      => '',
-			'cp'        => '',
-			'nm'        => '',
-			'ns'        => '',
-			'int'       => '',
-			'fleet'     => '',
-			'pr'        => '',
-			'cm'        => '',
-			'f'         => '',
-			'pref_pids' => [],
+			's'               => '',
+			'dl'              => '',
+			'sort'            => '',
+			'cp'              => '',
+			'nm'              => '',
+			'ns'              => '',
+			'int'             => '',
+			'fleet'           => '',
+			'pr'              => '',
+			'cm'              => '',
+			'f'               => '',
+            'num_pc'          => '',
+			'num_tv'          => '',
+			'num_smartphones' => '',
+			'num_tablets'     => '',
+			'ms_internet'     => '',
+			'ms_idtv'         => '',
+			'ms_fixed'        => '',
+			'free_install'    => '',
+			'pref_pids'       => [],
 		), $atts, 'anb_search' );
 		//print_r($atts);die;
 
 		if ( isset( $_GET['searchSubmit'] ) ) {
+
 			//$this->cleanArrayData($_GET);
 			sort( $_GET['cat'] );
 			if ( count( $_GET['cat'] ) >= 2 ) {
@@ -133,14 +150,34 @@ class AnbCompare extends Base {
 				print_r( $params );
 			}
 			$params = $this->allowedParams( $params, array_keys( $atts ) );//Don't allow all variables to be passed to API
-			/*echo "<pre>";
+
+            /*echo "<pre>";
 			print_r($params);
 			echo "</pre>";*/
+
 			$result = $this->anbApi->compare( $params );
 
 			return $result;
 		}
 	}
+
+    /**
+     * get result for compare wizard to show number of found records against search criteria in wizard
+     */
+	function getCompareResultsForWizard () {
+        $result = $this->getCompareResults([]);
+
+        if (is_null($result)) {
+            return;
+        }
+
+        $result = json_decode($result);
+
+        print $result->num_results;
+
+        wp_die();
+
+    }
 
 	/**
 	 * get more results and return in html form
@@ -377,7 +414,7 @@ class AnbCompare extends Base {
 
 		if ( $values['enable_need_help'] == true ) {
 			$needHelpHtml .= "<div class='needHelp'>
-                                <a href='#'>
+                                <a href='javascript:void(0)' data-toggle='modal' data-target='#widgetPopup' data-backdrop='static' data-keyboard='false'>
                                     <i class='floating-icon fa fa-chevron-right'></i>
                                     <h6>" . pll__( 'Need help?' ) . "</h6>
                                     <p>" . pll__( 'We\'ll guide you' ) . "</p>

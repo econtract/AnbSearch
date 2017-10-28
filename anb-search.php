@@ -42,4 +42,8 @@ add_action( 'wp_ajax_nopriv_productsCallback', array($result, 'productsCallback'
 add_action('wp_ajax_getCompareResultsForWizard', array($result, 'getCompareResultsForWizard'));
 add_action( 'wp_ajax_nopriv_getCompareResultsForWizard', array($result, 'getCompareResultsForWizard'));
 
+add_action('wp_ajax_verifyWizardZipCode', array($result, 'verifyWizardZipCode'));
+add_action( 'wp_ajax_nopriv_verifyWizardZipCode', array($result, 'verifyWizardZipCode'));
+
+
 //add_shortcode('anb_get_suppliers', [$result, 'anb_get_suppliers'] );

@@ -16,7 +16,18 @@
     });
 }
 
+function notyMessage(message) {
+    new Noty({
+        type: 'error',
+        layout: 'topRight',
+        closeWith: ['click', 'button'],
+        text: message
+
+    }).show();
+}
+
 jQuery(document).ready(function($){
+
     /**
      * Wizard Section
      *
@@ -29,6 +40,40 @@ jQuery(document).ready(function($){
 
         wizardAjaxCall();
     });*/
+
+    $(".btnWizardZip").on('click', function (e) {
+        e.preventDefault();
+
+        var zip = $("#wizard-zip").val();
+
+        if (zip == '') {
+            notyMessage(wizard_object.zip_empty);
+            return;
+        }
+
+        var data = {
+            'action': 'verifyWizardZipCode',
+            'zip'   : zip
+        };
+
+
+
+        // We can also pass the url value separately from ajaxurl for front end AJAX implementations
+        $.post(wizard_object.ajax_url, data, function(response) {
+
+            if (response) {
+                var formAction = $("#wizardZipForm").attr('action');
+                var appendParam = '?zip='+zip;
+
+                window.location.href = formAction + appendParam;
+            } else {
+                $("#errorInfoWizard").find('.bold').append('<span>  ' + zip + '</span>');
+                $("#errorInfoWizard").modal('show');
+            }
+
+        });
+
+    })
 
 
 

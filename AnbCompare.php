@@ -51,7 +51,7 @@ class AnbCompare extends Base {
 
         // in JavaScript, object properties are accessed as ajax_object.ajax_url, ajax_object.we_value
         wp_localize_script( 'wizard-script', 'wizard_object',
-            array( 'ajax_url' => admin_url( 'admin-ajax.php' ) ) );
+            array( 'ajax_url' => admin_url( 'admin-ajax.php' ), 'zip_empty' => pll__( 'Zip cannot be empty' ), 'zip_invalid' => pll__( 'Please enter valid Zip Code' )   ) );
 
 
     }
@@ -1084,4 +1084,28 @@ class AnbCompare extends Base {
 			ARRAY_FILTER_USE_KEY
 		);*/
 	}
+
+    /**
+     * verify zip code is valid
+     * against valid zip code city will be found
+     */
+	public function verifyWizardZipCode()
+    {
+
+        /** @var \AnbSearch\AnbToolbox $anbToolbox */
+        $anbToolbox = wpal_create_instance( AnbToolbox::class );
+
+        $zip = $_POST['zip'];
+        $isFound = false;
+
+        $city = $anbToolbox->getCityOnZip( $zip );
+
+        if ($city) {
+            $isFound =  true;
+        }
+
+        print $isFound;
+
+        wp_die();
+    }
 }

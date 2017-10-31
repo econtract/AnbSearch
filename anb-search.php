@@ -43,4 +43,8 @@ $anbToolbox = wpal_create_instance( AnbToolbox::class );
 add_action('wp_ajax_ajaxQueryToolboxAPi', array($anbToolbox, 'ajaxQueryToolboxAPi'));
 add_action( 'wp_ajax_nopriv_ajaxQueryToolboxApi', array($anbToolbox, 'ajaxQueryToolboxApi'));
 
+add_action('wp_ajax_verifyWizardZipCode', array($result, 'verifyWizardZipCode'));
+add_action( 'wp_ajax_nopriv_verifyWizardZipCode', array($result, 'verifyWizardZipCode'));
+
+
 //add_shortcode('anb_get_suppliers', [$result, 'anb_get_suppliers'] );

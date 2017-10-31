@@ -29,16 +29,15 @@ class AnbToolbox
     /**
      * @param string $queryMethod like cities, streets
      * @param array $queryParams like ['postcode' => 3500, 'name' => Zand]
-     * @param boolean $returnAllRows default true
+     * @param boolean $returnAllRows default true, when true will return first row
      * @return mixed
      */
     function queryApi($queryMethod, $queryParams = [], $returnAllRows = true) {
-        $res = $this->httpClient->request('GET', $queryMethod, [
-            'query' => array_merge(
-                ['toolbox_key' => $this->apiConf['key']],
-                $queryParams
-            )
-        ]);
+
+	    $res = $this->httpClient->request( 'GET', $queryMethod, [
+		    'query' => [ 'toolbox_key' => $this->apiConf['key'] ] + $queryParams,
+		    /*'debug' => true*/
+	    ] );
 
         $jsonRes = json_decode($res->getBody()->getContents());
         if(!$returnAllRows) {
@@ -52,4 +51,18 @@ class AnbToolbox
         $res = $this->queryApi('cities', ['postcode' => $zip], false);
         return $res->name;
     }
+
+	/**
+	 * Ajax method
+	 */
+	public function ajaxQueryToolboxApi() {
+		$res = null;
+		if(!empty($_GET['query_method']) && !empty($_GET['query_params'])) {
+			/** @var \AnbSearch\AnbToolbox $anbToolbox */
+			$res = json_encode( $this->queryApi( sanitize_text_field( $_GET['query_method'] ), $_GET['query_params'], true ) );
+		}
+
+		echo $res;
+		wp_die();
+	}
 }

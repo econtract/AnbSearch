@@ -11,7 +11,7 @@
     // We can also pass the url value separately from ajaxurl for front end AJAX implementations
     jQuery.get(url, data, function(response) {
 
-        //  console.log(response, "dddd");
+          //console.log(response, "dddd");
         jQuery('.ribbonContent  .counter').html(response);
     });
 }

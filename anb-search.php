@@ -38,6 +38,9 @@ add_action( 'wp_ajax_nopriv_compareBetweenResults', array($result, 'compareBetwe
 add_action('wp_ajax_productsCallback', array($result, 'productsCallback'));
 add_action( 'wp_ajax_nopriv_productsCallback', array($result, 'productsCallback'));
 
+add_action('wp_ajax_getCompareResultsForWizard', array($result, 'getCompareResultsForWizard'));
+add_action( 'wp_ajax_nopriv_getCompareResultsForWizard', array($result, 'getCompareResultsForWizard'));
+
 /** @var AnbToolbox $anbToolbox */
 $anbToolbox = wpal_create_instance( AnbToolbox::class );
 add_action('wp_ajax_ajaxQueryToolboxApi', array($anbToolbox, 'ajaxQueryToolboxApi'));

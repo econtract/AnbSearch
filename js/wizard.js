@@ -5,7 +5,7 @@
         'action'       : 'getCompareResultsForWizard'
     };
 
-    var urlParams = searchWizardForm  + '&searchSubmit=1&profile_wizard=true';
+    var urlParams = searchWizardForm  + '&searchSubmit=1';
     var url = wizard_object.ajax_url+ '?' + urlParams;
 
     // We can also pass the url value separately from ajaxurl for front end AJAX implementations

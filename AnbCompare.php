@@ -889,7 +889,7 @@ class AnbCompare extends Base {
                                                                                             class='fa fa-minus-circle'></i></a>
                                                                             </span>
                                                                     <div class='counterWrapper'>
-                                                                        <span class='currentValue'>0</span>
+                                                                        <span class='currentValue'>" . ( ( ! empty( $values['num_pc'] ) ) ? $values['num_pc'] : 0 ) . "</span>
                                                                         <label class='label'>
                                                                                 <span class='icon'>
                                                                                     <i class='device-icon md computer'></i>

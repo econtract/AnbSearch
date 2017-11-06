@@ -45,6 +45,7 @@ jQuery(document).ready(function($){
         e.preventDefault();
 
         var zip = $("#wizard-zip").val();
+        var sg = $("#wizard-sg").val();
 
         if (zip == '') {
             notyMessage(wizard_object.zip_empty);
@@ -63,7 +64,7 @@ jQuery(document).ready(function($){
 
             if (response) {
                 var formAction = $("#wizardZipForm").attr('action');
-                var appendParam = '?zip='+zip;
+                var appendParam = '?zip='+zip+'&sg='+sg;
 
                 window.location.href = formAction + appendParam;
             } else {

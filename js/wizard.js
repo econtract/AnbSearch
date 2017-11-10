@@ -47,8 +47,13 @@ jQuery(document).ready(function($){
         var zip = $("#wizard-zip").val();
         var sg = $("#wizard-sg").val();
 
+        var _self =  $("#errorInfoWizard");
+
         if (zip == '') {
-            notyMessage(wizard_object.zip_empty);
+            _self.find('#wrongZip').hide();
+            _self.find('#emptyZip p').html(wizard_object.zip_empty).show();
+            _self.find('#emptyZip').show();
+            _self.modal('show');
             return;
         }
 
@@ -56,8 +61,6 @@ jQuery(document).ready(function($){
             'action': 'verifyWizardZipCode',
             'zip'   : zip
         };
-
-
 
         // We can also pass the url value separately from ajaxurl for front end AJAX implementations
         $.post(wizard_object.ajax_url, data, function(response) {
@@ -68,8 +71,11 @@ jQuery(document).ready(function($){
 
                 window.location.href = formAction + appendParam;
             } else {
-                $("#errorInfoWizard").find('.bold').append('<span>  ' + zip + '</span>');
-                $("#errorInfoWizard").modal('show');
+
+                _self.find('#emptyZip').hide();
+                _self.find('#wrongZip p').append('<span>  ' + zip + '</span>');
+                _self.find('#wrongZip').show();
+                _self.modal('show');
             }
 
         });

@@ -883,6 +883,114 @@ class AnbCompare extends Base
                                             </div>
                                         </div>
                                     </div>
+                                    
+                                    <!--family members-->
+                                    <div class='panel panel-default'>
+                                        <div class='panel-heading' role='tab' id='headingOne'>
+                                            <h4 class='panel-title'>
+                                                <a role='button' data-toggle='collapse' data-parent='#accordion'
+                                                   href='#collapseOne' aria-expanded='true' aria-controls='collapseOne'>
+                                                    <span class='headingTitle'>
+                                                        <i class='icon wizard user'></i>
+                                                        <span class='caption'>".pll__('How many members your family have?')."</span>
+                                                        <span class='selectedInfo'></i></span>
+                                                    </span>
+                                                </a>
+                                            </h4>
+                                        </div>
+                                        <div id='collapseOne' class='panel-collapse collapse' role='tabpanel'
+                                             aria-labelledby='headingOne'>
+                                            <div class='panel-body text-center'>
+                                    
+                                                <div class='totalPersonWizard'>
+                                                    <div class='compPanel withStaticToolTip'>
+                                                        <div class='selectionPanel clearfix'>
+                                                            <fieldset class='person-sel gray fancyComp'>
+                                                                <input type='radio' id='person6' name='f' value='6' />
+                                                                <label class = 'full' for='person6' title='6 persons'>
+                                                                    <span class='person-value'>5+</span>
+                                                                    <span class='tick-icon'>
+                                                                                            <i class='fa fa-check'></i>
+                                                                                        </span>
+                                                                </label>
+                                                                <div class='customTooltip'>
+                                                                    <p>6 ". pll__('person is betterInfo about extensive use of internet') ." </p>
+                                                                </div>
+                                    
+                                                                <input type='radio' id='person5' name='f' value='5' />
+                                                                <label class = 'full' for='person5' title='5 persons'>
+                                                                    <span class='person-value'>5</span>
+                                                                    <span class='tick-icon'>
+                                                                                        <i class='fa fa-check'></i>
+                                                                                    </span>
+                                                                </label>
+                                                                <div class='customTooltip'>
+                                                                    <p>". pll__('5th Person. Info about extensive use of internet.') .". </p>
+                                                                </div>
+                                    
+                                                                <input type='radio' id='person4' name='f' value='4' />
+                                                                <label class = 'full' for='person4' title='4 persons'>
+                                                                    <span class='person-value'>4</span>
+                                                                    <span class='tick-icon'>
+                                                                                        <i class='fa fa-check'></i>
+                                                                                    </span>
+                                                                </label>
+                                                                <div class='customTooltip'>
+                                                                    <p>". pll__('4thInfo about extensive use of internet') ." </p>
+                                                                </div>
+                                    
+                                                                <input type='radio' id='person3' name='f' value='3' />
+                                                                <label class = 'full' for='person3' title='3 persons'>
+                                                                    <span class='person-value'>3</span>
+                                                                    <span class='tick-icon'>
+                                                                                        <i class='fa fa-check'></i>
+                                                                                    </span>
+                                                                </label>
+                                                                <div class='customTooltip'>
+                                                                    <p>". pll__('3rd Info about extensive use of internet') ."</p>
+                                                                </div>
+                                    
+                                                                <input type='radio' id='person2' name='f' value='2' />
+                                                                <label class = 'full' for='person2' title='2 persons'>
+                                                                    <span class='person-value'>2</span>
+                                                                    <span class='tick-icon'>
+                                                                                        <i class='fa fa-check'></i>
+                                                                                    </span>
+                                                                </label>
+                                                                <div class='customTooltip'>
+                                                                    <p>". pll__('Two person info about extensive use of internet') ."</p>
+                                                                </div>
+                                    
+                                                                <input type='radio' id='person1' name='f' value='1' />
+                                                                <label class = 'full' for='person1' title='1 person'>
+                                                                    <span class='person-value'>1</span>
+                                                                    <span class='tick-icon'>
+                                                                                        <i class='fa fa-check'></i>
+                                                                                    </span>
+                                                                </label>
+                                                                <div class='customTooltip'>
+                                                                    <p>". pll__('only one person. Info about extensive use of internet') ."</p>
+                                                                </div>
+                                    
+                                                            </fieldset>
+                                                        </div>
+                                                    </div>
+                                    
+                                                    <div class='staticTooltipWrapper'>
+                                                        <div class='staticTooltip'>
+                                                            <p>".pll__('Select an option to view information about it')." </p>
+                                                        </div>
+                                                    </div>
+                                    
+                                                    <div class='buttonWrapper'>
+                                                        <button type='button' class='btn btn-primary'><i
+                                                                class='fa fa-check'></i> ". pll__('Ok')."
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <div class='panel panel-default'>
                                         <div class='panel-heading' role='tab' id='headingTwo'>
                                             <h4 class='panel-title'>
@@ -929,6 +1037,72 @@ class AnbCompare extends Base
                                                                 </div>
                                                             </div>
                                                         </li>
+                                                        <li>
+                                                            <div class='itemWrapper'>
+                                                                <div class='counterBox'>
+                                                                    <input type='number' name='num_tv' id='tv_counter' value='0'>
+                                                                    <span class='counterBtn dec'>
+                                                                        <a href='#' data-value='-'><i class='fa fa-minus-circle'></i></a>
+                                                                    </span>
+                                                                    <div class='counterWrapper'>
+                                                                        <span class='currentValue'>" . ((!empty($values['num_tv'])) ? $values['num_tv'] : 0) . "</span>
+                                                                        <label class='label'>
+                                                                            <span class='icon'>
+                                                                                <i class='device-icon md tv'></i>
+                                                                            </span>
+                                                                            <span class='caption'>" . pll__('Television') . "</span>
+                                                                        </label>
+                                                                    </div>
+                                                                    <span class='counterBtn inc'>
+                                                                        <a href='#' data-value='+'><i class='fa fa-plus-circle'></i></a>
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                        </li>
+                                                        <li>
+                                                            <div class='itemWrapper'>
+                                                                <div class='counterBox'>
+                                                                    <input type='number' name='num_smartphones' id='phone_counter' value='0'>
+                                                                    <span class='counterBtn dec'>
+                                                                        <a href='#' data-value='-'><i class='fa fa-minus-circle'></i></a>
+                                                                    </span>
+                                                                    <div class='counterWrapper'>
+                                                                        <span class='currentValue'>" . ((!empty($values['num_smartphones'])) ? $values['num_smartphones'] : 0) . "</span>
+                                                                        <label class='label'>
+                                                                            <span class='icon'>
+                                                                                <i class='device-icon md smartphone'></i>
+                                                                            </span>
+                                                                            <span class='caption'>" . pll__('Smartphones') . "</span>
+                                                                        </label>
+                                                                    </div>
+                                                                    <span class='counterBtn inc'>
+                                                                        <a href='#' data-value='+'><i class='fa fa-plus-circle'></i></a>
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                        </li>
+                                                        <li>
+                                                            <div class='itemWrapper'>
+                                                                <div class='counterBox'>
+                                                                    <input type='number' name='num_tablets' id='tablet_counter' value='0'>
+                                                                    <span class='counterBtn dec'>
+                                                                        <a href='#' data-value='-'><i class='fa fa-minus-circle'></i></a>
+                                                                    </span>
+                                                                    <div class='counterWrapper'>
+                                                                        <span class='currentValue'>" . ((!empty($values['num_tablets'])) ? $values['num_tablets'] : 0) . "</span>
+                                                                        <label class='label'>
+                                                                            <span class='icon'>
+                                                                                <i class='device-icon md tablet'></i>
+                                                                            </span>
+                                                                            <span class='caption'>" . pll__('Tablets') . "</span>
+                                                                        </label>
+                                                                    </div>
+                                                                    <span class='counterBtn inc'>
+                                                                        <a href='#' data-value='+'><i class='fa fa-plus-circle'></i></a>
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                        </li>
                                                     </ul>
                                                     <!--div class='info'>
                                                         <p>Some information will come here as well just like any other
@@ -944,6 +1118,80 @@ class AnbCompare extends Base
                                             </div>
                                         </div>
                                     </div>
+                                    <!--internet needs -->
+                                    <div class='panel panel-default'>
+                                        <div class='panel-heading' role='tab' id='headingInternetNeeds'>
+                                            <h4 class='panel-title'>
+                                                <a class='collapsed' role='button' data-toggle='collapse'
+                                                   data-parent='#accordion' href='#collapseInternetNeeds' aria-expanded='false'
+                                                   aria-controls='collapseInternetNeeds'>
+                                                    <span class='headingTitle'>
+                                                        <i class='icon wizard internet'></i>
+                                                        <span class='caption'>".pll__('What are your internet needs?')."</span>
+                                                        <span class='selectedInfo'></span>
+                                                    </span>
+                                                </a>
+                                            </h4>
+                                        </div>
+                                        <div id='collapseInternetNeeds' class='panel-collapse collapse' role='tabpanel'
+                                             aria-labelledby='headingInternetNeeds'>
+                                            <div class='panel-body'>
+                                                <div class='compWrapper withStaticToolTip'>
+                                                    <ul class='list-unstyled radioComp tickOption'>
+                                                        <li>
+                                                            <input type='radio' name='ms_internet' id='tv_need_high' value='2'>
+                                                            <label for='tv_need_high'>
+                                                                <i class='icon-tv lg'></i>
+                                                                ".pll__('Extended')."
+                                                                <i class='checkOption fa fa-check'></i>
+                                                                <div class='tooltip'>
+                                                                    <p>".pll__('Info about extensive use of internet')." </p>
+                                                                </div>
+                                                            </label>
+                                                        </li>
+                                                        <li>
+                                                            <input type='radio' name='ms_internet' id='tv_need_low' value='0'>
+                                                            <label for='tv_need_low'>
+                                                                <i class='icon-tv'></i>
+                                                                ". pll__('Low')."
+                                                                <i class='checkOption fa fa-check'></i>
+                                                                <div class='tooltip'>
+                                                                    <p>". pll__('Info about little use of internet'). " </p>
+                                                                </div>
+                                                            </label>
+                                                        </li>
+                                                        <li>
+                                                            <input type='radio' name='ms_internet' id='tv_need_no' value='-1'>
+                                                            <label for='tv_need_no' class='noNeed'>
+                                                                <i class='icon-block'></i>
+                                                                No need
+                                                                <i class='checkOption fa fa-check'></i>
+                                                                <div class='tooltip'>
+                                                                    <p>". pll__("Info about if you really don't want to use internet") . " </p>
+                                                                </div>
+                                                            </label>
+                                                        </li>
+                                                    </ul>
+                                    
+                                                    <!--only activates if the tooltip in the component is described in a way to hide -->
+                                                    <!---->
+                                                    <div class='staticTooltipWrapper'>
+                                                        <div class='staticTooltip'>
+                                                            <p>".pll__('Select an option to view information about it')." </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                    
+                                                <div class='buttonWrapper'>
+                                                    <button type='button' class='btn btn-primary'><i
+                                                            class='fa fa-check'></i> Ok
+                                                    </button>
+                                                </div>
+                                    
+                                            </div>
+                                        </div>
+                                    </div>
+
                                     <div class='panel panel-default'>
                                         <div class='panel-heading' role='tab' id='headingThree'>
                                             <h4 class='panel-title'>

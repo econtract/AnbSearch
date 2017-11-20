@@ -906,7 +906,8 @@ class AnbCompare extends Base
                                                     <div class='compPanel withStaticToolTip'>
                                                         <div class='selectionPanel clearfix'>
                                                             <fieldset class='person-sel gray fancyComp'>
-                                                                <input type='radio' id='person6' name='f' value='6' />
+                                                                <input type='radio' id='person6' name='f' value='6' 
+                                                                " . (("6" == $values['f']) ? 'checked="checked"' : '') . "/>
                                                                 <label class = 'full' for='person6' title='6 persons'>
                                                                     <span class='person-value'>5+</span>
                                                                     <span class='tick-icon'>
@@ -917,7 +918,8 @@ class AnbCompare extends Base
                                                                     <p>6 ". pll__('person is betterInfo about extensive use of internet') ." </p>
                                                                 </div>
                                     
-                                                                <input type='radio' id='person5' name='f' value='5' />
+                                                                <input type='radio' id='person5' name='f' value='5' 
+                                                                " . (("5" == $values['f']) ? 'checked="checked"' : '') . "/>
                                                                 <label class = 'full' for='person5' title='5 persons'>
                                                                     <span class='person-value'>5</span>
                                                                     <span class='tick-icon'>
@@ -928,7 +930,8 @@ class AnbCompare extends Base
                                                                     <p>". pll__('5th Person. Info about extensive use of internet.') .". </p>
                                                                 </div>
                                     
-                                                                <input type='radio' id='person4' name='f' value='4' />
+                                                                <input type='radio' id='person4' name='f' value='4' 
+                                                                " . (("4" == $values['f']) ? 'checked="checked"' : '') . "/>
                                                                 <label class = 'full' for='person4' title='4 persons'>
                                                                     <span class='person-value'>4</span>
                                                                     <span class='tick-icon'>
@@ -939,7 +942,8 @@ class AnbCompare extends Base
                                                                     <p>". pll__('4thInfo about extensive use of internet') ." </p>
                                                                 </div>
                                     
-                                                                <input type='radio' id='person3' name='f' value='3' />
+                                                                <input type='radio' id='person3' name='f' value='3' 
+                                                                " . (("3" == $values['f']) ? 'checked="checked"' : '') . "/>
                                                                 <label class = 'full' for='person3' title='3 persons'>
                                                                     <span class='person-value'>3</span>
                                                                     <span class='tick-icon'>
@@ -950,7 +954,8 @@ class AnbCompare extends Base
                                                                     <p>". pll__('3rd Info about extensive use of internet') ."</p>
                                                                 </div>
                                     
-                                                                <input type='radio' id='person2' name='f' value='2' />
+                                                                <input type='radio' id='person2' name='f' value='2' 
+                                                                " . (("2" == $values['f']) ? 'checked="checked"' : '') . "/>
                                                                 <label class = 'full' for='person2' title='2 persons'>
                                                                     <span class='person-value'>2</span>
                                                                     <span class='tick-icon'>
@@ -961,7 +966,8 @@ class AnbCompare extends Base
                                                                     <p>". pll__('Two person info about extensive use of internet') ."</p>
                                                                 </div>
                                     
-                                                                <input type='radio' id='person1' name='f' value='1' />
+                                                                <input type='radio' id='person1' name='f' value='1' 
+                                                                " . (("1" == $values['f']) ? 'checked="checked"' : '') . "/>
                                                                 <label class = 'full' for='person1' title='1 person'>
                                                                     <span class='person-value'>1</span>
                                                                     <span class='tick-icon'>
@@ -1139,9 +1145,10 @@ class AnbCompare extends Base
                                                 <div class='compWrapper withStaticToolTip'>
                                                     <ul class='list-unstyled radioComp tickOption'>
                                                         <li>
-                                                            <input type='radio' name='ms_internet' id='tv_need_high' value='2'>
-                                                            <label for='tv_need_high'>
-                                                                <i class='icon-tv lg'></i>
+                                                            <input type='radio' name='ms_internet' id='internet_need_high' value='2'
+                                                            " . (("2" == $values['ms_internet']) ? 'checked="checked"' : '') . ">
+                                                            <label for='internet_need_high'>
+                                                                <i class='icon-wifi lg'></i>
                                                                 ".pll__('Extended')."
                                                                 <i class='checkOption fa fa-check'></i>
                                                                 <div class='tooltip'>
@@ -1150,9 +1157,10 @@ class AnbCompare extends Base
                                                             </label>
                                                         </li>
                                                         <li>
-                                                            <input type='radio' name='ms_internet' id='tv_need_low' value='0'>
-                                                            <label for='tv_need_low'>
-                                                                <i class='icon-tv'></i>
+                                                            <input type='radio' name='ms_internet' id='internet_need_low' value='0'
+                                                            " . (("0" == $values['ms_internet']) ? 'checked="checked"' : '') . ">
+                                                            <label for='internet_need_low'>
+                                                                <i class='icon-wifi'></i>
                                                                 ". pll__('Low')."
                                                                 <i class='checkOption fa fa-check'></i>
                                                                 <div class='tooltip'>
@@ -1161,10 +1169,11 @@ class AnbCompare extends Base
                                                             </label>
                                                         </li>
                                                         <li>
-                                                            <input type='radio' name='ms_internet' id='tv_need_no' value='-1'>
-                                                            <label for='tv_need_no' class='noNeed'>
+                                                            <input type='radio' name='ms_internet' id='internet_need_no' value='-1'
+                                                            " . (("-1" == $values['ms_internet']) ? 'checked="checked"' : '') . ">
+                                                            <label for='internet_need_no' class='noNeed'>
                                                                 <i class='icon-block'></i>
-                                                                No need
+                                                                " . pll__('No need') . "
                                                                 <i class='checkOption fa fa-check'></i>
                                                                 <div class='tooltip'>
                                                                     <p>". pll__("Info about if you really don't want to use internet") . " </p>
@@ -1184,7 +1193,84 @@ class AnbCompare extends Base
                                     
                                                 <div class='buttonWrapper'>
                                                     <button type='button' class='btn btn-primary'><i
-                                                            class='fa fa-check'></i> Ok
+                                                            class='fa fa-check'></i> " . pll__('Ok') . "
+                                                    </button>
+                                                </div>
+                                    
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!--Fixed Lines -->
+                                    <div class='panel panel-default'>
+                                        <div class='panel-heading' role='tab' id='headingFixedLine'>
+                                            <h4 class='panel-title'>
+                                                <a class='collapsed' role='button' data-toggle='collapse'
+                                                   data-parent='#accordion' href='#collapseFixedLine' aria-expanded='false'
+                                                   aria-controls='collapseInternetNeeds'>
+                                                    <span class='headingTitle'>
+                                                        <i class='icon wizard phone'></i>
+                                                        <span class='caption'>".pll__('What are your needs for Fixed line?')."</span>
+                                                        <span class='selectedInfo'></span>
+                                                    </span>
+                                                </a>
+                                            </h4>
+                                        </div>
+                                        <div id='collapseFixedLine' class='panel-collapse collapse' role='tabpanel'
+                                             aria-labelledby='headingInternetNeeds'>
+                                            <div class='panel-body'>
+                                                <div class='compWrapper withStaticToolTip'>
+                                                    <ul class='list-unstyled radioComp tickOption'>
+                                                        <li>
+                                                            <input type='radio' name='ms_fixed' id='phone_need_high' value='2'
+                                                            " . (("2" == $values['ms_fixed']) ? 'checked="checked"' : '') . ">
+                                                            <label for='phone_need_high'>
+                                                                <i class='icon-phone lg'></i>
+                                                                ".pll__('Extensive')."
+                                                                <i class='checkOption fa fa-check'></i>
+                                                                <div class='tooltip'>
+                                                                    <p>".pll__('Info about extensive use of phone')." </p>
+                                                                </div>
+                                                            </label>
+                                                        </li>
+                                                        <li>
+                                                            <input type='radio' name='ms_fixed' id='phone_need_low' value='0'
+                                                            " . (("0" == $values['ms_fixed']) ? 'checked="checked"' : '') . ">
+                                                            <label for='phone_need_low'>
+                                                                <i class='icon-phone'></i>
+                                                                ". pll__('Basic')."
+                                                                <i class='checkOption fa fa-check'></i>
+                                                                <div class='tooltip'>
+                                                                    <p>". pll__('Info about little use of phone'). " </p>
+                                                                </div>
+                                                            </label>
+                                                        </li>
+                                                        <li>
+                                                            <input type='radio' name='ms_fixed' id='phone_need_no' value='-1'
+                                                            " . (("-1" == $values['ms_fixed']) ? 'checked="checked"' : '') . ">
+                                                            <label for='tv_need_no' class='noNeed'>
+                                                                <i class='icon-block'></i>
+                                                                " . pll__('No need') . "
+                                                                <i class='checkOption fa fa-check'></i>
+                                                                <div class='tooltip'>
+                                                                    <p>". pll__("Info about if you really don't want to use internet") . " </p>
+                                                                </div>
+                                                            </label>
+                                                        </li>
+                                                    </ul>
+                                    
+                                                    <!--only activates if the tooltip in the component is described in a way to hide -->
+                                                    <!---->
+                                                    <div class='staticTooltipWrapper'>
+                                                        <div class='staticTooltip'>
+                                                            <p>".pll__('Select an option to view information about it')." </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                    
+                                                <div class='buttonWrapper'>
+                                                    <button type='button' class='btn btn-primary'><i
+                                                            class='fa fa-check'></i> " . pll__('Ok') . "
                                                     </button>
                                                 </div>
                                     
@@ -1192,138 +1278,101 @@ class AnbCompare extends Base
                                         </div>
                                     </div>
 
+                                    <!--mobile subscription-->
                                     <div class='panel panel-default'>
                                         <div class='panel-heading' role='tab' id='headingThree'>
                                             <h4 class='panel-title'>
                                                 <a class='collapsed' role='button' data-toggle='collapse'
                                                    data-parent='#accordion' href='#collapseThree' aria-expanded='false'
                                                    aria-controls='collapseThree'>
-                                                            <span class='headingTitle'>
-                                                                <i class='icon wizard mobile'></i>
-                                                                <span class='caption'>" . pll__('Mobile Subscription') . "</span>
-                                                                <span class='selectedInfo'></span>
-                                                            </span>
+                                                    <span class='headingTitle'>
+                                                        <i class='icon wizard mobile'></i>
+                                                        <span class='caption'> " . pll__('Mobile Subscription') . "</span>
+                                                        <span class='selectedInfo'></span>
+                                                    </span>
                                                 </a>
                                             </h4>
                                         </div>
                                         <div id='collapseThree' class='panel-collapse collapse' role='tabpanel'
                                              aria-labelledby='headingThree'>
-                                            <div class='panel-body'>
-                                                <div class='form-group has-feedback'>
-                                                    <label for='nm' class='col-sm-2 control-label'>" . pll__('Monthly call minutes') . "</label>
-                                                    <div class='col-sm-8'>
-                                                        <input class='form-control' id='nm' name='nm'
-                                                               placeholder='" . pll__('Monthly call minutes') . "' maxlength='4'
-                                                               pattern='^\d{1,3}$' value='" . ((!empty($values['nm'])) ? $values['nm'] : '') . "' type='text'>
-                                                        <span class='form-control-feedback' aria-hidden='true'></span>
-                                                        <div class='help-block with-errors'></div>
-                                                    </div>
-                                                </div>
-                                                <div class='form-group has-feedback'>
-                                                    <label for='ns' class='col-sm-2 control-label'>" . pll__('Monthly SMS') . "</label>
-                                                    <div class='col-sm-8'>
-                                                        <input class='form-control' id='ns' name='ns'
-                                                               placeholder='" . pll__('Monthly SMS') . "' maxlength='4'
-                                                               pattern='^\d{1,6}$' value='" . ((!empty($values['ns'])) ? $values['ns'] : '') . "' type='text'>
-                                                        <span class='form-control-feedback' aria-hidden='true'></span>
-                                                        <div class='help-block with-errors'></div>
-                                                    </div>
-                                                </div>
-                                                <div class='form-group has-feedback'>
-                                                    <label for='int' class='col-sm-2 control-label'>" . pll__('Monthly mobile data (in MBs)') . "</label>
-                                                    <div class='col-sm-8'>
-                                                        <input class='form-control' id='int' name='int'
-                                                               placeholder='" . pll__('Mobile data MBs') . "' maxlength='6'
-                                                               pattern='^\d{1,6}$' value='" . ((!empty($values['int'])) ? $values['int'] : '') . "' type='text'>
-                                                        <span class='form-control-feedback' aria-hidden='true'></span>
-                                                        <div class='help-block with-errors'></div>
-                                                    </div>
-                                                </div>
-                                                <div class='form-group has-feedback'>
-                                                    <label class='col-sm-2 control-label'>" . pll__('Family Fleet') . "</label>
-                                                    <div class='col-sm-8'>
-                                                        <div class='radio fancyRadio'>
-                                                            <input type='radio' name='fleet' value='1' id='family-call-yes'
-                                                            " . (("1" == $values['fleet']) ? 'checked="checked"' : '') . ">
-                                                            <label for='family-call-yes'>
-                                                                <i class='fa fa-circle-o unchecked'></i>
-                                                                <i class='fa fa-check-circle checked'></i>
-                                                                <span>" . pll__('Yes') . "</span>
-                                                            </label>
-                                                            <input type='radio' name='fleet' value='0' id='family-call-no'
-                                                            " . (("0" == $values['fleet']) ? 'checked="checked"' : '') . ">
-                                                            <label for='family-call-no'>
-                                                                <i class='fa fa-circle-o unchecked'></i>
-                                                                <i class='fa fa-check-circle checked'></i>
-                                                                <span>" . pll__('No') . "</span>
-                                                            </label>
+                                            <div class='panel-body text-center'>
+                                                <div class='totalPersonWizard'>
+                                                    <div class='compPanel withStaticToolTip'>
+                                                        <div class='selectionPanel clearfix'>
+                                                            <fieldset class='mobile-sel gray fancyComp'>
+                                                                <input type='radio' id='subscription6' name='rating' value='6' />
+                                                                <label class = 'full' for='subscription6' title='6 subscription'>
+                                                                    <span class='sub-value'>5+</span>
+                                                                </label>
+                                                                <div class='customTooltip'>
+                                                                    <p> " . pll__('I have have more than five subscription') . "</p>
+                                                                </div>
+                                    
+                                    
+                                                                <input type='radio' id='subscription5' name='rating' value='5' />
+                                                                <label class = 'full' for='subscription5' title='5 subscription'>
+                                                                    <span class='sub-value'>5</span>
+                                                                </label>
+                                                                <div class='customTooltip'>
+                                                                    <p> " . pll__('I have have five subscription') . "</p>
+                                                                </div>
+                                    
+                                                                <input type='radio' id='subscription4' name='rating' value='4' />
+                                                                <label class = 'full' for='subscription4' title='4 subscription'>
+                                                                    <span class='sub-value'>4</span>
+                                                                </label>
+                                                                <div class='customTooltip'>
+                                                                    <p> " . pll__('I have have four subscription') . "</p>
+                                                                </div>
+                                    
+                                                                <input type='radio' id='subscription3' name='rating' value='3' />
+                                                                <label class = 'full' for='subscription3' title='3 subscription'>
+                                                                    <span class='sub-value'>3</span>
+                                                                </label>
+                                                                <div class='customTooltip'>
+                                                                    <p> " . pll__('I have have three subscription') . "</p>
+                                                                </div>
+                                    
+                                                                <input type='radio' id='subscription2' name='rating' value='2' />
+                                                                <label class = 'full' for='subscription2' title='2 subscription'>
+                                                                    <span class='sub-value'>2</span>
+                                                                </label>
+                                                                <div class='customTooltip'>
+                                                                    <p> " . pll__('I have have two subscription') . "</p>
+                                                                </div>
+                                    
+                                                                <input type='radio' id='subscription1' name='rating' value='1' />
+                                                                <label class = 'full' for='subscription1' title='1 subscription'>
+                                                                    <span class='sub-value'>1</span>
+                                                                </label>
+                                                                <div class='customTooltip'>
+                                                                    <p> " . pll__('I have only have one subscription') . "</p>
+                                                                </div>
+                                    
+                                                                <input type='radio' id='no_subscription1' name='rating' value='0' class='noSubscription' />
+                                                                <label class = 'full noSubscription' for='no_subscription1' title='no subscription'>
+                                                                    <span class='sub-value'>0</span>
+                                                                </label>
+                                                                <div class='customTooltip'>
+                                                                    <p> " . pll__('I don\'t have any subscription yet') . "</p>
+                                                                </div>
+                                    
+                                                            </fieldset>
                                                         </div>
-                                                        <span class='form-control-feedback' aria-hidden='true'></span>
-                                                        <div class='help-block with-errors'></div>
                                                     </div>
-                                                </div>
-                                                <div class='form-group has-feedback'>
-                                                    <label for='mmf' class='col-sm-2 control-label'>" . pll__('Max monthly price for mobile subscription') . "</label>
-                                                    <div class='col-sm-8'>
-                                                        <input class='form-control' id='pr' name='pr'
-                                                               placeholder='" . pll__('Max monthly price for mobile subscription') . "'
-                                                               maxlength='5' pattern='^\d{1,5}$' value='" . ((!empty($values['pr'])) ? $values['pr'] : '') . "' type='text'>
-                                                        <span class='form-control-feedback' aria-hidden='true'></span>
-                                                        <div class='help-block with-errors'></div>
-                                                    </div>
-                                                </div>
-                                                <div class='form-group has-feedback'>
-                                                    <label class='col-sm-2 control-label'>" . pll__('Call moment preference') . "</label>
-                                                    <div class='col-sm-8'>
-                                                        <div class='radio fancyRadio'>
-                                                            <input type='radio' name='cm' value='1' id='peak'
-                                                            " . (("1" == $values['cm']) ? 'checked="checked"' : '') . ">
-                                                            <label for='peak'>
-                                                                <i class='fa fa-circle-o unchecked'></i>
-                                                                <i class='fa fa-check-circle checked'></i>
-                                                                <span>" . pll__('Peak') . "</span>
-                                                            </label>
-                                                            <input type='radio' name='cm' value='2' id='off_peak'
-                                                            " . (("2" == $values['cm']) ? 'checked="checked"' : '') . ">
-                                                            <label for='off_peak'>
-                                                                <i class='fa fa-circle-o unchecked'></i>
-                                                                <i class='fa fa-check-circle checked'></i>
-                                                                <span>" . pll__('Off Peak') . "</span>
-                                                            </label>
-                                                            <input type='radio' name='cm' value='0' id='no_pref'
-                                                            " . (("0" == $values['cm']) ? 'checked="checked"' : '') . ">
-                                                            <label for='no_pref'>
-                                                                <i class='fa fa-circle-o unchecked'></i>
-                                                                <i class='fa fa-check-circle checked'></i>
-                                                                <span>" . pll__('No preference') . "</span>
-                                                            </label>
+                                    
+                                                    <div class='staticTooltipWrapper'>
+                                                        <div class='staticTooltip'>
+                                                            <p> " . pll__('Select an option to view information about it') . " </p>
                                                         </div>
-                                                        <span class='form-control-feedback' aria-hidden='true'></span>
-                                                        <div class='help-block with-errors'></div>
                                                     </div>
-                                                </div>
-                                                <div class='form-group has-feedback'>
-                                                    <label class='col-sm-2 control-label'>" . pll__('Free landline calling') . "</label>
-                                                    <div class='col-sm-8'>
-                                                        <div class='radio fancyRadio'>
-                                                            <input name='f' value='1' id='yes_free' type='radio'
-                                                            " . (("1" == $values['f']) ? 'checked="checked"' : '') . ">
-                                                            <label for='yes_free'>
-                                                                <i class='fa fa-circle-o unchecked'></i>
-                                                                <i class='fa fa-check-circle checked'></i>
-                                                                <span>" . pll__('Yes') . "</span>
-                                                            </label>
-                                                            <input name='f' value='0' id='no_free' type='radio'
-                                                            " . (("0" == $values['f']) ? 'checked="checked"' : '') . ">
-                                                            <label for='no_free'>
-                                                                <i class='fa fa-circle-o unchecked'></i>
-                                                                <i class='fa fa-check-circle checked'></i>
-                                                                <span>" . pll__('No') . "</span>
-                                                            </label>
-                                                        </div>
-                                                        <span class='form-control-feedback' aria-hidden='true'></span>
-                                                        <div class='help-block with-errors'></div>
+                                    
+                                                    <div class='buttonWrapper'>
+                                                        <button type='button' class='btn btn-primary'><i
+                                                                class='fa fa-check'></i> " . pll__('Ok') . "
+                                                        </button>
                                                     </div>
+                                    
                                                 </div>
                                             </div>
                                         </div>

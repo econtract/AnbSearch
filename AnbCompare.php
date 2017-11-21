@@ -99,10 +99,11 @@ class AnbCompare extends Base
             'ms_fixed' => '',
             'free_install' => '',
             'pref_pids' => [],
+            'searchSubmit' => '' // conditional param ( this param doesn't belong to API Params)
         ), $atts, 'anb_search');
-        //print_r($atts);die;
+       // print_r($atts);die;
 
-        if (isset($_GET['searchSubmit'])) {
+        if (isset($_GET['searchSubmit']) || isset($atts['searchSubmit'])) {
 
             //$this->cleanArrayData($_GET);
             sort($_GET['cat']);
@@ -129,10 +130,30 @@ class AnbCompare extends Base
                 }
             }
 
+
+            $WizardAllowedParams  = ['ms_internet', 'ms_idtv', 'ms_fixed'];
+
             $params = array_filter($_GET) + $atts;//append any missing but default values
+
             //print_r($params);
             //remove empty params
             $params = array_filter($params);
+
+            /**
+             * custom check to allow values from wizard
+             * wizard doesn't contain pack_type so these
+             * values will be used to fetch match records
+             */
+            foreach ($WizardAllowedParams as $allowed ) {
+                if (array_key_exists($allowed, $_GET)) {
+                    $params[$allowed] = $_GET[$allowed];
+                }
+            }
+
+            // set category to packs when it comes from wizard
+            if (isset($_GET['search_via_wizard'])){
+                $params['cat'] = 'packs';
+            }
 
             if (strtolower($params['cat']) == "internet") {
                 $params['s'] = 0;//TODO: This is just temporary solution as for internet products API currently expecting this value to be passed
@@ -156,9 +177,8 @@ class AnbCompare extends Base
             }
             $params = $this->allowedParams($params, array_keys($atts));//Don't allow all variables to be passed to API
 
-            /*echo "<pre>";
-			print_r($params);
-			echo "</pre>";*/
+            // no need to send this parameter to API call
+            unset($params['searchSubmit']);
 
             $result = $this->anbApi->compare($params);
 

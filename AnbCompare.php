@@ -10,7 +10,8 @@ namespace AnbSearch;
 
 
 use abApiCrm\includes\controller\OrderController;
-use GuzzleHttp\Psr7\Request;
+use abSuppliers\AbSuppliers;
+
 
 class AnbCompare extends Base
 {
@@ -20,12 +21,24 @@ class AnbCompare extends Base
     const RESULTS_PAGE_URI = "/telecom/results/";
 
     /**
+     * @var string
+     */
+    public $currencyUnit = 'EUR';
+
+    /**
+     * @var
+     */
+    private $abSuppliers;
+
+    /**
      * AnbCompare constructor.
      */
     public function __construct()
     {
         //enqueue JS scripts
         add_action('init', array($this, 'enqueueScripts'));
+
+        $this->abSuppliers = wpal_create_instance( AbSuppliers::class );
 
         $_GET = $this->cleanInputGet();
 
@@ -55,9 +68,14 @@ class AnbCompare extends Base
 
         // in JavaScript, object properties are accessed as ajax_object.ajax_url, ajax_object.we_value
         wp_localize_script('wizard-script', 'wizard_object',
-            array('ajax_url' => admin_url('admin-ajax.php'), 'zip_empty' => pll__('Zip cannot be empty'), 'zip_invalid' => pll__('Please enter valid Zip Code')));
-
-
+            array(
+                'ajax_url'      => admin_url('admin-ajax.php'),
+                'zip_empty'     => pll__('Zip cannot be empty'),
+                'zip_invalid'   => pll__('Please enter valid Zip Code'),
+                'offers_msg'    => pll__( 'offers' )." " . pll__('starting from'),
+                'no_offers_msg' => pll__('no offers found'),
+                'currency'      => getCurrencySymbol($this->currencyUnit)
+            ));
     }
 
     function getCompareResults($atts)
@@ -188,6 +206,7 @@ class AnbCompare extends Base
 
     /**
      * get result for compare wizard to show number of found records against search criteria in wizard
+     * also get minimum prices of results
      */
     function getCompareResultsForWizard()
     {
@@ -199,10 +218,55 @@ class AnbCompare extends Base
 
         $result = json_decode($result);
 
-        print $result->num_results;
+        $partners = $this->abSuppliers->getSupplierIds(true);
+        $prices = $this->fetchMinimumPriceOfResultsGroupBySupplier($result);
+
+        $pricesKeys = !is_null($prices) ? array_keys($prices) : [];
+//var_dump($partners, $pricesKeys, $prices); die;
+        echo json_encode([
+            'count'        => $result->num_results,
+            'prices'       => $prices,
+            'no_offer_ids' => array_diff($partners, $pricesKeys)
+        ]);
 
         wp_die();
 
+    }
+
+    /**
+     * @param $results
+     * @return mixed|void
+     */
+    function fetchMinimumPriceOfResultsGroupBySupplier ($results) {
+        $prices = $units = [];
+
+        if (is_null($results)) {
+            return;
+        }
+
+        foreach ($results->results as $listResults) {
+            $currentResult = $listResults->product;
+
+            $prices[$currentResult->supplier_id][$currentResult->product_id] = (float)$currentResult->monthly_fee->value;
+
+            // Each supplier will have same currency for all products, so no need to make multi dimensional
+            if (!isset($minPrice[$currentResult->supplier_id]['unit'])) {
+                $units[$currentResult->supplier_id]['unit'] = $currentResult->monthly_fee->unit;
+            }
+
+        }
+
+        $prices = array_map('min', $prices);
+        $minPrices = array_map( function ($k, $v) use ($prices) {
+
+            $response[$k] = [
+                'price' => $prices[$k],
+                'unit' => $v['unit'],
+            ];
+            return $response;
+        }, array_keys($units), $units);
+
+        return call_user_func_array('array_replace', $minPrices);
     }
 
     /**

@@ -9,10 +9,22 @@
     var url = wizard_object.ajax_url+ '?' + urlParams;
 
     // We can also pass the url value separately from ajaxurl for front end AJAX implementations
-    jQuery.get(url, data, function(response) {
+    jQuery.getJSON(url, data, function(response) {
 
-          //console.log(response, "dddd");
-        jQuery('.ribbonContent  .counter').html(response);
+        if (response){
+            //console.log(response, "dddd");
+
+            jQuery.each(response.prices, function( index, value ) {
+                jQuery('.supplier-offer-'+index).html(wizard_object.offers_msg+" "+value.price+" "+ wizard_object.currency);
+            });
+
+        }
+
+        jQuery('.ribbonContent  .counter').html(response.count);
+
+        jQuery.each(response.no_offer_ids, function( index, value ) {
+            jQuery('.supplier-offer-'+value).html(wizard_object.no_offers_msg);
+        });
     });
 }
 

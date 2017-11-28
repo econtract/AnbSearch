@@ -23,6 +23,9 @@ class Base
      */
     public $anbApi;
 
+    /** @var AnbProduct $anbProduct */
+    public $anbProduct;
+
     /**
      * @var array
      */
@@ -49,7 +52,7 @@ class Base
     {
         $this->anbApi = wpal_create_instance(Aanbieders::class, [$this->apiConf]);
 
-        $this->anbTopDeals = wpal_create_instance(AnbProduct::class);
+        $this->anbTopDeals = $this->anbProduct = wpal_create_instance(AnbProduct::class);
     }
 
     /**

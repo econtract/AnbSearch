@@ -1132,7 +1132,7 @@ class AnbCompare extends Base
                                                         <li>
                                                             <div class='itemWrapper'>
                                                                 <div class='counterBox'>
-                                                                    <input type='number' name='num_tv' id='tv_counter' value='0'>
+                                                                    <input type='number' name='num_tv' id='tv_counter' value='" . ((!empty($values['num_tv'])) ? $values['num_tv'] : 0) . "'>
                                                                     <span class='counterBtn dec'>
                                                                         <a href='#' data-value='-'><i class='fa fa-minus-circle'></i></a>
                                                                     </span>
@@ -1154,7 +1154,7 @@ class AnbCompare extends Base
                                                         <li>
                                                             <div class='itemWrapper'>
                                                                 <div class='counterBox'>
-                                                                    <input type='number' name='num_smartphones' id='phone_counter' value='0'>
+                                                                    <input type='number' name='num_smartphones' id='phone_counter' value='" . ((!empty($values['num_smartphones'])) ? $values['num_smartphones'] : 0) . "'>
                                                                     <span class='counterBtn dec'>
                                                                         <a href='#' data-value='-'><i class='fa fa-minus-circle'></i></a>
                                                                     </span>
@@ -1176,7 +1176,7 @@ class AnbCompare extends Base
                                                         <li>
                                                             <div class='itemWrapper'>
                                                                 <div class='counterBox'>
-                                                                    <input type='number' name='num_tablets' id='tablet_counter' value='0'>
+                                                                    <input type='number' name='num_tablets' id='tablet_counter' value='" . ((!empty($values['num_tablets'])) ? $values['num_tablets'] : 0) . "'>
                                                                     <span class='counterBtn dec'>
                                                                         <a href='#' data-value='-'><i class='fa fa-minus-circle'></i></a>
                                                                     </span>
@@ -1334,7 +1334,7 @@ class AnbCompare extends Base
                                                         <li>
                                                             <input type='radio' name='ms_fixed' id='phone_need_no' value='-1'
                                                             " . (("-1" == $values['ms_fixed']) ? 'checked="checked"' : '') . ">
-                                                            <label for='tv_need_no' class='noNeed'>
+                                                            <label for='phone_need_no' class='noNeed'>
                                                                 <i class='icon-block'></i>
                                                                 " . pll__('No need') . "
                                                                 <i class='checkOption fa fa-check'></i>

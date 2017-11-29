@@ -78,8 +78,11 @@ class AnbCompare extends Base
             ));
     }
 
-    function getCompareResults($atts)
+    function getCompareResults($atts, $enableCache = true, $cacheDurationSeconds = 600)
     {
+        if(defined('COMPARE_API_CACHE_DURATION')) {
+            $cacheDurationSeconds = PRODUCT_CACHE_DURATION;
+        }
         if (!empty($atts['detaillevel'])) {
             $atts['detaillevel'] = explode(',', $atts['detaillevel']);
         }
@@ -206,7 +209,18 @@ class AnbCompare extends Base
             // no need to send this parameter to API call
             unset($params['searchSubmit']);
 
-            $result = $this->anbApi->compare($params);
+            //generate key from params to store in cache
+            if ($enableCache) {
+                $cacheKey = md5(implode(",", $params)) . ":compare";
+                $result = get_transient($cacheKey);
+
+                if($result === false) {
+                    $result = $this->anbApi->compare($params);
+                    set_transient($cacheKey, $result, $cacheDurationSeconds);
+                }
+            } else {
+                $result = $this->anbApi->compare($params);
+            }
 
             return $result;
         }
@@ -362,7 +376,7 @@ class AnbCompare extends Base
 
         $category = (is_array($_REQUEST['productTypes']) ? $_REQUEST['productTypes'][0] : $_REQUEST['productTypes']);
 
-        $getProducts = $this->anbApi->getProducts(
+        $getProducts = $this->anbProduct->getProducts(
             [
                 'productid' => $_REQUEST['products'],
                 'sg' => trim($_REQUEST['sg']),

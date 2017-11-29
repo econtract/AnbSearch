@@ -73,7 +73,7 @@ class AnbCompare extends Base
                 'zip_empty'     => pll__('Zip cannot be empty'),
                 'zip_invalid'   => pll__('Please enter valid Zip Code'),
                 'offers_msg'    => pll__( 'offers' )." " . pll__('starting from'),
-                'no_offers_msg' => pll__('no offers found'),
+                'no_offers_msg' => pll__('No offers in your area'),
                 'currency'      => getCurrencySymbol($this->currencyUnit)
             ));
     }
@@ -184,10 +184,16 @@ class AnbCompare extends Base
                 unset($params['hidden_sp']);
             }
 
-            if (!empty($params['ds'])) {
-                $params['s'] = $params['ds'] / 1000;//converting mbps to bps according to Anb farmula.
-                unset($params['ds']);
+            if (!empty($params['s'])) {
+                $params['s'] = $params['ds'] * 1000; //Min. download speed in Bps: 1000 Bps = 1Mbps
             }
+
+            // in case of Max download limit set parameter to -1
+            if (isset($params['dl']) && !empty($params['dl']) && $params['dl'] == INTERNET_DOWNLOAD_LIMIT) {
+                $params['dl'] = "-1";
+            }
+
+
 
             $this->cleanArrayData($params);
             // get the products
@@ -262,7 +268,7 @@ class AnbCompare extends Base
         $minPrices = array_map( function ($k, $v) use ($prices) {
 
             $response[$k] = [
-                'price' => $prices[$k],
+                'price' => str_replace( '.', ',', $prices[$k]),
                 'unit' => $v['unit'],
             ];
             return $response;

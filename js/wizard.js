@@ -15,7 +15,7 @@
             //console.log(response, "dddd");
 
             jQuery.each(response.prices, function( index, value ) {
-                jQuery('.supplier-offer-'+index).html(wizard_object.offers_msg+" "+value.price+" "+ wizard_object.currency);
+                jQuery('.supplier-offer-'+index).html(wizard_object.offers_msg+" "+wizard_object.currency+" "+ value.price);
             });
 
         }

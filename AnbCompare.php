@@ -217,7 +217,7 @@ class AnbCompare extends Base
                 $cacheKey = md5(implode(",", $params)) . ":compare";
                 $result = get_transient($cacheKey);
 
-                if($result === false) {
+                if($result === false || empty($result)) {
                     $result = $this->anbApi->compare($params);
                     set_transient($cacheKey, $result, $cacheDurationSeconds);
                 }

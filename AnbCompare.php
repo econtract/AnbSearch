@@ -74,7 +74,7 @@ class AnbCompare extends Base
                 'zip_invalid'   => pll__('Please enter valid Zip Code'),
                 'offers_msg'    => pll__( 'offers' )." " . pll__('starting from'),
                 'no_offers_msg' => pll__('No offers in your area'),
-                'currency'      => getCurrencySymbol($this->currencyUnit)
+                'currency'      => $this->getCurrencySymbol($this->currencyUnit)
             ));
     }
 
@@ -1551,7 +1551,7 @@ class AnbCompare extends Base
      * @param $productID
      * @return mixed
      */
-    function getLatestOrderByProduct($productID)
+    public function getLatestOrderByProduct($productID)
     {
 
         $orderController = new OrderController(['product_id' => $productID]);
@@ -1565,7 +1565,7 @@ class AnbCompare extends Base
      * @param $productID
      * @return string
      */
-    function decorateLatestOrderByProduct($productID)
+    public function decorateLatestOrderByProduct($productID)
     {
         $output = '';
 
@@ -1576,5 +1576,33 @@ class AnbCompare extends Base
         }
 
         return $output;
+    }
+
+    /**
+     * @param $currency
+     *
+     * @return mixed
+     */
+    public function getCurrencySymbol( $currency ) {
+
+        $locale = function_exists( 'pll_current_language' ) ? pll_current_language() : \Locale::getPrimaryLanguage( get_locale() );
+
+        // Create a NumberFormatter
+        $formatter = new NumberFormatter( $locale, NumberFormatter::CURRENCY );
+
+        // Prevent any extra spaces, etc. in formatted currency
+        $formatter->setPattern( '¤' );
+
+        // Prevent significant digits (e.g. cents) in formatted currency
+        $formatter->setAttribute( NumberFormatter::MAX_SIGNIFICANT_DIGITS, 0 );
+
+        // Get the formatted price for '0'
+        $formattedPrice = $formatter->formatCurrency( 0, $currency );
+
+        // Strip out the zero digit to get the currency symbol
+        $zero           = $formatter->getSymbol( NumberFormatter::ZERO_DIGIT_SYMBOL );
+        $currencySymbol = str_replace( [ $zero, ',' ], '', $formattedPrice );
+
+        return $currencySymbol;
     }
 }

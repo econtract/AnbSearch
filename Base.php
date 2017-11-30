@@ -83,4 +83,32 @@ class Base
         return $lang;
     }
 
+    /**
+     * @param $currency
+     *
+     * @return mixed
+     */
+    public function getCurrencySymbol( $currency ) {
+
+        $locale = function_exists( 'pll_current_language' ) ? pll_current_language() : \Locale::getPrimaryLanguage( get_locale() );
+
+        // Create a NumberFormatter
+        $formatter = new NumberFormatter( $locale, NumberFormatter::CURRENCY );
+
+        // Prevent any extra spaces, etc. in formatted currency
+        $formatter->setPattern( '¤' );
+
+        // Prevent significant digits (e.g. cents) in formatted currency
+        $formatter->setAttribute( NumberFormatter::MAX_SIGNIFICANT_DIGITS, 0 );
+
+        // Get the formatted price for '0'
+        $formattedPrice = $formatter->formatCurrency( 0, $currency );
+
+        // Strip out the zero digit to get the currency symbol
+        $zero           = $formatter->getSymbol( NumberFormatter::ZERO_DIGIT_SYMBOL );
+        $currencySymbol = str_replace( [ $zero, ',' ], '', $formattedPrice );
+
+        return $currencySymbol;
+    }
+
 }

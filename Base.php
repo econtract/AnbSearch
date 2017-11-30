@@ -10,6 +10,7 @@ namespace AnbSearch;
 
 use AnbApiClient\Aanbieders;
 use AnbTopDeals\AnbProduct;
+use NumberFormatter;
 
 class Base
 {

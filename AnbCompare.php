@@ -73,13 +73,16 @@ class AnbCompare extends Base
                 'zip_empty'     => pll__('Zip cannot be empty'),
                 'zip_invalid'   => pll__('Please enter valid Zip Code'),
                 'offers_msg'    => pll__( 'offers' )." " . pll__('starting from'),
-                'no_offers_msg' => pll__('no offers found'),
-                'currency'      => getCurrencySymbol($this->currencyUnit)
+                'no_offers_msg' => pll__('No offers in your area'),
+                'currency'      => $this->getCurrencySymbol($this->currencyUnit)
             ));
     }
 
-    function getCompareResults($atts)
+    function getCompareResults($atts, $enableCache = true, $cacheDurationSeconds = 600)
     {
+        if(defined('COMPARE_API_CACHE_DURATION')) {
+            $cacheDurationSeconds = PRODUCT_CACHE_DURATION;
+        }
         if (!empty($atts['detaillevel'])) {
             $atts['detaillevel'] = explode(',', $atts['detaillevel']);
         }
@@ -184,10 +187,16 @@ class AnbCompare extends Base
                 unset($params['hidden_sp']);
             }
 
-            if (!empty($params['ds'])) {
-                $params['s'] = $params['ds'] / 1000;//converting mbps to bps according to Anb farmula.
-                unset($params['ds']);
+            if (!empty($params['s'])) {
+                $params['s'] = $params['ds'] * 1000; //Min. download speed in Bps: 1000 Bps = 1Mbps
             }
+
+            // in case of Max download limit set parameter to -1
+            if (isset($params['dl']) && !empty($params['dl']) && $params['dl'] == INTERNET_DOWNLOAD_LIMIT) {
+                $params['dl'] = "-1";
+            }
+
+
 
             $this->cleanArrayData($params);
             // get the products
@@ -200,7 +209,18 @@ class AnbCompare extends Base
             // no need to send this parameter to API call
             unset($params['searchSubmit']);
 
-            $result = $this->anbApi->compare($params);
+            //generate key from params to store in cache
+            if ($enableCache) {
+                $cacheKey = md5(implode(",", $params)) . ":compare";
+                $result = get_transient($cacheKey);
+
+                if($result === false) {
+                    $result = $this->anbApi->compare($params);
+                    set_transient($cacheKey, $result, $cacheDurationSeconds);
+                }
+            } else {
+                $result = $this->anbApi->compare($params);
+            }
 
             return $result;
         }
@@ -262,7 +282,7 @@ class AnbCompare extends Base
         $minPrices = array_map( function ($k, $v) use ($prices) {
 
             $response[$k] = [
-                'price' => $prices[$k],
+                'price' => str_replace( '.', ',', $prices[$k]),
                 'unit' => $v['unit'],
             ];
             return $response;
@@ -356,7 +376,7 @@ class AnbCompare extends Base
 
         $category = (is_array($_REQUEST['productTypes']) ? $_REQUEST['productTypes'][0] : $_REQUEST['productTypes']);
 
-        $getProducts = $this->anbApi->getProducts(
+        $getProducts = $this->anbProduct->getProducts(
             [
                 'productid' => $_REQUEST['products'],
                 'sg' => trim($_REQUEST['sg']),
@@ -1531,7 +1551,7 @@ class AnbCompare extends Base
      * @param $productID
      * @return mixed
      */
-    function getLatestOrderByProduct($productID)
+    public function getLatestOrderByProduct($productID)
     {
 
         $orderController = new OrderController(['product_id' => $productID]);
@@ -1545,7 +1565,7 @@ class AnbCompare extends Base
      * @param $productID
      * @return string
      */
-    function decorateLatestOrderByProduct($productID)
+    public function decorateLatestOrderByProduct($productID)
     {
         $output = '';
 
@@ -1556,5 +1576,33 @@ class AnbCompare extends Base
         }
 
         return $output;
+    }
+
+    /**
+     * @param $currency
+     *
+     * @return mixed
+     */
+    public function getCurrencySymbol( $currency ) {
+
+        $locale = function_exists( 'pll_current_language' ) ? pll_current_language() : \Locale::getPrimaryLanguage( get_locale() );
+
+        // Create a NumberFormatter
+        $formatter = new NumberFormatter( $locale, NumberFormatter::CURRENCY );
+
+        // Prevent any extra spaces, etc. in formatted currency
+        $formatter->setPattern( '¤' );
+
+        // Prevent significant digits (e.g. cents) in formatted currency
+        $formatter->setAttribute( NumberFormatter::MAX_SIGNIFICANT_DIGITS, 0 );
+
+        // Get the formatted price for '0'
+        $formattedPrice = $formatter->formatCurrency( 0, $currency );
+
+        // Strip out the zero digit to get the currency symbol
+        $zero           = $formatter->getSymbol( NumberFormatter::ZERO_DIGIT_SYMBOL );
+        $currencySymbol = str_replace( [ $zero, ',' ], '', $formattedPrice );
+
+        return $currencySymbol;
     }
 }

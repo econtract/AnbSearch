@@ -102,6 +102,7 @@ class AnbCompare extends Base
 
             's' => '',
             'dl' => '',
+            'ds' => '',
             'sort' => '',
             'cp' => '',
             'nm' => '',
@@ -187,8 +188,10 @@ class AnbCompare extends Base
                 unset($params['hidden_sp']);
             }
 
-            if (!empty($params['s'])) {
+            // Covert DS to s because param S in url is reserve word for Wordpress search
+            if (!empty($params['ds'])) {
                 $params['s'] = $params['ds'] * 1000; //Min. download speed in Bps: 1000 Bps = 1Mbps
+                unset($params['ds']);
             }
 
             // in case of Max download limit set parameter to -1

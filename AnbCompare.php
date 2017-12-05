@@ -203,27 +203,30 @@ class AnbCompare extends Base
 
             $this->cleanArrayData($params);
             // get the products
-            if (isset($_GET['debug'])) {
-                echo "Passed Params>>>";
-                print_r($params);
-            }
             $params = $this->allowedParams($params, array_keys($atts));//Don't allow all variables to be passed to API
 
             // no need to send this parameter to API call
             unset($params['searchSubmit']);
 
             //generate key from params to store in cache
-            if ($enableCache) {
+            displayParams($params);
+            $start = getStartTime();
+            $displayText = "Time API (Compare) inside getCompareResults";
+            if ($enableCache && !isset($_GET['no_cache'])) {
                 $cacheKey = md5(implode(",", $params)) . ":compare";
                 $result = get_transient($cacheKey);
 
                 if($result === false || empty($result)) {
                     $result = $this->anbApi->compare($params);
                     set_transient($cacheKey, $result, $cacheDurationSeconds);
+                } else {
+                    $displayText = "Time API Cached (Compare) inside getCompareResults";
                 }
             } else {
                 $result = $this->anbApi->compare($params);
             }
+            $finish = getEndTime();
+            displayCallTime($start, $finish, $displayText);
 
             return $result;
         }

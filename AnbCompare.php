@@ -52,7 +52,7 @@ class AnbCompare extends Base
     function enqueueScripts()
     {
 
-        wp_enqueue_script('load-more-script', plugins_url('/js/search-results.js', __FILE__), array('jquery'));
+        wp_enqueue_script('load-more-script', plugins_url('/js/search-results.js', __FILE__), array('jquery'), '1.0.1', true);
 
         // in JavaScript, object properties are accessed as ajax_object.ajax_url, ajax_object.we_value
         wp_localize_script('load-more-script', 'load_more_object',
@@ -213,7 +213,7 @@ class AnbCompare extends Base
             $start = getStartTime();
             $displayText = "Time API (Compare) inside getCompareResults";
             if ($enableCache && !isset($_GET['no_cache'])) {
-                $cacheKey = md5(implode(",", $params)) . ":compare";
+                $cacheKey = md5(implode(",", $params) . $_SERVER['REQUEST_URI']) . ":compare";
                 $result = get_transient($cacheKey);
 
                 if($result === false || empty($result)) {
@@ -913,6 +913,8 @@ class AnbCompare extends Base
                         <form action='" . $resultsPageUri . "' class='form-horizontal' id='yourProfileWizardForm' data-toggle='validator' role='form'>
                         	<div class='container-fluid'>
 	                            <div class='panel-group' id='accordion' role='tablist' aria-multiselectable='true'>
+                                    
+                                    <!--Location-->	                            	
 	                            	<div class='panel panel-default'>
                                         <div class='panel-heading active' role='tab' id='installationHeading'>
                                             <h4 class='panel-title'>
@@ -921,14 +923,17 @@ class AnbCompare extends Base
                                                    aria-controls='collapseOne'>
                                                             <span class='headingTitle'>
                                                                 <i class='icon wizard location'></i>
-                                                                <span class='caption'>" . pll__('Installation area') . "</span>
+                                                                <span class='caption'>
+                                                                    <span class='caption_close'>" . pll__('location') . "</span>
+                                                                    <span class='caption_open'>" . pll__('Installation area') . "</span>
+                                                                </span>
                                                                 <span class='selectedInfo'></span>
                                                             </span>
                                                 </a>
                                             </h4>
                                         </div>
                                         <div id='installationPanel' class='panel-collapse collapse in' role='tabpanel'
-                                             aria-labelledby='headingOne'>
+                                             aria-labelledby='headingOne'  data-wizard-panel='location'>
                                             <div class='panel-body text-center'>
                                                 <div class='form-group has-feedback'>
                                                     <div class='col-sm-2'>
@@ -951,6 +956,8 @@ class AnbCompare extends Base
                                             </div>
                                         </div>
                                     </div>
+                                    
+                                    <!--Use-->
                                     <div class='panel panel-default'>
                                         <div class='panel-heading' role='tab' id='consumerHeading'>
                                             <h4 class='panel-title'>
@@ -959,14 +966,17 @@ class AnbCompare extends Base
                                                    aria-controls='collapseOne'>
                                                             <span class='headingTitle'>
                                                                 <i class='icon wizard location'></i>
-                                                                <span class='caption'> " . pll__('Use') . "</span>
+                                                                <span class='caption'>
+                                                                    <span class='caption_close'>" . pll__('Use') . "</span>
+                                                                    <span class='caption_open'>" . pll__('Type of use') . "</span>
+                                                                </span>
                                                                 <span class='selectedInfo'></span>
                                                             </span>
                                                 </a>
                                             </h4>
                                         </div>
                                         <div id='consumerPanel' class='panel-collapse collapse' role='tabpanel'
-                                             aria-labelledby='headingOne'>
+                                             aria-labelledby='headingOne'  data-wizard-panel='use'>
                                             <div class='panel-body text-center'>
                                                 <div class='form-group'>
                                                     <label>" . pll__('Type of Use') . "</label>
@@ -996,7 +1006,7 @@ class AnbCompare extends Base
                                         </div>
                                     </div>
                                     
-                                    <!--family members-->
+                                    <!--Family Members-->
                                     <div class='panel panel-default'>
                                         <div class='panel-heading' role='tab' id='headingOne'>
                                             <h4 class='panel-title'>
@@ -1004,14 +1014,17 @@ class AnbCompare extends Base
                                                    href='#collapseOne' aria-expanded='true' aria-controls='collapseOne'>
                                                     <span class='headingTitle'>
                                                         <i class='icon wizard user'></i>
-                                                        <span class='caption'>".pll__('How many members your family have?')."</span>
+                                                        <span class='caption'>
+                                                            <span class='caption_close'>" . pll__('Family') . "</span>
+                                                            <span class='caption_open'>" . pll__('How many members your family have?') . "</span>
+                                                        </span>
                                                         <span class='selectedInfo'></i></span>
                                                     </span>
                                                 </a>
                                             </h4>
                                         </div>
                                         <div id='collapseOne' class='panel-collapse collapse' role='tabpanel'
-                                             aria-labelledby='headingOne'>
+                                             aria-labelledby='headingOne'  data-wizard-panel='familyMembers'>
                                             <div class='panel-body text-center'>
                                     
                                                 <div class='totalPersonWizard'>
@@ -1109,6 +1122,8 @@ class AnbCompare extends Base
                                             </div>
                                         </div>
                                     </div>
+                                    
+                                    <!--Devices-->
                                     <div class='panel panel-default'>
                                         <div class='panel-heading' role='tab' id='headingTwo'>
                                             <h4 class='panel-title'>
@@ -1117,14 +1132,17 @@ class AnbCompare extends Base
                                                    aria-controls='collapseTwo'>
                                                             <span class='headingTitle'>
                                                                 <i class='icon wizard multidevice'></i>
-                                                                <span class='caption'>" . pll__('How many devices do you have?') . "</span>
+                                                                <span class='caption'>
+                                                                    <span class='caption_close'>" . pll__('Devices') . "</span>
+                                                                    <span class='caption_open'>"  . pll__('How many devices do you have?') . "</span>
+                                                                </span>
                                                                 <span class='selectedInfo'></span>
                                                             </span>
                                                 </a>
                                             </h4>
                                         </div>
                                         <div id='collapseTwo' class='panel-collapse collapse' role='tabpanel'
-                                             aria-labelledby='headingTwo'>
+                                             aria-labelledby='headingTwo'  data-wizard-panel='devices'>
                                             <div class='panel-body text-center'>
                                                 <div class='counterPanel'>
                                                     <ul class='list-unstyled'>
@@ -1236,7 +1254,8 @@ class AnbCompare extends Base
                                             </div>
                                         </div>
                                     </div>
-                                    <!--internet needs -->
+                                    
+                                    <!--Internet Needs -->
                                     <div class='panel panel-default'>
                                         <div class='panel-heading' role='tab' id='headingInternetNeeds'>
                                             <h4 class='panel-title'>
@@ -1245,14 +1264,17 @@ class AnbCompare extends Base
                                                    aria-controls='collapseInternetNeeds'>
                                                     <span class='headingTitle'>
                                                         <i class='icon wizard internet'></i>
-                                                        <span class='caption'>".pll__('What are your internet needs?')."</span>
+                                                        <span class='caption'>
+                                                            <span class='caption_close'>" . pll__('Internet use') . "</span>
+                                                            <span class='caption_open'>".pll__('What are your internet needs?')."</span>
+                                                        </span>
                                                         <span class='selectedInfo'></span>
                                                     </span>
                                                 </a>
                                             </h4>
                                         </div>
                                         <div id='collapseInternetNeeds' class='panel-collapse collapse' role='tabpanel'
-                                             aria-labelledby='headingInternetNeeds'>
+                                             aria-labelledby='headingInternetNeeds' data-wizard-panel='internetNeeds'>
                                             <div class='panel-body'>
                                                 <div class='compWrapper withStaticToolTip'>
                                                     <ul class='list-unstyled radioComp tickOption'>
@@ -1322,14 +1344,17 @@ class AnbCompare extends Base
                                                    aria-controls='collapseInternetNeeds'>
                                                     <span class='headingTitle'>
                                                         <i class='icon wizard phone'></i>
-                                                        <span class='caption'>".pll__('What are your needs for Fixed line?')."</span>
+                                                        <span class='caption'>
+                                                            <span class='caption_close'>" . pll__('Fixed line use') . "</span>
+                                                            <span class='caption_open'>".pll__('What are your needs for Fixed line?')."</span>
+                                                        </span>
                                                         <span class='selectedInfo'></span>
                                                     </span>
                                                 </a>
                                             </h4>
                                         </div>
                                         <div id='collapseFixedLine' class='panel-collapse collapse' role='tabpanel'
-                                             aria-labelledby='headingInternetNeeds'>
+                                             aria-labelledby='headingInternetNeeds' data-wizard-panel='fixedLineUse'>
                                             <div class='panel-body'>
                                                 <div class='compWrapper withStaticToolTip'>
                                                     <ul class='list-unstyled radioComp tickOption'>
@@ -1390,7 +1415,7 @@ class AnbCompare extends Base
                                         </div>
                                     </div>
 
-                                    <!--mobile subscription-->
+                                    <!--Mobile Subscription-->
                                     <div class='panel panel-default'>
                                         <div class='panel-heading' role='tab' id='headingThree'>
                                             <h4 class='panel-title'>
@@ -1399,14 +1424,17 @@ class AnbCompare extends Base
                                                    aria-controls='collapseThree'>
                                                     <span class='headingTitle'>
                                                         <i class='icon wizard mobile'></i>
-                                                        <span class='caption'> " . pll__('Mobile Subscription') . "</span>
+                                                        <span class='caption'>
+                                                            <span class='caption_close'>" . pll__('Mobile Subscription') . "</span>
+                                                            <span class='caption_open'>".pll__('How many mobile subscriptions you have?')."</span>
+                                                        </span>
                                                         <span class='selectedInfo'></span>
                                                     </span>
                                                 </a>
                                             </h4>
                                         </div>
                                         <div id='collapseThree' class='panel-collapse collapse' role='tabpanel'
-                                             aria-labelledby='headingThree'>
+                                             aria-labelledby='headingThree' data-wizard-panel='mobileSubscription'>
                                             <div class='panel-body text-center'>
                                                 <div class='totalPersonWizard'>
                                                     <div class='compPanel withStaticToolTip'>

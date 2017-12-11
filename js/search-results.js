@@ -89,7 +89,7 @@ jQuery(document).ready(function($){
 
         $('.loadMore').html('LOADING...');
         // We can also pass the url value separately from ajaxurl for front end AJAX implementations
-        $.get(load_more_object.ajax_url+urlParams, data, function(response) {
+        $.get(search_compare_obj.ajax_url+urlParams, data, function(response) {
 
             $('.resultsData').html(response);
             $('.loadMore').hide();
@@ -130,6 +130,43 @@ jQuery(document).ready(function($){
         redirectUrl = removeDuplicatesFromUri(redirectUrl);
         //console.log(redirectUrl);
         window.location = redirectUrl;
+    });
+
+    //autocomplete
+    $('#anbSearchForm .typeahead').typeahead({
+        name: 'id',
+        display: 'name',
+        delay: 300,//will ensure that the request goes after 200 ms delay so that there are no multipe ajax calls while user is typing
+        source: function (query, process) {
+            var current = $(document.activeElement);
+
+            console.log("current***", current);
+            var ajaxUrl = search_compare_obj.ajax_url + '?action=ajaxQueryToolboxApi&query_method=' + current.attr('query_method') +
+                "&query_params[" + current.attr('query_key') + "]=" + query;
+
+            return $.get(ajaxUrl, function (data) {
+                var jsonData = JSON.parse(data);
+
+                var prepareData = [];
+                for (var prop in jsonData) {
+                    var propVal = jsonData[prop][current.attr('query_key')];
+
+                    prepareData.push({
+                        id: jsonData[prop]['postcode'],
+                        name: jsonData[prop]['name'],
+                        value: jsonData[prop]['postcode'] + ' - ' + jsonData[prop]['name']
+                    });
+                }
+                //console.log("prepData***", prepareData);
+                return process(prepareData);
+            });
+        },
+        displayText: function(item) {
+            return item.value;
+        },
+        updater: function(item) {
+            return item.id;
+        }
     });
 });
 

@@ -52,10 +52,10 @@ class AnbCompare extends Base
     function enqueueScripts()
     {
 
-        wp_enqueue_script('load-more-script', plugins_url('/js/search-results.js', __FILE__), array('jquery'), '1.0.1', true);
+        wp_enqueue_script('search-compare-script', plugins_url('/js/search-results.js', __FILE__), array('jquery'), '1.0.1', true);
 
         // in JavaScript, object properties are accessed as ajax_object.ajax_url, ajax_object.we_value
-        wp_localize_script('load-more-script', 'load_more_object',
+        wp_localize_script('search-compare-script', 'search_compare_obj',
             array('ajax_url' => admin_url('admin-ajax.php')));
 
         wp_enqueue_script('compare-between-results-script', plugins_url('/js/compare-results.js', __FILE__), array('jquery'));
@@ -852,8 +852,10 @@ class AnbCompare extends Base
                                 {$infoMsg}
                                 <div class='form-group'>
                                     <label for='installation_area'>" . pll__('Installation area') . "</label>
-                                    <input class='form-control' id='installation_area' name='zip' placeholder='" . pll__('Enter Zipcode') . "' type='text' 
-                                    maxlength='4' pattern='^\d{4,4}$' value='" . ((!empty($values['zip'])) ? $values['zip'] : '') . "' required>
+                                    <input type='text' class='form-control typeahead' id='installation_area' name='zip' 
+                                      value='" . ((!empty($values['zip'])) ? $values['zip'] : '') . "' placeholder='" . pll__('Enter Zipcode') . "'
+                                      data-error='" . pll__('Please enter valid zip code') . "' autocomplete='off' query_method='cities' query_key='postcode'
+                                      pattern='[0-9]{4}' required>
                                 </div>
                                 {$supplierHtml}
                                 <div class='form-group'>

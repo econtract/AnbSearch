@@ -52,12 +52,28 @@ function getFirstUrlParamByName(name, uri) {
 
 }
 
+function appendMoreResultsInUrl(url) {
+    url = url.toString();
+    //check if redirectUrl already doesn't has more results option
+    if(url.indexOf("more_results") !== -1) {
+        //do nothing
+    } else {
+        url += '&more_results=true';
+    }
+
+    return url;
+}
+
 function getRedirectUrl() {
     var redirectUrl = "";
     if(location.search.indexOf('profile_wizard') >= 0) {
         redirectUrl = wizardProfileFormSubmitRedirect();
     } else {
         redirectUrl = jQuery('#searchFilterNav').serialize();
+    }
+
+    if(window.location.toString().indexOf("more_results") !== -1) {
+        redirectUrl = appendMoreResultsInUrl(redirectUrl);
     }
 
     return redirectUrl;
@@ -79,7 +95,14 @@ jQuery(document).ready(function($){
             $('.loadMore').hide();
 
         });
+
+        window.history.replaceState(null, null, appendMoreResultsInUrl(window.location));
     });
+
+    //if load_more=true then trigger click on .loadMore, to ensure that user don't click again and again on load more
+    if(window.location.toString().indexOf("more_results") !== -1) {
+        $('.loadMore').trigger('click');
+    }
 
     //Search results wizard your profile popup
     $('#yourProfileWizardForm').on('submit', function(e){

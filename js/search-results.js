@@ -141,7 +141,7 @@ jQuery(document).ready(function($){
             var current = $(document.activeElement);
 
             console.log("current***", current);
-            var ajaxUrl = search_compare_obj.zipcode_api + query + '.json';
+            var ajaxUrl = search_compare_obj.zipcode_api + 'autofill/' + query + '.json';
 
             return $.get(ajaxUrl, function (data) {
                 console.log("******", data);
@@ -167,7 +167,7 @@ jQuery(document).ready(function($){
             return item.value;
         },
         updater: function(item) {
-            return item.id;
+            return item.value;
         }
     });
 });

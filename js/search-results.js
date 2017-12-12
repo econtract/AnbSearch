@@ -136,25 +136,27 @@ jQuery(document).ready(function($){
     $('#anbSearchForm .typeahead').typeahead({
         name: 'id',
         display: 'name',
-        delay: 300,//will ensure that the request goes after 200 ms delay so that there are no multipe ajax calls while user is typing
+        delay: 100,//will ensure that the request goes after 200 ms delay so that there are no multipe ajax calls while user is typing
         source: function (query, process) {
             var current = $(document.activeElement);
 
             console.log("current***", current);
-            var ajaxUrl = search_compare_obj.ajax_url + '?action=ajaxQueryToolboxApi&query_method=' + current.attr('query_method') +
-                "&query_params[" + current.attr('query_key') + "]=" + query;
+            var ajaxUrl = search_compare_obj.zipcode_api + query + '.json';
 
             return $.get(ajaxUrl, function (data) {
-                var jsonData = JSON.parse(data);
+                console.log("******", data);
+                var jsonData = data;
 
                 var prepareData = [];
-                for (var prop in jsonData) {
-                    var propVal = jsonData[prop][current.attr('query_key')];
+                for (var prop in jsonData['options']) {
+                    var propVal = jsonData['options'][prop];
+
+                    var propId = propVal.split(' - ')[0];
 
                     prepareData.push({
-                        id: jsonData[prop]['postcode'],
-                        name: jsonData[prop]['name'],
-                        value: jsonData[prop]['postcode'] + ' - ' + jsonData[prop]['name']
+                        id: propId,
+                        name: propVal,
+                        value: propVal
                     });
                 }
                 //console.log("prepData***", prepareData);

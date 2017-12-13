@@ -94,7 +94,7 @@ class AnbCompare extends Base
             'cat' => 'internet',
             'zip' => '',
             'pref_cs' => '',
-            'detaillevel' => ['null'],
+            'detaillevel' => ['supplier,logo,services,price,reviews,texts,promotions,core_features'],
             'sg' => 'consumer',
             'lang' => $this->getCurrentLang(),
             'limit' => '',
@@ -393,7 +393,7 @@ class AnbCompare extends Base
                 'lang' => $this->getCurrentLang(),
                 'status' => $this->productStatus,
                 'cat' => $category,
-                'detaillevel' => ['supplier', 'logo', 'services', 'price', 'reviews', 'texts', 'promotions']
+                'detaillevel' => ['supplier', 'logo', 'services', 'price', 'reviews', 'texts', 'promotions', 'core_features']
             ]
         );
 
@@ -680,49 +680,24 @@ class AnbCompare extends Base
     function getServiceDetail($product)
     {
         $servicesHtml = '';
-        $product = (array)$product;
 
-        $types = [
-            'internet' => 'internet',
-            'mobile' => 'gsm abo.',
-            'idtv' => 'tv',
-            'telephony' => 'tel.'
-        ];
+        foreach ($product->packtypes as $key => $packType) {
+            $features = $packType->core_features->{$key};
 
-        $prdOrPckTypes = ($product['producttype'] == 'packs') ? $product['packtype'] : $product['producttype'];
-        $prdOrPckTypes = explode('+', strtolower($prdOrPckTypes));
-
-        // custom sort with specific order :- (internet > mobile > tv > fixed telphony)
-        $target = array_values($types);
-
-        usort($prdOrPckTypes, function ($key, $key2) use ($target) {
-            $pos_a = array_search(trim($key), $target);
-            $pos_b = array_search(trim($key2), $target);
-
-            return $pos_a - $pos_b;
-        });
-
-        foreach ($prdOrPckTypes as $key => $packType) {
-            //var_dump(trim($packType),$types); //die;
-            if (in_array(trim($packType), $types)) {
-                $currentType = array_search(trim($packType), $types);
-                $features = empty($product[$currentType]) ? $product['core_features'] : $product[$currentType]->core_features;
-
-                $featuresHtml = '';
-                foreach ($features as $feature) {
-                    $featuresHtml .= '<li>' . $feature->label . '</li>';
-                }
-
-                $servicesHtml .= '<div class="packageDetail ' . $currentType . '">
-                                            <div class="iconWrapper">
-                                                <i class="service-icons ' . $currentType . '"></i>
-                                            </div>
-                                            <h6>' . $product[$currentType]->product_name . '</h6>
-                                            <ul class="list-unstyled pkgSummary">
-                                               ' . $featuresHtml . '
-                                            </ul>
-                                        </div>';
+            $featuresHtml = '';
+            foreach ($features as $feature) {
+                $featuresHtml .= '<li>' . $feature->label . '</li>';
             }
+
+            $servicesHtml .= '<div class="packageDetail ' . $key . '">
+                                    <div class="iconWrapper">
+                                        <i class="service-icons ' . $key . '"></i>
+                                    </div>
+                                    <h6>' . $packType->product_name . '</h6>
+                                    <ul class="list-unstyled pkgSummary">
+                                       ' . $featuresHtml . '
+                                    </ul>
+                                </div>';
         }
 
         return $servicesHtml;
@@ -1511,7 +1486,6 @@ class AnbCompare extends Base
                                         </div>
                                     </div>
 		                            <div class='buttonWrapper'>
-		                                {$hiddenCatsHtml}
 		                                <button name='searchSubmit' type='submit' class='btn btn-default'>" . pll__($submitBtnTxt) . "</button>
 		                            </div>
 	                            </div>

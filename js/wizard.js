@@ -1,5 +1,5 @@
  window.wizardAjaxCall = function() {
-    var searchWizardForm = jQuery('#searchWizardForm').serialize();
+    /*var searchWizardForm = jQuery('#searchWizardForm').serialize();
 
     var data = {
         'action'       : 'getCompareResultsForWizard'
@@ -25,8 +25,8 @@
         jQuery.each(response.no_offer_ids, function( index, value ) {
             jQuery('.supplier-offer-'+value).html(wizard_object.no_offers_msg);
         });
-    });
-}
+    });*/
+};
 
 function notyMessage(message) {
     new Noty({

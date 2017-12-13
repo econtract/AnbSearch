@@ -907,13 +907,6 @@ class AnbCompare extends Base
             $titleHtml = "";
         }
 
-        $hiddenCatsHtml = "";
-
-        if (empty($supplierHtml)) {//If no supplier html generated but pref_cs are present keep them included as hidden values
-            foreach ($_GET['cat'] as $cat) {
-                $hiddenCatsHtml .= "<input type='hidden' name='cat[]' value='" . $cat . "' />";
-            }
-        }
         $formNew = "<div class='formWrapper'>
                         <form action='" . $resultsPageUri . "' class='form-horizontal' id='yourProfileWizardForm' data-toggle='validator' role='form'>
                         	<div class='container-fluid'>
@@ -1307,18 +1300,6 @@ class AnbCompare extends Base
                                                                 </div>
                                                             </label>
                                                         </li>
-                                                        <li>
-                                                            <input type='radio' name='ms_internet' id='internet_need_no' value='-1'
-                                                            " . (("-1" == $values['ms_internet']) ? 'checked="checked"' : '') . ">
-                                                            <label for='internet_need_no' class='noNeed'>
-                                                                <i class='icon-block'></i>
-                                                                " . pll__('No need') . "
-                                                                <i class='checkOption fa fa-check'></i>
-                                                                <div class='tooltip'>
-                                                                    <p>". pll__("Info about if you really don't want to use internet") . " </p>
-                                                                </div>
-                                                            </label>
-                                                        </li>
                                                     </ul>
                                     
                                                     <!--only activates if the tooltip in the component is described in a way to hide -->
@@ -1546,7 +1527,13 @@ class AnbCompare extends Base
         $get = filter_input_array(INPUT_GET, FILTER_SANITIZE_STRING);//Clean Params
         $get = (empty($get)) ? [] : $get;
 
-        return array_merge($_GET, $get);//preserve everything in core $_GET
+        $get = array_merge($_GET, $get);//preserve everything in core $_GET
+        //Remove any duplicates in cat as well, while we do
+        if(isset($_GET['cat'])) {
+            $_GET['cat'] = array_unique($_GET['cat']);
+        }
+
+        return $get;
     }
 
     public function allowedParams($array, $allowed)

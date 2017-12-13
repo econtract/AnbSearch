@@ -681,26 +681,34 @@ class AnbCompare extends Base
     {
         $servicesHtml = '';
 
-        foreach ($product->packtypes as $key => $packType) {
-            $features = $packType->core_features->{$key};
-
-            $featuresHtml = '';
-            foreach ($features as $feature) {
-                $featuresHtml .= '<li>' . $feature->label . '</li>';
+        if(isset($product->packtypes)) {
+            foreach ($product->packtypes as $key => $packType) {
+                $features = $packType->core_features->{$key};
+                $servicesHtml .= $this->generateHiddenSupplierHtml($key, $packType->product_name, $features);
             }
-
-            $servicesHtml .= '<div class="packageDetail ' . $key . '">
-                                    <div class="iconWrapper">
-                                        <i class="service-icons ' . $key . '"></i>
-                                    </div>
-                                    <h6>' . $packType->product_name . '</h6>
-                                    <ul class="list-unstyled pkgSummary">
-                                       ' . $featuresHtml . '
-                                    </ul>
-                                </div>';
+        } else {
+            $features = $product->core_features->internet;
+            $servicesHtml = $this->generateServiceDetailHtml("internet", $product->product_name, $features);
         }
 
         return $servicesHtml;
+    }
+
+    function generateServiceDetailHtml ($service, $productName, $features = '') {
+        $featuresHtml = '';
+        foreach ($features as $feature) {
+            $featuresHtml .= '<li>' . $feature->label . '</li>';
+        }
+
+        return '<div class="packageDetail ' . $service . '">
+                    <div class="iconWrapper">
+                        <i class="service-icons ' . $service . '"></i>
+                    </div>
+                    <h6>' . $productName . '</h6>
+                    <ul class="list-unstyled pkgSummary">
+                       ' . $featuresHtml . '
+                    </ul>
+                </div>';
     }
 
     /**

@@ -684,7 +684,7 @@ class AnbCompare extends Base
         if(isset($product->packtypes)) {
             foreach ($product->packtypes as $key => $packType) {
                 $features = $packType->core_features->{$key};
-                $servicesHtml .= $this->generateHiddenSupplierHtml($key, $packType->product_name, $features);
+                $servicesHtml .= $this->generateServiceDetailHtml($key, $packType->product_name, $features);
             }
         } else {
             $features = $product->core_features->internet;

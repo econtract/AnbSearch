@@ -1502,9 +1502,9 @@ class AnbCompare extends Base
                                                         </label>
                                                     </li>
                                                     <li>
-                                                        <input type='checkbox' name='value_most_setup' id='value_most_setup' value='value_most_setup'
-                                                        " . (("value_most_setup" == $values['value_most_setup']) ? 'checked="checked"' : '') . ">                                                        
-                                                        <label for='value_most_setup'>
+                                                        <input type='checkbox' name='free_activation' id='free_activation' value='1'
+                                                        " . (("1" == $values['free_activation']) ? 'checked="checked"' : '') . ">                                                        
+                                                        <label for='free_activation'>
                                                             " . pll__('Free activation') . "
                                                             <i class='fa fa-check'></i>
                                                         </label>

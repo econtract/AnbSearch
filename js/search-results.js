@@ -133,7 +133,7 @@ jQuery(document).ready(function($){
     });
 
     //autocomplete
-    $('#anbSearchForm .typeahead').typeahead({
+    $('.typeahead:not(#personal_info_form .typeahead)').typeahead({
         name: 'id',
         display: 'name',
         delay: 100,//will ensure that the request goes after 200 ms delay so that there are no multipe ajax calls while user is typing

@@ -926,9 +926,9 @@ class AnbCompare extends Base
                                                         <label for='installation_area' class='control-label'>" . pll__('Installation area') . "</label>
                                                     </div>
                                                     <div class='col-sm-8'>
-                                                        <input class='form-control' id='installation_area' name='zip'
+                                                        <input class='form-control typeahead' id='installation_area' name='zip'
                                                                placeholder='Enter Zipcode' maxlength='4'
-                                                               pattern='^\d{4,4}$' value='" . ((!empty($values['zip'])) ? $values['zip'] : '') . "' required type='text'>
+                                                               value='" . ((!empty($values['zip'])) ? $values['zip'] : '') . "' required type='text'>
                                                         <span class='staricicon form-control-feedback'
                                                               aria-hidden='true'></span>
                                                         <div class='help-block with-errors'></div>

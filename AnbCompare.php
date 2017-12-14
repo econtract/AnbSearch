@@ -1309,6 +1309,86 @@ class AnbCompare extends Base
                                         </div>
                                     </div>
                                     
+                                    <!--Tv Needs -->
+                                    <div class='panel panel-default'>
+                                        <div class='panel-heading' role='tab' id='headingTVNeeds'>
+                                            <h4 class='panel-title'>
+                                                <a class='collapsed' role='button' data-toggle='collapse'
+                                                   data-parent='#accordion' href='#collapseTVNeeds' aria-expanded='false'
+                                                   aria-controls='collapseTVNeeds'>
+                                                    <span class='headingTitle'>
+                                                        <i class='icon wizard tv'></i>
+                                                        <span class='caption'>
+                                                            <span class='caption_close'>" . pll__('TV use') . "</span>
+                                                            <span class='caption_open'>".pll__('What are your tv needs?')."</span>
+                                                        </span>
+                                                        <span class='selectedInfo'></span>
+                                                    </span>
+                                                </a>
+                                            </h4>
+                                        </div>
+                                        <div id='collapseTVNeeds' class='panel-collapse collapse' role='tabpanel'
+                                             aria-labelledby='headingTVNeeds' data-wizard-panel='tvNeeds'>
+                                            <div class='panel-body'>
+                                                <div class='compWrapper withStaticToolTip'>
+                                                    <ul class='list-unstyled radioComp tickOption'>
+                                                        <li>
+                                                            <input type='radio' name='ms_idtv' id='tv_need_high' value='2'
+                                                            " . (("2" == $values['ms_idtv']) ? 'checked="checked"' : '') . ">
+                                                            <label for='tv_need_high'>
+                                                                <i class='icon-tv lg'></i>
+                                                                ".pll__('Extended')."
+                                                                <i class='checkOption fa fa-check'></i>
+                                                                <div class='tooltip'>
+                                                                    <p>".pll__('Info about extensive use of television')." </p>
+                                                                </div>
+                                                            </label>
+                                                        </li>
+                                                        <li>
+                                                            <input type='radio' name='ms_idtv' id='tv_need_low' value='0'
+                                                            " . (("0" == $values['ms_idtv']) ? 'checked="checked"' : '') . ">
+                                                            <label for='tv_need_low'>
+                                                                <i class='icon-tv'></i>
+                                                                ". pll__('Low')."
+                                                                <i class='checkOption fa fa-check'></i>
+                                                                <div class='tooltip'>
+                                                                    <p>". pll__('Info about little use of television'). " </p>
+                                                                </div>
+                                                            </label>
+                                                        </li>
+                                                        <li>
+                                                            <input type='radio' name='ms_idtv' id='tv_need_no' value='-1'
+                                                            " . (("-1" == $values['ms_idtv']) ? 'checked="checked"' : '') . ">
+                                                            <label for='tv_need_no' class='noNeed'>
+                                                                <i class='icon-block'></i>
+                                                                " . pll__('No need') . "
+                                                                <i class='checkOption fa fa-check'></i>
+                                                                <div class='tooltip'>
+                                                                    <p>". pll__("Info about if you hate to watch tv") . " </p>
+                                                                </div>
+                                                            </label>
+                                                        </li>
+                                                    </ul>
+                                    
+                                                    <!--only activates if the tooltip in the component is described in a way to hide -->
+                                                    <!---->
+                                                    <div class='staticTooltipWrapper'>
+                                                        <div class='staticTooltip'>
+                                                            <p>".pll__('Select an option to view information about it')." </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                    
+                                                <div class='buttonWrapper'>
+                                                    <button type='button' class='btn btn-primary'><i
+                                                            class='fa fa-check'></i> " . pll__('Ok') . "
+                                                    </button>
+                                                </div>
+                                    
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
                                     <!--Fixed Lines -->
                                     <div class='panel panel-default'>
                                         <div class='panel-heading' role='tab' id='headingFixedLine'>
@@ -1379,6 +1459,66 @@ class AnbCompare extends Base
                                                     </div>
                                                 </div>
                                     
+                                                <div class='buttonWrapper'>
+                                                    <button type='button' class='btn btn-primary'><i
+                                                            class='fa fa-check'></i> " . pll__('Ok') . "
+                                                    </button>
+                                                </div>
+                                    
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!--Value Most -->
+                                    <div class='panel panel-default'>
+                                        <div class='panel-heading' role='tab' id='headingValueMost'>
+                                            <h4 class='panel-title'>
+                                                <a class='collapsed' role='button' data-toggle='collapse'
+                                                   data-parent='#accordion' href='#collapseValueMost' aria-expanded='false'
+                                                   aria-controls='collapseValueMost'>
+                                                    <span class='headingTitle'>
+                                                        <i class='icon wizard multidevice'></i>
+                                                        <span class='caption'>
+                                                            <span class='caption_close'>" . pll__('value most?') . "</span>
+                                                            <span class='caption_open'>".pll__('Select one or more criteria that is important to you')."</span>
+                                                        </span>
+                                                        <span class='selectedInfo'></span>
+                                                    </span>
+                                                </a>
+                                            </h4>
+                                        </div>
+                                        <div id='collapseValueMost' class='panel-collapse collapse' role='tabpanel'
+                                             aria-labelledby='headingValueMost' data-wizard-panel='valueMost'>
+                                            <div class='panel-body'>
+                                                <div class='compWrapper withStaticToolTip'>
+                                                <ul class='list-unstyled checkBoxComp'>
+
+                                                    <li>
+                                                        <input type='checkbox' name='free_install' id='value_most_installation' value='1' 
+                                                        " . (("1" == $values['free_install']) ? 'checked="checked"' : '') . ">
+                                                        <label for='value_most_installation'>
+                                                            " . pll__('Free Installation') . "
+                                                            <i class='fa fa-check'></i>
+                                                        </label>
+                                                    </li>
+                                                    <li>
+                                                        <input type='checkbox' name='value_most_setup' id='value_most_setup' value='value_most_setup'
+                                                        " . (("value_most_setup" == $values['value_most_setup']) ? 'checked="checked"' : '') . ">                                                        
+                                                        <label for='value_most_setup'>
+                                                            " . pll__('Free activation') . "
+                                                            <i class='fa fa-check'></i>
+                                                        </label>
+                                                    </li>
+                                                    <li>
+                                                        <input type='checkbox' name='value_most_cs' id='value_most_cs' value='value_most_cs'
+                                                        " . (("value_most_cs" == $values['value_most_cs']) ? 'checked="checked"' : '') . ">                                                                                                                
+                                                        <label for='value_most_cs'>
+                                                            " . pll__('Customer Service') . "
+                                                            <i class='fa fa-check'></i>
+                                                        </label>
+                                                    </li>
+                                                </ul>
+                                                </div>
                                                 <div class='buttonWrapper'>
                                                     <button type='button' class='btn btn-primary'><i
                                                             class='fa fa-check'></i> " . pll__('Ok') . "

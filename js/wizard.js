@@ -26,7 +26,7 @@
             jQuery('.supplier-offer-'+value).html(wizard_object.no_offers_msg);
         });
     });*/
-};
+}
 
 function notyMessage(message) {
     new Noty({
@@ -57,6 +57,11 @@ jQuery(document).ready(function($){
         e.preventDefault();
 
         var zip = $("#wizard-zip").val();
+
+        if(zip.indexOf(zip, ' - ') !== -1) {
+            zip = zip.split(' - ')[0];
+        }
+
         var sg = $("#wizard-sg").val();
 
         var _self =  $("#errorInfoWizard");

@@ -1654,7 +1654,7 @@ class AnbCompare extends Base
 	                            </div>
                             </div>
                             {$hiddenMultipleProvidersHtml}
-                            <input type='hidden' name='profie_wizard' value='true' />
+                            <input type='hidden' name='profile_wizard' value='1' />
                         </form>
                     </div>";
 

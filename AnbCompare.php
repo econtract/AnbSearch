@@ -757,13 +757,8 @@ class AnbCompare extends Base
             $titleHtml = "";
         }
 
-        $hiddenMultipleProvidersHtml = "";
+        $hiddenMultipleProvidersHtml = $this->getSuppliersHiddenInputFields($values, $supplierHtml);
 
-        if (empty($supplierHtml)) {//If no supplier html generated but pref_cs are present keep them included as hidden values
-            foreach ($values['pref_cs'] as $provider) {
-                $hiddenMultipleProvidersHtml .= "<input type='hidden' name='pref_cs[]' value='" . $provider . "' />";
-            }
-        }
         $formNew = "<div class='searchBoxContent'>
                     <div class='searchBox'>
                         " . $needHelpHtml . "
@@ -880,20 +875,35 @@ class AnbCompare extends Base
         return $formNew;
     }
 
+    function getSuppliersHiddenInputFields ($values, $supplierHtml="") {
+        $hiddenMultipleProvidersHtml = "";
+
+        if (empty($supplierHtml)) {//If no supplier html generated but pref_cs are present keep them included as hidden values
+            foreach ($values['pref_cs'] as $provider) {
+                $hiddenMultipleProvidersHtml .= "<input type='hidden' name='pref_cs[]' value='" . $provider . "' />";
+            }
+        }
+
+        return $hiddenMultipleProvidersHtml;
+    }
+
     /**
      * @param $values
      * @param string $submitBtnTxt
      * @param bool $hideTitle
      * @param string $resultsPageUri
+     * @param string $supplierHtml
      *
      * @return string
      */
-    public function getWizardSearchBoxContentHtml($values, $submitBtnTxt = "Search Deals", $hideTitle = false, $resultsPageUri = self::RESULTS_PAGE_URI)
+    public function getWizardSearchBoxContentHtml($values, $submitBtnTxt = "Search Deals", $hideTitle = false, $resultsPageUri = self::RESULTS_PAGE_URI, $supplierHtml = "")
     {
         $titleHtml = "<h3>" . pll__('Change Profile') . "</h3>";
         if ($hideTitle) {
             $titleHtml = "";
         }
+
+        $hiddenMultipleProvidersHtml = $this->getSuppliersHiddenInputFields($values, $supplierHtml);
 
         $formNew = "<div class='formWrapper'>
                         <form action='" . $resultsPageUri . "' class='form-horizontal' id='yourProfileWizardForm' data-toggle='validator' role='form'>
@@ -907,14 +917,14 @@ class AnbCompare extends Base
                                                 <a role='button' data-toggle='collapse' data-parent='#accordion'
                                                    href='#installationPanel' aria-expanded='true'
                                                    aria-controls='collapseOne'>
-                                                            <span class='headingTitle'>
-                                                                <i class='icon wizard location'></i>
-                                                                <span class='caption'>
-                                                                    <span class='caption_close'>" . pll__('location') . "</span>
-                                                                    <span class='caption_open'>" . pll__('Installation area') . "</span>
-                                                                </span>
-                                                                <span class='selectedInfo'></span>
+                                                        <span class='headingTitle'>
+                                                            <i class='icon wizard location'></i>
+                                                            <span class='caption'>
+                                                                <span class='caption_close'>" . pll__('location') . "</span>
+                                                                <span class='caption_open'>" . pll__('Installation area') . "</span>
                                                             </span>
+                                                            <span class='selectedInfo'></span>
+                                                        </span>
                                                 </a>
                                             </h4>
                                         </div>
@@ -1643,6 +1653,8 @@ class AnbCompare extends Base
 		                            </div>
 	                            </div>
                             </div>
+                            {$hiddenMultipleProvidersHtml}
+                            <input type='hidden' name='profie_wizard' value='true' />
                         </form>
                     </div>";
 

@@ -35,7 +35,7 @@ class AnbCompare extends Base
     public function __construct()
     {
         //enqueue JS scripts
-        add_action('init', array($this, 'enqueueScripts'));
+        add_action( 'wp_enqueue_scripts', array($this, 'enqueueScripts') );
 
         $this->abSuppliers = wpal_create_instance( AbSuppliers::class );
 
@@ -126,6 +126,12 @@ class AnbCompare extends Base
             'ms_fixed' => '',
             'ms_mobile' => '',
             'free_install' => '',
+            'free_activation' => '',
+            'qos_cs' => '',
+            'ms_internet' => '',
+            'ms_idtv' => '',
+            'ms_fixed' => '',
+            'ms_mobile' => '',
             'pref_pids' => [],
             'searchSubmit' => '' // conditional param ( this param doesn't belong to API Params)
         ), $atts, 'anb_search');
@@ -159,7 +165,7 @@ class AnbCompare extends Base
             }
 
 
-            $WizardAllowedParams  = ['ms_internet', 'ms_idtv', 'ms_fixed', 'ms_mobile'];
+            //$WizardAllowedParams  = ['ms_internet', 'ms_idtv', 'ms_fixed', 'ms_mobile'];
 
             $params = array_filter($_GET) + $atts;//append any missing but default values
 
@@ -172,11 +178,11 @@ class AnbCompare extends Base
              * wizard doesn't contain pack_type so these
              * values will be used to fetch match records
              */
-            foreach ($WizardAllowedParams as $allowed ) {
+            /*foreach ($WizardAllowedParams as $allowed ) {
                 if (array_key_exists($allowed, $_GET)) {
                     $params[$allowed] = $_GET[$allowed];
                 }
-            }
+            }*/
 
             // set category to packs when it comes from wizard
             if (isset($_GET['search_via_wizard'])){

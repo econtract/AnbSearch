@@ -78,11 +78,12 @@ jQuery(document).ready(function($){
 
         var urlParams = window.location.search;
         // We can also pass the url value separately from ajaxurl for front end AJAX implementations
-        $('#crntPackSelectionSection').html('<div class="ajaxIconWrapper"><div class="ajaxIcon"><img src="'+compare_between_results_object.template_uri+'/images/common/icons/ajaxloader.png" alt="Loading..."></div></div>');
+        $('#crntPackSelectionSection .offer').append('<div class="ajaxIconWrapper"><div class="ajaxIcon"><img src="'+compare_between_results_object.template_uri+'/images/common/icons/ajaxloader.png" alt="Loading..."></div></div>');
         jQuery.get(compare_between_results_object.ajax_url + urlParams, data, function(response) {
 
             $('#crntPackSelectionSection').hide();
             $('#crntPackSelectionResponse').html(response).show();
+            $('#crntPackSelectionSection .offer .ajaxIconWrapper').remove();//Removing loaders ones result is loaded
         });
     });
 

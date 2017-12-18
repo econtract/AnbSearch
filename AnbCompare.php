@@ -57,7 +57,7 @@ class AnbCompare extends Base
         wp_localize_script('search-compare-script', 'search_compare_obj',
             array('ajax_url' => admin_url('admin-ajax.php'), 'zipcode_api' => ZIPCODE_API));
 
-        wp_enqueue_script('compare-between-results-script', plugins_url('/js/compare-results.js', __FILE__), array('jquery'), '1.0.5', true);
+        wp_enqueue_script('compare-between-results-script', plugins_url('/js/compare-results.js', __FILE__), array('jquery'), '1.0.6', true);
 
         // in JavaScript, object properties are accessed as ajax_object.ajax_url, ajax_object.we_value
         wp_localize_script('compare-between-results-script', 'compare_between_results_object',

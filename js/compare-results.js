@@ -42,6 +42,7 @@ jQuery(document).ready(function($){
         jQuery.get(compare_between_results_object.ajax_url + urlParams, data, function(response) {
 
             $('#compareBetweenResultsResponse').html(response);
+            fixDealsTableHeight($('.compareSection .dealsTable.grid'));
         });
     });
 
@@ -83,7 +84,7 @@ jQuery(document).ready(function($){
 
             $('#crntPackSelectionSection').hide();
             $('#crntPackSelectionResponse').html(response).show();
-            $('#crntPackSelectionSection .offer .ajaxIconWrapper').remove();//Removing loaders ones result is loaded
+            fixDealsTableHeight($('.compareSection .dealsTable.grid'));
         });
     });
 

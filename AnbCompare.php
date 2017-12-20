@@ -430,6 +430,7 @@ class AnbCompare extends Base
             $checkoutPageLink = '/' . $parentSegment . '/' . pll__('checkout');
             $toCartLinkHtml = "href='" . $checkoutPageLink . "?product_to_cart&product_id=" . $productData['product_id'] .
                 "&provider_id=" . $productData['supplier_id'] . "'";
+            $toCartLinkHtml = '<a ' . $toCartLinkHtml . ' class="link block-link">' . pll__('Order Now') . '</a>';
 
             $selectedVal = !empty($_REQUEST['crntPack']) ? $_REQUEST['crntPack'] : pll__('Selected Pack') . ' ' . $countProducts;
 
@@ -440,6 +441,8 @@ class AnbCompare extends Base
                 $crntPackHtml = '<a href="#" class="edit" data-toggle="modal" data-target="#selectCurrentPack">
                                  <i class="fa fa-chevron-right"></i>' . pll__('change pack') . '</a>
                                  <a href="#" class="close closeCrntPack"><span>×</span></a>';
+
+                $toCartLinkHtml = "<p class='link block-link'>&nbsp;</p>";
             }
 
             $productResponse .= '<div class="col-md-4 offer-col ' . $crntpackSelectedClass . '">' .
@@ -454,7 +457,7 @@ class AnbCompare extends Base
                 $this->anbTopDeals->priceSection($priceHtml, $monthDurationPromo, $firstYearPrice) .
                 $this->anbTopDeals->getPromoSection($promotionHtml, $advPrice, 'dealFeatures',
                     '<a href="/' . pll__('brands') . '/' . $productData['supplier_slug'] . '/' . $productData['product_slug'] . '" class="btn btn-primary ">' . pll__('Info and options') . '</a>
-                                                     <a ' . $toCartLinkHtml . ' class="link block-link">' . pll__('Order Now') . '</a>
+                                                     '.$toCartLinkHtml.'
                                                      <p class="message">' . $this->decorateLatestOrderByProduct($productData['product_id']) . '</p>') .
                 '<div class="packageInfo">' .
                 $this->getServiceDetail($currentProduct) .
@@ -462,7 +465,7 @@ class AnbCompare extends Base
 
                 $this->anbTopDeals->priceSection($priceHtml, $monthDurationPromo, $firstYearPrice, 'dealPrice last', '<div class="buttonWrapper">
                                                         <a href="/' . pll__('brands') . '/' . $productData['supplier_slug'] . '/' . $productData['product_slug'] . '" class="btn btn-primary ">' . pll__('Info and options') . '</a>
-                                                        <a ' . $toCartLinkHtml . ' class="link block-link">' . pll__('Order Now') . '</a>
+                                                        '.$toCartLinkHtml.'
                                                 </div>') . '
                                                
                                           </div>' .

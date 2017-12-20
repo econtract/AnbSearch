@@ -451,7 +451,7 @@ class AnbCompare extends Base
 
                 $toCartLinkHtml = "<p class='link block-link'>&nbsp;</p>";
             } else {
-                if(!$productData['supplier_is_partner']) {
+                if(empty($productData['supplier_is_partner']) || intval($productData['supplier_is_partner']) == 0) {
                     $toCartLinkHtml = '<a href="#not-available" class="link block-link not-available">' . pll__('Not Available') . '</a>';
                 }
             }

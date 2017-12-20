@@ -349,6 +349,13 @@ class AnbCompare extends Base
             $checkoutPageLink = '/' . $parentSegment . '/' . pll__('checkout');
             $toCartLinkHtml = "href='" . $checkoutPageLink . "?product_to_cart&product_id=" . $productData['product_id'] .
                 "&provider_id=" . $productData['supplier_id'] . "'";
+
+            if($productData['supplier_is_partner']) {
+                $toCartLinkHtml = '<a ' . $toCartLinkHtml . ' class="link block-link">' . pll__('Order Now') . '</a>';
+            } else {
+                $toCartLinkHtml = '<a href="#not-available" class="link block-link not-available">' . pll__('Not Available') . '</a>';
+            }
+
             $appendHtml = '<p class="message">' . $this->decorateLatestOrderByProduct($currentProduct->product_id) . '</p>';
             $productResponse .= '<div class="offer">
                             <div class="row listRow">
@@ -374,7 +381,7 @@ class AnbCompare extends Base
                                         </div>
                                         <div class="buttonWrapper">
                                             <a href="/' . pll__('brands') . '/' . $currentProduct->supplier_slug . '/' . $currentProduct->product_slug . '" class="btn btn-primary ">' . pll__('Info and options') . '</a>
-                                            <a ' . $toCartLinkHtml . ' class="link block-link">' . pll__('Order Now') . '</a>
+                                            '.$toCartLinkHtml.'
                                         </div>
                                     </div>
                                 </div>
@@ -443,6 +450,10 @@ class AnbCompare extends Base
                                  <a href="#" class="close closeCrntPack"><span>×</span></a>';
 
                 $toCartLinkHtml = "<p class='link block-link'>&nbsp;</p>";
+            } else {
+                if(!$productData['supplier_is_partner']) {
+                    $toCartLinkHtml = '<a href="#not-available" class="link block-link not-available">' . pll__('Not Available') . '</a>';
+                }
             }
 
             $productResponse .= '<div class="col-md-4 offer-col ' . $crntpackSelectedClass . '">' .

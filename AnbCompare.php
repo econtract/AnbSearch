@@ -1685,6 +1685,7 @@ class AnbCompare extends Base
     public function cleanInputGet()
     {
         $get = filter_input_array(INPUT_GET, FILTER_SANITIZE_STRING);//Clean Params
+
         $get = (empty($get)) ? [] : $get;
 
         $get = array_merge($_GET, $get);//preserve everything in core $_GET

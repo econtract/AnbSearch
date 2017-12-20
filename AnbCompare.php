@@ -451,7 +451,7 @@ class AnbCompare extends Base
 
                 $toCartLinkHtml = "<p class='link block-link'>&nbsp;</p>";
             } else {
-                if(!$productData['supplier_is_partner']) {
+                if(empty($productData['supplier_is_partner']) || intval($productData['supplier_is_partner']) == 0) {
                     $toCartLinkHtml = '<a href="#not-available" class="link block-link not-available">' . pll__('Not Available') . '</a>';
                 }
             }
@@ -1685,7 +1685,6 @@ class AnbCompare extends Base
     public function cleanInputGet()
     {
         $get = filter_input_array(INPUT_GET, FILTER_SANITIZE_STRING);//Clean Params
-
         $get = (empty($get)) ? [] : $get;
 
         $get = array_merge($_GET, $get);//preserve everything in core $_GET

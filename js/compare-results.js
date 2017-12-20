@@ -84,6 +84,8 @@ jQuery(document).ready(function($){
 
             $('#crntPackSelectionSection').hide();
             $('#crntPackSelectionResponse').html(response).show();
+            $('#crntPackSelectionSection .offer .ajaxIconWrapper').remove();//Removing loaders ones result is loaded
+
             fixDealsTableHeight($('.compareSection .dealsTable.grid'));
         });
     });

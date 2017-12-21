@@ -350,7 +350,7 @@ class AnbCompare extends Base
             $toCartLinkHtml = "href='" . $checkoutPageLink . "?product_to_cart&product_id=" . $productData['product_id'] .
                 "&provider_id=" . $productData['supplier_id'] . "'";
 
-            if($productData['supplier_is_partner']) {
+            if($productData['commission'] === true) {
                 $toCartLinkHtml = '<a ' . $toCartLinkHtml . ' class="link block-link">' . pll__('Order Now') . '</a>';
             } else {
                 $toCartLinkHtml = '<a href="#not-available" class="link block-link not-available">' . pll__('Not Available') . '</a>';
@@ -451,7 +451,7 @@ class AnbCompare extends Base
 
                 $toCartLinkHtml = "<p class='link block-link'>&nbsp;</p>";
             } else {
-                if(empty($productData['supplier_is_partner']) || intval($productData['supplier_is_partner']) == 0) {
+                if($productData['commission'] === false) {
                     $toCartLinkHtml = '<a href="#not-available" class="link block-link not-available">' . pll__('Not Available') . '</a>';
                 }
             }

@@ -503,7 +503,8 @@ class AnbCompare extends Base
                 'cat' => $this->productTypes,
                 'status' => $this->productStatus,
                 'sort' => 'n',
-                'detaillevel' => ['contract_periods']
+                'detaillevel' => ['contract_periods'],
+                'archive_age_days' => ARCHIVE_AGE_DAYS
             ]
         );
 

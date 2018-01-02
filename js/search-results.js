@@ -131,44 +131,5 @@ jQuery(document).ready(function($){
         //console.log(redirectUrl);
         window.location = redirectUrl;
     });
-
-    //autocomplete
-    $('.typeahead:not(#personal_info_form .typeahead)').typeahead({
-        name: 'id',
-        display: 'name',
-        delay: 100,//will ensure that the request goes after 200 ms delay so that there are no multipe ajax calls while user is typing
-        source: function (query, process) {
-            var current = $(document.activeElement);
-
-            console.log("current***", current);
-            var ajaxUrl = search_compare_obj.zipcode_api + 'autofill/' + query + '.json';
-
-            return $.get(ajaxUrl, function (data) {
-                console.log("******", data);
-                var jsonData = data;
-
-                var prepareData = [];
-                for (var prop in jsonData['options']) {
-                    var propVal = jsonData['options'][prop];
-
-                    var propId = propVal.split(' - ')[0];
-
-                    prepareData.push({
-                        id: propId,
-                        name: propVal,
-                        value: propVal
-                    });
-                }
-                //console.log("prepData***", prepareData);
-                return process(prepareData);
-            });
-        },
-        displayText: function(item) {
-            return item.value;
-        },
-        updater: function(item) {
-            return item.value;
-        }
-    });
 });
 

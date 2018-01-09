@@ -495,21 +495,24 @@ class AnbCompare extends Base
      */
     public function productsCallback()
     {
-        $getProducts = $this->anbApi->getProducts(
-            [
-                'sid' => $_REQUEST['supplier'],
-                'sg' => $_REQUEST['sg'],
-                'lang' => $this->getCurrentLang(),
-                'cat' => $this->productTypes,
-                'status' => $this->productStatus,
-                'sort' => 'n',
-                'detaillevel' => ['contract_periods'],
-                'archive_age_days' => ARCHIVE_AGE_DAYS
-            ]
-        );
+	    $extSuppTbl = new \wpdb(DB_PRODUCT_USER, DB_PRODUCT_PASS, DB_PRODUCT, DB_PRODUCT_HOST);
 
-        $products = json_decode($getProducts, true);
+	    $statemet = $extSuppTbl->prepare(
+		    "SELECT producttype,product_id,product_name FROM supplier_products 
+				WHERE supplier_id=%d AND lang=%s AND segment=%s AND (active=%d OR active=%d) AND (producttype=%s OR producttype=%s) 
+				ORDER BY product_name",
+		    [
+			    $_REQUEST['supplier'],
+			    $this->getCurrentLang(),
+			    $_REQUEST['sg'],
+			    $this->productStatus[0],
+			    $this->productStatus[1],
+			    $this->productTypes[0],
+			    $this->productTypes[1],
+		    ]
+	    );
 
+	    $products = $extSuppTbl->get_results($statemet, ARRAY_A);
 
         if (empty($products)) {
             return $html = '';

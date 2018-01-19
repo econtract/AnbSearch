@@ -54,19 +54,29 @@ jQuery(document).ready(function($){
             'supplier' : this.value
         };
 
+        var currentPack= $('#currentPack');
+
         var urlParams = window.location.search
         // We can also pass the url value separately from ajaxurl for front end AJAX implementations
-        $('#currentPack').html('<option>Loading...</option>');
+        currentPack.html('<option value="">Loading...</option>');
 
         // We can also pass the url value separately from ajaxurl for front end AJAX implementations
         jQuery.get(compare_between_results_object.ajax_url + urlParams, data, function(response) {
 
-            $('#currentPack').html(response);
+            currentPack.html(response);
+            currentPack
+                .siblings('.form-control-feedback')
+                .removeClass('glyphicon-ok glyphicon-remove');
+
+            currentPack.parents('form').validator('update');
+
+
         });
     });
 
     // Get current pack product
-    $('#currentPackBtn').on('click', function() {
+    $('#comparePopupForm').on('submit', function() {
+
 
         var currentPack = $('#currentPack').val().split('|');
 
@@ -88,6 +98,8 @@ jQuery(document).ready(function($){
 
             fixDealsTableHeight($('.compareSection .dealsTable.grid'));
         });
+
+        return false;
     });
 
 

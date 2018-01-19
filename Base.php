@@ -78,9 +78,7 @@ class Base
     public function getCurrentLang()
     {
         $lang = 'nl';
-        if (method_exists('pll_current_language')) {
-            $lang = (pll_current_language()) ? pll_current_language() : 'nl';
-        }
+	    $lang = function_exists( 'pll_current_language' ) ? pll_current_language() : Locale::getPrimaryLanguage( get_locale() );
         return $lang;
     }
 

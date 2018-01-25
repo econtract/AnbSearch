@@ -515,14 +515,15 @@ class AnbCompare extends Base
 	    $products = $extSuppTbl->get_results($statemet, ARRAY_A);
 	    $endTime = getEndTime();
 
-	    if($_GET['debug']) {
-		    displayCallTime($startTime, $endTime, 'Display Time for Comp Query+++');
-	    }
+	    //if($_GET['debug']) {
+	    displayCallTime($startTime, $endTime, 'Display Time for Comp Query+++');
+	    //}
 
         if (empty($products)) {
             return $html = '';
         }
 
+	    $startTime = getStartTime();
         $html = '<option value="">' . pll__('Select your pack') . '</option>';
 
         foreach ($products as $product) {
@@ -530,7 +531,8 @@ class AnbCompare extends Base
         }
 
         print $html;
-
+	    $endTime = getStartTime();
+	    displayCallTime($startTime, $endTime, '+++HTML GENERATED+++');
         wp_die(); // this is required to terminate immediately and return a proper response
     }
 

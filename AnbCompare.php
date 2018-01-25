@@ -496,7 +496,7 @@ class AnbCompare extends Base
     public function productsCallback()
     {
 	    $extSuppTbl = new \wpdb(DB_PRODUCT_USER, DB_PRODUCT_PASS, DB_PRODUCT, DB_PRODUCT_HOST);
-
+	    $startTime = getStartTime();
 	    $statemet = $extSuppTbl->prepare(
 		    "SELECT producttype,product_id,product_name FROM supplier_products 
 				WHERE supplier_id=%d AND lang=%s AND segment=%s AND (active=%d OR active=%d) AND (producttype=%s OR producttype=%s) 
@@ -513,6 +513,11 @@ class AnbCompare extends Base
 	    );
 
 	    $products = $extSuppTbl->get_results($statemet, ARRAY_A);
+	    $endTime = getEndTime();
+
+	    if($_GET['debug']) {
+		    displayCallTime($startTime, $endTime, 'Display Time for Comp Query+++');
+	    }
 
         if (empty($products)) {
             return $html = '';

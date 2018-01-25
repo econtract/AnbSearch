@@ -380,7 +380,7 @@ class AnbCompare extends Base
                                             </label>
                                         </div>
                                         <div class="buttonWrapper">
-                                            <a href="/' . pll__('brands') . '/' . $currentProduct->supplier_slug . '/' . $currentProduct->product_slug . '" class="btn btn-primary ">' . pll__('Info and options') . '</a>
+                                            <a href="/' . pll__('brands') . '/' . $currentProduct->supplier_slug . '/' . $currentProduct->product_slug . '" class="btn btn-primary btn-block">' . pll__('Info and options') . '</a>
                                             '.$toCartLinkHtml.'
                                         </div>
                                     </div>

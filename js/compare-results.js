@@ -39,7 +39,7 @@ jQuery(document).ready(function($){
         var urlParams = window.location.search;
         $('#compareBetweenResultsResponse').html('<div class="ajaxIconWrapper"><div class="ajaxIcon"><img src="'+compare_between_results_object.template_uri+'/images/common/icons/ajaxloader.png" alt="Loading..."></div></div>');
         // We can also pass the url value separately from ajaxurl for front end AJAX implementations
-        jQuery.get(compare_between_results_object.ajax_url + urlParams, data, function(response) {
+        jQuery.get('/api' + urlParams+'&load=compare', data, function(response) {
 
             $('#compareBetweenResultsResponse').html(response);
             fixDealsTableHeight($('.compareSection .dealsTable.grid'));
@@ -55,15 +55,16 @@ jQuery(document).ready(function($){
         };
 
         var currentPack= $('#currentPack');
+        var firstOption = '<option value="">'+compare_between_results_object.select_your_pack+"</option>";
 
         var urlParams = window.location.search
         // We can also pass the url value separately from ajaxurl for front end AJAX implementations
         currentPack.html('<option value="">Loading...</option>');
 
         // We can also pass the url value separately from ajaxurl for front end AJAX implementations
-        jQuery.get(compare_between_results_object.ajax_url + urlParams, data, function(response) {
+        jQuery.get('/api' + urlParams+'&load=ajax', data, function(response) {
 
-            currentPack.html(response);
+            currentPack.html(firstOption +""+response);
             currentPack
                 .siblings('.form-control-feedback')
                 .removeClass('glyphicon-ok glyphicon-remove');
@@ -90,7 +91,7 @@ jQuery(document).ready(function($){
         var urlParams = window.location.search;
         // We can also pass the url value separately from ajaxurl for front end AJAX implementations
         $('#crntPackSelectionSection .offer').append('<div class="ajaxIconWrapper"><div class="ajaxIcon"><img src="'+compare_between_results_object.template_uri+'/images/common/icons/ajaxloader.png" alt="Loading..."></div></div>');
-        jQuery.get(compare_between_results_object.ajax_url + urlParams, data, function(response) {
+        jQuery.get('/api' + urlParams+'&load=compare', data, function(response) {
 
             $('#crntPackSelectionSection').hide();
             $('#crntPackSelectionResponse').html(response).show();

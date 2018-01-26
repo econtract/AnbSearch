@@ -76,11 +76,10 @@ jQuery(document).ready(function($){
     });
 
     // Get current pack product
-    $('#comparePopupForm').on('submit', function() {
-
-
+    $('#comparePopupForm').on('submit', function(e) {
+        e.preventDefault();
         var currentPack = $('#currentPack').val().split('|');
-
+        $('#selectCurrentPack').modal('hide');
         var data = {
             'action'       : 'compareBetweenResults',
             'productTypes' :  currentPack[0],

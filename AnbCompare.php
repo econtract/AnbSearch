@@ -57,14 +57,15 @@ class AnbCompare extends Base
         wp_localize_script('search-compare-script', 'search_compare_obj',
             array('ajax_url' => admin_url('admin-ajax.php'), 'zipcode_api' => ZIPCODE_API));
 
-        wp_enqueue_script('compare-between-results-script', plugins_url('/js/compare-results.js', __FILE__), array('jquery'), '1.0.6', true);
+        wp_enqueue_script('compare-between-results-script', plugins_url('/js/compare-results.js', __FILE__), array('jquery'), '1.0.7', true);
 
         // in JavaScript, object properties are accessed as ajax_object.ajax_url, ajax_object.we_value
         wp_localize_script('compare-between-results-script', 'compare_between_results_object',
             array(
                 'ajax_url' => admin_url('admin-ajax.php'),
                 'current_pack' => pll__('your current pack'),
-                'template_uri' => get_template_directory_uri()
+                'select_your_pack' => pll__('Select your pack'),
+                'template_uri' => get_template_directory_uri(),
             )
         );
 
@@ -515,9 +516,9 @@ class AnbCompare extends Base
 	    $products = $extSuppTbl->get_results($statemet, ARRAY_A);
 	    $endTime = getEndTime();
 
-	    //if($_GET['debug']) {
-	    displayCallTime($startTime, $endTime, 'Display Time for Comp Query+++');
-	    //}
+	    if($_GET['debug']) {
+	        displayCallTime($startTime, $endTime, 'Display Time for Comp Query+++');
+	    }
 
         if (empty($products)) {
             return $html = '';
@@ -532,7 +533,9 @@ class AnbCompare extends Base
 
         print $html;
 	    $endTime = getStartTime();
-	    displayCallTime($startTime, $endTime, '+++HTML GENERATED+++');
+	    if($_GET['debug']) {
+		    displayCallTime($startTime, $endTime, '+++HTML GENERATED+++');
+	    }
         wp_die(); // this is required to terminate immediately and return a proper response
     }
 

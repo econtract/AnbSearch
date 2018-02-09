@@ -350,7 +350,7 @@ class AnbCompare extends Base
             $parentSegment = getSectorOnCats($_SESSION['product']['cat']);
             $checkoutPageLink = '/' . $parentSegment . '/' . pll__('checkout');
             $toCartLinkHtml = "href='" . $checkoutPageLink . "?product_to_cart&product_id=" . $productData['product_id'] .
-                "&provider_id=" . $productData['supplier_id'] . "'";
+                "&provider_id=" . $productData['supplier_id'] . "&sg={$productData['sg']}&producttype={$productData['producttype']}'";
 
             if($productData['commission'] === true) {
                 $toCartLinkHtml = '<a ' . $toCartLinkHtml . ' class="link block-link">' . pll__('Order Now') . '</a>';
@@ -438,7 +438,7 @@ class AnbCompare extends Base
             $parentSegment = getSectorOnCats($_SESSION['product']['cat']);
             $checkoutPageLink = '/' . $parentSegment . '/' . pll__('checkout');
             $toCartLinkHtml = "href='" . $checkoutPageLink . "?product_to_cart&product_id=" . $productData['product_id'] .
-                "&provider_id=" . $productData['supplier_id'] . "'";
+                "&provider_id=" . $productData['supplier_id'] . "&sg={$productData['sg']}&producttype={$productData['producttype']}'";
             $toCartLinkHtml = '<a ' . $toCartLinkHtml . ' class="link block-link">' . pll__('Order Now') . '</a>';
 
             $selectedVal = !empty($_REQUEST['crntPack']) ? $_REQUEST['crntPack'] : pll__('Selected Pack') . ' ' . $countProducts;

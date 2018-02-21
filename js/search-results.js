@@ -131,5 +131,18 @@ jQuery(document).ready(function($){
         //console.log(redirectUrl);
         window.location = redirectUrl;
     });
+
+    $("#calcPbsModal").on("show.bs.modal", function(e) {
+        var link = $(e.relatedTarget);
+        var target = $(this);
+        console.log("search_compare_obj***", search_compare_obj);
+        target.find('.modal-body').html('<div class="ajaxIconWrapper"><div class="ajaxIcon"><img src="'+search_compare_obj.template_uri+'/images/common/icons/ajaxloader.png" alt="Loading..."></div></div>');
+        $.get(search_compare_obj.ajax_url, link.attr("href"), function(response) {
+
+            target.find(".modal-body").html(response);
+
+        });
+    });
+
 });
 

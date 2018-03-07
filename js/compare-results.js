@@ -33,7 +33,8 @@ jQuery(document).ready(function($){
         var data = {
             'action'       : 'compareBetweenResults',
             'products'     :  selectedProducts,
-            'productTypes' :  selectedProductTypes
+            'productTypes' :  selectedProductTypes,
+            'features_label': compare_between_results_object.features_label
         };
 
         var urlParams = window.location.search;
@@ -84,7 +85,8 @@ jQuery(document).ready(function($){
             'action'       : 'compareBetweenResults',
             'productTypes' :  currentPack[0],
             'products'     :  currentPack[1],
-            'crntPack'     : compare_between_results_object.current_pack
+            'crntPack'     : compare_between_results_object.current_pack,
+            'features_label': compare_between_results_object.features_label
         };
 
         var urlParams = window.location.search;

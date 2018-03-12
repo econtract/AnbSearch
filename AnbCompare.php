@@ -718,34 +718,50 @@ class AnbCompare extends Base
      *
      * @return string
      */
-    function getServiceDetail($product)
+    function getServiceDetail($product, $listView = false)
     {
         $servicesHtml = '';
 
         if(isset($product->packtypes)) {
             foreach ($product->packtypes as $key => $packType) {
+
                 $features = $packType->core_features->{$key};
-                $servicesHtml .= $this->generateServiceDetailHtml($key, $packType->product_name, $features);
+	            if($listView) {
+		            $servicesHtml .= '<div class="col-md-3">'.
+		                             $this->generateServiceDetailHtml($key, $packType->product_name, $features, $listView).
+		                             '</div>';
+	            } else {
+		            $servicesHtml .= $this->generateServiceDetailHtml($key, $packType->product_name, $features, $listView);
+	            }
             }
         } else {
             $features = $product->core_features->internet;
-            $servicesHtml = $this->generateServiceDetailHtml("internet", $product->product_name, $features);
+            $servicesHtml = $this->generateServiceDetailHtml("internet", $product->product_name, $features, $listView);
+	        if($listView) {
+		        $servicesHtml = '<div class="col-md-3">'.
+		                         $this->generateServiceDetailHtml("internet", $product->product_name, $features, $listView).
+		                         '</div>';
+	        }
         }
 
         return $servicesHtml;
     }
 
-    function generateServiceDetailHtml ($service, $productName, $features = '') {
+    function generateServiceDetailHtml ($service, $productName, $features = '', $listView = false) {
         $featuresHtml = '';
         foreach ($features as $feature) {
             $featuresHtml .= '<li>' . $feature->label . '</li>';
+        }
+        $serviceLabel = '<h6>' . $productName . '</h6>';
+        if($listView === true) {
+	        $serviceLabel = '';
         }
 
         return '<div class="packageDetail ' . $service . '">
                     <div class="iconWrapper">
                         <i class="service-icons ' . $service . '"></i>
                     </div>
-                    <h6>' . $productName . '</h6>
+                    '.$serviceLabel.'
                     <ul class="list-unstyled pkgSummary">
                        ' . $featuresHtml . '
                     </ul>

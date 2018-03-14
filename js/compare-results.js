@@ -34,7 +34,8 @@ jQuery(document).ready(function($){
             'action'       : 'compareBetweenResults',
             'products'     :  selectedProducts,
             'productTypes' :  selectedProductTypes,
-            'features_label': compare_between_results_object.features_label
+            'features_label': compare_between_results_object.features_label,
+            'lang': compare_between_results_object.lang
         };
 
         var urlParams = window.location.search;
@@ -86,7 +87,8 @@ jQuery(document).ready(function($){
             'productTypes' :  currentPack[0],
             'products'     :  currentPack[1],
             'crntPack'     : compare_between_results_object.current_pack,
-            'features_label': compare_between_results_object.features_label
+            'features_label': compare_between_results_object.features_label,
+            'lang': compare_between_results_object.lang
         };
 
         var urlParams = window.location.search;

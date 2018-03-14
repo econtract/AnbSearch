@@ -329,70 +329,114 @@ class AnbCompare extends Base
         $products = json_decode($products);
 
         $countProducts = 0;
+	    foreach ($products->results as $listProduct) {
 
-        foreach ($products->results as $listProduct) {
+		    $countProducts++;
 
-            $countProducts++;
+		    if ($countProducts <= $this->defaultNumberOfResults) {
+			    continue;
+		    }
+		    $currentProduct = $listProduct->product;
 
-            if ($countProducts <= $this->defaultNumberOfResults) {
-                continue;
-            }
+		    list($productData, $priceHtml, $servicesHtml) = $this->extractProductData($this->anbTopDeals, $currentProduct);
 
-            $currentProduct = $listProduct->product;
+		    //Promotions, Installation/Activation HTML
+		    //display installation and activation price
+		    $promotionHtml = $this->anbTopDeals->getPromoInternalSection($productData, true);//True here will drop promotions
 
-            list($productData, $priceHtml, $servicesHtml) = $this->extractProductData($this->anbTopDeals, $currentProduct);
+		    list($advPrice, $monthDurationPromo, $firstYearPrice) = $this->anbTopDeals->getPriceInfo($productData);
 
-            //Promotions, Installation/Activation HTML
-            //display installation and activation price
-            $promotionHtml = $this->anbTopDeals->getPromoInternalSection($productData, true);//True here will drop promotions
+		    $parentSegment = getSectorOnCats($_SESSION['product']['cat']);
+		    $checkoutPageLink = '/' . $parentSegment . '/' . pll__('checkout');
+		    $toCartLinkHtml = "href='" . $checkoutPageLink . "?product_to_cart&product_id=" . $productData['product_id'] .
+		                      "&provider_id=" . $productData['supplier_id'] . "&sg={$productData['sg']}&producttype={$productData['producttype']}'";
 
-            list($advPrice, $monthDurationPromo, $firstYearPrice) = $this->anbTopDeals->getPriceInfo($productData);
-
-            $parentSegment = getSectorOnCats($_SESSION['product']['cat']);
-            $checkoutPageLink = '/' . $parentSegment . '/' . pll__('checkout');
-            $toCartLinkHtml = "href='" . $checkoutPageLink . "?product_to_cart&product_id=" . $productData['product_id'] .
-                "&provider_id=" . $productData['supplier_id'] . "&sg={$productData['sg']}&producttype={$productData['producttype']}'";
-
-            if($productData['commission'] === true) {
-                $toCartLinkHtml = '<a ' . $toCartLinkHtml . ' class="link block-link">' . pll__('Order Now') . '</a>';
-            } else {
-                $toCartLinkHtml = '<a href="#not-available" class="link block-link not-available">' . pll__('Not Available') . '</a>';
-            }
-
-            $appendHtml = '<p class="message">' . $this->decorateLatestOrderByProduct($currentProduct->product_id) . '</p>';
-            $productResponse .= '<div class="offer">
+		    if($productData['commission'] === true) {
+			    $toCartLinkHtml = '<a ' . $toCartLinkHtml . ' class="link block-link">' . pll__('Order Now') . '</a>';
+		    } else {
+			    $toCartLinkHtml = '<a href="#not-available" class="link block-link not-available">' . pll__('Not Available') . '</a>';
+		    }
+		    $appendHtml = '<p class="message">' . $this->decorateLatestOrderByProduct($currentProduct->product_id) . '</p>';
+		    $orderInfoHtml = '<div class="buttonWrapper">
+                            <a href="/' . pll__( 'brands' ) . '/' . $productData['supplier_slug'] . '/' . $productData['product_slug'] . '" class="btn btn-primary ">' . pll__( 'Info and options' ) . '</a>
+                            '.$toCartLinkHtml.'
+                          </div>';
+		    //echo "yoooo...1";die();
+		    $productResp .= '<div class="offer">
                             <div class="row listRow">
-                                <div class="col-md-4">
-                                    
-                                    ' . $this->anbTopDeals->getProductDetailSection($productData, $servicesHtml) . '
+                                <div class="col-md-3">
+                                    '.$this->anbTopDeals->getProductDetailSection( $productData, $servicesHtml, false, '', true ).'
                                 </div>
                                 <div class="col-md-3">
-                                 
-                                ' . $this->anbTopDeals->getPromoSection($promotionHtml, $advPrice, 'dealFeatures', $appendHtml) . '
-                                   
-                                </div>
-                                <div class="col-md-2">
-                                   ' . $this->anbTopDeals->priceSection($priceHtml, $monthDurationPromo, $firstYearPrice, 'dealPrice', '') . '
+                                    '.$this->anbTopDeals->getPromoSection( $promotionHtml, 0, 'dealFeatures', '' ).'
                                 </div>
                                 <div class="col-md-3">
+                                    '.$this->anbTopDeals->priceSection( $priceHtml, $monthDurationPromo, $firstYearPrice, 'dealPrice', '', '', $productData ).'
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="totalCalcWrapper">
+                                        '.$this->anbTopDeals->getTotalAdvHtml($productData['advantage']).'
+                                    </div>
                                     <div class="actionButtons">
-                                        <div class="comparePackage">
-                                            <label>
-                                                <input type="hidden" name="compareProductType' . $currentProduct->product_id . '>" value="' . $currentProduct->producttype . '">
-                                                <input type="checkbox" value="' . $currentProduct->product_id . '"> ' . pll__('Compare') . '
-                                            </label>
-                                        </div>
-                                        <div class="buttonWrapper">
-                                            <a href="/' . pll__('brands') . '/' . $currentProduct->supplier_slug . '/' . $currentProduct->product_slug . '" class="btn btn-primary btn-block">' . pll__('Info and options') . '</a>
-                                            '.$toCartLinkHtml.'
-                                        </div>
+                                        '.$orderInfoHtml.'
+                                    </div>
+                                </div>
+                              </div>
+                            <div class="row listRow withSeperator">'.$this->getServiceDetail( $currentProduct, true ).'</div>
+                            <div class="row listRow withSeperator">
+                                <div class="col-md-8">
+                                    <div class="recentOrder">
+                                        '.decorateLatestOrderByProduct($currentProduct->product_id).'
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="rightWrapper">
+                                        <span class="lastUpdated"> '.pll__('Last updated').': <span class="timestamp">'.formatDate($currentProduct->last_update).'</span></span>
+                                        <span class="comparePackage">
+		                                    <label>
+		                                        <input type="hidden"
+		                                               name="compareProductType'.$currentProduct->product_id.'"
+		                                               value="'.$currentProduct->producttype.'">
+		                                                <input type="checkbox"
+		                                                       value="'.$currentProduct->product_id.'"> '.pll__( 'Compare' ).'
+		                                    </label>
+		                                </span>
                                     </div>
                                 </div>
                             </div>
                         </div>';
-        }
 
-        print $productResponse;
+		    //old product response with old design
+		    /*$productResponse .= '<div class="offer">
+							<div class="row listRow">
+								<div class="col-md-4">
+									' . $this->anbTopDeals->getProductDetailSection($productData, $servicesHtml) . '
+								</div>
+								<div class="col-md-3">
+								' . $this->anbTopDeals->getPromoSection($promotionHtml, $advPrice, 'dealFeatures', $appendHtml) . '
+								</div>
+								<div class="col-md-2">
+								   ' . $this->anbTopDeals->priceSection($priceHtml, $monthDurationPromo, $firstYearPrice, 'dealPrice', '') . '
+								</div>
+								<div class="col-md-3">
+									<div class="actionButtons">
+										<div class="comparePackage">
+											<label>
+												<input type="hidden" name="compareProductType' . $currentProduct->product_id . '>" value="' . $currentProduct->producttype . '">
+												<input type="checkbox" value="' . $currentProduct->product_id . '"> ' . pll__('Compare') . '
+											</label>
+										</div>
+										<div class="buttonWrapper">
+											<a href="/' . pll__('brands') . '/' . $currentProduct->supplier_slug . '/' . $currentProduct->product_slug . '" class="btn btn-primary btn-block">' . pll__('Info and options') . '</a>
+											'.$toCartLinkHtml.'
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>';*/
+	    }
+
+        echo $productResp;
 
         wp_die(); // this is required to terminate immediately and return a proper response
     }

@@ -57,7 +57,7 @@ class AnbCompare extends Base
         wp_localize_script('search-compare-script', 'search_compare_obj',
             array('ajax_url' => admin_url('admin-ajax.php'), 'zipcode_api' => ZIPCODE_API, 'template_uri' => get_template_directory_uri()));
 
-        wp_enqueue_script('compare-between-results-script', plugins_url('/js/compare-results.js', __FILE__), array('jquery'), '1.0.10', true);
+        wp_enqueue_script('compare-between-results-script', plugins_url('/js/compare-results.js', __FILE__), array('jquery'), '1.0.11', true);
 
         // in JavaScript, object properties are accessed as ajax_object.ajax_url, ajax_object.we_value
         wp_localize_script('compare-between-results-script', 'compare_between_results_object',
@@ -67,6 +67,7 @@ class AnbCompare extends Base
                 'current_pack' => pll__('your current pack'),
                 'select_your_pack' => pll__('Select your pack'),
                 'template_uri' => get_template_directory_uri(),
+	            'lang' => $this->getCurrentLang(),
 	            'features_label' => pll__('Features')
             )
         );
@@ -513,7 +514,7 @@ class AnbCompare extends Base
                 '<div class="offer">' .
                 $this->anbTopDeals->getProductDetailSection($productData, $servicesHtml) .
                 $this->anbTopDeals->priceSection($priceHtml, $monthDurationPromo, $firstYearPrice) .
-                $this->anbTopDeals->getPromoSection($promotionHtml, $advPrice, 'dealFeatures',
+                $this->anbTopDeals->getPromoSection($promotionHtml, $productData['advantage'], 'dealFeatures',
                     '<a href="/' . pll__('brands') . '/' . $productData['supplier_slug'] . '/' . $productData['product_slug'] . '" class="btn btn-primary ">' . pll__('Info and options') . '</a>
                                                      '.$toCartLinkHtml.'
                                                      <p class="message">' . $this->decorateLatestOrderByProduct($productData['product_id']) . '</p>') .

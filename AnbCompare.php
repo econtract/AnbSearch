@@ -1006,10 +1006,109 @@ class AnbCompare extends Base
                         <form action='" . $resultsPageUri . "' class='form-horizontal' id='yourProfileWizardForm' data-toggle='validator' role='form'>
                         	<div class='container-fluid'>
 	                            <div class='panel-group' id='accordion' role='tablist' aria-multiselectable='true'>
+	                            
+	                                <!--Compare-->	                            	
+	                            	<div class='panel panel-default' id='comparePanel'>
+                                        <div class='panel-heading active' role='tab' id='CompareHeading'>
+                                            <h4 class='panel-title'>
+                                                <a role='button' data-toggle='collapse' data-parent='#accordion'
+                                                   href='#compareCompPanel' aria-expanded='true'
+                                                   aria-controls='collapseOne'>
+                                                        <span class='headingTitle hasSelectedValue'>
+                                                            <i class='icon wizard multidevice'></i>
+                                                            <span class='caption'>
+                                                                <span class='caption_close'>" . pll__('compare') . "</span>
+                                                                <span class='caption_open'>" . pll__('compare') . "</span>
+                                                            </span>
+                                                            <span class='selectedInfo'></span>
+                                                        </span>
+                                                </a>
+                                            </h4>
+                                        </div>
+                                        <div id='compareCompPanel' class='panel-collapse collapse in' role='tabpanel'
+                                             aria-labelledby='headingOne'  data-wizard-panel='compare'>
+                                            <div class='panel-body text-center'>
+                                                <div class='form-group'>
+                                                    <div class='selectServicesComp'>
+                                                        <ul class='list-unstyled'>
+                                                            <li>
+                                                                <div>
+                                                                    <input name='cat[]' id='internet_service_wiz' checked='checked' onclick='event.preventDefault();' type='checkbox' value='internet'>
+                                                                    <label for='internet_service_wiz'>
+                                                                        <span class='icon'>
+                                                                        <i class='sprite sprite-wifi'></i>
+                                                                        </span>
+                                                                        <span class='description'>Internet</span>
+                                                                        <span class='tick-icon'>
+                                                                        <i class='fa fa-check'></i>
+                                                                        <i class='fa fa-square-o'></i>
+                                                                        </span>
+                                                                    </label>
+                                                                </div>
+                                                            </li>
+                                                            <li>
+                                                                <div>
+                                                                    <input name='cat[]' id='tv_service_wiz' type='checkbox' value='tv'
+                                                                    >
+                                                                    <label for='tv_service_wiz'>
+                                                                        <span class='icon'>
+                                                                        <i class='sprite sprite-tv'></i>
+                                                                        </span>
+                                                                        <span class='description'>TV</span>
+                                                                        <span class='tick-icon'>
+                                                                        <i class='fa fa-check'></i>
+                                                                        <i class='fa fa-square-o'></i>
+                                                                        </span>
+                                                                    </label>
+                                                                </div>
+                                                            </li>
+                                                            <li>
+                                                                <div>
+                                                                    <input name='cat[]' id='telephone_service_wiz' type='checkbox' value='telephone'
+                                                                    >
+                                                                    <label for='telephone_service_wiz'>
+                                                                        <span class='icon'>
+                                                                        <i class='sprite sprite-phone'></i>
+                                                                        </span>
+                                                                        <span class='description'>Fixed line</span>
+                                                                        <span class='tick-icon'>
+                                                                        <i class='fa fa-check'></i>
+                                                                        <i class='fa fa-square-o'></i>
+                                                                        </span>
+                                                                    </label>
+                                                                </div>
+                                                            </li>
+                                                            <li>
+                                                                <div>
+                                                                    <input name='cat[]' id='mobile_service_wiz' type='checkbox' value='gsm'
+                                                                    >
+                                                                    <label for='mobile_service_wiz'>
+                                                                        <span class='icon'>
+                                                                        <i class='sprite sprite-mobile'></i>
+                                                                        </span>
+                                                                        <span class='description'>Mobile</span>
+                                                                        <span class='tick-icon'>
+                                                                        <i class='fa fa-check'></i>
+                                                                        <i class='fa fa-square-o'></i>
+                                                                        </span>
+                                                                    </label>
+                                                                </div>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                                <!--<div class='buttonWrapper'>
+                                                    <button type='button' class='btn btn-primary'><i
+                                                                class='fa fa-check'></i> " . pll__('Ok') . "
+                                                    </button>
+                                                </div> -->
+                                            </div>
+                                        </div>
+                                    </div>
                                     
                                     <!--Location-->	                            	
-	                            	<div class='panel panel-default'>
-                                        <div class='panel-heading active' role='tab' id='installationHeading'>
+	                            	<div class='panel panel-default' id='locationPanel'>
+                                        <div class='panel-heading' role='tab' id='installationHeading'>
                                             <h4 class='panel-title'>
                                                 <a role='button' data-toggle='collapse' data-parent='#accordion'
                                                    href='#installationPanel' aria-expanded='true'
@@ -1017,15 +1116,16 @@ class AnbCompare extends Base
                                                         <span class='headingTitle'>
                                                             <i class='icon wizard location'></i>
                                                             <span class='caption'>
-                                                                <span class='caption_close'>" . pll__('location') . "</span>
+                                                                <span class='caption_close'>" . pll__('set location') . "</span>
                                                                 <span class='caption_open'>" . pll__('Installation area') . "</span>
                                                             </span>
                                                             <span class='selectedInfo'></span>
+                                                            <span class='changeInfo'>". pll__('Change') ."</span>
                                                         </span>
                                                 </a>
                                             </h4>
                                         </div>
-                                        <div id='installationPanel' class='panel-collapse collapse in' role='tabpanel'
+                                        <div id='installationPanel' class='panel-collapse collapse' role='tabpanel'
                                              aria-labelledby='headingOne'  data-wizard-panel='location'>
                                             <div class='panel-body text-center'>
                                                 <div class='form-group has-feedback'>
@@ -1051,7 +1151,7 @@ class AnbCompare extends Base
                                     </div>
                                     
                                     <!--Use-->
-                                    <div class='panel panel-default'>
+                                    <div class='panel panel-default' id='usagePanel'>
                                         <div class='panel-heading' role='tab' id='consumerHeading'>
                                             <h4 class='panel-title'>
                                                 <a role='button' data-toggle='collapse' data-parent='#accordion'
@@ -1060,10 +1160,11 @@ class AnbCompare extends Base
                                                             <span class='headingTitle'>
                                                                 <i class='icon wizard location'></i>
                                                                 <span class='caption'>
-                                                                    <span class='caption_close'>" . pll__('Use') . "</span>
+                                                                    <span class='caption_close'>" . pll__('Define use') . "</span>
                                                                     <span class='caption_open'>" . pll__('Type of use') . "</span>
                                                                 </span>
                                                                 <span class='selectedInfo'></span>
+                                                                <span class='changeInfo'>". pll__('Change') ."</span>
                                                             </span>
                                                 </a>
                                             </h4>
@@ -1100,7 +1201,7 @@ class AnbCompare extends Base
                                     </div>
                                     
                                     <!--Family Members-->
-                                    <div class='panel panel-default'>
+                                    <div class='panel panel-default' id='familyPanel'>
                                         <div class='panel-heading' role='tab' id='headingOne'>
                                             <h4 class='panel-title'>
                                                 <a role='button' data-toggle='collapse' data-parent='#accordion'
@@ -1108,10 +1209,11 @@ class AnbCompare extends Base
                                                     <span class='headingTitle'>
                                                         <i class='icon wizard user'></i>
                                                         <span class='caption'>
-                                                            <span class='caption_close'>" . pll__('Family') . "</span>
+                                                            <span class='caption_close'>" . pll__('Set family members') . "</span>
                                                             <span class='caption_open'>" . pll__('How many members your family have?') . "</span>
                                                         </span>
                                                         <span class='selectedInfo'></i></span>
+                                                        <span class='changeInfo'>". pll__('Change') ."</span>
                                                     </span>
                                                 </a>
                                             </h4>
@@ -1217,7 +1319,7 @@ class AnbCompare extends Base
                                     </div>
                                     
                                     <!--Devices-->
-                                    <div class='panel panel-default'>
+                                    <div class='panel panel-default' id='devicesPanel'>
                                         <div class='panel-heading' role='tab' id='headingTwo'>
                                             <h4 class='panel-title'>
                                                 <a class='collapsed' role='button' data-toggle='collapse'
@@ -1226,10 +1328,11 @@ class AnbCompare extends Base
                                                             <span class='headingTitle'>
                                                                 <i class='icon wizard multidevice'></i>
                                                                 <span class='caption'>
-                                                                    <span class='caption_close'>" . pll__('Devices') . "</span>
+                                                                    <span class='caption_close'>" . pll__('Total devices') . "</span>
                                                                     <span class='caption_open'>"  . pll__('How many devices do you have?') . "</span>
                                                                 </span>
                                                                 <span class='selectedInfo'></span>
+                                                                <span class='changeInfo'>". pll__('Change') ."</span>
                                                             </span>
                                                 </a>
                                             </h4>
@@ -1349,7 +1452,7 @@ class AnbCompare extends Base
                                     </div>
                                     
                                     <!--Internet Needs -->
-                                    <div class='panel panel-default'>
+                                    <div class='panel panel-default' id='internetPanel'>
                                         <div class='panel-heading' role='tab' id='headingInternetNeeds'>
                                             <h4 class='panel-title'>
                                                 <a class='collapsed' role='button' data-toggle='collapse'
@@ -1358,10 +1461,11 @@ class AnbCompare extends Base
                                                     <span class='headingTitle'>
                                                         <i class='icon wizard internet'></i>
                                                         <span class='caption'>
-                                                            <span class='caption_close'>" . pll__('Internet use') . "</span>
+                                                            <span class='caption_close'>" . pll__('Set internet usage') . "</span>
                                                             <span class='caption_open'>".pll__('What are your internet needs?')."</span>
                                                         </span>
                                                         <span class='selectedInfo'></span>
+                                                        <span class='changeInfo'>". pll__('Change') ."</span>
                                                     </span>
                                                 </a>
                                             </h4>
@@ -1417,7 +1521,7 @@ class AnbCompare extends Base
                                     </div>
                                     
                                     <!--Tv Needs -->
-                                    <div class='panel panel-default'>
+                                    <div class='panel panel-default' id='televisionPanel'>
                                         <div class='panel-heading' role='tab' id='headingTVNeeds'>
                                             <h4 class='panel-title'>
                                                 <a class='collapsed' role='button' data-toggle='collapse'
@@ -1426,10 +1530,11 @@ class AnbCompare extends Base
                                                     <span class='headingTitle'>
                                                         <i class='icon wizard tv'></i>
                                                         <span class='caption'>
-                                                            <span class='caption_close'>" . pll__('TV use') . "</span>
+                                                            <span class='caption_close'>" . pll__('Set Television needs') . "</span>
                                                             <span class='caption_open'>".pll__('What are your tv needs?')."</span>
                                                         </span>
                                                         <span class='selectedInfo'></span>
+                                                        <span class='changeInfo'>". pll__('Change') ."</span>
                                                     </span>
                                                 </a>
                                             </h4>
@@ -1497,7 +1602,7 @@ class AnbCompare extends Base
                                     </div>
                                     
                                     <!--Fixed Lines -->
-                                    <div class='panel panel-default'>
+                                    <div class='panel panel-default' id='fixedLinePanel'>
                                         <div class='panel-heading' role='tab' id='headingFixedLine'>
                                             <h4 class='panel-title'>
                                                 <a class='collapsed' role='button' data-toggle='collapse'
@@ -1506,10 +1611,11 @@ class AnbCompare extends Base
                                                     <span class='headingTitle'>
                                                         <i class='icon wizard phone'></i>
                                                         <span class='caption'>
-                                                            <span class='caption_close'>" . pll__('Fixed line use') . "</span>
+                                                            <span class='caption_close'>" . pll__('Set fixed line needs') . "</span>
                                                             <span class='caption_open'>".pll__('What are your needs for Fixed line?')."</span>
                                                         </span>
                                                         <span class='selectedInfo'></span>
+                                                        <span class='changeInfo'>". pll__('Change') ."</span>
                                                     </span>
                                                 </a>
                                             </h4>
@@ -1575,69 +1681,9 @@ class AnbCompare extends Base
                                             </div>
                                         </div>
                                     </div>
-                                    
-                                    <!--Value Most -->
-                                    <div class='panel panel-default'>
-                                        <div class='panel-heading' role='tab' id='headingValueMost'>
-                                            <h4 class='panel-title'>
-                                                <a class='collapsed' role='button' data-toggle='collapse'
-                                                   data-parent='#accordion' href='#collapseValueMost' aria-expanded='false'
-                                                   aria-controls='collapseValueMost'>
-                                                    <span class='headingTitle'>
-                                                        <i class='icon wizard multidevice'></i>
-                                                        <span class='caption'>
-                                                            <span class='caption_close'>" . pll__('value most?') . "</span>
-                                                            <span class='caption_open'>".pll__('Select one or more criteria that is important to you')."</span>
-                                                        </span>
-                                                        <span class='selectedInfo'></span>
-                                                    </span>
-                                                </a>
-                                            </h4>
-                                        </div>
-                                        <div id='collapseValueMost' class='panel-collapse collapse' role='tabpanel'
-                                             aria-labelledby='headingValueMost' data-wizard-panel='valueMost'>
-                                            <div class='panel-body'>
-                                                <div class='compWrapper withStaticToolTip'>
-                                                <ul class='list-unstyled checkBoxComp'>
-
-                                                    <li>
-                                                        <input type='checkbox' name='free_install' id='value_most_installation' value='1' 
-                                                        " . (("1" == $values['free_install']) ? 'checked="checked"' : '') . ">
-                                                        <label for='value_most_installation'>
-                                                            " . pll__('Free Installation') . "
-                                                            <i class='fa fa-check'></i>
-                                                        </label>
-                                                    </li>
-                                                    <li>
-                                                        <input type='checkbox' name='free_activation' id='free_activation' value='1'
-                                                        " . (("1" == $values['free_activation']) ? 'checked="checked"' : '') . ">                                                        
-                                                        <label for='free_activation'>
-                                                            " . pll__('Free activation') . "
-                                                            <i class='fa fa-check'></i>
-                                                        </label>
-                                                    </li>
-                                                    <li>
-                                                        <input type='checkbox' name='qos_cs' id='qos_cs' value='70'
-                                                        " . (("70" == $values['qos_cs']) ? 'checked="checked"' : '') . ">                                                                                                                
-                                                        <label for='qos_cs'>
-                                                            " . pll__('Customer Service') . "
-                                                            <i class='fa fa-check'></i>
-                                                        </label>
-                                                    </li>
-                                                </ul>
-                                                </div>
-                                                <div class='buttonWrapper'>
-                                                    <button type='button' class='btn btn-primary'><i
-                                                            class='fa fa-check'></i> " . pll__('Ok') . "
-                                                    </button>
-                                                </div>
-                                    
-                                            </div>
-                                        </div>
-                                    </div>
 
                                     <!--Mobile Subscription-->
-                                    <div class='panel panel-default'>
+                                    <div class='panel panel-default' id='mobilePanel'>
                                         <div class='panel-heading' role='tab' id='headingThree'>
                                             <h4 class='panel-title'>
                                                 <a class='collapsed' role='button' data-toggle='collapse'
@@ -1646,10 +1692,11 @@ class AnbCompare extends Base
                                                     <span class='headingTitle'>
                                                         <i class='icon wizard mobile'></i>
                                                         <span class='caption'>
-                                                            <span class='caption_close'>" . pll__('Mobile Subscription') . "</span>
+                                                            <span class='caption_close'>" . pll__('Set Mobile needs') . "</span>
                                                             <span class='caption_open'>".pll__('How many mobile subscriptions you have?')."</span>
                                                         </span>
                                                         <span class='selectedInfo'></span>
+                                                        <span class='changeInfo'>". pll__('Change') ."</span>
                                                     </span>
                                                 </a>
                                             </h4>
@@ -1745,6 +1792,68 @@ class AnbCompare extends Base
                                             </div>
                                         </div>
                                     </div>
+                                                             
+                                    <!--Value Most -->
+                                    <div class='panel panel-default' id='valueMostPanel'>
+                                        <div class='panel-heading' role='tab' id='headingValueMost'>
+                                            <h4 class='panel-title'>
+                                                <a class='collapsed' role='button' data-toggle='collapse'
+                                                   data-parent='#accordion' href='#collapseValueMost' aria-expanded='false'
+                                                   aria-controls='collapseValueMost'>
+                                                    <span class='headingTitle'>
+                                                        <i class='icon wizard multidevice'></i>
+                                                        <span class='caption'>
+                                                            <span class='caption_close'>" . pll__('value most?') . "</span>
+                                                            <span class='caption_open'>".pll__('Select one or more criteria that is important to you')."</span>
+                                                        </span>
+                                                        <span class='selectedInfo'></span>
+                                                        <span class='changeInfo'>". pll__('Change') ."</span>
+                                                    </span>
+                                                </a>
+                                            </h4>
+                                        </div>
+                                        <div id='collapseValueMost' class='panel-collapse collapse' role='tabpanel'
+                                             aria-labelledby='headingValueMost' data-wizard-panel='valueMost'>
+                                            <div class='panel-body'>
+                                                <div class='compWrapper withStaticToolTip'>
+                                                <ul class='list-unstyled checkBoxComp'>
+
+                                                    <li>
+                                                        <input type='checkbox' name='free_install' id='value_most_installation' value='1' 
+                                                        " . (("1" == $values['free_install']) ? 'checked="checked"' : '') . ">
+                                                        <label for='value_most_installation'>
+                                                            " . pll__('Free Installation') . "
+                                                            <i class='fa fa-check'></i>
+                                                        </label>
+                                                    </li>
+                                                    <li>
+                                                        <input type='checkbox' name='free_activation' id='free_activation' value='1'
+                                                        " . (("1" == $values['free_activation']) ? 'checked="checked"' : '') . ">                                                        
+                                                        <label for='free_activation'>
+                                                            " . pll__('Free activation') . "
+                                                            <i class='fa fa-check'></i>
+                                                        </label>
+                                                    </li>
+                                                    <li>
+                                                        <input type='checkbox' name='qos_cs' id='qos_cs' value='70'
+                                                        " . (("70" == $values['qos_cs']) ? 'checked="checked"' : '') . ">                                                                                                                
+                                                        <label for='qos_cs'>
+                                                            " . pll__('Customer Service') . "
+                                                            <i class='fa fa-check'></i>
+                                                        </label>
+                                                    </li>
+                                                </ul>
+                                                </div>
+                                                <div class='buttonWrapper'>
+                                                    <button type='button' class='btn btn-primary'><i
+                                                            class='fa fa-check'></i> " . pll__('Ok') . "
+                                                    </button>
+                                                </div>
+                                    
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
 		                            <div class='buttonWrapper'>
 		                                <button name='searchSubmit' type='submit' class='btn btn-default'>" . pll__($submitBtnTxt) . "</button>
 		                            </div>

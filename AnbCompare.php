@@ -1038,7 +1038,7 @@ class AnbCompare extends Base
                                                                         <span class='icon'>
                                                                         <i class='sprite sprite-wifi'></i>
                                                                         </span>
-                                                                        <span class='description'>Internet</span>
+                                                                        <span class='description'>".pll__('Internet')."</span>
                                                                         <span class='tick-icon'>
                                                                         <i class='fa fa-check'></i>
                                                                         <i class='fa fa-square-o'></i>
@@ -1048,13 +1048,12 @@ class AnbCompare extends Base
                                                             </li>
                                                             <li>
                                                                 <div>
-                                                                    <input name='cat[]' id='tv_service_wiz' type='checkbox' value='tv'
-                                                                    >
+                                                                    <input name='cat[]' id='tv_service_wiz' type='checkbox' value='tv' " . ((in_array("tv", $values['cat']) === true) ? 'checked="checked"' : '') . ">
                                                                     <label for='tv_service_wiz'>
                                                                         <span class='icon'>
                                                                         <i class='sprite sprite-tv'></i>
                                                                         </span>
-                                                                        <span class='description'>TV</span>
+                                                                        <span class='description'>".pll__('TV')."</span>
                                                                         <span class='tick-icon'>
                                                                         <i class='fa fa-check'></i>
                                                                         <i class='fa fa-square-o'></i>
@@ -1064,13 +1063,12 @@ class AnbCompare extends Base
                                                             </li>
                                                             <li>
                                                                 <div>
-                                                                    <input name='cat[]' id='telephone_service_wiz' type='checkbox' value='telephone'
-                                                                    >
+                                                                    <input name='cat[]' id='telephone_service_wiz' type='checkbox' value='telephone' " . ((in_array("telephone", $values['cat']) === true) ? 'checked="checked"' : '') . ">
                                                                     <label for='telephone_service_wiz'>
                                                                         <span class='icon'>
                                                                         <i class='sprite sprite-phone'></i>
                                                                         </span>
-                                                                        <span class='description'>Fixed line</span>
+                                                                        <span class='description'>".pll__('Fixed line')."</span>
                                                                         <span class='tick-icon'>
                                                                         <i class='fa fa-check'></i>
                                                                         <i class='fa fa-square-o'></i>
@@ -1080,13 +1078,12 @@ class AnbCompare extends Base
                                                             </li>
                                                             <li>
                                                                 <div>
-                                                                    <input name='cat[]' id='mobile_service_wiz' type='checkbox' value='gsm'
-                                                                    >
+                                                                    <input name='cat[]' id='mobile_service_wiz' type='checkbox' value='gsm' " . ((in_array("gsm", $values['cat']) === true) ? 'checked="checked"' : '') . ">
                                                                     <label for='mobile_service_wiz'>
                                                                         <span class='icon'>
                                                                         <i class='sprite sprite-mobile'></i>
                                                                         </span>
-                                                                        <span class='description'>Mobile</span>
+                                                                        <span class='description'>".pll__('Mobile')."</span>
                                                                         <span class='tick-icon'>
                                                                         <i class='fa fa-check'></i>
                                                                         <i class='fa fa-square-o'></i>
@@ -1134,7 +1131,7 @@ class AnbCompare extends Base
                                                     </div>
                                                     <div class='col-sm-8'>
                                                         <input class='form-control typeahead' id='installation_area' name='zip'
-                                                               placeholder='Enter Zipcode' maxlength='4'
+                                                               placeholder='" . pll__('Enter Zipcode') . "' maxlength='4'
                                                                value='" . ((!empty($values['zip'])) ? $values['zip'] : '') . "' required type='text'>
                                                         <span class='staricicon form-control-feedback'
                                                               aria-hidden='true'></span>

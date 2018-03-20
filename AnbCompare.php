@@ -1795,7 +1795,7 @@ class AnbCompare extends Base
                                         <div class='panel-heading' role='tab' id='headingValueMost'>
                                             <h4 class='panel-title'>
                                                 <a class='collapsed' role='button' data-toggle='collapse'
-                                                   data-parent='#accordion' href='#importantServicesPanel' aria-expanded='false'
+                                                   data-parent='#accordion' href='#collapseValueMost' aria-expanded='false'
                                                    aria-controls='collapseValueMost'>
                                                     <span class='headingTitle'>
                                                         <i class='icon wizard multidevice'></i>
@@ -1809,7 +1809,7 @@ class AnbCompare extends Base
                                                 </a>
                                             </h4>
                                         </div>
-                                        <div id='importantServicesPanel' class='panel-collapse collapse' role='tabpanel'
+                                        <div id='collapseValueMost' class='panel-collapse collapse' role='tabpanel'
                                              aria-labelledby='headingValueMost' data-wizard-panel='valueMost'>
                                             <div class='panel-body'>
                                                 <div class='compWrapper withStaticToolTip'>

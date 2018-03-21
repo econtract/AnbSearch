@@ -51,7 +51,7 @@ class AnbCompare extends Base
     function enqueueScripts()
     {
 
-        wp_enqueue_script('search-compare-script', plugins_url('/js/search-results.js', __FILE__), array('jquery'), '1.0.6', true);
+        wp_enqueue_script('search-compare-script', plugins_url('/js/search-results.js', __FILE__), array('jquery'), '1.0.7', true);
 
         // in JavaScript, object properties are accessed as ajax_object.ajax_url, ajax_object.we_value
         wp_localize_script('search-compare-script', 'search_compare_obj',
@@ -962,7 +962,7 @@ class AnbCompare extends Base
                                 </div>
                                 <div class='btnWrapper'>
                                     {$hiddenMultipleProvidersHtml}
-                                    <button name='searchSubmit' type='submit' class='btn btn-default btn-block' >" . pll__($submitBtnTxt) . "</button>
+                                    <button name='searchSubmit' type='submit' class='btn btn-default btn-block' >$submitBtnTxt</button>
                                 </div>
                             </form>
                         </div>
@@ -1852,13 +1852,14 @@ class AnbCompare extends Base
                                     </div>
                                     
 		                            <div class='buttonWrapper'>
-		                                <button name='searchSubmit' type='submit' class='btn btn-default'>" . pll__($submitBtnTxt) . "</button>
+		                                <button name='searchSubmit' type='submit' class='btn btn-default'>$submitBtnTxt</button>
 		                            </div>
 	                            </div>
                             </div>
                             {$hiddenMultipleProvidersHtml}
                             <input type='hidden' name='profile_wizard' value='1' />
                             <input type='hidden' name='search_via_wizard' value='1' />
+                            <input type='hidden' name='filters_applied' value='true' />
                         </form>
                     </div>";
 

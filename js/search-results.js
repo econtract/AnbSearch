@@ -21,6 +21,12 @@ function stripUriParams(uri) {
     return url;
 }
 
+//Copied from https://stackoverflow.com/questions/901115/how-can-i-get-query-string-values-in-javascript
+function getParameterByName(name) {
+    var match = RegExp('[?&]' + name + '=([^&]*)').exec(window.location.search);
+    return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
+}
+
 function removeDuplicatesFromUri(uri) {
     //remove any duplicate params
     /*var redToArr = uri.split('&');
@@ -135,7 +141,7 @@ jQuery(document).ready(function($){
     $("#calcPbsModal").on("show.bs.modal", function(e) {
         var link = $(e.relatedTarget);
         var target = $(this);
-        console.log("search_compare_obj***", search_compare_obj);
+        //console.log("search_compare_obj***", search_compare_obj);
         target.find('.modal-body').html('<div class="ajaxIconWrapper"><div class="ajaxIcon"><img src="'+search_compare_obj.template_uri+'/images/common/icons/ajaxloader.png" alt="Loading..."></div></div>');
         $.get(search_compare_obj.ajax_url, link.attr("href"), function(response) {
 
@@ -144,5 +150,10 @@ jQuery(document).ready(function($){
         });
     });
 
+    //enable filters if they are already applied
+    var filtersApplied = getParameterByName('filters_applied');
+    if(filtersApplied) {
+        jQuery('.refineResult a').trigger('click');
+    }
 });
 

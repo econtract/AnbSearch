@@ -1148,7 +1148,7 @@ class AnbCompare extends Base
                                     </div>
                                     
                                     <!--Use-->
-                                    <div class='panel panel-default' id='usagePanel'>
+                                    <!--<div class='panel panel-default' id='usagePanel'>
                                         <div class='panel-heading' role='tab' id='consumerHeading'>
                                             <h4 class='panel-title'>
                                                 <a role='button' data-toggle='collapse' data-parent='#accordion'
@@ -1195,7 +1195,7 @@ class AnbCompare extends Base
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div>-->
                                     
                                     <!--Family Members-->
                                     <div class='panel panel-default' id='familyPanel'>

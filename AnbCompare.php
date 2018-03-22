@@ -372,7 +372,7 @@ class AnbCompare extends Base
                                     '.$this->anbTopDeals->getPromoSection( $promotionHtml, 0, 'dealFeatures', '' ).'
                                 </div>
                                 <div class="col-md-3">
-                                    '.$this->anbTopDeals->priceSection( $priceHtml, $monthDurationPromo, $firstYearPrice, 'dealPrice', '', '', $productData ).'
+                                    '.$this->anbTopDeals->priceSection( $priceHtml, $monthDurationPromo, $firstYearPrice, 'dealPrice', '', '', $productData, true ).'
                                 </div>
                                 <div class="col-md-3">
                                     <div class="totalCalcWrapper">
@@ -513,7 +513,7 @@ class AnbCompare extends Base
 
                 '<div class="offer">' .
                 $this->anbTopDeals->getProductDetailSection($productData, $servicesHtml) .
-                $this->anbTopDeals->priceSection($priceHtml, $monthDurationPromo, $firstYearPrice) .
+                $this->anbTopDeals->priceSection($priceHtml, $monthDurationPromo, $firstYearPrice, 'dealPrice', '', '', $productData, true) .
                 $this->anbTopDeals->getPromoSection($promotionHtml, $productData['advantage'], 'dealFeatures',
                     '<a href="/' . pll__('brands') . '/' . $productData['supplier_slug'] . '/' . $productData['product_slug'] . '" class="btn btn-primary ">' . pll__('Info and options') . '</a>
                                                      '.$toCartLinkHtml.'

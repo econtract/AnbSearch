@@ -37,7 +37,7 @@ class Base
     ];
 
     /**
-     * @var mixed
+     * @var AnbProduct
      */
     public $anbTopDeals;
 

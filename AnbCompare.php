@@ -339,7 +339,7 @@ class AnbCompare extends Base
 		    }
 		    $currentProduct = $listProduct->product;
 
-		    list($productData, $priceHtml, $servicesHtml) = $this->extractProductData($this->anbTopDeals, $currentProduct);
+		    list($productData, $priceHtml, $servicesHtml) = $this->extractProductData($this->anbTopDeals, $currentProduct, true);
 
 		    //Promotions, Installation/Activation HTML
 		    //display installation and activation price

@@ -819,13 +819,13 @@ class AnbCompare extends Base
      *
      * @return array
      */
-    public function extractProductData($anbTopDeals, $currentProduct)
+    public function extractProductData($anbTopDeals, $currentProduct, $withCalcHtml = false)
     {
         // prepare data
         $productData = $anbTopDeals->prepareProductData($currentProduct);
 
         //Price HTML
-        $priceHtml = $anbTopDeals->getPriceHtml($productData);
+        $priceHtml = $anbTopDeals->getPriceHtml($productData, $withCalcHtml);
 
         //Services HTML
         $servicesHtml = $anbTopDeals->getServicesHtml($productData);

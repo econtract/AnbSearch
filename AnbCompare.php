@@ -385,12 +385,12 @@ class AnbCompare extends Base
                               </div>
                             <div class="row listRow withSeperator">'.$this->getServiceDetail( $currentProduct, true ).'</div>
                             <div class="row listRow withSeperator">
-                                <div class="col-md-8">
+                                <div class="col-md-7">
                                     <div class="recentOrder">
                                         '.decorateLatestOrderByProduct($currentProduct->product_id).'
                                     </div>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-5">
                                     <div class="rightWrapper">
                                         <span class="lastUpdated"> '.pll__('Last updated').': <span class="timestamp">'.formatDate($currentProduct->last_update).'</span></span>
                                         <span class="comparePackage">

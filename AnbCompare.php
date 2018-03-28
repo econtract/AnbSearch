@@ -1125,23 +1125,32 @@ class AnbCompare extends Base
                                         <div id='installationPanel' class='panel-collapse collapse' role='tabpanel'
                                              aria-labelledby='headingOne'  data-wizard-panel='location'>
                                             <div class='panel-body text-center'>
-                                                <div class='form-group has-feedback'>
-                                                    <div class='col-sm-2'>
+                                                <div class='singleFormWrapper'>
+                                                    <div class=''>
                                                         <label for='installation_area' class='control-label'>" . pll__('Installation area') . "</label>
                                                     </div>
-                                                    <div class='col-sm-8'>
-                                                        <input class='form-control typeahead' id='installation_area' name='zip'
-                                                               placeholder='" . pll__('Enter Zipcode') . "' maxlength='4'
-                                                               value='" . ((!empty($values['zip'])) ? $values['zip'] : '') . "' required type='text'>
-                                                        <span class='staricicon form-control-feedback'
-                                                              aria-hidden='true'></span>
-                                                        <div class='help-block with-errors'></div>
+                                                    <div class='form-group has-feedback'>
+                                                        <div class=''>
+                                                            <input class='form-control typeahead' id='installation_area' name='zip'
+                                                                   placeholder='" . pll__('Enter Zipcode') . "' maxlength='4'
+                                                                   value='" . ((!empty($values['zip'])) ? $values['zip'] : '') . "' required type='text'>
+                                                            <span class='staricicon form-control-feedback'
+                                                                  aria-hidden='true'></span>
+                                                            <div class='help-block with-errors'></div>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div class='buttonWrapper'>
-                                                    <button type='button' class='btn btn-primary'><i
-                                                                class='fa fa-check'></i> " . pll__('Ok') . "
-                                                    </button>
+                                                    
+                                                    <!--<div class='staticTooltipWrapper'>
+                                                            <div class='staticTooltip'>
+                                                                <p>".pll__('some tooltip here if required')." </p>
+                                                            </div>
+                                                        </div>-->
+                                                    
+                                                    <div class='buttonWrapper'>
+                                                        <button type='button' class='btn btn-primary'><i
+                                                                    class='fa fa-check'></i> " . pll__('Ok') . "
+                                                        </button>
+                                                    </div>    
                                                 </div>
                                             </div>
                                         </div>

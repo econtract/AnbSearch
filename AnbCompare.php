@@ -51,7 +51,7 @@ class AnbCompare extends Base
     function enqueueScripts()
     {
 
-        wp_enqueue_script('search-compare-script', plugins_url('/js/search-results.js', __FILE__), array('jquery'), '1.0.7', true);
+        wp_enqueue_script('search-compare-script', plugins_url('/js/search-results.js', __FILE__), array('jquery'), '1.0.8', true);
 
         // in JavaScript, object properties are accessed as ajax_object.ajax_url, ajax_object.we_value
         wp_localize_script('search-compare-script', 'search_compare_obj',
@@ -392,6 +392,7 @@ class AnbCompare extends Base
                                 </div>
                                 <div class="col-md-5">
                                     <div class="rightWrapper">
+                                        <!--<span class="waitingTooltip" data-toggle="custom-tooltip-bottom" title="<p>'.pll__('Popover bottom Sed posuere consectetur est at lob ortis. Aenean eu leo quam. Pellentesque ornare sem lacinia quam.').' </p>"><i class="customIcon fa fa-exclamation-triangle"></i> Waiting for input</span> -->
                                         <span class="lastUpdated"> '.pll__('Last updated').': <span class="timestamp">'.formatDate($currentProduct->last_update).'</span></span>
                                         <span class="comparePackage">
 		                                    <label>

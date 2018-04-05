@@ -1,3 +1,5 @@
+var filtersApplied = getParameterByName('filters_applied');
+
 //Function copied from https://stackoverflow.com/questions/31075133/strip-duplicate-parameters-from-the-url
 function stripUriParams(uri) {
     var stuff = decodeURIComponent(uri);
@@ -85,6 +87,72 @@ function getRedirectUrl() {
     return redirectUrl;
 }
 
+function bypassWizardExistingOkButton(currSubsec) {
+    var bypassExistingOk = false;
+    currSubsec.find('input:not(:radio):not(:checkbox), ' +
+        'input:radio:checked, ' +
+        'input:checkbox:checked').each(function () {
+        var currInput = jQuery(this);
+        if(currInput.prop('type') === 'text' || currInput.prop('type') === 'number' && !_.isEmpty(currInput.val())) {
+            //for text inputs consider 0 as empty as well
+            if(currInput.val().trim() != '0') {
+                bypassExistingOk = true;
+                currSubsec.addClass('bypass-ok');
+            }
+        }
+        else if(currInput.prop('type') !== 'text' && currInput.prop('type') !== 'number' && !_.isEmpty(currInput.val())) {
+            bypassExistingOk = true;
+            currSubsec.addClass('bypass-ok');
+        }
+    });
+
+    return bypassExistingOk;
+}
+
+function adjustPersonalSettingScenarios() {
+    //Scenarios for personal settings popup
+    //Incase its openend after 1st submission
+    if(filtersApplied) {//this means that form has already been submitted once
+        console.log('filtersApplied', filtersApplied);
+        //now find out if all the sub-sections were filled or something wasn't
+
+        //in case all sub-sections were filled and main button clicked, this is time to keep the sub-sections in default form,
+        //which is first one is opened and rest are closed
+        //and in case user open any sub-section and presses okay that section will not trigger the next sub-section,
+        //that will in fact close the current one
+
+        //and in case user clicks on change, then the appropriate section will get open
+        //and pressing ok will also not trigger the next sub-section it'll only close current one
+
+        //in case some of the sub-sections were missed and main button was clicked, open the first unfilled sub-section
+        //pressing ok will oen the next unfilled sub-section
+
+        //and in case user clicks on change, then the appropriate section will get open
+        //and pressing ok will open the next unfilled sub-section and so on
+        jQuery('#yourProfileWizardForm .panel').each(function() {
+            var currSubsec = jQuery(this);
+            var bypassExistingOk = bypassWizardExistingOkButton(currSubsec);
+            console.log("bypassExistingOk", bypassExistingOk);
+
+            if(bypassExistingOk) {
+                currSubsec.find('.panel-body .buttonWrapper button').off('click');
+
+                //time to inject our own click event on this button
+                currSubsec.find('.buttonWrapper button').on('click', function() {
+                    //now click the first anchor child to close this sub-section
+                    setTimeout(function(){ currSubsec.find('.panel-title a').trigger('click'); }, 20);
+                    //now decide based on the fact that whole sub-sections are filled or not, if yes do nothing if now,
+                    //open next unfilled sub-section
+                    var firstUnfilledSubsec = jQuery(currSubsec).nextAll('.panel:not(.bypass-ok)').first();
+                    //firstUnfilledSubsec.find('.panel-title a').trigger('click');
+                    firstUnfilledSubsec.find('.panel-title a').trigger('click');
+                    //first step is to find out the unfilled sections
+                });
+            }
+        });
+    }
+}
+
 jQuery(document).ready(function($){
 
     $('.loadMore').on('click', function() {
@@ -151,9 +219,24 @@ jQuery(document).ready(function($){
     });
 
     //enable filters if they are already applied
-    var filtersApplied = getParameterByName('filters_applied');
     if(filtersApplied) {
         jQuery('.refineResult a').trigger('click');
     }
+
+    //Adjust the personal settings scenarios on first load
+    adjustPersonalSettingScenarios();
+    /*jQuery('#yourProfileWizardForm .panel-title a').on('mouseup', function (e) {
+        e.preventDefault();
+        if(filtersApplied) {
+            //.find('.panel-body .buttonWrapper button').off('click')
+            jQuery(this).off('click');
+        }
+        adjustPersonalSettingScenarios();
+    });*/
+
+    //Adjust the personal settings when somebody changes the sub-sections
+    jQuery('#yourProfileWizardForm .panel').on('change', function () {
+        adjustPersonalSettingScenarios();
+    });
 });
 

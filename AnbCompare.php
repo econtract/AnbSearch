@@ -108,7 +108,7 @@ class AnbCompare extends Base
             'lang' => $this->getCurrentLang(),
             'limit' => '',
 
-            's' => '',
+            's' => 1,//Min download speed in Bps 1000 Bps = 1Mbps
             'dl' => '',
             'ds' => '',
             'sort' => '',
@@ -164,10 +164,9 @@ class AnbCompare extends Base
                 $_GET['cat'] = 'packs';
             } else {
                 if (is_array($_GET['cat'])) {
-                    $_GET['cat'] = $_GET['cat'][0];
+                    $_GET['cat'] = (is_array($_GET['cat'])) ? $_GET['cat'][0] : $_GET['cat'];
                 }
             }
-
 
             //$WizardAllowedParams  = ['ms_internet', 'ms_idtv', 'ms_fixed', 'ms_mobile'];
 
@@ -212,8 +211,6 @@ class AnbCompare extends Base
             if (isset($params['dl']) && !empty($params['dl']) && $params['dl'] == INTERNET_DOWNLOAD_LIMIT) {
                 $params['dl'] = "-1";
             }
-
-
 
             $this->cleanArrayData($params);
             // get the products
@@ -1868,7 +1865,6 @@ class AnbCompare extends Base
                             </div>
                             {$hiddenMultipleProvidersHtml}
                             <input type='hidden' name='profile_wizard' value='1' />
-                            <input type='hidden' name='search_via_wizard' value='1' />
                             <input type='hidden' name='filters_applied' value='true' />
                         </form>
                     </div>";

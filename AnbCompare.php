@@ -51,7 +51,7 @@ class AnbCompare extends Base
     function enqueueScripts()
     {
 
-        wp_enqueue_script('search-compare-script', plugins_url('/js/search-results.js', __FILE__), array('jquery'), '1.0.9', true);
+        wp_enqueue_script('search-compare-script', plugins_url('/js/search-results.js', __FILE__), array('jquery'), '1.0.10', true);
 
         // in JavaScript, object properties are accessed as ajax_object.ajax_url, ajax_object.we_value
         wp_localize_script('search-compare-script', 'search_compare_obj',
@@ -361,9 +361,13 @@ class AnbCompare extends Base
 
 		    /*$toCartLinkHtml = "href='" . $checkoutPageLink . "?product_to_cart&product_id=" . $productData['product_id'] .
 		                      "&provider_id=" . $productData['supplier_id'] . "&sg={$productData['sg']}&producttype={$productData['producttype']}'";*/
+		    $blockLinkClass = 'block-link';
+		    if($forceCheckAvailability) {
+			    $blockLinkClass = 'block-link missing-zip';
+		    }
 
 		    if($productData['commission'] === true) {
-			    $toCartLinkHtml = '<a ' . $toCartLinkHtml . ' class="link block-link">' . pll__('Order Now') . '</a>';
+			    $toCartLinkHtml = '<a ' . $toCartLinkHtml . ' class="link '.$blockLinkClass.'">' . pll__('Order Now') . '</a>';
 		    } else {
 			    $toCartLinkHtml = '<a href="#not-available" class="link block-link not-available">' . pll__('Not Available') . '</a>';
 		    }

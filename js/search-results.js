@@ -238,5 +238,26 @@ jQuery(document).ready(function($){
     jQuery('#yourProfileWizardForm .panel').on('change', function () {
         adjustPersonalSettingScenarios();
     });
+
+    //Injecting values to checkAvailability modal
+    jQuery('body').on('click', '.offer a.block-link', function() {
+        //reset checkAvailability to orignal form
+        jQuery('#ModalCheckAvailability .modal-content').html(jQuery('#ModalCheckAvailabilityClone .modal-content').html());
+        //reset form id to orignal one
+        jQuery('#ModalCheckAvailability .modal-content #checkAvailabilityFormClone').attr('id', 'checkAvailabilityForm');
+        initTypeahead();
+        var orderNowLink = jQuery(this);
+        var pid = orderNowLink.data('pid');
+        var sid = orderNowLink.data('sid');
+        var sg = orderNowLink.data('sg');
+        var prt = orderNowLink.data('prt');
+
+        jQuery('#ModalCheckAvailability').find('[name=pid]').val(pid);
+        jQuery('#ModalCheckAvailability').find('[name=prvid]').val(sid);
+        jQuery('#ModalCheckAvailability').find('[name=sg]').val(sg);
+        jQuery('#ModalCheckAvailability').find('[name=prt]').val(prt);
+
+        jQuery('#ModalCheckAvailability').modal('show');
+    });
 });
 

@@ -51,7 +51,7 @@ class AnbCompare extends Base
     function enqueueScripts()
     {
 
-        wp_enqueue_script('search-compare-script', plugins_url('/js/search-results.js', __FILE__), array('jquery'), '1.0.8', true);
+        wp_enqueue_script('search-compare-script', plugins_url('/js/search-results.js', __FILE__), array('jquery'), '1.0.9', true);
 
         // in JavaScript, object properties are accessed as ajax_object.ajax_url, ajax_object.we_value
         wp_localize_script('search-compare-script', 'search_compare_obj',
@@ -326,6 +326,9 @@ class AnbCompare extends Base
 
         $products = json_decode($products);
 
+        /** @var \AnbTopDeals\AnbProduct $anbTopDeals */
+	    $anbTopDeals = wpal_create_instance( \AnbTopDeals\AnbProduct::class );
+
         $countProducts = 0;
 	    foreach ($products->results as $listProduct) {
 
@@ -346,8 +349,18 @@ class AnbCompare extends Base
 
 		    $parentSegment = getSectorOnCats($_SESSION['product']['cat']);
 		    $checkoutPageLink = '/' . $parentSegment . '/' . pll__('checkout');
-		    $toCartLinkHtml = "href='" . $checkoutPageLink . "?product_to_cart&product_id=" . $productData['product_id'] .
-		                      "&provider_id=" . $productData['supplier_id'] . "&sg={$productData['sg']}&producttype={$productData['producttype']}'";
+
+		    $forceCheckAvailability = false;
+
+		    if ( empty( $_GET['zip'] ) ) {
+			    //don't continue if zip is empty
+			    $forceCheckAvailability = true;
+		    }
+
+		    list(, , , , $toCartLinkHtml) = $anbTopDeals->getToCartAnchorHtml($parentSegment, $productData['product_id'], $productData['supplier_id'], $productData['sg'], $productData['producttype'], $forceCheckAvailability);
+
+		    /*$toCartLinkHtml = "href='" . $checkoutPageLink . "?product_to_cart&product_id=" . $productData['product_id'] .
+		                      "&provider_id=" . $productData['supplier_id'] . "&sg={$productData['sg']}&producttype={$productData['producttype']}'";*/
 
 		    if($productData['commission'] === true) {
 			    $toCartLinkHtml = '<a ' . $toCartLinkHtml . ' class="link block-link">' . pll__('Order Now') . '</a>';

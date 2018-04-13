@@ -403,7 +403,7 @@ class AnbCompare extends Base
                                 <div class="col-md-5">
                                     <div class="rightWrapper">
                                         <!--<span class="waitingTooltip" data-toggle="custom-tooltip-bottom" title="<p>'.pll__('Popover bottom Sed posuere consectetur est at lob ortis. Aenean eu leo quam. Pellentesque ornare sem lacinia quam.').' </p>"><i class="customIcon fa fa-exclamation-triangle"></i> Waiting for input</span> -->
-                                        <span class="lastUpdated"> '.pll__('Last updated').': <span class="timestamp">'.formatDate($currentProduct->last_update).'</span></span>
+                                        <span class="lastUpdated" data-toggle="custom-tooltip-bottom" title="<p>'.pll__('Sed posuere consectetur est at lob ortis. Aenean eu leo quam. Pellentesque ornare sem lacinia quam.').' </p>"> '.pll__('Last updated').': <span class="timestamp">'.formatDate($currentProduct->last_update).'</span></span>
                                         <span class="comparePackage">
 		                                    <label>
 		                                        <input type="hidden"

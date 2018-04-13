@@ -239,8 +239,8 @@ jQuery(document).ready(function($){
         adjustPersonalSettingScenarios();
     });
 
-    //Injecting values to checkAvailability modal
-    jQuery('body').on('click', '.offer a.block-link', function() {
+    //Injecting values to checkAvailability modal on results page order now link
+    jQuery('body').on('click', '.offer a.block-link.missing-zip', function() {
         //reset checkAvailability to orignal form
         jQuery('#ModalCheckAvailability .modal-content').html(jQuery('#ModalCheckAvailabilityClone .modal-content').html());
         //reset form id to orignal one

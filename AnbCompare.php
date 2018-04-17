@@ -1249,7 +1249,7 @@ class AnbCompare extends Base
                                                             <fieldset class='person-sel gray fancyComp'>
                                                                 <input type='radio' id='person6' name='f' value='6' 
                                                                 " . (("6" == $values['f']) ? 'checked="checked"' : '') . "/>
-                                                                <label class = 'full' for='person6' title='6 persons'>
+                                                                <label class = 'full' for='person6' title='6 ". pll__('persons') ."'>
                                                                     <span class='person-value'>5+</span>
                                                                     <span class='tick-icon'>
                                                                                             <i class='fa fa-check'></i>
@@ -1261,7 +1261,7 @@ class AnbCompare extends Base
                                     
                                                                 <input type='radio' id='person5' name='f' value='5' 
                                                                 " . (("5" == $values['f']) ? 'checked="checked"' : '') . "/>
-                                                                <label class = 'full' for='person5' title='5 persons'>
+                                                                <label class = 'full' for='person5' title='5 ". pll__('persons') ."'>
                                                                     <span class='person-value'>5</span>
                                                                     <span class='tick-icon'>
                                                                                         <i class='fa fa-check'></i>
@@ -1273,7 +1273,7 @@ class AnbCompare extends Base
                                     
                                                                 <input type='radio' id='person4' name='f' value='4' 
                                                                 " . (("4" == $values['f']) ? 'checked="checked"' : '') . "/>
-                                                                <label class = 'full' for='person4' title='4 persons'>
+                                                                <label class = 'full' for='person4' title='4 ". pll__('persons') ."'>
                                                                     <span class='person-value'>4</span>
                                                                     <span class='tick-icon'>
                                                                                         <i class='fa fa-check'></i>
@@ -1285,7 +1285,7 @@ class AnbCompare extends Base
                                     
                                                                 <input type='radio' id='person3' name='f' value='3' 
                                                                 " . (("3" == $values['f']) ? 'checked="checked"' : '') . "/>
-                                                                <label class = 'full' for='person3' title='3 persons'>
+                                                                <label class = 'full' for='person3' title='3 ". pll__('persons') ."'>
                                                                     <span class='person-value'>3</span>
                                                                     <span class='tick-icon'>
                                                                                         <i class='fa fa-check'></i>
@@ -1297,7 +1297,7 @@ class AnbCompare extends Base
                                     
                                                                 <input type='radio' id='person2' name='f' value='2' 
                                                                 " . (("2" == $values['f']) ? 'checked="checked"' : '') . "/>
-                                                                <label class = 'full' for='person2' title='2 persons'>
+                                                                <label class = 'full' for='person2' title='2 ". pll__('persons') ."'>
                                                                     <span class='person-value'>2</span>
                                                                     <span class='tick-icon'>
                                                                                         <i class='fa fa-check'></i>
@@ -1309,7 +1309,7 @@ class AnbCompare extends Base
                                     
                                                                 <input type='radio' id='person1' name='f' value='1' 
                                                                 " . (("1" == $values['f']) ? 'checked="checked"' : '') . "/>
-                                                                <label class = 'full' for='person1' title='1 person'>
+                                                                <label class = 'full' for='person1' title='1 ". pll__('person') ."'>
                                                                     <span class='person-value'>1</span>
                                                                     <span class='tick-icon'>
                                                                                         <i class='fa fa-check'></i>
@@ -1731,7 +1731,7 @@ class AnbCompare extends Base
                                                             <fieldset class='mobile-sel gray fancyComp'>
                                                                 <input type='radio' id='subscription6' name='ms_mobile' value='6'
                                                                  " . (("6" == $values['ms_mobile']) ? 'checked="checked"' : '') . " />
-                                                                <label class = 'full' for='subscription6' title='6 subscription'>
+                                                                <label class = 'full' for='subscription6' title='6 ". pll__('subscriptions') ."'>
                                                                     <span class='sub-value'>5+</span>
                                                                 </label>
                                                                 <div class='customTooltip'>
@@ -1741,7 +1741,7 @@ class AnbCompare extends Base
                                     
                                                                 <input type='radio' id='subscription5' name='ms_mobile' value='5' 
                                                                 " . (("5" == $values['ms_mobile']) ? 'checked="checked"' : '') . " />
-                                                                <label class = 'full' for='subscription5' title='5 subscription'>
+                                                                <label class = 'full' for='subscription5' title='5 ". pll__('subscriptions') ."'>
                                                                     <span class='sub-value'>5</span>
                                                                 </label>
                                                                 <div class='customTooltip'>
@@ -1750,7 +1750,7 @@ class AnbCompare extends Base
                                     
                                                                 <input type='radio' id='subscription4' name='ms_mobile' value='4' 
                                                                 " . (("4" == $values['ms_mobile']) ? 'checked="checked"' : '') . " />
-                                                                <label class = 'full' for='subscription4' title='4 subscription'>
+                                                                <label class = 'full' for='subscription4' title='4 ". pll__('subscriptions') ."'>
                                                                     <span class='sub-value'>4</span>
                                                                 </label>
                                                                 <div class='customTooltip'>
@@ -1759,7 +1759,7 @@ class AnbCompare extends Base
                                     
                                                                 <input type='radio' id='subscription3' name='ms_mobile' value='3' 
                                                                 " . (("3" == $values['ms_mobile']) ? 'checked="checked"' : '') . " />
-                                                                <label class = 'full' for='subscription3' title='3 subscription'>
+                                                                <label class = 'full' for='subscription3' title='3 ". pll__('subscriptions') ."'>
                                                                     <span class='sub-value'>3</span>
                                                                 </label>
                                                                 <div class='customTooltip'>
@@ -1768,7 +1768,7 @@ class AnbCompare extends Base
                                     
                                                                 <input type='radio' id='subscription2' name='ms_mobile' value='2' 
                                                                 " . (("2" == $values['ms_mobile']) ? 'checked="checked"' : '') . " />
-                                                                <label class = 'full' for='subscription2' title='2 subscription'>
+                                                                <label class = 'full' for='subscription2' title='2 ". pll__('subscriptions') ."'>
                                                                     <span class='sub-value'>2</span>
                                                                 </label>
                                                                 <div class='customTooltip'>
@@ -1777,7 +1777,7 @@ class AnbCompare extends Base
                                     
                                                                 <input type='radio' id='subscription1' name='ms_mobile' value='1' 
                                                                 " . (("1" == $values['ms_mobile']) ? 'checked="checked"' : '') . " />
-                                                                <label class = 'full' for='subscription1' title='1 subscription'>
+                                                                <label class = 'full' for='subscription1' title='1 ". pll__('subscription') ."'>
                                                                     <span class='sub-value'>1</span>
                                                                 </label>
                                                                 <div class='customTooltip'>
@@ -1786,7 +1786,7 @@ class AnbCompare extends Base
                                     
                                                                 <input type='radio' id='no_subscription1' name='ms_mobile' value='-1' class='noSubscription' 
                                                                 " . (("-1" == $values['ms_mobile']) ? 'checked="checked"' : '') . " />
-                                                                <label class = 'full noSubscription' for='no_subscription1' title='no subscription'>
+                                                                <label class = 'full noSubscription' for='no_subscription1' title='". pll__('no subscription') ."'>
                                                                     <span class='sub-value'>0</span>
                                                                 </label>
                                                                 <div class='customTooltip'>

@@ -1787,7 +1787,7 @@ class AnbCompare extends Base
                                                                 <input type='radio' id='no_subscription1' name='ms_mobile' value='-1' class='noSubscription' 
                                                                 " . (("-1" == $values['ms_mobile']) ? 'checked="checked"' : '') . " />
                                                                 <label class = 'full noSubscription' for='no_subscription1' title='". pll__('no subscription') ."'>
-                                                                    <span class='sub-value'>0</span>
+                                                                    <span class='sub-value'>". pll__('none') ."</span>
                                                                 </label>
                                                                 <div class='customTooltip'>
                                                                     <p> " . pll__('I don\'t have any subscription yet') . "</p>

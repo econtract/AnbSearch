@@ -29,6 +29,8 @@ class AnbCompare extends Base
      */
     private $abSuppliers;
 
+    public $orignalCats = [];
+
     /**
      * AnbCompare constructor.
      */
@@ -40,6 +42,7 @@ class AnbCompare extends Base
         $this->abSuppliers = wpal_create_instance( AbSuppliers::class );
 
         $_GET = $this->cleanInputGet();
+        $this->orignalCats = $_GET['cat'];
 
         parent::__construct();
     }
@@ -144,23 +147,9 @@ class AnbCompare extends Base
         if (isset($_GET['searchSubmit']) || isset($atts['searchSubmit'])) {
 
             //$this->cleanArrayData($_GET);
-            sort($_GET['cat']);
             if (count($_GET['cat']) >= 2) {
-                //if it's pack pass the pack type as well which are below
-                //Pack type: 'int_tel', 'tv_tel', 'int_tel_tv', 'gsm_int_tel_tv', 'int_tv', 'gsm_int_tv'
-                $packType = "";
-                foreach ($_GET['cat'] as $cat) {
-                    if (!empty($packType)) {
-                        $packType .= "_";
-                    }
-                    $packType .= substr(strtolower($cat), 0, 3);
-                }
-
-                if ($packType == "tel_tv") {
-                    $packType = "tv_tel";
-                }
-
-                $_GET['cp'] = $packType;
+                $_GET['cp'] = getPacktypeOnCats($_GET['cat']);
+                $this->orignalCats = $_GET['cat'];
                 $_GET['cat'] = 'packs';
             } else {
                 if (is_array($_GET['cat'])) {
@@ -618,6 +607,10 @@ class AnbCompare extends Base
 
         if (!empty($_GET)) {
             $values = $_GET + $atts;//append any missing but default values
+        }
+
+        if($values['cat'] == 'packs') {
+            $values['cat'] = $this->orignalCats;//restore the selection
         }
 
         $this->convertMultiValToArray($values['cat']);

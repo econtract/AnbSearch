@@ -239,12 +239,14 @@ jQuery(document).ready(function($){
         adjustPersonalSettingScenarios();
     });
 
-    //Injecting values to checkAvailability modal on results page order now link
-    jQuery('body').on('click', '.offer a.block-link.missing-zip', function() {
+    //Injecting values to checkAvailability modal on results page order now link, now this is generic for product page as well :)
+    jQuery('body').on('click', '.offer a.block-link.missing-zip, .calcContainerAdjust .buttonWrapper a.btn-primary', function() {
         //reset checkAvailability to orignal form
-        jQuery('#ModalCheckAvailability .modal-content').html(jQuery('#ModalCheckAvailabilityClone .modal-content').html());
+        if(jQuery('#ModalCheckAvailabilityClone .modal-content').length > 1) {
+            jQuery('#ModalCheckAvailability .modal-content').html(jQuery('#ModalCheckAvailabilityClone .modal-content').html());
+            jQuery('#ModalCheckAvailability .modal-content #checkAvailabilityFormClone').attr('id', 'checkAvailabilityForm');
+        }
         //reset form id to orignal one
-        jQuery('#ModalCheckAvailability .modal-content #checkAvailabilityFormClone').attr('id', 'checkAvailabilityForm');
         initTypeahead();
         var orderNowLink = jQuery(this);
         var pid = orderNowLink.data('pid');

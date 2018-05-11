@@ -242,7 +242,7 @@ jQuery(document).ready(function($){
     //Injecting values to checkAvailability modal on results page order now link, now this is generic for product page as well :)
     jQuery('body').on('click', '.offer a.block-link.missing-zip, .calcContainerAdjust .buttonWrapper a.btn-primary', function() {
         //reset checkAvailability to orignal form
-        if(jQuery('#ModalCheckAvailabilityClone .modal-content').length > 1) {
+        if(jQuery('#ModalCheckAvailabilityClone .modal-content').length >= 1) {
             jQuery('#ModalCheckAvailability .modal-content').html(jQuery('#ModalCheckAvailabilityClone .modal-content').html());
             jQuery('#ModalCheckAvailability .modal-content #checkAvailabilityFormClone').attr('id', 'checkAvailabilityForm');
         }

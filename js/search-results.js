@@ -249,17 +249,20 @@ jQuery(document).ready(function($){
         //reset form id to orignal one
         initTypeahead();
         var orderNowLink = jQuery(this);
-        var pid = orderNowLink.data('pid');
-        var sid = orderNowLink.data('sid');
-        var sg = orderNowLink.data('sg');
-        var prt = orderNowLink.data('prt');
+        //Condition added because on product page it was noticed that check availablity form is being displayed even when the link to cart is there
+        if(orderNowLink.attr('href') == undefined || orderNowLink.attr('href').length == 0) {
+            var pid = orderNowLink.data('pid');
+            var sid = orderNowLink.data('sid');
+            var sg = orderNowLink.data('sg');
+            var prt = orderNowLink.data('prt');
 
-        jQuery('#ModalCheckAvailability').find('[name=pid]').val(pid);
-        jQuery('#ModalCheckAvailability').find('[name=prvid]').val(sid);
-        jQuery('#ModalCheckAvailability').find('[name=sg]').val(sg);
-        jQuery('#ModalCheckAvailability').find('[name=prt]').val(prt);
+            jQuery('#ModalCheckAvailability').find('[name=pid]').val(pid);
+            jQuery('#ModalCheckAvailability').find('[name=prvid]').val(sid);
+            jQuery('#ModalCheckAvailability').find('[name=sg]').val(sg);
+            jQuery('#ModalCheckAvailability').find('[name=prt]').val(prt);
 
-        jQuery('#ModalCheckAvailability').modal('show');
+            jQuery('#ModalCheckAvailability').modal('show');
+        }
     });
 });
 

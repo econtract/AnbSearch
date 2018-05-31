@@ -182,7 +182,21 @@ jQuery(document).ready(function($){
     $('#yourProfileWizardForm').on('submit', function(e){
         e.preventDefault();
 
-        window.location = wizardProfileFormSubmitRedirect();
+        var _self = $(this);
+        var openModal = _self.parents('.modal.in');
+
+        if(openModal.length){
+            var modalID = openModal.attr('id');
+            console.log(modalID);
+
+            openPopup = true;
+            popupIDToOpen = 'searchDealsPopup';
+
+            $('#'+modalID).modal('hide');
+        }
+
+        //window.location = wizardProfileFormSubmitRedirect();
+        redirectParam = wizardProfileFormSubmitRedirect();
     });
 
     //sort feature

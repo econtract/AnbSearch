@@ -984,9 +984,11 @@ class AnbCompare extends Base
         $hiddenMultipleProvidersHtml = "";
 
         if (empty($supplierHtml)) {//If no supplier html generated but pref_cs are present keep them included as hidden values
+	        $hiddenMultipleProvidersHtml .= '<div id="wizard_popup_pref_cs" class="hidden">';
             foreach ($values['pref_cs'] as $provider) {
                 $hiddenMultipleProvidersHtml .= "<input type='hidden' name='pref_cs[]' value='" . $provider . "' />";
             }
+	        $hiddenMultipleProvidersHtml .= '</div>';
         }
 
         return $hiddenMultipleProvidersHtml;

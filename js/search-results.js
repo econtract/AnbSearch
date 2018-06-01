@@ -38,7 +38,14 @@ function removeDuplicatesFromUri(uri) {
         redToArr = _.uniq(redToArr);
     }*/
     var finalRedirect = stripUriParams(uri);
-    finalRedirect = '?' + finalRedirect;
+    return finalRedirect;
+}
+
+function prependQueryStringQuestionMark(finalRedirect) {
+    if(finalRedirect.indexOf('?') === -1) {
+        finalRedirect = '?' + finalRedirect;
+    }
+
     return finalRedirect;
 }
 
@@ -196,7 +203,7 @@ jQuery(document).ready(function($){
         }
 
         //window.location = wizardProfileFormSubmitRedirect();
-        redirectParam = wizardProfileFormSubmitRedirect();
+        redirectParam = prependQueryStringQuestionMark(wizardProfileFormSubmitRedirect());
     });
 
     //sort feature
@@ -204,19 +211,19 @@ jQuery(document).ready(function($){
         var sortBy = $(this).val();
         var redirectUrl = getRedirectUrl() + '&sort='+sortBy+'&searchSubmit=';
         redirectUrl = removeDuplicatesFromUri(redirectUrl);
-        window.location = redirectUrl;
+        window.location = prependQueryStringQuestionMark(redirectUrl);
     });
 
     //filter results left nav
     $('#searchFilterNav').on('submit', function(e) {
         e.preventDefault();
+        $('#wizard_popup_pref_cs').html('');//remove all pref_cs from wizard popup as at this moment they are passed from search navigation
         var redirectUrl = getRedirectUrl() + '&searchSubmit=';
         var sortBy = $('#sortResults').val();
         if(typeof sortBy != "undefined") {
             redirectUrl += '&sort='+sortBy+'&searchSubmit=';
         }
-        redirectUrl = removeDuplicatesFromUri(redirectUrl);
-        //console.log(redirectUrl);
+        redirectUrl = prependQueryStringQuestionMark(removeDuplicatesFromUri(redirectUrl));
         window.location = redirectUrl;
     });
 
@@ -232,7 +239,7 @@ jQuery(document).ready(function($){
         });
     });
 
-    //enable filters if they are already applied
+    //enable/open collapsed filters if they are already applied
     if(filtersApplied) {
         jQuery('.refineResult a').trigger('click');
     }

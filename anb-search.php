@@ -24,9 +24,13 @@ include(__DIR__ . '/pll-register-trans.php');
 
 $result = wpal_create_instance(AnbCompare::class);
 
+$energy = wpal_create_instance(AnbCompareEnergy::class);
+
 add_shortcode( 'anb_search_result', [$result, 'getCompareResults'] );
 
 add_shortcode( 'anb_search_form', [$result, 'searchForm'] );
+
+add_shortcode( 'anb_energy_search_form', [$energy, 'searchForm'] );
 
 // add ajax calls
 add_action('wp_ajax_moreResults', array($result, 'moreResults'));

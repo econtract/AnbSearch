@@ -760,7 +760,7 @@ class AnbCompare extends Base
     /**
      * @param $value
      */
-    private function convertMultiValToArray($value)
+    protected function convertMultiValToArray($value)
     {
         $this->comaSepToArray($value);
         $this->plainInputToArray($value);

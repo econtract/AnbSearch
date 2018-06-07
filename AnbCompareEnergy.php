@@ -190,14 +190,14 @@ class AnbCompareEnergy extends AnbCompare
                                                 <i></i>
                                                 <input type='text' name='du'/>
                                                 <label>kwh</label>
-												<span class='fa fa-question-circle-o custom-tooltip' data-toggle='tooltip' title='".pll__('Informational text will be here')."'></span>
+												<span class='fa fa-question-circle-o custom-tooltip' data-toggle='tooltip' title='".pll__('Informational text electricty')."'></span>
                                             </div>
                                             <div class='field day-night-energy hide'>
                                                 <div class='day-energy'>
                                                     <i></i>
                                                     <input type='text' disabled='disabled' name='du'/>
                                                     <label>kwh</label>
-                                                    <span class='fa fa-question-circle-o custom-tooltip' data-toggle='tooltip' title='".pll__('Informational text will be here')."'></span>
+                                                    <span class='fa fa-question-circle-o custom-tooltip' data-toggle='tooltip' title='".pll__('Informational text gas')."'></span>
                                                 </div>
                                                 <div class='night-energy'>
                                                     <i></i>

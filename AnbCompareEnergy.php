@@ -73,7 +73,7 @@ class AnbCompareEnergy extends AnbCompare
                               </div>";
 	    }
 
-	    $formNew = $this->getSearchBoxContentHtml($values, $needHelpHtml, $supplierHtml, pll__("Compare Energy Prices"), false, "", pll__('results'));
+	    $formNew = $this->getSearchBoxContentHtml($values, $needHelpHtml, $supplierHtml, pll__("Compare Energy Prices"), false, "", '/'.pll__('energy').'/'.pll__('results'));
 
 	    return $formNew;
     }
@@ -113,7 +113,7 @@ class AnbCompareEnergy extends AnbCompare
                                 <div class='form-group'>
                                     <ul class='service-tabs'>
                                         <li>
-                                            <input type='radio' name='producttype' id='service_dual_fuel' value='dualfuel_pack' checked='checked'>
+                                            <input type='radio' name='cat' id='service_dual_fuel' value='dualfuel_pack' checked='checked'>
                                             <label for='service_dual_fuel' class='service-dual-fuel'>
                                                 <i></i>
                                                 <span class='service-label'>".pll__('Dual Fuel')."</span>
@@ -121,7 +121,7 @@ class AnbCompareEnergy extends AnbCompare
                                             </label>
                                         </li>
                                         <li>
-                                            <input type='radio' name='producttype' id='service_electricity' value='electricity'>
+                                            <input type='radio' name='cat' id='service_electricity' value='electricity'>
                                             <label for='service_electricity' class='service-electricity'>
                                                 <i></i>
                                                 <span class='service-label'>".pll__('Electricity')."</span>
@@ -129,7 +129,7 @@ class AnbCompareEnergy extends AnbCompare
                                             </label>
                                         </li>
                                         <li>
-                                            <input type='radio' name='producttype' id='service_gas' value='gas'>
+                                            <input type='radio' name='cat' id='service_gas' value='gas'>
                                             <label for='service_gas' class='service-gas'>
                                                 <i></i>
                                                 <span class='service-label'>".pll__('Gas')."</span>
@@ -190,16 +190,18 @@ class AnbCompareEnergy extends AnbCompare
                                                 <i></i>
                                                 <input type='text' name='du'/>
                                                 <label>kwh</label>
+												<span class='fa fa-question-circle-o custom-tooltip' data-toggle='tooltip' title='".pll__('Informational text will be here')."'></span>
                                             </div>
                                             <div class='field day-night-energy hide'>
                                                 <div class='day-energy'>
                                                     <i></i>
-                                                    <input type='text' name='du'/>
+                                                    <input type='text' disabled='disabled' name='du'/>
                                                     <label>kwh</label>
+                                                    <span class='fa fa-question-circle-o custom-tooltip' data-toggle='tooltip' title='".pll__('Informational text will be here')."'></span>
                                                 </div>
                                                 <div class='night-energy'>
                                                     <i></i>
-                                                    <input type='text' name='nou'/>
+                                                    <input type='text' disabled='disabled' name='nou'/>
                                                     <label>kwh</label>
                                                 </div>
                                             </div>
@@ -247,8 +249,10 @@ class AnbCompareEnergy extends AnbCompare
                                         </div>
                                         <div class='field'>
                                             <i></i>
-                                            <input type='text' name='ut' value=''/>
+                                            <input type='text' name='u' value=''/>
+                                            <input type='hidden' name='ut' value='m3'/>
                                             <label>m3</label>
+                                            <span class='fa fa-question-circle-o custom-tooltip' data-toggle='tooltip' title='".pll__('Informational text will be here')."'></span>
                                         </div>
                                     </div>
                                 </div>

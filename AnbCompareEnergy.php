@@ -223,33 +223,33 @@ class AnbCompareEnergy extends AnbCompare
                                     <div class='house-selector'>
                                         <div class='house-type'>
                                             <label class='single-house' data-toggle='tooltip' title='House 1'>
-                                                <input type='radio' name='houseType' id='single_house' value='single'/>
+                                                <input type='radio' name='houseType' id='single_house' value='single' usage-val='".M3_SINGLE_HOUSE."'/>
                                                 <i class='houses'></i>
                                             </label>
 
                                             <label class='double-house' data-toggle='tooltip' title='House 2'>
-                                                <input type='radio' name='houseType' id='double_house' value='double'/>
+                                                <input type='radio' name='houseType' id='double_house' value='double' usage-val='".M3_DOUBLE_HOUSE."'/>
                                                 <i class='houses'></i>
                                             </label>
 
                                             <label class='triple-house' data-toggle='tooltip' title='House 3'>
-                                                <input type='radio' name='houseType' id='triple_house' value='tripple'/>
+                                                <input type='radio' name='houseType' id='triple_house' value='tripple' usage-val='".M3_TRIPLE_HOUSE."'/>
                                                 <i class='houses'></i>
                                             </label>
 
                                             <label class='tetra-house' data-toggle='tooltip' title='House 4'>
-                                                <input type='radio' name='houseType' id='tetra_house' value='tetra'/>
+                                                <input type='radio' name='houseType' id='tetra_house' value='tetra' usage-val='".M3_TETRA_HOUSE."'/>
                                                 <i class='houses'></i>
                                             </label>
 
                                             <label class='tower-house' data-toggle='tooltip' title='".pll__('appartment')."'>
-                                                <input type='radio' name='houseType' id='tower_house' value='flat'/>
+                                                <input type='radio' name='houseType' id='tower_house' value='flat' usage-val='".M3_FLAT."'/>
                                                 <i class='houses'></i>
                                             </label>
                                         </div>
                                         <div class='field'>
                                             <i></i>
-                                            <input type='text' name='u' value=''/>
+                                            <input type='text' id='m3_u' name='u' value=''/>
                                             <input type='hidden' name='ut' value='m3'/>
                                             <label>m3</label>
                                             <span class='question-circle custom-tooltip' data-toggle='tooltip' title='".pll__('Informational text for gas')."'></span>

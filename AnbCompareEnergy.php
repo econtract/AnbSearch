@@ -256,7 +256,7 @@ class AnbCompareEnergy extends AnbCompare
                                         </div>
                                     </div>
                                 </div>
-                                <div class='form-group'>
+                                <div class='form-group solar-panel-container'>
 	                                <label>Do you have solar panels?</label>
 	                                <div class='check fancyCheck'>
 	                                    <input type='checkbox' name='has_solar' id='solarPanel' class='radio-salutation' value='1'>

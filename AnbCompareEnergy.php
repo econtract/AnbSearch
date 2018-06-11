@@ -101,6 +101,7 @@ class AnbCompareEnergy extends AnbCompare
 
 	    $hiddenMultipleProvidersHtml = $this->getSuppliersHiddenInputFields($values, $supplierHtml);
 
+	    // html for quick search content
 	    $formNew = "<div class='quick-search-content'>
                     <div class='searchBox'>
                         " . $needHelpHtml . "

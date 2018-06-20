@@ -180,6 +180,26 @@ jQuery(document).ready(function($){
         window.history.replaceState(null, null, appendMoreResultsInUrl(window.location));
     });
 
+    $('.loadMoreEnergy').on('click', function() {
+        var data = {
+            'action': 'moreResultsEnergy'
+        };
+        var urlParams = window.location.search;
+
+        $('.loadMoreEnergy').html('LOADING...');
+        // We can also pass the url value separately from ajaxurl for front end AJAX implementations
+        console.log(search_compare_obj.ajax_url+urlParams);
+        console.log(data);
+        $.get(search_compare_obj.ajax_url+urlParams, data, function(response) {
+
+            $('.resultsData').html(response);
+            $('.loadMoreEnergy').hide();
+
+        });
+
+        window.history.replaceState(null, null, appendMoreResultsInUrl(window.location));
+    });
+
     //if load_more=true then trigger click on .loadMore, to ensure that user don't click again and again on load more
     if(window.location.toString().indexOf("more_results") !== -1) {
         $('.loadMore').trigger('click');

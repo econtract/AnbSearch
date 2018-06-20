@@ -17,7 +17,7 @@ class AnbCompareEnergy extends AnbCompare
     /**
      * constant form page URI
      */
-    const RESULTS_PAGE_URI = "/energy/results/";
+    const RESULTS_PAGE_URI = "/energy/uitslagen/";
 
     public function __construct()
     {
@@ -278,4 +278,145 @@ class AnbCompareEnergy extends AnbCompare
 
 	    return $formNew;
     }
+
+    function moreResults(){
+        $productResp = '';
+        $forceCheckAvailability = false;
+        $parentSegment = getSectorOnCats( $_SESSION['product']['cat'] );
+        $products = $this->getCompareResults([
+            'detaillevel' => 'supplier,logo,services,price,reviews,texts,promotions,core_features,specifications'
+        ]);
+
+        $results = json_decode($products);
+        /** @var \AnbTopDeals\AnbProduct $anbTopDeals */
+        $anbTopDeals = wpal_create_instance( \AnbTopDeals\AnbProductEnergy::class );
+        $countProducts = 0;
+        foreach ($results->results as $listProduct) :
+            $countProducts++;
+            if ($countProducts <= $this->defaultNumberOfResults) {
+                continue;
+            }
+            $endScriptTime = getEndTime();
+            displayCallTime($startScriptTime, $endScriptTime, "Total page load time for Results page invidual gridView start.");
+
+            $countProducts ++;
+
+            $product     = $listProduct->product;
+            $pricing     = $listProduct->pricing;
+            $productData = $anbTopDeals->prepareProductData( $product );
+            $productId   = $product->product_id;
+
+            $endScriptTime = getEndTime();
+            displayCallTime($startScriptTime, $endScriptTime, "Total page load time for Results page invidual gridView till prepareProductData.");
+
+            list(, , , , $toCartLinkHtml) = $anbTopDeals->getToCartAnchorHtml($parentSegment, $productData['product_id'], $productData['supplier_id'], $productData['sg'], $productData['producttype'], $forceCheckAvailability);
+
+            $blockLinkClass = 'block-link';
+            if($forceCheckAvailability) {
+                $blockLinkClass = 'block-link missing-zip';
+            }
+            $toCartLinkHtml = '<a '.$toCartLinkHtml.' class="link '.$blockLinkClass.'">' . pll__( 'Order Now' ) . '</a>';
+
+            if($productData['commission'] === false) {
+                $toCartLinkHtml = '<a href="#not-available" class="link block-link not-available">' . pll__('Not Available') . '</a>';
+            }
+
+            $servicesHtml = $anbTopDeals->getServicesHtml( $product, $pricing );
+
+            /*
+            //Services HTML
+            $servicesHtml = $anbTopDeals->getServicesHtml( $productData );
+
+            $endScriptTime = getEndTime();
+            displayCallTime($startScriptTime, $endScriptTime, "Total page load time for Results page invidual gridView till getServicesHtml.");
+
+            //Price HTML
+            $priceHtml = $anbTopDeals->getPriceHtml( $productData, true );
+
+            $endScriptTime = getEndTime();
+            displayCallTime($startScriptTime, $endScriptTime, "Total page load time for Results page invidual gridView till getPriceHtml.");*/
+            include(locate_template('template-parts/section/energy-overview-popup.php'));
+            $productResp .= '<div class="result-box-container">';
+            $productResp .= '<div class="result-box">';
+            $productResp .= '<div class="top-label">'. $anbTopDeals->getBadgeSection( $productData ) .'</div>';
+            $productResp .= '<div class="flex-grid">';
+            $productResp .= '<div class="cols col_1">';
+            $productResp .= $anbTopDeals->getProductDetailSection( $productData, '', false, '', true  );
+            $productResp .= $anbTopDeals->getGreenPeaceRating( $productData );
+            $productResp .= '</div>';
+            $productResp .= '<div class="cols col_2">';
+            $productResp .= '<ul class="green-services">' .$servicesHtml. '</ul>';
+            $productResp .= '</div>';
+            $productResp .= '<div class="cols col_3 grid-hide">' .$anbTopDeals->getPromoSection( $productData ). '</div>';
+            $productResp .= '<div class="cols col_4">';
+            $productResp .= '<div class="actual-price-board">' .$anbTopDeals->getPriceHtml( $productData, $pricing, true ). '</div>';
+            $productResp .= '</div>';
+            $productResp .= '<div class="cols col_5 grid-show">' .$anbTopDeals->getPromoSection( $productData ). '</div>';
+            $productResp .= '<div class="cols col_6">';
+            $productResp .= '<div class="price-label">';
+            $productResp .= '<label>Potential saving</label>';
+            $productResp .= '<div class="price">€ 136<small>,00</small></div>';
+            $productResp .= '</div>';
+
+            $yearAdv = $pricing->yearly->price - $pricing->yearly->promo_price;
+            if($yearAdv !== 0):
+                $yearAdvArr = formatPriceInParts($yearAdv, 2);
+                $monthlyAdv = $pricing->monthly->price - $pricing->monthly->promo_price;
+                $monthAdvArr = formatPriceInParts($monthlyAdv, 2);
+
+                $productResp .= '<div class="price-label">';
+                $productResp .= '<label>' .pll__('Your advantage'). '</label>';
+                $productResp .= '<div class="price yearly">';
+                $productResp .= $yearAdvArr['currency'] . ' ' . $yearAdvArr['price'];
+                $productResp .= '<small>,' .$yearAdvArr['cents']. '</small>';
+                $productResp .= '</div>';
+                $productResp .= '<div class="price monthly hide">';
+                $productResp .= $monthAdvArr['currency'] . ' ' . $monthAdvArr['price'];
+                $productResp .= '<small>,' .$monthAdvArr['cents']. '</small>';
+                $productResp .= '</div>';
+                $productResp .= '</div>';
+            endif;
+            $productResp .= '<div class="inner-col grid-show">';
+            $productResp .= '<div class="promo">added services</div>';
+            $productResp .= '<ul>';
+            $productResp .= '<li>Isolation</li>';
+            $productResp .= '<li>SOlar panels</li>';
+            $productResp .= '<li>Comfort Service bij storing/defect</li>';
+            $productResp .= '<li>Bijstand elektrische wagen</li>';
+            $productResp .= '<li>Verlengde ganantie</li>';
+            $productResp .= '</ul>';
+            $productResp .= '</div>';
+            $productResp .= '<div class="grid-show border-top">' .decorateLatestOrderByProduct($product->product_id) . '</div>';
+            $productResp .= '<a href="#" class="btn btn-primary all-caps">connect now</a>';
+            $productResp .= '<a href="#" class="link block-link all-caps">Detail</a>';
+            $productResp .= '</div>';
+            $productResp .= '</div>';
+            $productResp .= '<div class="result-footer">';
+            $productResp .= '<div class="pull-left grid-hide">'.decorateLatestOrderByProduct($product->product_id) . '</div>';
+            $productResp .= '<div class="pull-right">';
+            $productResp .= '<span class="grid-hide">'.$anbTopDeals->getLastUpdateDate( $productData ).'</span>';
+            $productResp .= '<div class="check fancyCheck">';
+            $productResp .= '<input type="hidden" name="energyCompare" value="consumer">';
+            $productResp .= '<input type="checkbox" name="energyCompare" id="resultCompareEnergy" class="radio-salutation" value="">';
+            $productResp .= '<label for="resultCompareEnergy">';
+            $productResp .= '<i class="fa fa-circle-o unchecked"></i>';
+            $productResp .= '<i class="fa fa-check-circle checked"></i>';
+            $productResp .= '<span>Compare</span>';
+            $productResp .= '</label>';
+            $productResp .= '</div>';
+            $productResp .= '</div>';
+            $productResp .= '</div>';
+            $productResp .= '</div>';
+            $productResp .= '</div>';
+            $endScriptTime = getEndTime();
+            displayCallTime($startScriptTime, $endScriptTime, "Total page load time for Results page for individual product listView end.");
+            //unset($productData);//these variables are used in portion right below on calling getProductDetailSection
+            unset($product);
+            //unset($servicesHtml);
+        endforeach;
+        echo $productResp;
+        wp_die(); // this is required to terminate immediately and return a proper response
+    }
+
 }
+

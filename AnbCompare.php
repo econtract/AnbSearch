@@ -54,13 +54,13 @@ class AnbCompare extends Base
     function enqueueScripts()
     {
 
-        wp_enqueue_script('search-compare-script', plugins_url('/js/search-results.js', __FILE__), array('jquery'), '1.1.2', true);
+        wp_enqueue_script('search-compare-script', pluginsUrlWrapper('/js/search-results.js', __FILE__), array('jquery'), '1.1.2', true);
 
         // in JavaScript, object properties are accessed as ajax_object.ajax_url, ajax_object.we_value
         wp_localize_script('search-compare-script', 'search_compare_obj',
             array('ajax_url' => admin_url('admin-ajax.php'), 'zipcode_api' => ZIPCODE_API, 'template_uri' => get_template_directory_uri()));
 
-        wp_enqueue_script('compare-between-results-script', plugins_url('/js/compare-results.js', __FILE__), array('jquery'), '1.0.11', true);
+        wp_enqueue_script('compare-between-results-script', pluginsUrlWrapper('/js/compare-results.js', __FILE__), array('jquery'), '1.0.11', true);
 
         // in JavaScript, object properties are accessed as ajax_object.ajax_url, ajax_object.we_value
         wp_localize_script('compare-between-results-script', 'compare_between_results_object',
@@ -75,7 +75,7 @@ class AnbCompare extends Base
             )
         );
 
-        wp_enqueue_script('wizard-script', plugins_url('/js/wizard.js', __FILE__), array('jquery'), '1.0.5', true);
+        wp_enqueue_script('wizard-script', pluginsUrlWrapper('/js/wizard.js', __FILE__), array('jquery'), '1.0.5', true);
 
         // in JavaScript, object properties are accessed as ajax_object.ajax_url, ajax_object.we_value
         wp_localize_script('wizard-script', 'wizard_object',
@@ -123,6 +123,9 @@ class AnbCompare extends Base
             'pr' => '',
             'cm' => '',
             'f' => '',
+	        'du' => '',
+            'ut' => '',
+            'has_solar' => '',
             'num_pc' => '',
             'num_tv' => '',
             'num_smartphones' => '',
@@ -1964,5 +1967,16 @@ class AnbCompare extends Base
         }
 
         return $output;
+    }
+
+    function pluginsUrlWrapper($path = '', $plugin = '') {
+    	$url = plugins_url($path, $plugin);
+
+    	if(strpos($url, 'http') !== false) {
+    		$url = str_replace('https://', '//', $url);
+		    $url = str_replace('http://', '//', $url);
+	    }
+
+	    return $url;
     }
 }

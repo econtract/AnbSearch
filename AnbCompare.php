@@ -89,7 +89,7 @@ class AnbCompare extends Base
             ));
     }
 
-    function getCompareResults($atts, $enableCache = true, $cacheDurationSeconds = 600)
+    function getCompareResults($atts, $enableCache = true, $cacheDurationSeconds = 86400)
     {
         if(defined('COMPARE_API_CACHE_DURATION')) {
             $cacheDurationSeconds = PRODUCT_CACHE_DURATION;

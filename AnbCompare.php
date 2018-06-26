@@ -221,7 +221,7 @@ class AnbCompare extends Base
             $start = getStartTime();
             $displayText = "Time API (Compare) inside getCompareResults";
             if ($enableCache && !isset($_GET['no_cache'])) {
-                $cacheKey = md5(implode(",", $params) . $_SERVER['REQUEST_URI']) . ":compare";
+                $cacheKey = md5(serialize($params) . $_SERVER['REQUEST_URI']) . ":compare";
                 $result = get_transient($cacheKey);
 
                 if($result === false || empty($result)) {

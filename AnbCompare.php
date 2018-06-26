@@ -89,7 +89,7 @@ class AnbCompare extends Base
             ));
     }
 
-    function getCompareResults($atts, $enableCache = true, $cacheDurationSeconds = 600)
+    function getCompareResults($atts, $enableCache = true, $cacheDurationSeconds = 86400)
     {
         if(defined('COMPARE_API_CACHE_DURATION')) {
             $cacheDurationSeconds = PRODUCT_CACHE_DURATION;
@@ -221,7 +221,7 @@ class AnbCompare extends Base
             $start = getStartTime();
             $displayText = "Time API (Compare) inside getCompareResults";
             if ($enableCache && !isset($_GET['no_cache'])) {
-                $cacheKey = md5(implode(",", $params) . $_SERVER['REQUEST_URI']) . ":compare";
+                $cacheKey = md5(serialize($params) . $_SERVER['REQUEST_URI']) . ":compare";
                 $result = get_transient($cacheKey);
 
                 if($result === false || empty($result)) {

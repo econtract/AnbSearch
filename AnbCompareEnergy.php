@@ -290,7 +290,7 @@ class AnbCompareEnergy extends AnbCompare
         $results = json_decode($products);
         /** @var \AnbTopDeals\AnbProduct $anbTopDeals */
         $anbTopDeals = wpal_create_instance( \AnbTopDeals\AnbProductEnergy::class );
-        $countProducts = 0;
+        $countProducts = 100;
         foreach ($results->results as $listProduct) :
             $countProducts++;
             if ($countProducts <= $this->defaultNumberOfResults) {
@@ -336,7 +336,7 @@ class AnbCompareEnergy extends AnbCompare
             $endScriptTime = getEndTime();
             displayCallTime($startScriptTime, $endScriptTime, "Total page load time for Results page invidual gridView till getPriceHtml.");*/
             include(locate_template('template-parts/section/energy-overview-popup.php'));
-            $productResp .= '<div class="result-box-container">';
+            $productResp .= '<div class="result-box-container" id="listgridview_'.$countProducts.'">';
             $productResp .= '<div class="result-box">';
             $productResp .= '<div class="top-label">'. $anbTopDeals->getBadgeSection( $productData ) .'</div>';
             $productResp .= '<div class="flex-grid">';
@@ -399,7 +399,7 @@ class AnbCompareEnergy extends AnbCompare
             $productResp .= '<div class="checkbox">';
             $productResp .= '<label>';
             $productResp .= '<input type="hidden" name="compareProductType152" value="internet">';
-            $productResp .= '<input type="checkbox" value="152"> Compare';
+            $productResp .= '<input type="checkbox" value="listgridview_'.$countProducts.'"> Compare';
             $productResp .= '</label>';
             $productResp .= '</div>';
             $productResp .= '</div>';

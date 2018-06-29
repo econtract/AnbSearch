@@ -291,8 +291,10 @@ class AnbCompareEnergy extends AnbCompare
         /** @var \AnbTopDeals\AnbProduct $anbTopDeals */
         $anbTopDeals = wpal_create_instance( \AnbTopDeals\AnbProductEnergy::class );
         $countProducts = 0;
+        $chkbox = 100;
         foreach ($results->results as $listProduct) :
             $countProducts++;
+            $chkbox++;
             if ($countProducts <= $this->defaultNumberOfResults) {
                 continue;
             }
@@ -336,7 +338,7 @@ class AnbCompareEnergy extends AnbCompare
             $endScriptTime = getEndTime();
             displayCallTime($startScriptTime, $endScriptTime, "Total page load time for Results page invidual gridView till getPriceHtml.");*/
             include(locate_template('template-parts/section/energy-overview-popup.php'));
-            $productResp .= '<div class="result-box-container">';
+            $productResp .= '<div class="result-box-container" id="listgridview_'.$chkbox.'">';
             $productResp .= '<div class="result-box">';
             $productResp .= '<div class="top-label">'. $anbTopDeals->getBadgeSection( $productData ) .'</div>';
             $productResp .= '<div class="flex-grid">';
@@ -395,14 +397,13 @@ class AnbCompareEnergy extends AnbCompare
             $productResp .= '<div class="pull-left grid-hide">'.decorateLatestOrderByProduct($product->product_id) . '</div>';
             $productResp .= '<div class="pull-right">';
             $productResp .= '<span class="grid-hide">'.$anbTopDeals->getLastUpdateDate( $productData ).'</span>';
-            $productResp .= '<div class="check fancyCheck">';
-            $productResp .= '<input type="hidden" name="energyCompare" value="consumer">';
-            $productResp .= '<input type="checkbox" name="energyCompare" id="resultCompareEnergy" class="radio-salutation" value="">';
-            $productResp .= '<label for="resultCompareEnergy">';
-            $productResp .= '<i class="fa fa-circle-o unchecked"></i>';
-            $productResp .= '<i class="fa fa-check-circle checked"></i>';
-            $productResp .= '<span>Compare</span>';
+            $productResp .= '<div class="comparePackage">';
+            $productResp .= '<div class="checkbox">';
+            $productResp .= '<label>';
+            $productResp .= '<input type="hidden" name="compareProductType152" value="internet">';
+            $productResp .= '<input type="checkbox" value="listgridview_'.$chkbox.'"> Compare';
             $productResp .= '</label>';
+            $productResp .= '</div>';
             $productResp .= '</div>';
             $productResp .= '</div>';
             $productResp .= '</div>';

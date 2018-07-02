@@ -951,7 +951,8 @@ class AnbCompare extends Base
                                       value='" . ((!empty($values['zip'])) ? $values['zip'] : '') . "' placeholder='" . pll__('Enter Zipcode') . "'
                                       data-error='" . pll__('Please enter valid zip code') . "' autocomplete='off' query_method='cities' query_key='postcode' required>
                                 </div>
-                                {$supplierHtml}
+                                {$supplierHtml}";
+                                /*
                                 <div class='form-group'>
                                     <label>" . pll__('Type of Use') . "</label>
                                     <div class='radio fancyRadio'>
@@ -971,6 +972,18 @@ class AnbCompare extends Base
                                         </label>
                                     </div>
                                 </div>
+                                */
+                    $formNew.= "<div class='form-group11'>
+                                    <div class='check fancyCheck'>
+                                        <input name='sg' value='consumer' type='hidden' id='valconsumer'>
+                                        <input name='sg' id='showBusinessDeal' class='radio-salutation' value='sme' type='checkbox' " . (("sme" == $values['sg']) ? 'checked="checked"' : '') . ">
+                                        <label for='showBusinessDeal'>
+                                            <i class='fa fa-circle-o unchecked' id='disableconsumer'></i>
+                                            <i class='fa fa-check-circle checked' id='enableconsumer'></i>
+                                            <span>". pll__('Show business deals') ."</span>
+                                        </label>
+                                    </div>
+                                </div>                                
                                 <div class='btnWrapper'>
                                     {$hiddenMultipleProvidersHtml}
                                     <button name='searchSubmit' type='submit' class='btn btn-default btn-block' >$submitBtnTxt</button>

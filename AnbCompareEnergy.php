@@ -349,11 +349,11 @@ class AnbCompareEnergy extends AnbCompare
             $productResp .= '<div class="cols col_2">';
             $productResp .= '<ul class="green-services">' .$servicesHtml. '</ul>';
             $productResp .= '</div>';
-            $productResp .= '<div class="cols col_3 grid-hide">' .$anbTopDeals->getPromoSection( $productData ). '</div>';
+            $productResp .= '<div class="cols col_3 grid-hide">' .$anbTopDeals->getPromoSection( $product ). '</div>';
             $productResp .= '<div class="cols col_4">';
             $productResp .= '<div class="actual-price-board">' .$anbTopDeals->getPriceHtml( $productData, $pricing, true ). '</div>';
             $productResp .= '</div>';
-            $productResp .= '<div class="cols col_5 grid-show">' .$anbTopDeals->getPromoSection( $productData ). '</div>';
+            $productResp .= '<div class="cols col_5 grid-show">' .$anbTopDeals->getPromoSection( $product ). '</div>';
             $productResp .= '<div class="cols col_6">';
             $productResp .= '<div class="price-label">';
             $productResp .= '<label>Potential saving</label>';

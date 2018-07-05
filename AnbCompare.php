@@ -124,6 +124,9 @@ class AnbCompare extends Base
             'cm' => '',
             'f' => '',
 	        'du' => '',
+            'nou' => '',
+            'dndu' => '',
+            'dnnu' => '',
             'ut' => '',
             'has_solar' => '',
             'num_pc' => '',
@@ -202,6 +205,11 @@ class AnbCompare extends Base
             // in case of Max download limit set parameter to -1
             if (isset($params['dl']) && !empty($params['dl']) && $params['dl'] == INTERNET_DOWNLOAD_LIMIT) {
                 $params['dl'] = "-1";
+            }
+
+            if(isset($_GET['doubleMeter']) && $_GET['doubleMeter'] == 1){
+                if( !empty( $params['du'] ) ) { $params['dndu'] = $params['du']; }
+                if( !empty( $params['nou'] ) ) { $params['dnnu'] = $params['nou']; }
             }
 
             $this->cleanArrayData($params);

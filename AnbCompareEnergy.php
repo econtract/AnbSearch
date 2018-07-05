@@ -344,7 +344,7 @@ class AnbCompareEnergy extends AnbCompare
             $productResp .= '<div class="flex-grid">';
             $productResp .= '<div class="cols col_1">';
             $productResp .= $anbTopDeals->getProductDetailSection( $productData, '', false, '', true  );
-            $productResp .= $anbTopDeals->getGreenPeaceRating( $productData );
+            $productResp .= $anbTopDeals->getGreenPeaceRating( $product );
             $productResp .= '</div>';
             $productResp .= '<div class="cols col_2">';
             $productResp .= '<ul class="green-services">' .$servicesHtml. '</ul>';

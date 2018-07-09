@@ -108,6 +108,7 @@ jQuery(document).ready(function($){
 
     $('#compareEnergyPopupForm').on('submit', function(e) {
         e.preventDefault();
+        $('#messagenotfound').hide();
         var currentPack = $('#currentPack').val().split('|');
         $('#selectCurrentPack').modal('hide');
         var data = {
@@ -123,12 +124,18 @@ jQuery(document).ready(function($){
         // We can also pass the url value separately from ajaxurl for front end AJAX implementations
         $('#crntPackSelectionSection .offer').append('<div class="ajaxIconWrapper"><div class="ajaxIcon"><img src="'+compare_between_results_object.template_uri+'/images/common/icons/ajaxloader.png" alt="Loading..."></div></div>');
         jQuery.get(compare_between_results_object.site_url+'/api/' + urlParams+'&load=CompareEnergy', data, function(response) {
+            if(response == 'no results found'){
+                $('#crntPackSelectionSection').show();
+                $('#messagenotfound').show();
+                $('#crntPackSelectionSection .offer .ajaxIconWrapper').remove();//Removing loaders ones result is loaded
+            } else {
+                $('#crntPackSelectionSection').hide();
+                $('#messagenotfound').hide();
+                $('#crntPackSelectionResponse').html(response).show();
+                $('#crntPackSelectionSection .offer .ajaxIconWrapper').remove();//Removing loaders ones result is loaded
 
-            $('#crntPackSelectionSection').hide();
-            $('#crntPackSelectionResponse').html(response).show();
-            $('#crntPackSelectionSection .offer .ajaxIconWrapper').remove();//Removing loaders ones result is loaded
-
-            fixDealsTableHeight($('.compareSection .dealsTable.grid'));
+                fixDealsTableHeight($('.compareSection .dealsTable.grid'));
+            }
         });
 
         return false;

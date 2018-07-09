@@ -162,38 +162,38 @@ class AnbCompareEnergy extends AnbCompare
                                     <div class='family-members'>
                                         <fieldset class='person-sel-sm'>
 
-                                            <input type='radio' id='person6' name='f' value='6'>
+                                            <input type='radio' id='person6' name='f' value='6' usage-val='".KWH_5_PLUS_PERSON."' usage-val-night='".KWH_5_PLUS_PERSON_NIGHT."'>
                                             <label class='full' for='person6' title='6 ".pll__('persons')."'>
                                                 <span class='person-value'>5+</span>
                                             </label>
 
-                                            <input type='radio' id='person5' name='f' value='5'>
+                                            <input type='radio' id='person5' name='f' value='5' usage-val='".KWH_5_PERSON."' usage-val-night='".KWH_5_PERSON_NIGHT."'>
                                             <label class='full' for='person5' title='5 ".pll__('persons')."'></label>
 
-                                            <input type='radio' id='person4' name='f' value='4'>
+                                            <input type='radio' id='person4' name='f' value='4' usage-val='".KWH_4_PERSON."' usage-val-night='".KWH_4_PERSON_NIGHT."'>
                                             <label class='full' for='person4' title='4 ".pll__('persons')."'></label>
 
 
-                                            <input type='radio' id='person3' name='f' value='3'>
+                                            <input type='radio' id='person3' name='f' value='3' usage-val='".KWH_3_PERSON."' usage-val-night='".KWH_3_PERSON_NIGHT."'>
                                             <label class='full' for='person3' title='3 ".pll__('persons')."'></label>
 
 
-                                            <input type='radio' id='person2' name='f' value='2'>
+                                            <input type='radio' id='person2' name='f' value='2' usage-val='".KWH_2_PERSON."' usage-val-night='".KWH_2_PERSON_NIGHT."'>
                                             <label class='full' for='person2' title='2 ".pll__('persons')."'></label>
 
 
-                                            <input type='radio' id='person1' name='f' value='1'>
+                                            <input type='radio' id='person1' name='f' value='1' usage-val='".KWH_1_PERSON."' usage-val-night='".KWH_1_PERSON_NIGHT."'>
                                             <label class='full' for='person1' title='1 ".pll__('persons')."'></label>
                                             <div class='clearfix'></div>
                                         </fieldset>
                                         <div class='double-meter-fields'>
-                                            <div class='field general-energy'>
+                                            <div class='field general-energy kwh-energy'>
                                                 <i></i>
                                                 <input type='text' name='du'/>
                                                 <label>kwh</label>
 												<span class='question-circle custom-tooltip' data-toggle='tooltip' title='".pll__('Informational text for electricty')."'></span>
                                             </div>
-                                            <div class='field day-night-energy hide'>
+                                            <div class='field day-night-energy kwh-energy hide'>
                                                 <div class='day-energy'>
                                                     <i></i>
                                                     <input type='text' disabled='disabled' name='du'/>

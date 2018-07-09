@@ -390,7 +390,14 @@ class AnbCompareEnergy extends AnbCompare
             $productResp .= '</div>';
             $productResp .= '<div class="grid-show border-top col_10">' .decorateLatestOrderByProduct($product->product_id) . '</div>';
             $productResp .= '<a href="#" class="btn btn-primary all-caps">connect now</a>';
-            $productResp .= '<a href="#" class="link block-link all-caps">Detail</a>';
+
+			$detailHtml = '<a href="'.getPageUri('/' . pll__( 'brands' ) . '/' . $productData['supplier_slug'] . '/' . $productData['product_slug'] . '/', '/' . pll__( 'energy' )).'" 
+			                                                     class="link block-link all-caps">'.pll__('Detail').'</a>';
+			if($productData['commission'] === false) {
+				$detailHtml = '<a href="#not-available" class="link block-link not-available">' . pll__('Not Available') . '</a>';
+			}
+
+            $productResp .= $detailHtml;
             $productResp .= '</div>';
             $productResp .= '</div>';
             $productResp .= '<div class="result-footer">';

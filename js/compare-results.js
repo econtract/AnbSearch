@@ -35,7 +35,9 @@ jQuery(document).ready(function($){
             'products'     :  selectedProducts,
             'productTypes' :  selectedProductTypes,
             'features_label': compare_between_results_object.features_label,
-            'lang': compare_between_results_object.lang
+            'lang': compare_between_results_object.lang,
+            'telecom_trans': compare_between_results_object.telecom_trans,
+            'brands_trans': compare_between_results_object.brands_trans
         };
 
         var urlParams = window.location.search;
@@ -53,7 +55,9 @@ jQuery(document).ready(function($){
 
         var data = {
             'action'   : 'productsCallback',
-            'supplier' : this.value
+            'supplier' : this.value,
+            'telecom_trans': compare_between_results_object.telecom_trans,
+            'brands_trans': compare_between_results_object.brands_trans
         };
 
         var currentPack= $('#currentPack');
@@ -88,7 +92,9 @@ jQuery(document).ready(function($){
             'products'     :  currentPack[1],
             'crntPack'     : compare_between_results_object.current_pack,
             'features_label': compare_between_results_object.features_label,
-            'lang': compare_between_results_object.lang
+            'lang': compare_between_results_object.lang,
+            'telecom_trans': compare_between_results_object.telecom_trans,
+            'brands_trans': compare_between_results_object.brands_trans
         };
 
         var urlParams = window.location.search;

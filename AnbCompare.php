@@ -54,7 +54,7 @@ class AnbCompare extends Base
     function enqueueScripts()
     {
 
-        wp_enqueue_script('search-compare-script', plugins_url('/js/search-results.js', __FILE__), array('jquery'), '1.1.2', true);
+        wp_enqueue_script('search-compare-script', plugins_url('/js/search-results.js', __FILE__), array('jquery'), '1.1.3', true);
 
         // in JavaScript, object properties are accessed as ajax_object.ajax_url, ajax_object.we_value
         wp_localize_script('search-compare-script', 'search_compare_obj',
@@ -71,7 +71,10 @@ class AnbCompare extends Base
                 'select_your_pack' => pll__('Select your pack'),
                 'template_uri' => get_template_directory_uri(),
 	            'lang' => $this->getCurrentLang(),
-	            'features_label' => pll__('Features')
+	            'features_label' => pll__('Features'),
+                'telecom_trans' => pll__('telecom'),
+                'energy_trans' => pll__('energy'),
+	            'brands_trans' => pll__('brands')
             )
         );
 
@@ -373,7 +376,7 @@ class AnbCompare extends Base
 		    }
 		    $appendHtml = '<p class="message">' . $this->decorateLatestOrderByProduct($currentProduct->product_id) . '</p>';
 		    $orderInfoHtml = '<div class="buttonWrapper">
-                            <a href="/' . pll__( 'brands' ) . '/' . $productData['supplier_slug'] . '/' . $productData['product_slug'] . '" class="btn btn-primary ">' . pll__( 'Info and options' ) . '</a>
+                            <a href="' . getTelecomProductPageUri($productData) . '" class="btn btn-primary ">' . pll__( 'Info and options' ) . '</a>
                             '.$toCartLinkHtml.'
                           </div>';
 		    //echo "yoooo...1";die();
@@ -530,7 +533,7 @@ class AnbCompare extends Base
                 $this->anbTopDeals->getProductDetailSection($productData, $servicesHtml) .
                 $this->anbTopDeals->priceSection($priceHtml, $monthDurationPromo, $firstYearPrice, 'dealPrice', '', '', $productData, true) .
                 $this->anbTopDeals->getPromoSection($promotionHtml, $productData['advantage'], 'dealFeatures',
-                    '<a href="/' . pll__('brands') . '/' . $productData['supplier_slug'] . '/' . $productData['product_slug'] . '" class="btn btn-primary ">' . pll__('Info and options') . '</a>
+                    '<a href="' . getTelecomProductPageUri($productData) . '" class="btn btn-primary ">' . pll__('Info and options') . '</a>
                                                      '.$toCartLinkHtml.'
                                                      <p class="message">' . $this->decorateLatestOrderByProduct($productData['product_id']) . '</p>') .
                 '<div class="packageInfo">' .
@@ -538,7 +541,7 @@ class AnbCompare extends Base
                 '</div>' .
 
                 $this->anbTopDeals->priceSection($priceHtml, $monthDurationPromo, $firstYearPrice, 'dealPrice last', '<div class="buttonWrapper">
-                                                        <a href="/' . pll__('brands') . '/' . $productData['supplier_slug'] . '/' . $productData['product_slug'] . '" class="btn btn-primary ">' . pll__('Info and options') . '</a>
+                                                        <a href="' . getTelecomProductPageUri($productData) . '" class="btn btn-primary ">' . pll__('Info and options') . '</a>
                                                         '.$toCartLinkHtml.'
                                                 </div>') . '
                                                

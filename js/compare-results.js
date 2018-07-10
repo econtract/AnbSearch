@@ -129,9 +129,11 @@ jQuery(document).ready(function($){
                 $('#messagenotfound').show();
                 $('#crntPackSelectionSection .offer .ajaxIconWrapper').remove();//Removing loaders ones result is loaded
             } else {
+                var resData = response.split('****');
                 $('#crntPackSelectionSection').hide();
                 $('#messagenotfound').hide();
-                $('#crntPackSelectionResponse').html(response).show();
+                $('#crntPackSelectionResponse').html(resData[0]).show();
+                $('#compare_popup_rates_overview').html(resData[1]);
                 $('#crntPackSelectionSection .offer .ajaxIconWrapper').remove();//Removing loaders ones result is loaded
 
                 fixDealsTableHeight($('.compareSection .dealsTable.grid'));

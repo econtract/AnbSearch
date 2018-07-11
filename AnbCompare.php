@@ -53,7 +53,6 @@ class AnbCompare extends Base
      */
     function enqueueScripts()
     {
-
         wp_enqueue_script('search-compare-script', plugins_url('/js/search-results.js', __FILE__), array('jquery'), '1.1.3', true);
 
         // in JavaScript, object properties are accessed as ajax_object.ajax_url, ajax_object.we_value

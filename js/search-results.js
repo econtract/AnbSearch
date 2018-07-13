@@ -81,11 +81,11 @@ function appendMoreResultsInUrl(url) {
 
 function getRedirectUrl() {
     var redirectUrl = "";
-    if(location.search.indexOf('profile_wizard') >= 0) {
+    //if(location.search.indexOf('profile_wizard') >= 0) {
         redirectUrl = wizardProfileFormSubmitRedirect();
-    } else {
+    /*} else {
         redirectUrl = jQuery('#searchFilterNav').serialize();
-    }
+    }*/
 
     if(window.location.toString().indexOf("more_results") !== -1) {
         redirectUrl = appendMoreResultsInUrl(redirectUrl);
@@ -119,6 +119,8 @@ function bypassWizardExistingOkButton(currSubsec) {
 function adjustPersonalSettingScenarios() {
     //Scenarios for personal settings popup
     //Incase its openend after 1st submission
+    filtersApplied = getParameterByName('filters_applied');//check if the filters are applied
+    //alert(filtersApplied);
     if(filtersApplied) {//this means that form has already been submitted once
         console.log('filtersApplied', filtersApplied);
         //now find out if all the sub-sections were filled or something wasn't
@@ -160,6 +162,25 @@ function adjustPersonalSettingScenarios() {
     }
 }
 
+function showWaitingSearchPopup(popupId = '') {
+    var _self = jQuery(this);
+    var openModal = _self.parents('.modal.in');
+    if(_.isEmpty(popupId)) {
+        popupId = openModal.attr('id');
+    }
+
+    if(openModal.length){
+        openPopup = true;
+
+        jQuery('#'+popupId).modal('hide');
+    } else {
+        jQuery('#'+popupId).modal('show');
+    }
+
+    //window.location = wizardProfileFormSubmitRedirect();
+    redirectParam = prependQueryStringQuestionMark(wizardProfileFormSubmitRedirect());
+}
+
 jQuery(document).ready(function($){
 
     $('.loadMore').on('click', function() {
@@ -180,26 +201,6 @@ jQuery(document).ready(function($){
         window.history.replaceState(null, null, appendMoreResultsInUrl(window.location));
     });
 
-    $('.loadMoreEnergy').on('click', function() {
-        var data = {
-            'action': 'moreResultsEnergy'
-        };
-        var urlParams = window.location.search;
-
-        $('.loadMoreEnergy').html('LOADING...');
-        // We can also pass the url value separately from ajaxurl for front end AJAX implementations
-        console.log(search_compare_obj.ajax_url+urlParams);
-        console.log(data);
-        $.get(search_compare_obj.ajax_url+urlParams, data, function(response) {
-
-            $('.resultsData').html(response);
-            $('.loadMoreEnergy').hide();
-
-        });
-
-        window.history.replaceState(null, null, appendMoreResultsInUrl(window.location));
-    });
-
     //if load_more=true then trigger click on .loadMore, to ensure that user don't click again and again on load more
     if(window.location.toString().indexOf("more_results") !== -1) {
         $('.loadMore').trigger('click');
@@ -209,21 +210,7 @@ jQuery(document).ready(function($){
     $('#yourProfileWizardForm').on('submit', function(e){
         e.preventDefault();
 
-        var _self = $(this);
-        var openModal = _self.parents('.modal.in');
-
-        if(openModal.length){
-            var modalID = openModal.attr('id');
-            console.log(modalID);
-
-            openPopup = true;
-            popupIDToOpen = 'searchDealsPopup';
-
-            $('#'+modalID).modal('hide');
-        }
-
-        //window.location = wizardProfileFormSubmitRedirect();
-        redirectParam = prependQueryStringQuestionMark(wizardProfileFormSubmitRedirect());
+        showWaitingSearchPopup();
     });
 
     //sort feature
@@ -237,6 +224,20 @@ jQuery(document).ready(function($){
     //filter results left nav
     $('#searchFilterNav').on('submit', function(e) {
         e.preventDefault();
+        var _self = $(this);
+
+        var sector = _self.find('#sector').val();
+
+        if(!_.isEmpty(sector)) {
+            if(sector == 'energy') {
+                //show energy waiting popup
+                showWaitingSearchPopup('searchEnergyDealsPopup');
+            } else {
+                //show telecom waiting popup
+                showWaitingSearchPopup('searchDealsPopup');
+            }
+        }
+
         $('#wizard_popup_pref_cs').html('');//remove all pref_cs from wizard popup as at this moment they are passed from search navigation
         var redirectUrl = getRedirectUrl() + '&searchSubmit=';
         var sortBy = $('#sortResults').val();
@@ -261,7 +262,7 @@ jQuery(document).ready(function($){
 
     //enable/open collapsed filters if they are already applied
     if(filtersApplied) {
-        jQuery('.refineResult a').trigger('click');
+        //jQuery('.refineResult a').trigger('click');//Its is by default now applied so no need to trigger this click here
     }
 
     //Adjust the personal settings scenarios on first load

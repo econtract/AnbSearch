@@ -53,13 +53,13 @@ class AnbCompare extends Base
      */
     function enqueueScripts()
     {
-        wp_enqueue_script('search-compare-script', plugins_url('/js/search-results.js', __FILE__), array('jquery'), '1.1.4', true);
+        wp_enqueue_script('search-compare-script', plugins_url('/js/search-results.js', __FILE__), array('jquery'), '1.1.5', true);
 
         // in JavaScript, object properties are accessed as ajax_object.ajax_url, ajax_object.we_value
         wp_localize_script('search-compare-script', 'search_compare_obj',
             array('ajax_url' => admin_url('admin-ajax.php'), 'zipcode_api' => ZIPCODE_API, 'template_uri' => get_template_directory_uri()));
 
-        wp_enqueue_script('compare-between-results-script', plugins_url('/js/compare-results.js', __FILE__), array('jquery'), '1.1.1', true);
+        wp_enqueue_script('compare-between-results-script', plugins_url('/js/compare-results.js', __FILE__), array('jquery'), '1.1.2', true);
 
         // in JavaScript, object properties are accessed as ajax_object.ajax_url, ajax_object.we_value
         wp_localize_script('compare-between-results-script', 'compare_between_results_object',
@@ -122,6 +122,7 @@ class AnbCompare extends Base
             'ns' => '',
             'int' => '',
             'fleet' => '',
+
             'pr' => '',
             'cm' => '',
             'f' => '',
@@ -129,8 +130,13 @@ class AnbCompare extends Base
             'nou' => '',
             'dndu' => '',
             'dnnu' => '',
+            'u' => '',
             'ut' => '',
+            'houseType' => '',
             'has_solar' => '',
+            'gp' => '',
+            'l' => '',
+
             'num_pc' => '',
             'num_tv' => '',
             'num_smartphones' => '',

@@ -20,7 +20,7 @@ jQuery(document).ready(function($){
     });
 
     //filter results left nav
-    $('#searchFilterNav').on('submit', function(e) {
+    /*$('#searchFilterNav').on('submit', function(e) {
         e.preventDefault();
         $('#wizard_popup_pref_cs').html('');//remove all pref_cs from wizard popup as at this moment they are passed from search navigation
         var redirectUrl = getRedirectUrl() + '&searchSubmit=';
@@ -30,14 +30,13 @@ jQuery(document).ready(function($){
         }
         redirectUrl = prependQueryStringQuestionMark(removeDuplicatesFromUri(redirectUrl));
         window.location = redirectUrl;
-    });
+    });*/
 
-    $('body').on('click','#searchFilterNavEnergy .collapseOptions .selectedOptions a[data-panel], #searchFilterNav a.forceOpen[data-panel]', function (e) {
+    $('body').on('click','#searchFilterNav .collapseOptions .selectedOptions a[data-panel], #searchFilterNav a.forceOpen[data-panel]', function (e) {
         e.preventDefault();
 
         var _self = $(this);
         var panelID = "#"+_self.data('panel')+"Panel";
-        console.log(panelID);
         var profileModal = $('#updateProfileEnergy');
 
 

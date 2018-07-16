@@ -881,7 +881,8 @@ class AnbCompare extends Base
             $titleHtml = "";
         }
 
-        $hiddenMultipleProvidersHtml = $this->getSuppliersHiddenInputFields($values, $supplierHtml);
+        //$hiddenMultipleProvidersHtml = $this->getSuppliersHiddenInputFields($values, $supplierHtml);
+	    $hiddenMultipleProvidersHtml = '';
 
         $formNew = "<div class='searchBoxContent'>
                     <div class='searchBox'>

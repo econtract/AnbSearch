@@ -443,7 +443,8 @@ class AnbCompareEnergy extends AnbCompare
 			$titleHtml = "";
 		}
 
-		$hiddenMultipleProvidersHtml = $this->getSuppliersHiddenInputFields($values, $supplierHtml);
+		//$hiddenMultipleProvidersHtml = $this->getSuppliersHiddenInputFields($values, $supplierHtml);
+		$hiddenMultipleProvidersHtml = '';
 
 		$formNew = "<div class='formWrapper'>
                         <form action='" . $resultsPageUri . "' class='form-horizontal' id='yourProfileWizardForm' data-toggle='validator' role='form'>

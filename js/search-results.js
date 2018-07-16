@@ -162,11 +162,27 @@ function adjustPersonalSettingScenarios() {
     }
 }
 
-function showWaitingSearchPopup(popupId = '') {
-    var _self = jQuery(this);
+function showWaitingSearchPopup(callingObj, popupId = '', redirect = false, dontUseCallingObj = false) {
+    var _self = callingObj;
+
+    if(dontUseCallingObj === true) {
+        _self = jQuery(this);
+    }
+
     var openModal = _self.parents('.modal.in');
     if(_.isEmpty(popupId)) {
         popupId = openModal.attr('id');
+
+        var sector = _self.find('#sector').val() || jQuery('#sector').val();
+        if(!_.isEmpty(sector)) {
+            if(sector == 'energy') {
+                //show energy waiting popup
+                popupId = 'searchEnergyDealsPopup';
+            } else {
+                //show telecom waiting popup
+                popupId = 'searchDealsPopup';
+            }
+        }
     }
 
     if(openModal.length){
@@ -179,6 +195,10 @@ function showWaitingSearchPopup(popupId = '') {
 
     //window.location = wizardProfileFormSubmitRedirect();
     redirectParam = prependQueryStringQuestionMark(wizardProfileFormSubmitRedirect());
+
+    if(redirect === true) {
+        window.location = redirectParam;
+    }
 }
 
 jQuery(document).ready(function($){
@@ -209,8 +229,7 @@ jQuery(document).ready(function($){
     //Search results wizard your profile popup
     $('#yourProfileWizardForm').on('submit', function(e){
         e.preventDefault();
-
-        showWaitingSearchPopup();
+        showWaitingSearchPopup($(this), '', true, true);
     });
 
     //sort feature
@@ -226,17 +245,7 @@ jQuery(document).ready(function($){
         e.preventDefault();
         var _self = $(this);
 
-        var sector = _self.find('#sector').val();
-
-        if(!_.isEmpty(sector)) {
-            if(sector == 'energy') {
-                //show energy waiting popup
-                showWaitingSearchPopup('searchEnergyDealsPopup');
-            } else {
-                //show telecom waiting popup
-                showWaitingSearchPopup('searchDealsPopup');
-            }
-        }
+        showWaitingSearchPopup($(this));
 
         $('#wizard_popup_pref_cs').html('');//remove all pref_cs from wizard popup as at this moment they are passed from search navigation
         var redirectUrl = getRedirectUrl() + '&searchSubmit=';

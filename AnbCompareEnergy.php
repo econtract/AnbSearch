@@ -32,7 +32,7 @@ class AnbCompareEnergy extends AnbCompare
      */
     function enqueueScripts()
     {
-	    wp_enqueue_script('search-results-energy', plugins_url('/js/search-results-energy.js', __FILE__), array('jquery'), '1.0.0', true);
+	    wp_enqueue_script('search-results-energy', plugins_url('/js/search-results-energy.js', __FILE__), array('jquery'), '1.0.1', true);
     }
 
     function searchForm($atts)
@@ -476,12 +476,12 @@ class AnbCompareEnergy extends AnbCompare
                                                         <ul class='list-unstyled'>
                                                             <li>
                                                                 <div>
-                                                                    <input name='cat[]' id='internet_service_wiz' checked='checked' onclick='event.preventDefault();' type='checkbox' value='internet'>
-                                                                    <label for='internet_service_wiz'>
+                                                                    <input name='cat' id='dualfuel_pack_service_wiz' checked='checked' type='radio' value='dualfuel_pack' " . (($values['cat'] == 'dualfuel_pack') ? 'checked="checked"' : '') . ">
+                                                                    <label for='dualfuel_pack_service_wiz'>
                                                                         <span class='icon'>
-                                                                        <i class='sprite sprite-wifi'></i>
+                                                                        <i class='energy-icons dualfuel_pack'></i>
                                                                         </span>
-                                                                        <span class='description'>".pll__('Internet')."</span>
+                                                                        <span class='description'>".pll__('Dualfuel Pack')."</span>
                                                                         <span class='tick-icon'>
                                                                         <i class='fa fa-check'></i>
                                                                         <i class='fa fa-square-o'></i>
@@ -491,12 +491,12 @@ class AnbCompareEnergy extends AnbCompare
                                                             </li>
                                                             <li>
                                                                 <div>
-                                                                    <input name='cat[]' id='tv_service_wiz' type='checkbox' value='tv' " . ((in_array("tv", $values['cat']) === true) ? 'checked="checked"' : '') . ">
-                                                                    <label for='tv_service_wiz'>
+                                                                    <input name='cat' id='electricity_service_wiz' type='radio' value='electricity' " . (($values['cat'] == 'electricity') ? 'checked="checked"' : '') . ">
+                                                                    <label for='electricity_service_wiz'>
                                                                         <span class='icon'>
-                                                                        <i class='sprite sprite-tv'></i>
+                                                                        <i class='energy-icons electricity'></i>
                                                                         </span>
-                                                                        <span class='description'>".pll__('TV')."</span>
+                                                                        <span class='description'>".pll__('Electricity')."</span>
                                                                         <span class='tick-icon'>
                                                                         <i class='fa fa-check'></i>
                                                                         <i class='fa fa-square-o'></i>
@@ -506,27 +506,12 @@ class AnbCompareEnergy extends AnbCompare
                                                             </li>
                                                             <li>
                                                                 <div>
-                                                                    <input name='cat[]' id='telephone_service_wiz' type='checkbox' value='telephone' " . ((in_array("telephone", $values['cat']) === true) ? 'checked="checked"' : '') . ">
-                                                                    <label for='telephone_service_wiz'>
+                                                                    <input name='cat' id='gas_service_wiz' type='radio' value='gas' " . (($values['cat'] == 'gas') ? 'checked="checked"' : '') . ">
+                                                                    <label for='gas_service_wiz'>
                                                                         <span class='icon'>
-                                                                        <i class='sprite sprite-phone'></i>
+                                                                        <i class='energy-icons gas'></i>
                                                                         </span>
-                                                                        <span class='description'>".pll__('Fixed line')."</span>
-                                                                        <span class='tick-icon'>
-                                                                        <i class='fa fa-check'></i>
-                                                                        <i class='fa fa-square-o'></i>
-                                                                        </span>
-                                                                    </label>
-                                                                </div>
-                                                            </li>
-                                                            <li>
-                                                                <div>
-                                                                    <input name='cat[]' id='mobile_service_wiz' type='checkbox' value='gsm' " . ((in_array("gsm", $values['cat']) === true) ? 'checked="checked"' : '') . ">
-                                                                    <label for='mobile_service_wiz'>
-                                                                        <span class='icon'>
-                                                                        <i class='sprite sprite-mobile'></i>
-                                                                        </span>
-                                                                        <span class='description'>".pll__('Mobile')."</span>
+                                                                        <span class='description'>".pll__('Gas')."</span>
                                                                         <span class='tick-icon'>
                                                                         <i class='fa fa-check'></i>
                                                                         <i class='fa fa-square-o'></i>

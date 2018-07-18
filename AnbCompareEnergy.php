@@ -443,7 +443,8 @@ class AnbCompareEnergy extends AnbCompare
 			$titleHtml = "";
 		}
 
-		$hiddenMultipleProvidersHtml = $this->getSuppliersHiddenInputFields($values, $supplierHtml);
+		//$hiddenMultipleProvidersHtml = $this->getSuppliersHiddenInputFields($values, $supplierHtml);
+        $hiddenMultipleProvidersHtml = '';
 
 		$formNew = "<div class='formWrapper'>
                         <form action='" . $resultsPageUri . "' id='yourProfileWizardForm' data-toggle='validator' role='form'>
@@ -561,7 +562,55 @@ class AnbCompareEnergy extends AnbCompare
                                         </div>
                                     </div>
                                     
-                                   
+                                   <!--Use-->
+                                    <div class='panel panel-default' id='usagePanel'>
+                                        <div class='panel-heading' role='tab' id='consumerHeading'>
+                                            <h4 class='panel-title'>
+                                                <a role='button' data-toggle='collapse' data-parent='#accordion'
+                                                   href='#consumerPanel' aria-expanded='true'
+                                                   aria-controls='collapseOne'>
+                                                            <span class='headingTitle'>
+                                                                <i class='icon wizard location'></i>
+                                                                <span class='caption'>
+                                                                    <span class='caption_close'>" . pll__('Define use') . "</span>
+                                                                    <span class='caption_open'>" . pll__('Type of use') . "</span>
+                                                                </span>
+                                                                <span class='selectedInfo'></span>
+                                                                <span class='changeInfo'>". pll__('Change') ."</span>
+                                                            </span>
+                                                </a>
+                                            </h4>
+                                        </div>
+                                        <div id='consumerPanel' class='panel-collapse collapse' role='tabpanel'
+                                             aria-labelledby='headingOne'  data-wizard-panel='use'>
+                                            <div class='panel-body text-center'>
+                                                <div class='form-group'>
+                                                    <label>" . pll__('Type of Use') . "</label>
+                                                    <div class='radio fancyRadio'>
+                                                        <input name='sg' value='consumer' id='wiz_private_type' type='radio'
+                                                               " . (("consumer" == $values['sg'] || empty($values['sg'])) ? 'checked="checked"' : '') . ">
+                                                        <label for='wiz_private_type'>
+                                                            <i class='fa fa-circle-o unchecked'></i>
+                                                            <i class='fa fa-check-circle checked'></i>
+                                                            <span>" . pll__('Private') . "</span>
+                                                        </label>
+                                                        <input name='sg' value='sme' id='wiz_business_type' type='radio'
+                                                        " . (("sme" == $values['sg']) ? 'checked="checked"' : '') . ">
+                                                        <label for='wiz_business_type'>
+                                                            <i class='fa fa-circle-o unchecked'></i>
+                                                            <i class='fa fa-check-circle checked'></i>
+                                                            <span>" . pll__('Business') . "</span>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class='buttonWrapper'>
+                                                    <button type='button' class='btn btn-primary'><i
+                                                                class='fa fa-check'></i> " . pll__('Ok') . "
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                     
                                     <!--Family Members-->
                                     <div class='panel panel-default' id='familyPanel'>

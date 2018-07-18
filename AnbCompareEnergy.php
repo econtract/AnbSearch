@@ -563,6 +563,7 @@ class AnbCompareEnergy extends AnbCompare
                                     </div>
                                     
                                    <!--Use-->
+                                   <!--
                                     <div class='panel panel-default' id='usagePanel'>
                                         <div class='panel-heading' role='tab' id='consumerHeading'>
                                             <h4 class='panel-title'>
@@ -611,6 +612,7 @@ class AnbCompareEnergy extends AnbCompare
                                             </div>
                                         </div>
                                     </div>
+                                    -->
                                     
                                     <!--Family Members-->
                                     <div class='panel panel-default' id='familyPanel'>

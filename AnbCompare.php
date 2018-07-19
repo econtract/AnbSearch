@@ -647,7 +647,9 @@ class AnbCompare extends Base
         if (!empty($values['hidden_sp'])) {
             $supplierHtml = $this->generateHiddenSupplierHtml($values['hidden_sp']);
         } else {
-            $supplierHtml = $this->generateSupplierHtml($values['pref_cs']);
+            //$supplierHtml = $this->generateSupplierHtml($values['pref_cs']);
+	        //No need to fetch suppliers now
+	        $supplierHtml = '';
         }
 
         $needHelpHtml = "";
@@ -733,7 +735,7 @@ class AnbCompare extends Base
      *
      * @return string
      */
-    private function generateSupplierHtml($selectedSuppliers = [])
+    protected function generateSupplierHtml($selectedSuppliers = [])
     {
         //Generate option HTML for suppliers
         $suppliers = $this->getSuppliers();
@@ -760,7 +762,7 @@ class AnbCompare extends Base
         return $supplierHtml;
     }
 
-    private function generateHiddenSupplierHtml($supplierId)
+    protected function generateHiddenSupplierHtml($supplierId)
     {
         return "<input type='hidden' name='pref_cs[]' value='{$supplierId}' />";
     }

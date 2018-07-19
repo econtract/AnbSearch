@@ -117,11 +117,12 @@ jQuery(document).ready(function($){
         $('#messagenotfound').hide();
         var currentPack = $('#currentPack').val().split('|');
         $('#selectCurrentPack').modal('hide');
-        var highestPrice = '';
+        var lowestPrice = '';
         if($('#top-heading-compare-btn-value').val() == 1) {
             $('#response-no-result-found-message').hide();
             var serverAction = 'compareTopResults';
             var lowestPrice = $('#top-heading-compare-lowest-price').val();
+            var lowestPid = $('#top-heading-compare-lowest-pid').val();
         } else {
             var serverAction = 'compareBetweenResults';
         }
@@ -129,6 +130,7 @@ jQuery(document).ready(function($){
             'action': serverAction,
             'productTypes': currentPack[0],
             'products': currentPack[1],
+            'lowestpid': lowestPid,
             'crntPack': compare_between_results_object.current_pack,
             'features_label': compare_between_results_object.features_label,
             'lang': compare_between_results_object.lang,
@@ -149,6 +151,7 @@ jQuery(document).ready(function($){
                     $('#default-heading-section').hide();
                     $('#comparison-product-title').html(resData[0]);
                     $('#comparison-result-price').html(resData[1]);
+                    $('#breakDownPopup').html(resData[2]);
                     $('#comparison-heading-section').show();
                 }
             } else {

@@ -471,7 +471,7 @@ class AnbCompareEnergy extends AnbCompare
                                             <div class='panel-body text-center'>
                                                 <div class='form-group'>
                                                     <div class='selectServicesComp'>
-                                                    <label class='block bold-600 text-left'>".pll__('I like to compare')."</label>
+                                                        <label class='block bold-600 text-left'>".pll__('I like to compare')."</label>
                                                         <ul class='service-tabs'>
                                                             <li>
                                                                 <input name='cat' id='dualfuel_pack_service_wiz' checked='checked' type='radio' value='dualfuel_pack' " . (($values['cat'] == 'dualfuel_pack') ? 'checked="checked"' : '') . ">
@@ -772,7 +772,7 @@ class AnbCompareEnergy extends AnbCompare
                                     </div>
                                     
                                     <!-- Electricity -->
-                                    <div class='panel panel-default' id='electricityPanel'>
+                                    <div class='panel panel-default' id='electricityBlockPanel'>
                                         <div class='panel-heading' role='tab' id='headingThree'>
                                             <h4 class='panel-title'>
                                                 <a class='collapsed' role='button' data-toggle='collapse' data-parent='#accordion' href='#collapseThree' aria-expanded='false' aria-controls='collapseThree'>
@@ -788,7 +788,7 @@ class AnbCompareEnergy extends AnbCompare
                                                 </a>
                                             </h4>
                                         </div>
-                                        <div id='collapseThree' class='panel-collapse collapse' role='tabpanel' aria-labelledby='headingThree'  data-wizard-panel='electricityEnergy'>
+                                        <div id='collapseThree' class='panel-collapse collapse' role='tabpanel' aria-labelledby='headingThree'  data-wizard-panel='electricityBlock'>
                                             <div class='panel-body text-center'>
                                                 <div class='counterPanel'>
                                                     <div class='form-group text-left'>
@@ -922,7 +922,7 @@ class AnbCompareEnergy extends AnbCompare
                                     </div>
 
                                     <!-- Gas -->
-                                    <div class='panel panel-default' id='electricityPanel'>
+                                    <div class='panel panel-default' id='gasPanel'>
                                         <div class='panel-heading' role='tab' id='headingFive'>
                                             <h4 class='panel-title'>
                                                 <a class='collapsed' role='button' data-toggle='collapse' data-parent='#accordion' href='#collapseFive' aria-expanded='false' aria-controls='collapseFive'>
@@ -938,7 +938,7 @@ class AnbCompareEnergy extends AnbCompare
                                                 </a>
                                             </h4>
                                         </div>
-                                        <div id='collapseFive' class='panel-collapse collapse' role='tabpanel' aria-labelledby='headingFive'  data-wizard-panel='gasEnergy'>
+                                        <div id='collapseFive' class='panel-collapse collapse' role='tabpanel' aria-labelledby='headingFive'  data-wizard-panel='gas'>
                                             <div class='panel-body text-center'>
                                                 <div class='counterPanel'>
                                                     <div class='form-group text-left'>
@@ -987,7 +987,7 @@ class AnbCompareEnergy extends AnbCompare
                                     </div>
                                     
                                     <!-- Solar Energy -->
-                                    <div class='panel panel-default' id='electricityPanel'>
+                                    <div class='panel panel-default' id='solarEnergyPanel'>
                                         <div class='panel-heading' role='tab' id='headingSix'>
                                             <h4 class='panel-title'>
                                                 <a class='collapsed' role='button' data-toggle='collapse' data-parent='#accordion' href='#collapseSix' aria-expanded='false' aria-controls='collapseSix'>
@@ -1047,7 +1047,7 @@ class AnbCompareEnergy extends AnbCompare
                                     </div>
                                     
                                     <!-- Current supplier -->
-                                    <div class='panel panel-default' id='internetPanel'>
+                                    <div class='panel panel-default' id='currentSupplierPanel'>
                                         <div class='panel-heading' role='tab' id='headingSeven'>
                                             <h4 class='panel-title'>
                                                 <a class='collapsed' role='button' data-toggle='collapse' data-parent='#accordion' href='#collapseSeven' aria-expanded='false' aria-controls='collapseSeven'>

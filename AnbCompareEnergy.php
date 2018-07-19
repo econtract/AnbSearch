@@ -62,6 +62,14 @@ class AnbCompareEnergy extends AnbCompare
 		    echo "</pre>";
 	    }
 
+	    $supplierHtml = '';
+	    if (!empty($values['hidden_sp'])) {
+		    $supplierHtml = $this->generateHiddenSupplierHtml($values['hidden_sp']);
+	    } else {
+		    //$supplierHtml = $this->generateSupplierHtml($values['pref_cs']);
+		    //This is not needed, uncomment this if you want to display the suppliers list
+	    }
+
 	    $needHelpHtml = "";
 
 	    if ($values['enable_need_help'] == true) {
@@ -74,7 +82,7 @@ class AnbCompareEnergy extends AnbCompare
                               </div>";
 	    }
 
-	    $formNew = $this->getSearchBoxContentHtml($values, $needHelpHtml, $supplierHtml, pll__("Compare Energy Prices"), false, "", '/'.pll__('energy').'/'.pll__('results'));
+	    $formNew = $this->getSearchBoxContentHtml($values, $needHelpHtml, $supplierHtml, pll__("Compare Energy Prices"), false, "", pll__('results'));
 
 	    return $formNew;
     }
@@ -270,6 +278,8 @@ class AnbCompareEnergy extends AnbCompare
 	                                </div>
 	                            </div>
                                 <div class='btnWrapper text-center'>
+                                	{$hiddenMultipleProvidersHtml}
+                                	{$supplierHtml}
                                     <button name='searchSubmit' type='submit' class='btn btn-default btn-block' >$submitBtnTxt</button>
                                 </div>
                             </form>

@@ -119,12 +119,12 @@ class AnbCompareEnergy extends AnbCompare
                         " . $needHelpHtml . "
                         " . $titleHtml . "
                         <div class='formWraper'>
-                            <form action='" . $resultsPageUri . "' id='quickSearchForm'>
-                                <div class='form-group'>
-                                	<label>" . pll__('I like to compare') . "</label>
-                                </div>";
+                            <form action='" . $resultsPageUri . "' id='quickSearchForm'>";
 	                if($values['hidden_prodsel'] == '') {
                         $formNew.= "<div class='form-group'>
+                                	<label>" . pll__('I like to compare') . "</label>
+                                </div>
+                                <div class='form-group'>
                                     <ul class='service-tabs'>
                                         <li>
                                             <input type='radio' name='cat' id='service_dual_fuel' value='dualfuel_pack' ". (($values['cat'] === 'dualfuel_pack' || empty($values['cat'])) ? 'checked="checked"' : '') .">

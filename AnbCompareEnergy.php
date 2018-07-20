@@ -33,6 +33,21 @@ class AnbCompareEnergy extends AnbCompare
     function enqueueScripts()
     {
 	    wp_enqueue_script('search-results-energy', plugins_url('/js/search-results-energy.js', __FILE__), array('jquery'), '1.0.1', true);
+	    wp_enqueue_script('compare-results-energy', plugins_url('/js/compare-results-energy.js', __FILE__), array('jquery'), '1.0.0', true);
+	    wp_localize_script('compare-results-energy', 'compare_between_results_object',
+		    array(
+			    'ajax_url' => admin_url('admin-ajax.php'),
+			    'site_url' => get_home_url(),
+			    'current_pack' => pll__('your current pack'),
+			    'select_your_pack' => pll__('Select your pack'),
+			    'template_uri' => get_template_directory_uri(),
+			    'lang' => $this->getCurrentLang(),
+			    'features_label' => pll__('Features'),
+			    'telecom_trans' => pll__('telecom'),
+			    'energy_trans' => pll__('energy'),
+			    'brands_trans' => pll__('brands')
+		    )
+	    );
     }
 
     function searchForm($atts)
@@ -1030,23 +1045,17 @@ class AnbCompareEnergy extends AnbCompare
                                                         <div class='form-group'>
                                                             <label class='text-left bold-600 '>".pll__('Select your current supplier for electricity and gas')."</label>
                                                             <div class='custom-select'>
-                                                                <select class='currentSupplier'>
-                                                                    <option>Select your provider</option>
-                                                                    <option value='Current Supplier 1'>Current Supplier 1</option>
-                                                                    <option value='Current Supplier 2'>Current Supplier 2</option>
-                                                                    <option value='Current Supplier 3'>Current Supplier 3</option>
-                                                                </select>
+                                                                <select class='currentSupplier' id='currentProviderEnergy' name='currentProvider'>
+							                                        <option value=''>".pll__('Select your provider')."</option>
+							                                        ".supplierForDropDown($values['currentProvider'], ['cat' => 'dualfuel_pack, electricity, gas'])."
+							                                    </select>
                                                             </div>
                                                         </div>
-                                                        
                                                         <div class='form-group'>
                                                             <label class='text-left bold-600 '>".pll__('Select your contract')."</label>
                                                             <div class='custom-select'>
-                                                                <select class='currentSupplierContract'>
-                                                                    <option>I dont know the contract</option>
-                                                                    <option value='Contract 1'>Contract 1</option>
-                                                                    <option value='Contract 2'>Contract 2</option>
-                                                                    <option value='Contract 3'>Contract 3</option>
+                                                                <select class='currentSupplierContract' name='currentPack' id='currentPackEnergy'>
+                                                                    <option value=''>".pll__('I dont know the contract')."</option>
                                                                 </select>
                                                             </div>
                                                         </div>

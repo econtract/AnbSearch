@@ -100,16 +100,23 @@ function bypassWizardExistingOkButton(currSubsec) {
         'input:radio:checked, ' +
         'input:checkbox:checked').each(function () {
         var currInput = jQuery(this);
-        if(currInput.prop('type') === 'text' || currInput.prop('type') === 'number' && !_.isEmpty(currInput.val())) {
+        var val = currInput.val().trim();
+        if((currInput.prop('type') === 'text' || currInput.prop('type') === 'number') && !_.isEmpty(val)) {
             //for text inputs consider 0 as empty as well
             if(currInput.val().trim() != '0') {
                 bypassExistingOk = true;
                 currSubsec.addClass('bypass-ok');
+                /*console.log("filled***", currInput);
+                console.log("filled val***", currInput.val());
+                console.log("filled val length***", currInput.val().length);*/
             }
         }
-        else if(currInput.prop('type') !== 'text' && currInput.prop('type') !== 'number' && !_.isEmpty(currInput.val())) {
+        else if(currInput.prop('type') !== 'text' && currInput.prop('type') !== 'number' && !_.isEmpty(val)) {
             bypassExistingOk = true;
             currSubsec.addClass('bypass-ok');
+            /*console.log("filled***", currInput);
+            console.log("filled val***", currInput.val());
+            console.log("filled val length***", currInput.val().length);*/
         }
     });
 

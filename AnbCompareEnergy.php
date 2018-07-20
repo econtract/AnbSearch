@@ -33,6 +33,21 @@ class AnbCompareEnergy extends AnbCompare
     function enqueueScripts()
     {
 	    wp_enqueue_script('search-results-energy', plugins_url('/js/search-results-energy.js', __FILE__), array('jquery'), '1.0.1', true);
+	    wp_enqueue_script('compare-results-energy', plugins_url('/js/compare-results-energy.js', __FILE__), array('jquery'), '1.0.0', true);
+	    wp_localize_script('compare-results-energy', 'compare_between_results_object',
+		    array(
+			    'ajax_url' => admin_url('admin-ajax.php'),
+			    'site_url' => get_home_url(),
+			    'current_pack' => pll__('your current pack'),
+			    'select_your_pack' => pll__('Select your pack'),
+			    'template_uri' => get_template_directory_uri(),
+			    'lang' => $this->getCurrentLang(),
+			    'features_label' => pll__('Features'),
+			    'telecom_trans' => pll__('telecom'),
+			    'energy_trans' => pll__('energy'),
+			    'brands_trans' => pll__('brands')
+		    )
+	    );
     }
 
     function searchForm($atts)
@@ -605,7 +620,7 @@ class AnbCompareEnergy extends AnbCompare
                                     -->
                                     
                                     <!--Family Members-->
-                                    <div class='panel panel-default' id='familyPanel'>
+                                    <div class='panel panel-default family-members-container' id='familyPanel'>
                                         <div class='panel-heading' role='tab' id='headingOne'>
                                             <h4 class='panel-title'>
                                                 <a role='button' data-toggle='collapse' data-parent='#accordion' href='#collapseOne' aria-expanded='true' aria-controls='collapseOne'>
@@ -827,7 +842,7 @@ class AnbCompareEnergy extends AnbCompare
                                     </div>
                                     
                                     <!-- House -->
-                                    <div class='panel panel-default' id='housePanel'>
+                                    <div class='panel panel-default house-type-container' id='housePanel'>
                                         <div class='panel-heading' role='tab' id='headingFour'>
                                             <h4 class='panel-title'>
                                                 <a class='collapsed' role='button' data-toggle='collapse' data-parent='#accordion' href='#collapseFour' aria-expanded='false' aria-controls='collapseFour'>
@@ -945,7 +960,7 @@ class AnbCompareEnergy extends AnbCompare
                                     </div>
                                     
                                     <!-- Solar Energy -->
-                                    <div class='panel panel-default' id='solarEnergyPanel'>
+                                    <div class='panel panel-default solar-panel-container' id='solarEnergyPanel'>
                                         <div class='panel-heading' role='tab' id='headingSix'>
                                             <h4 class='panel-title'>
                                                 <a class='collapsed' role='button' data-toggle='collapse' data-parent='#accordion' href='#collapseSix' aria-expanded='false' aria-controls='collapseSix'>
@@ -978,7 +993,7 @@ class AnbCompareEnergy extends AnbCompare
                                                     <div class='form-group text-left'>
                                                         <div class='check fancyCheck'>
                                                             <input type='checkbox' name='transCapacityCheck' id='transCapacityCheck' class='radio-salutation' value='1' ". (($values['transCapacityCheck'] === '1') ? 'checked="checked"' : '') .">
-                                                            <label for='solarCapacity'>
+                                                            <label for='transCapacityCheck'>
                                                                 <i class='fa fa-circle-o unchecked'></i>
                                                                 <i class='fa fa-check-circle checked'></i>
                                                                 <span>" . pll__('I know the capacity of the transformer') . "</span>
@@ -986,11 +1001,13 @@ class AnbCompareEnergy extends AnbCompare
                                                         </div>
                                                     </div>
                                                     
-                                                    <label class='block bold-600 text-left'>" . pll__('Average capacity of the transformer') . "</label>
-                                                    <div class='row'>
-                                                        <div class='col-md-5 col-sm-5 col-xs-12 form-group'>
-                                                            <div class='solar-capacity'>
-                                                                <input type='text' name='transCapacity' ". (($values['u']) ?: '') ." />
+                                                    <div id='have_transformer' class='hide'>
+                                                        <label class='block bold-600 text-left'>" . pll__('Average capacity of the transformer') . "</label>
+                                                        <div class='row'>
+                                                            <div class='col-md-5 col-sm-5 col-xs-12 form-group'>
+                                                                <div class='solar-capacity'>
+                                                                    <input type='text' name='transCapacity' ". (($values['u']) ?: '') ." />
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -1028,23 +1045,17 @@ class AnbCompareEnergy extends AnbCompare
                                                         <div class='form-group'>
                                                             <label class='text-left bold-600 '>".pll__('Select your current supplier for electricity and gas')."</label>
                                                             <div class='custom-select'>
-                                                                <select class='currentSupplier'>
-                                                                    <option>Select your provider</option>
-                                                                    <option value='Current Supplier 1'>Current Supplier 1</option>
-                                                                    <option value='Current Supplier 2'>Current Supplier 2</option>
-                                                                    <option value='Current Supplier 3'>Current Supplier 3</option>
-                                                                </select>
+                                                                <select class='currentSupplier' id='currentProviderEnergy' name='currentProvider'>
+							                                        <option value=''>".pll__('Select your provider')."</option>
+							                                        ".supplierForDropDown($values['currentProvider'], ['cat' => 'dualfuel_pack, electricity, gas'])."
+							                                    </select>
                                                             </div>
                                                         </div>
-                                                        
                                                         <div class='form-group'>
                                                             <label class='text-left bold-600 '>".pll__('Select your contract')."</label>
                                                             <div class='custom-select'>
-                                                                <select class='currentSupplierContract'>
-                                                                    <option>I dont know the contract</option>
-                                                                    <option value='Contract 1'>Contract 1</option>
-                                                                    <option value='Contract 2'>Contract 2</option>
-                                                                    <option value='Contract 3'>Contract 3</option>
+                                                                <select class='currentSupplierContract' name='currentPack' id='currentPackEnergy'>
+                                                                    <option value=''>".pll__('I dont know the contract')."</option>
                                                                 </select>
                                                             </div>
                                                         </div>

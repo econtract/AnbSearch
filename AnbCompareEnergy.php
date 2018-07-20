@@ -44,7 +44,8 @@ class AnbCompareEnergy extends AnbCompare
 		    'sg' => 'consumer',
 		    'lang' => $this->getCurrentLang(),
 		    'hidden_sp' => '',
-		    'enable_need_help' => false
+		    'enable_need_help' => false,
+            'hidden_prodsel' => '',
 
 	    ), $atts, 'anb_energy_search_form');
 
@@ -108,6 +109,8 @@ class AnbCompareEnergy extends AnbCompare
 		    $titleHtml = "";
 	    }
 
+        $resultsPageUri = ($values['hidden_prodsel'] == 'yes') ? '' : $resultsPageUri;
+
 	    $hiddenMultipleProvidersHtml = $this->getSuppliersHiddenInputFields($values, $supplierHtml);
 
 	    // html for quick search content
@@ -119,8 +122,9 @@ class AnbCompareEnergy extends AnbCompare
                             <form action='" . $resultsPageUri . "' id='quickSearchForm'>
                                 <div class='form-group'>
                                 	<label>" . pll__('I like to compare') . "</label>
-                                </div>
-                                <div class='form-group'>
+                                </div>";
+	                if($values['hidden_prodsel'] == '') {
+                        $formNew.= "<div class='form-group'>
                                     <ul class='service-tabs'>
                                         <li>
                                             <input type='radio' name='cat' id='service_dual_fuel' value='dualfuel_pack' ". (($values['cat'] === 'dualfuel_pack' || empty($values['cat'])) ? 'checked="checked"' : '') .">
@@ -147,8 +151,9 @@ class AnbCompareEnergy extends AnbCompare
                                             </label>
                                         </li>
                                     </ul>
-                                </div>
-                                {$infoMsg}
+                                </div>";
+                    }
+                    $formNew.= "{$infoMsg}
                                 <div class='form-group'>
                                     <label for='installation_area'>" . pll__('Installation area') . "</label>
                                     <input type='text' class='form-control typeahead' id='installation_area' name='zip' 

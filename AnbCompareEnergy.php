@@ -605,7 +605,7 @@ class AnbCompareEnergy extends AnbCompare
                                     -->
                                     
                                     <!--Family Members-->
-                                    <div class='panel panel-default' id='familyPanel'>
+                                    <div class='panel panel-default family-members-container' id='familyPanel'>
                                         <div class='panel-heading' role='tab' id='headingOne'>
                                             <h4 class='panel-title'>
                                                 <a role='button' data-toggle='collapse' data-parent='#accordion' href='#collapseOne' aria-expanded='true' aria-controls='collapseOne'>
@@ -827,7 +827,7 @@ class AnbCompareEnergy extends AnbCompare
                                     </div>
                                     
                                     <!-- House -->
-                                    <div class='panel panel-default' id='housePanel'>
+                                    <div class='panel panel-default house-type-container' id='housePanel'>
                                         <div class='panel-heading' role='tab' id='headingFour'>
                                             <h4 class='panel-title'>
                                                 <a class='collapsed' role='button' data-toggle='collapse' data-parent='#accordion' href='#collapseFour' aria-expanded='false' aria-controls='collapseFour'>
@@ -945,7 +945,7 @@ class AnbCompareEnergy extends AnbCompare
                                     </div>
                                     
                                     <!-- Solar Energy -->
-                                    <div class='panel panel-default' id='solarEnergyPanel'>
+                                    <div class='panel panel-default solar-panel-container' id='solarEnergyPanel'>
                                         <div class='panel-heading' role='tab' id='headingSix'>
                                             <h4 class='panel-title'>
                                                 <a class='collapsed' role='button' data-toggle='collapse' data-parent='#accordion' href='#collapseSix' aria-expanded='false' aria-controls='collapseSix'>
@@ -978,7 +978,7 @@ class AnbCompareEnergy extends AnbCompare
                                                     <div class='form-group text-left'>
                                                         <div class='check fancyCheck'>
                                                             <input type='checkbox' name='transCapacityCheck' id='transCapacityCheck' class='radio-salutation' value='1' ". (($values['transCapacityCheck'] === '1') ? 'checked="checked"' : '') .">
-                                                            <label for='solarCapacity'>
+                                                            <label for='transCapacityCheck'>
                                                                 <i class='fa fa-circle-o unchecked'></i>
                                                                 <i class='fa fa-check-circle checked'></i>
                                                                 <span>" . pll__('I know the capacity of the transformer') . "</span>
@@ -986,11 +986,13 @@ class AnbCompareEnergy extends AnbCompare
                                                         </div>
                                                     </div>
                                                     
-                                                    <label class='block bold-600 text-left'>" . pll__('Average capacity of the transformer') . "</label>
-                                                    <div class='row'>
-                                                        <div class='col-md-5 col-sm-5 col-xs-12 form-group'>
-                                                            <div class='solar-capacity'>
-                                                                <input type='text' name='transCapacity' ". (($values['u']) ?: '') ." />
+                                                    <div id='have_transformer' class='hide'>
+                                                        <label class='block bold-600 text-left'>" . pll__('Average capacity of the transformer') . "</label>
+                                                        <div class='row'>
+                                                            <div class='col-md-5 col-sm-5 col-xs-12 form-group'>
+                                                                <div class='solar-capacity'>
+                                                                    <input type='text' name='transCapacity' ". (($values['u']) ?: '') ." />
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>

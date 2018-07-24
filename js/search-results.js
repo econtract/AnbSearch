@@ -23,12 +23,6 @@ function stripUriParams(uri) {
     return url;
 }
 
-//Copied from https://stackoverflow.com/questions/901115/how-can-i-get-query-string-values-in-javascript
-function getParameterByName(name) {
-    var match = RegExp('[?&]' + name + '=([^&]*)').exec(window.location.search);
-    return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
-}
-
 function removeDuplicatesFromUri(uri) {
     //remove any duplicate params
     /*var redToArr = uri.split('&');

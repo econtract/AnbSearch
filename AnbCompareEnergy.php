@@ -709,7 +709,7 @@ class AnbCompareEnergy extends AnbCompare
                                     </div>
                                     
                                     <!-- Double meter -->
-                                    <div class='panel panel-default' id='doubleMeterPanel'>
+                                    <div class='panel panel-default family-members-container' id='doubleMeterPanel'>
                                         <div class='panel-heading' role='tab' id='headingTwo'>
                                             <h4 class='panel-title'>
                                                 <a class='collapsed' role='button' data-toggle='collapse' data-parent='#accordion' href='#collapseTwo' aria-expanded='false' aria-controls='collapseTwo'>
@@ -777,7 +777,7 @@ class AnbCompareEnergy extends AnbCompare
                                     </div>
                                     
                                     <!-- Electricity -->
-                                    <div class='panel panel-default' id='electricityBlockPanel'>
+                                    <div class='panel panel-default family-members-container' id='electricityBlockPanel'>
                                         <div class='panel-heading' role='tab' id='headingThree'>
                                             <h4 class='panel-title'>
                                                 <a class='collapsed' role='button' data-toggle='collapse' data-parent='#accordion' href='#collapseThree' aria-expanded='false' aria-controls='collapseThree'>
@@ -896,7 +896,7 @@ class AnbCompareEnergy extends AnbCompare
                                     </div>
 
                                     <!-- Gas -->
-                                    <div class='panel panel-default' id='gasPanel'>
+                                    <div class='panel panel-default house-type-container' id='gasPanel'>
                                         <div class='panel-heading' role='tab' id='headingFive'>
                                             <h4 class='panel-title'>
                                                 <a class='collapsed' role='button' data-toggle='collapse' data-parent='#accordion' href='#collapseFive' aria-expanded='false' aria-controls='collapseFive'>

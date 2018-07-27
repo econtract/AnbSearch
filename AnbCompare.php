@@ -614,6 +614,29 @@ class AnbCompare extends Base
         wp_die(); // this is required to terminate immediately and return a proper response
     }
 
+    function getProductDetails($productId, $supplierId, $producttype, $lang = "") {
+    	if(empty($lang)) {
+		    $lang = $this->getCurrentLang();
+	    }
+	    $extSuppTbl = new \wpdb(DB_PRODUCT_USER, DB_PRODUCT_PASS, DB_PRODUCT, DB_PRODUCT_HOST);
+	    $startTime = getStartTime();
+	    $statemet = $extSuppTbl->prepare(
+		    "SELECT producttype,product_id,product_name FROM supplier_products 
+			WHERE product_id=%d AND supplier_id=%d AND producttype=%s AND lang=%s AND (active=%d OR active=%d) 
+			ORDER BY product_name",
+		    [
+			    $productId,
+			    $supplierId,
+			    $producttype,
+			    $lang,
+			    $this->productStatus[0],
+			    $this->productStatus[1],
+		    ]
+	    );
+
+	    return $extSuppTbl->get_row($statemet, ARRAY_A);
+    }
+
     function searchForm($atts)
     {
         $atts = shortcode_atts(array(

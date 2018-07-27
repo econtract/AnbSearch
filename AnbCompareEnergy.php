@@ -927,7 +927,7 @@ class AnbCompareEnergy extends AnbCompare
                                                             </label>
                                                         </div>
                                                     </div>
-                                                    <div id='gas_consumption_content' class='hide'>
+                                                    <div id='gas_consumption_content' class='".(($values['gas_consumption'] != '1') ? "hide" : '')."'>
                                                         <label class='block bold-600 text-left'>" . pll__('Average Gas Consumption') . "</label>
                                                         <div class='row'>
                                                             <div class='col-md-3 col-sm-3 col-xs-6 form-group'>
@@ -942,7 +942,7 @@ class AnbCompareEnergy extends AnbCompare
                                                                         <span>kWh</span>
                                                                     </label>
                                                                     <label>
-                                                                        <input type='radio' name='ut' value='m3' ".(($values['ut'] == 'm3') ? "checked='checked'" : '')." />
+                                                                        <input type='radio' name='ut' value='m3' ".(($values['ut'] == 'm3' || empty($values['ut'])) ? "checked='checked'" : '')." />
                                                                         <span>m3</span>
                                                                     </label>
                                                                 </div>
@@ -1003,12 +1003,12 @@ class AnbCompareEnergy extends AnbCompare
                                                         </div>
                                                     </div>
                                                     
-                                                    <div id='have_transformer' class='hide'>
+                                                    <div id='have_transformer' class='". (($values['transCapacityCheck'] != '1') ? 'hide' : '') ."'>
                                                         <label class='block bold-600 text-left'>" . pll__('Average capacity of the transformer') . "</label>
                                                         <div class='row'>
                                                             <div class='col-md-5 col-sm-5 col-xs-12 form-group'>
                                                                 <div class='solar-capacity'>
-                                                                    <input type='text' name='transCapacity' ". (($values['u']) ?: '') ." />
+                                                                    <input type='text' name='transCapacity' value='". (($values['transCapacity']) ?: '') ."' />
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -1047,9 +1047,9 @@ class AnbCompareEnergy extends AnbCompare
                                                         <div class='form-group'>
                                                             <label class='text-left bold-600 '>".pll__('Select your current supplier for electricity and gas')."</label>
                                                             <div class='custom-select'>
-                                                                <select class='currentSupplier' id='currentProviderEnergy' name='currentProvider'>
+                                                                <select class='currentSupplier' id='currentProviderEnergy' name='supplier'>
 							                                        <option value=''>".pll__('Select your provider')."</option>
-							                                        ".supplierForDropDown($values['currentProvider'], ['cat' => 'dualfuel_pack, electricity, gas'])."
+							                                        ".supplierForDropDown($values['supplier'], ['cat' => 'dualfuel_pack, electricity, gas'])."
 							                                    </select>
                                                             </div>
                                                         </div>
@@ -1064,7 +1064,7 @@ class AnbCompareEnergy extends AnbCompare
                                                     </div>
                                                 </div>
                                                 <div class='check fancyCheck'>
-                                                    <input type='checkbox' name='doubleMeter' id='customerSupplier' class='radio-salutation' value='1'>
+                                                    <input type='checkbox' name='tenMonthCustomer' id='customerSupplier' class='radio-salutation' value='1' ". (($values['tenMonthCustomer'] == '1') ? "checked='checked'" : '') .">
                                                     <label for='customerSupplier'>
                                                         <i class='fa fa-circle-o unchecked'></i>
                                                         <i class='fa fa-check-circle checked'></i>

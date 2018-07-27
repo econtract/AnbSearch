@@ -578,15 +578,17 @@ class AnbCompareEnergy extends AnbCompare
                                                 <a role='button' data-toggle='collapse' data-parent='#accordion'
                                                    href='#consumerPanel' aria-expanded='true'
                                                    aria-controls='collapseOne'>
-                                                            <span class='headingTitle'>
-                                                                <i class='icon wizard location'></i>
-                                                                <span class='caption'>
-                                                                    <span class='caption_close'>" . pll__('Define use') . "</span>
-                                                                    <span class='caption_open'>" . pll__('Type of use') . "</span>
-                                                                </span>
-                                                                <span class='selectedInfo'></span>
-                                                                <span class='changeInfo'>". pll__('Change') ."</span>
-                                                            </span>
+                                                    <span class='headingTitle'>
+			                                            <span class='icon-holder'>
+			                                            	<i class='icon wizard location'></i>
+			                                            </span>
+                                                        <span class='caption'>
+                                                            <span class='caption_close'>" . pll__('Define use') . "</span>
+                                                            <span class='caption_open'>" . pll__('Type of use') . "</span>
+                                                        </span>
+                                                        <span class='selectedInfo'></span>
+                                                        <span class='changeInfo'>". pll__('Change') ."</span>
+                                                    </span>
                                                 </a>
                                             </h4>
                                         </div>

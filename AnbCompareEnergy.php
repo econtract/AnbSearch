@@ -112,7 +112,10 @@ class AnbCompareEnergy extends AnbCompare
         $resultsPageUri = ($values['hidden_prodsel'] == 'yes') ? '' : $resultsPageUri;
 
 	    $hiddenMultipleProvidersHtml = $this->getSuppliersHiddenInputFields($values, $supplierHtml);
-
+        $hiddenProdSelHTML = '';
+	    if($values['hidden_prodsel'] == 'yes') {
+            $hiddenProdSelHTML = '<input type="hidden" name="hidden_prodsel_cmp" value="yes" />';
+        }
 	    // html for quick search content
 	    $formNew = "<div class='quick-search-content'>
                     <div class='searchBox'>
@@ -260,6 +263,7 @@ class AnbCompareEnergy extends AnbCompare
                                 <div class='btnWrapper text-center'>
                                 	{$hiddenMultipleProvidersHtml}
                                 	{$supplierHtml}
+                                	{$hiddenProdSelHTML}
                                     <button name='searchSubmit' type='submit' class='btn btn-default btn-block' >$submitBtnTxt</button>
                                 </div>
                             </form>
@@ -1115,5 +1119,44 @@ class AnbCompareEnergy extends AnbCompare
                 </label>
             </div>";
 	}
+
+	function getPBSBreakDownHTML($prd, $sec){
+	    if(isset($prd->$sec)){
+            $currPricing = $prd->$sec->pricing;
+            $yearlyPromoPriceArr = formatPriceInParts($currPricing->yearly->promo_price, 2);
+            $specs = $prd->$sec->specifications;
+            $greenOrigin = $specs->green_origin;
+            $promotions = $prd->$sec->promotions;
+            if(empty($promotions)) {
+                $promotions = $prd->promotions;
+            }
+            if ( count ($promotions) ) {
+                $promoHTML = '<div class="packagePromo">
+                                <ul class="list-unstyled">';
+                foreach ($promotions as $promo ) {
+                    if(!empty($promo->texts->name)) {
+                        $promoHTML.= '<li class="promo prominent">'.$promo->texts->name.'</li>';
+                    }
+                }
+                $promoHTML.= '</ul>
+                            </div>';
+            }
+            $html = '';
+            $html.= '<li class="packOption">
+                        <div class="packageDetail">
+                            <div class="packageDesc hasOldPrice">' . intval($greenOrigin->value) . $greenOrigin->unit . ' '.$specs->tariff_type->label.'</div>
+                            <div class="packagePrice">
+                                <!--span class="oldPrice">€ 70,95</span-->
+                                <span class="currentPrice">
+                                    <span class="currency">' . $yearlyPromoPriceArr['currency'] . '</span>
+                                    <span class="amount">' . $yearlyPromoPriceArr['price'] . '</span>
+                                    <span class="cents">' . $yearlyPromoPriceArr['cents'] . '</span>
+                                </span>
+                            </div>'.$promoHTML.'
+                        </div>                                    
+                    </li>';
+            return $html;
+        }
+    }
 }
 

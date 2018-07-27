@@ -33,6 +33,21 @@ class AnbCompareEnergy extends AnbCompare
     function enqueueScripts()
     {
 	    wp_enqueue_script('search-results-energy', plugins_url('/js/search-results-energy.js', __FILE__), array('jquery'), '1.0.1', true);
+	    wp_enqueue_script('compare-results-energy', plugins_url('/js/compare-results-energy.js', __FILE__), array('jquery'), '1.0.0', true);
+	    wp_localize_script('compare-results-energy', 'compare_between_results_object',
+		    array(
+			    'ajax_url' => admin_url('admin-ajax.php'),
+			    'site_url' => get_home_url(),
+			    'current_pack' => pll__('your current pack'),
+			    'select_your_pack' => pll__('Select your pack'),
+			    'template_uri' => get_template_directory_uri(),
+			    'lang' => $this->getCurrentLang(),
+			    'features_label' => pll__('Features'),
+			    'telecom_trans' => pll__('telecom'),
+			    'energy_trans' => pll__('energy'),
+			    'brands_trans' => pll__('brands')
+		    )
+	    );
     }
 
     function searchForm($atts)
@@ -557,7 +572,6 @@ class AnbCompareEnergy extends AnbCompare
                                     </div>
                                     
                                    <!--Use-->
-                                   <!--
                                     <div class='panel panel-default' id='usagePanel'>
                                         <div class='panel-heading' role='tab' id='consumerHeading'>
                                             <h4 class='panel-title'>
@@ -606,7 +620,6 @@ class AnbCompareEnergy extends AnbCompare
                                             </div>
                                         </div>
                                     </div>
-                                    -->
                                     
                                     <!--Family Members-->
                                     <div class='panel panel-default family-members-container' id='familyPanel'>
@@ -698,7 +711,7 @@ class AnbCompareEnergy extends AnbCompare
                                     </div>
                                     
                                     <!-- Double meter -->
-                                    <div class='panel panel-default' id='doubleMeterPanel'>
+                                    <div class='panel panel-default family-members-container' id='doubleMeterPanel'>
                                         <div class='panel-heading' role='tab' id='headingTwo'>
                                             <h4 class='panel-title'>
                                                 <a class='collapsed' role='button' data-toggle='collapse' data-parent='#accordion' href='#collapseTwo' aria-expanded='false' aria-controls='collapseTwo'>
@@ -721,13 +734,13 @@ class AnbCompareEnergy extends AnbCompare
                                                     <div class='form-group'>
                                                         <div class='fancy-radio inline'>
                                                             <label>
-                                                                <input type='radio' value='single' name='meter' ".(($values['meter'] == 'single' || empty($values['meter'])) ? "checked='checked'" : '')."/>
+                                                                <input type='radio' value='single' name='meter' ".(($values['meter'] == pll__('single') || empty($values['meter'])) ? "checked='checked'" : '')."/>
                                                                 <span></span>
                                                                 <img src='".get_template_directory_uri()."/images/common/single-meter.svg' alt='' height='52' />
                                                             </label>
                                                             
                                                             <label>
-                                                                <input type='radio' value='double' name='meter' ".(($values['meter'] == 'double') ? "checked='checked'" : '')." id='doubleMeterConsumption' class='check-consumption'/>
+                                                                <input type='radio' value='double' name='meter' ".(($values['meter'] == pll__('double')) ? "checked='checked'" : '')." id='doubleMeterConsumption' class='check-consumption'/>
                                                                 <span></span>
                                                                 <img src='".get_template_directory_uri()."/images/common/double-meter.svg' alt='' height='52' />
                                                             </label>
@@ -766,7 +779,7 @@ class AnbCompareEnergy extends AnbCompare
                                     </div>
                                     
                                     <!-- Electricity -->
-                                    <div class='panel panel-default' id='electricityBlockPanel'>
+                                    <div class='panel panel-default family-members-container' id='electricityBlockPanel'>
                                         <div class='panel-heading' role='tab' id='headingThree'>
                                             <h4 class='panel-title'>
                                                 <a class='collapsed' role='button' data-toggle='collapse' data-parent='#accordion' href='#collapseThree' aria-expanded='false' aria-controls='collapseThree'>
@@ -787,7 +800,7 @@ class AnbCompareEnergy extends AnbCompare
                                                 <div class='counterPanel'>
                                                     <div class='form-group text-left'>
                                                         <div class='check fancyCheck'>
-                                                            <input type='checkbox' name='consumption_electricity' id='consumption_electricity' class='radio-salutation check' value='1'>
+                                                            <input type='checkbox' name='consumption_electricity' id='consumption_electricity' class='radio-salutation check' value='1' ".(($values['consumption_electricity'] == '1') ? "checked='checked'" : '').">
                                                             <label for='consumption_electricity'>
                                                                 <i class='fa fa-circle-o unchecked'></i>
                                                                 <i class='fa fa-check-circle checked'></i>
@@ -795,14 +808,14 @@ class AnbCompareEnergy extends AnbCompare
                                                             </label>
                                                         </div>
                                                     </div>
-                                                    <div class='row hide' id='consumption_electricity_content'>
+                                                    <div class='row ".(($values['consumption_electricity'] != '1') ? "hide" : '')."' id='consumption_electricity_content'>
                                                         <div class='col-md-5 col-sm-5 col-xs-12 form-group'>
                                                             <label class='block bold-600 text-left'>" . pll__('Day consumption') . "</label>
                                                             <div class='day-consumption'>
                                                                 <input type='text' name='du' value='".(($values['du']) ?: '')."' />
                                                             </div>
                                                         </div>
-                                                        <div class='col-md-5 col-sm-5 col-xs-12 form-group hide' id='doubleMeterConsumption_content'>
+                                                        <div class='col-md-5 col-sm-5 col-xs-12 form-group ".(($values['meter'] != 'double') ? "hide" : '')."' id='doubleMeterConsumption_content'>
                                                             <label class='block bold-600 text-left'>" . pll__('Night consumption') . "</label>
                                                             <div class='night-consumption'>
                                                                 <input type='text' name='nou' value='".(($values['nou']) ?: '')."'/>
@@ -885,7 +898,7 @@ class AnbCompareEnergy extends AnbCompare
                                     </div>
 
                                     <!-- Gas -->
-                                    <div class='panel panel-default' id='gasPanel'>
+                                    <div class='panel panel-default house-type-container' id='gasPanel'>
                                         <div class='panel-heading' role='tab' id='headingFive'>
                                             <h4 class='panel-title'>
                                                 <a class='collapsed' role='button' data-toggle='collapse' data-parent='#accordion' href='#collapseFive' aria-expanded='false' aria-controls='collapseFive'>
@@ -1034,23 +1047,17 @@ class AnbCompareEnergy extends AnbCompare
                                                         <div class='form-group'>
                                                             <label class='text-left bold-600 '>".pll__('Select your current supplier for electricity and gas')."</label>
                                                             <div class='custom-select'>
-                                                                <select class='currentSupplier'>
-                                                                    <option>Select your provider</option>
-                                                                    <option value='Current Supplier 1'>Current Supplier 1</option>
-                                                                    <option value='Current Supplier 2'>Current Supplier 2</option>
-                                                                    <option value='Current Supplier 3'>Current Supplier 3</option>
-                                                                </select>
+                                                                <select class='currentSupplier' id='currentProviderEnergy' name='currentProvider'>
+							                                        <option value=''>".pll__('Select your provider')."</option>
+							                                        ".supplierForDropDown($values['currentProvider'], ['cat' => 'dualfuel_pack, electricity, gas'])."
+							                                    </select>
                                                             </div>
                                                         </div>
-                                                        
                                                         <div class='form-group'>
                                                             <label class='text-left bold-600 '>".pll__('Select your contract')."</label>
                                                             <div class='custom-select'>
-                                                                <select class='currentSupplierContract'>
-                                                                    <option>I dont know the contract</option>
-                                                                    <option value='Contract 1'>Contract 1</option>
-                                                                    <option value='Contract 2'>Contract 2</option>
-                                                                    <option value='Contract 3'>Contract 3</option>
+                                                                <select class='currentSupplierContract' name='currentPack' id='currentPackEnergy'>
+                                                                    <option value=''>".pll__('I dont know the contract')."</option>
                                                                 </select>
                                                             </div>
                                                         </div>
@@ -1094,27 +1101,27 @@ class AnbCompareEnergy extends AnbCompare
 	function getHouseTypeHtml($values) {
 		return "<div class='house-type'>
                 <label class='single-house' data-toggle='tooltip' title='House 1'>
-                    <input type='radio' name='houseType' id='single_house' value='single' usage-val='".M3_SINGLE_HOUSE."' ". (($values['houseType'] === 'single') ? 'checked="checked"' : '') ."/>
+                    <input type='radio' name='houseType' id='single_house' value='".pll__('single')."' usage-val='".M3_SINGLE_HOUSE."' ". (($values['houseType'] === pll__('single')) ? 'checked="checked"' : '') ."/>
                     <i class='houses'></i>
                 </label>
 
                 <label class='double-house' data-toggle='tooltip' title='House 2'>
-                    <input type='radio' name='houseType' id='double_house' value='double' usage-val='".M3_DOUBLE_HOUSE."' ". (($values['houseType'] === 'double') ? 'checked="checked"' : '') ."/>
+                    <input type='radio' name='houseType' id='double_house' value='".pll__('double')."' usage-val='".M3_DOUBLE_HOUSE."' ". (($values['houseType'] === pll__('double')) ? 'checked="checked"' : '') ."/>
                     <i class='houses'></i>
                 </label>
 
                 <label class='triple-house' data-toggle='tooltip' title='House 3'>
-                    <input type='radio' name='houseType' id='triple_house' value='tripple' usage-val='".M3_TRIPLE_HOUSE."' ". (($values['houseType'] === 'tripple') ? 'checked="checked"' : '') ."/>
+                    <input type='radio' name='houseType' id='triple_house' value='".pll__('tripple')."' usage-val='".M3_TRIPLE_HOUSE."' ". (($values['houseType'] === pll__('tripple')) ? 'checked="checked"' : '') ."/>
                     <i class='houses'></i>
                 </label>
 
                 <label class='tetra-house' data-toggle='tooltip' title='House 4'>
-                    <input type='radio' name='houseType' id='tetra_house' value='tetra' usage-val='".M3_TETRA_HOUSE."' ". (($values['houseType'] === 'tetra') ? 'checked="checked"' : '') ."/>
+                    <input type='radio' name='houseType' id='tetra_house' value='".pll__('tetra')."' usage-val='".M3_TETRA_HOUSE."' ". (($values['houseType'] === pll__('tetra')) ? 'checked="checked"' : '') ."/>
                     <i class='houses'></i>
                 </label>
 
                 <label class='tower-house' data-toggle='tooltip' title='".pll__('appartment')."'>
-                    <input type='radio' name='houseType' id='tower_house' value='flat' usage-val='".M3_FLAT."' ". (($values['houseType'] === 'flat') ? 'checked="checked"' : '') ."/>
+                    <input type='radio' name='houseType' id='tower_house' value='".pll__('flat')."' usage-val='".M3_FLAT."' ". (($values['houseType'] === pll__('flat')) ? 'checked="checked"' : '') ."/>
                     <i class='houses'></i>
                 </label>
             </div>";

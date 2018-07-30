@@ -298,7 +298,7 @@ class AnbCompareEnergy extends AnbCompare
         ]);
 
         $results = json_decode($products);
-        /** @var \AnbTopDeals\AnbProduct $anbTopDeals */
+        /** @var \AnbTopDeals\AnbProductEnergy $anbTopDeals */
         $anbTopDeals = wpal_create_instance( \AnbTopDeals\AnbProductEnergy::class );
         $countProducts = 0;
         $chkbox = 100;
@@ -365,10 +365,7 @@ class AnbCompareEnergy extends AnbCompare
             $productResp .= '</div>';
             $productResp .= '<div class="cols grid-show">' .$anbTopDeals->getPromoSection( $product ). '</div>';
             $productResp .= '<div class="cols">';
-            $productResp .= '<div class="price-label ">';
-            $productResp .= '<label>Potential saving</label>';
-            $productResp .= '<div class="price">€ 136<small>,00</small></div>';
-            $productResp .= '</div>';
+            $productResp .= $anbTopDeals->getPotentialSavings($listProduct->savings);
 
             $yearAdv = $pricing->yearly->price - $pricing->yearly->promo_price;
             if($yearAdv !== 0):

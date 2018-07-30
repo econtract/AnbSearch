@@ -147,12 +147,18 @@ jQuery(document).ready(function($){
                 if (response == 'no results found') {
                     $('#response-no-result-found-message').show();
                 } else {
+                    $('#searchEnergyDealsPopup').modal('show');
+                    var urldata = window.location.href+'&cmp_pid='+currentPack[1];
+                    window.location = urldata;
+                    return false;
+                    /*
                     var resData = response.split('****');
                     $('#default-heading-section').hide();
                     $('#comparison-product-title').html(resData[0]);
                     $('#comparison-result-price').html(resData[1]);
                     $('#breakDownPopup').html(resData[2]);
                     $('#comparison-heading-section').show();
+                    */
                 }
             } else {
                 if (response == 'no results found') {

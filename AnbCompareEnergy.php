@@ -139,7 +139,7 @@ class AnbCompareEnergy extends AnbCompare
                         <div class='formWraper'>
                             <form action='" . $resultsPageUri . "' id='quickSearchForm'>";
 	                if($values['hidden_prodsel'] == '') {
-                        $formNew.= "<div class='form-group'>
+                        $formNew.= "<div class='form-group hide'>
                                 	<label>" . pll__('I like to compare') . "</label>
                                 </div>
                                 <div class='form-group'>
@@ -173,12 +173,6 @@ class AnbCompareEnergy extends AnbCompare
                     }
                     $formNew.= "{$infoMsg}
                                 <div class='form-group'>
-                                    <label for='installation_area'>" . pll__('Installation area') . "</label>
-                                    <input type='text' class='form-control typeahead' id='installation_area' name='zip' 
-                                      value='" . ((!empty($values['zip'])) ? $values['zip'] : '') . "' placeholder='" . pll__('Enter Zipcode') . "'
-                                      data-error='" . pll__('Please enter valid zip code') . "' autocomplete='off' query_method='cities' query_key='postcode' required>
-                                </div>
-                                <div class='form-group'>
                                     <div class='check fancyCheck'>
                                         <input type='hidden' name='sg' value='consumer'>
                                         <input type='checkbox' name='sg' id='showBusinessDeal' class='radio-salutation' value='sme' ". (($values['sg'] === 'sme') ? 'checked="checked"' : '') .">
@@ -189,6 +183,17 @@ class AnbCompareEnergy extends AnbCompare
                                         </label>
                                     </div>
                                 </div>
+                                <div class='form-group row'>
+                                        <div class='col-md-4 p-t-10'>
+                                            <label for='installation_area'>" . pll__('Installation area') . "</label>
+                                        </div>
+                                        <div class='col-md-8 p-l-0'>
+                                            <input type='text' class='form-control typeahead' id='installation_area' name='zip' 
+                                            value='" . ((!empty($values['zip'])) ? $values['zip'] : '') . "' placeholder='" . pll__('Enter Zipcode') . "'
+                                            data-error='" . pll__('Please enter valid zip code') . "' autocomplete='off' query_method='cities' query_key='postcode' required>
+                                      </div>
+                                </div>
+                                
                                 <div class='form-group family-members-container'>
                                     <label>".pll__('How many family members?')."</label>
                                     <div class='family-members'>
@@ -223,18 +228,23 @@ class AnbCompareEnergy extends AnbCompare
                                                 <i></i>
                                                 <input type='text' name='du' value='". (($values['du']) ?: '') ."'/>
                                                 <label>kwh</label>
-												<span class='question-circle custom-tooltip' data-toggle='tooltip' title='".pll__('Informational text for electricty')."'></span>
                                             </div>
                                             <div class='field day-night-energy kwh-energy hide'>
                                                 <div class='day-energy'>
                                                     <i></i>
                                                     <input type='text' disabled='disabled' name='du' value='". (($values['du']) ?: '') ."'/>
                                                     <label>kwh</label>
-                                                    <span class='question-circle custom-tooltip' data-toggle='tooltip' title='".pll__('Informational text for electricty')."'></span>
                                                 </div>
                                                 <div class='night-energy'>
                                                     <i></i>
                                                     <input type='text' disabled='disabled' name='nou' value='". (($values['nou']) ?: '') ."'/>
+                                                    <label>kwh</label>
+                                                </div>
+                                            </div>
+                                            <div class='field exclusive-meter-field hide'>
+                                                <div class='night-energy'>
+                                                    <i></i>
+                                                    <input type='text' disabled='disabled' name='' value=''/>
                                                     <label>kwh</label>
                                                 </div>
                                             </div>
@@ -249,6 +259,26 @@ class AnbCompareEnergy extends AnbCompare
                                                 <span>".pll__('Double meter')."</span>
                                             </label>
                                         </div>
+                                        
+                                        <div class='check fancyCheck'>
+                                            <input type='checkbox' name='exclusiveMeter' id='exclusiveMeter' class='radio-salutation'>
+                                            <label for='exclusiveMeter'>
+                                                <i class='fa fa-circle-o unchecked'></i>
+                                                <i class='fa fa-check-circle checked'></i>
+                                                <span>".pll__('Exclusive night meter')."</span>
+                                            </label>
+                                        </div>
+                                        
+                                        <div class='solar-panel-container'>
+                                            <div class='check fancyCheck'>
+                                                <input type='checkbox' name='has_solar' id='solarPanel' class='radio-salutation' value='1' ". (($values['has_solar'] === '1') ? 'checked="checked"' : '') .">
+                                                <label for='solarPanel'>
+                                                    <i class='fa fa-circle-o unchecked'></i>
+                                                    <i class='fa fa-check-circle checked'></i>
+                                                    <span>".pll__('I have solar panels')."</span>
+                                                </label>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class='form-group house-type-container'>
@@ -260,22 +290,10 @@ class AnbCompareEnergy extends AnbCompare
                                             <input type='text' id='m3_u' name='u' value='". (($values['u']) ?: '') ."'/>
                                             <input type='hidden' name='ut' value='m3'/>
                                             <label>m3</label>
-                                            <span class='question-circle custom-tooltip' data-toggle='tooltip' title='".pll__('Informational text for gas')."'></span>
                                         </div>
                                     </div>
                                 </div>
-                                <div class='form-group solar-panel-container'>
-	                                <label>Do you have solar panels?</label>
-	                                <div class='check fancyCheck'>
-	                                    <input type='checkbox' name='has_solar' id='solarPanel' class='radio-salutation' value='1' ". (($values['has_solar'] === '1') ? 'checked="checked"' : '') .">
-	                                    <label for='solarPanel'>
-	                                        <i class='fa fa-circle-o unchecked'></i>
-	                                        <i class='fa fa-check-circle checked'></i>
-	                                        <span>".pll__('Yes, I have solar panels')."</span>
-	                                    </label>
-	                                </div>
-	                            </div>
-                                <div class='btnWrapper text-center'>
+                                <div class='btnWrapper text-center p-b-0'>
                                 	{$hiddenMultipleProvidersHtml}
                                 	{$supplierHtml}
                                 	{$hiddenProdSelHTML}

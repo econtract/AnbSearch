@@ -35,7 +35,7 @@ jQuery(document).ready(function($){
     $(document).ready(function() {
         var currentEnergyProvider = $('#currentProviderEnergy').val();
 
-        if(currentEnergyProvider.length >= 1) {
+        if(!_.isEmpty(currentEnergyProvider)) {
             setTimeout(function() {
                 $('#currentProviderEnergy').trigger('change');
             }, 50);
@@ -43,7 +43,7 @@ jQuery(document).ready(function($){
 
         var currentProvider = $('#currentProvider').val();
 
-        if(currentProvider.length >= 1) {
+        if(!_.isEmpty(currentProvider)) {
             setTimeout(function() {
                 $('#currentProvider').trigger('change');
             }, 50);

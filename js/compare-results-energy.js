@@ -43,7 +43,7 @@ jQuery(document).ready(function($){
 
         var currentProvider = $('#currentProvider').val();
 
-        if(currentProvider.length >= 1) {
+        if(!_.isEmpty(currentProvider)) {
             setTimeout(function() {
                 $('#currentProvider').trigger('change');
             }, 50);

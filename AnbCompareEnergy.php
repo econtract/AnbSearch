@@ -736,7 +736,7 @@ class AnbCompareEnergy extends AnbCompare
                                                         <span class='icon-holder'><i class='energy-icons double-meter'></i></span>
                                                         <span class='caption'>
                                                             <span class='caption_close'>" . pll__('Set Double meter') . "</span>
-                                                            <span class='caption_open'>"  . pll__('Double meter ') . "</span>
+                                                            <span class='caption_open'>"  . pll__('Set Double meter') . "</span>
                                                         </span>
                                                         <span class='selectedInfo'></span>
                                                         <span class='changeInfo'>". pll__('Change') ."</span>

@@ -825,7 +825,7 @@ class AnbCompareEnergy extends AnbCompare
                                                             </label>
                                                         </div>
                                                     </div>
-                                                    <div class='row ".((empty($values['du'])) ? "hide" : '')."' id='consumption_electricity_content'>
+                                                    <div class='row ".((empty($values['du']) || (!empty($values['consumption_electricity'] && $values['consumption_electricity'] != '1'))) ? "hide" : '')."' id='consumption_electricity_content'>
                                                         <div class='col-md-5 col-sm-5 col-xs-12 form-group'>
                                                             <label class='block bold-600 text-left'>" . pll__('Day consumption') . "</label>
                                                             <div class='day-consumption'>
@@ -936,7 +936,7 @@ class AnbCompareEnergy extends AnbCompare
                                                 <div class='counterPanel'>
                                                     <div class='form-group text-left'>
                                                         <div class='check fancyCheck'>
-                                                            <input type='checkbox' name='gas_consumption' id='gas_consumption' class='radio-salutation check' value='1' ".(($values['gas_consumption'] == '1') ? "checked='checked'" : '').">
+                                                            <input type='checkbox' name='gas_consumption' id='gas_consumption' class='radio-salutation check' value='1' ".(($values['gas_consumption'] == '1' || !empty($values['u'])) ? "checked='checked'" : '').">
                                                             <label for='gas_consumption'>
                                                                 <i class='fa fa-circle-o unchecked'></i>
                                                                 <i class='fa fa-check-circle checked'></i>
@@ -944,7 +944,7 @@ class AnbCompareEnergy extends AnbCompare
                                                             </label>
                                                         </div>
                                                     </div>
-                                                    <div id='gas_consumption_content' class='".(($values['gas_consumption'] != '1') ? "hide" : '')."'>
+                                                    <div id='gas_consumption_content' class='".(empty($values['u']) || (!empty($values['gas_consumption'] && $values['gas_consumption'] != '1')) ? "hide" : '')."'>
                                                         <label class='block bold-600 text-left'>" . pll__('Average Gas Consumption') . "</label>
                                                         <div class='row'>
                                                             <div class='col-md-3 col-sm-3 col-xs-6 form-group'>

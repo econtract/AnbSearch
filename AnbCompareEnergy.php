@@ -261,7 +261,7 @@ class AnbCompareEnergy extends AnbCompare
                                         </div>
                                         
                                         <div class='check fancyCheck'>
-                                            <input type='checkbox' name='exclusiveMeter' id='exclusiveMeter' class='radio-salutation'>
+                                            <input type='checkbox' name='exc_night_meter' id='exclusiveMeter' class='radio-salutation' value='1'>
                                             <label for='exclusiveMeter'>
                                                 <i class='fa fa-circle-o unchecked'></i>
                                                 <i class='fa fa-check-circle checked'></i>

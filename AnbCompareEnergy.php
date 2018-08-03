@@ -252,7 +252,7 @@ class AnbCompareEnergy extends AnbCompare
                                     </div>
                                     <div class='form-group'>
                                         <div class='check fancyCheck'>
-                                            <input type='checkbox' name='doubleMeter' id='doubleMeter' class='radio-salutation' value='1' ". (($values['doubleMeter'] === '1') ? 'checked="checked"' : '') .">
+                                            <input type='checkbox' name='meter' id='doubleMeter' class='radio-salutation' value='double' ". (($values['meter'] === 'double') ? 'checked="checked"' : '') .">
                                             <label for='doubleMeter'>
                                                 <i class='fa fa-circle-o unchecked'></i>
                                                 <i class='fa fa-check-circle checked'></i>

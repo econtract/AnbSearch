@@ -220,7 +220,7 @@ class AnbCompare extends Base
                 $params['dl'] = "-1";
             }
 
-            if(isset($_GET['doubleMeter']) && $_GET['doubleMeter'] == 1){
+            if(isset($_GET['meter']) && $_GET['meter'] == 'double'){
                 if( !empty( $params['du'] ) ) { $params['dndu'] = $params['du']; }
                 if( !empty( $params['nou'] ) ) { $params['dnnu'] = $params['nou']; }
             }

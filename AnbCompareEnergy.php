@@ -817,7 +817,7 @@ class AnbCompareEnergy extends AnbCompare
                                                 <div class='counterPanel'>
                                                     <div class='form-group text-left'>
                                                         <div class='check fancyCheck'>
-                                                            <input type='checkbox' name='consumption_electricity' id='consumption_electricity' class='radio-salutation check' value='1' ".(($values['consumption_electricity'] == '1') ? "checked='checked'" : '').">
+                                                            <input type='checkbox' name='consumption_electricity' id='consumption_electricity' class='radio-salutation check' value='1' ".(($values['consumption_electricity'] == '1' || !empty($values['du'])) ? "checked='checked'" : '').">
                                                             <label for='consumption_electricity'>
                                                                 <i class='fa fa-circle-o unchecked'></i>
                                                                 <i class='fa fa-check-circle checked'></i>
@@ -825,7 +825,7 @@ class AnbCompareEnergy extends AnbCompare
                                                             </label>
                                                         </div>
                                                     </div>
-                                                    <div class='row ".(($values['consumption_electricity'] != '1') ? "hide" : '')."' id='consumption_electricity_content'>
+                                                    <div class='row ".((empty($values['du'])) ? "hide" : '')."' id='consumption_electricity_content'>
                                                         <div class='col-md-5 col-sm-5 col-xs-12 form-group'>
                                                             <label class='block bold-600 text-left'>" . pll__('Day consumption') . "</label>
                                                             <div class='day-consumption'>

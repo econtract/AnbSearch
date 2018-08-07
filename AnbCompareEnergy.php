@@ -555,7 +555,7 @@ class AnbCompareEnergy extends AnbCompare
                                             <div class='panel-body text-center'>
                                                 <div class='singleFormWrapper'>
                                                     <div class='row'>
-                                                        <div class='col-md-3 p-r-0 col-sm-3 col-xs-12'><label for='installation_area' class='control-label p-l-0'>" . pll__('Installation area') . "</label></div>
+                                                        <div class='col-md-3 p-r-0 col-sm-3 col-xs-12 p-t-12'><label for='installation_area' class='control-label p-l-0'>" . pll__('Installation area') . "</label></div>
                                                         <div class='col-md-7 col-sm7 col-xs-12'>
                                                             <div class='form-group has-feedback p-l-0'>
                                                                 <div class=''>
@@ -639,7 +639,7 @@ class AnbCompareEnergy extends AnbCompare
                                     </div>
                                     
                                     <!--Family Members-->
-                                    <div class='panel panel-default family-members-container' id='familyPanel'>
+                                    <div class='panel panel-default family-members-container electricity-content' id='familyPanel'>
                                         <div class='panel-heading' role='tab' id='headingOne'>
                                             <h4 class='panel-title'>
                                                 <a role='button' data-toggle='collapse' data-parent='#accordion' href='#collapseOne' aria-expanded='true' aria-controls='collapseOne'>
@@ -728,7 +728,7 @@ class AnbCompareEnergy extends AnbCompare
                                     </div>
                                     
                                     <!-- Double meter -->
-                                    <div class='panel panel-default family-members-container' id='doubleMeterPanel'>
+                                    <div class='panel panel-default family-members-container electricity-content' id='doubleMeterPanel'>
                                         <div class='panel-heading' role='tab' id='headingTwo'>
                                             <h4 class='panel-title'>
                                                 <a class='collapsed' role='button' data-toggle='collapse' data-parent='#accordion' href='#collapseTwo' aria-expanded='false' aria-controls='collapseTwo'>
@@ -796,7 +796,7 @@ class AnbCompareEnergy extends AnbCompare
                                     </div>
                                     
                                     <!-- Electricity -->
-                                    <div class='panel panel-default family-members-container' id='electricityBlockPanel'>
+                                    <div class='panel panel-default family-members-container electricity-content' id='electricityBlockPanel'>
                                         <div class='panel-heading' role='tab' id='headingThree'>
                                             <h4 class='panel-title'>
                                                 <a class='collapsed' role='button' data-toggle='collapse' data-parent='#accordion' href='#collapseThree' aria-expanded='false' aria-controls='collapseThree'>
@@ -828,7 +828,7 @@ class AnbCompareEnergy extends AnbCompare
                                                     <div class='row ".((empty($values['du']) || (!empty($values['consumption_electricity'] && $values['consumption_electricity'] != '1'))) ? "hide" : '')."' id='consumption_electricity_content'>
                                                         <div class='col-md-5 col-sm-5 col-xs-12 form-group'>
                                                             <label class='block bold-600 text-left'>" . pll__('Day consumption') . "</label>
-                                                            <div class='day-consumption'>
+                                                            <div class='day-consumption day-consumption-grey' id='doubleMeterConsumption_grey'>
                                                                 <input type='text' name='du' value='".(($values['du']) ?: '')."' />
                                                             </div>
                                                         </div>
@@ -861,7 +861,7 @@ class AnbCompareEnergy extends AnbCompare
                                     </div>
                                     
                                     <!-- House -->
-                                    <div class='panel panel-default house-type-container' id='housePanel'>
+                                    <div class='panel panel-default house-type-container gas-content' id='housePanel'>
                                         <div class='panel-heading' role='tab' id='headingFour'>
                                             <h4 class='panel-title'>
                                                 <a class='collapsed' role='button' data-toggle='collapse' data-parent='#accordion' href='#collapseFour' aria-expanded='false' aria-controls='collapseFour'>
@@ -915,7 +915,7 @@ class AnbCompareEnergy extends AnbCompare
                                     </div>
 
                                     <!-- Gas -->
-                                    <div class='panel panel-default house-type-container' id='gasPanel'>
+                                    <div class='panel panel-default house-type-container gas-content' id='gasPanel'>
                                         <div class='panel-heading' role='tab' id='headingFive'>
                                             <h4 class='panel-title'>
                                                 <a class='collapsed' role='button' data-toggle='collapse' data-parent='#accordion' href='#collapseFive' aria-expanded='false' aria-controls='collapseFive'>
@@ -959,7 +959,7 @@ class AnbCompareEnergy extends AnbCompare
                                                                         <span>kWh</span>
                                                                     </label>
                                                                     <label>
-                                                                        <input type='radio' name='ut' value='m3' ".(($values['ut'] == 'm3' || empty($values['ut'])) ? "checked='checked'" : '')." />
+                                                                        <input type='radio' name='ut' value='m3' ".(($values['ut'] == 'm3' || (empty($values['ut']) && ($values['cat'] == 'gas' || $values['cat'] == 'dualfuel_pack'))) ? "checked='checked'" : '')." />
                                                                         <span>m3</span>
                                                                     </label>
                                                                 </div>
@@ -979,7 +979,7 @@ class AnbCompareEnergy extends AnbCompare
                                     </div>
                                     
                                     <!-- Solar Energy -->
-                                    <div class='panel panel-default solar-panel-container' id='solarEnergyPanel'>
+                                    <div class='panel panel-default solar-panel-container electricity-content' id='solarEnergyPanel'>
                                         <div class='panel-heading' role='tab' id='headingSix'>
                                             <h4 class='panel-title'>
                                                 <a class='collapsed' role='button' data-toggle='collapse' data-parent='#accordion' href='#collapseSix' aria-expanded='false' aria-controls='collapseSix'>

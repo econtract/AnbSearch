@@ -639,7 +639,7 @@ class AnbCompareEnergy extends AnbCompare
                                     </div>
                                     
                                     <!--Family Members-->
-                                    <div class='panel panel-default family-members-container' id='familyPanel'>
+                                    <div class='panel panel-default family-members-container electricity-content' id='familyPanel'>
                                         <div class='panel-heading' role='tab' id='headingOne'>
                                             <h4 class='panel-title'>
                                                 <a role='button' data-toggle='collapse' data-parent='#accordion' href='#collapseOne' aria-expanded='true' aria-controls='collapseOne'>
@@ -728,7 +728,7 @@ class AnbCompareEnergy extends AnbCompare
                                     </div>
                                     
                                     <!-- Double meter -->
-                                    <div class='panel panel-default family-members-container' id='doubleMeterPanel'>
+                                    <div class='panel panel-default family-members-container electricity-content' id='doubleMeterPanel'>
                                         <div class='panel-heading' role='tab' id='headingTwo'>
                                             <h4 class='panel-title'>
                                                 <a class='collapsed' role='button' data-toggle='collapse' data-parent='#accordion' href='#collapseTwo' aria-expanded='false' aria-controls='collapseTwo'>
@@ -796,7 +796,7 @@ class AnbCompareEnergy extends AnbCompare
                                     </div>
                                     
                                     <!-- Electricity -->
-                                    <div class='panel panel-default family-members-container' id='electricityBlockPanel'>
+                                    <div class='panel panel-default family-members-container electricity-content' id='electricityBlockPanel'>
                                         <div class='panel-heading' role='tab' id='headingThree'>
                                             <h4 class='panel-title'>
                                                 <a class='collapsed' role='button' data-toggle='collapse' data-parent='#accordion' href='#collapseThree' aria-expanded='false' aria-controls='collapseThree'>
@@ -861,7 +861,7 @@ class AnbCompareEnergy extends AnbCompare
                                     </div>
                                     
                                     <!-- House -->
-                                    <div class='panel panel-default house-type-container' id='housePanel'>
+                                    <div class='panel panel-default house-type-container gas-content' id='housePanel'>
                                         <div class='panel-heading' role='tab' id='headingFour'>
                                             <h4 class='panel-title'>
                                                 <a class='collapsed' role='button' data-toggle='collapse' data-parent='#accordion' href='#collapseFour' aria-expanded='false' aria-controls='collapseFour'>
@@ -915,7 +915,7 @@ class AnbCompareEnergy extends AnbCompare
                                     </div>
 
                                     <!-- Gas -->
-                                    <div class='panel panel-default house-type-container' id='gasPanel'>
+                                    <div class='panel panel-default house-type-container gas-content' id='gasPanel'>
                                         <div class='panel-heading' role='tab' id='headingFive'>
                                             <h4 class='panel-title'>
                                                 <a class='collapsed' role='button' data-toggle='collapse' data-parent='#accordion' href='#collapseFive' aria-expanded='false' aria-controls='collapseFive'>
@@ -979,7 +979,7 @@ class AnbCompareEnergy extends AnbCompare
                                     </div>
                                     
                                     <!-- Solar Energy -->
-                                    <div class='panel panel-default solar-panel-container' id='solarEnergyPanel'>
+                                    <div class='panel panel-default solar-panel-container electricity-content' id='solarEnergyPanel'>
                                         <div class='panel-heading' role='tab' id='headingSix'>
                                             <h4 class='panel-title'>
                                                 <a class='collapsed' role='button' data-toggle='collapse' data-parent='#accordion' href='#collapseSix' aria-expanded='false' aria-controls='collapseSix'>

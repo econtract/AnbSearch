@@ -119,6 +119,7 @@ jQuery(document).ready(function($){
         $('#selectCurrentPack').modal('hide');
         var lowestPrice = '';
         if($('#top-heading-compare-btn-value').val() == 1) {
+            $('#ajaxloadertop').removeClass('hide');
             $('#response-no-result-found-message').hide();
             var serverAction = 'compareTopResults';
             var lowestPrice = $('#top-heading-compare-lowest-price').val();
@@ -143,22 +144,21 @@ jQuery(document).ready(function($){
         $('#crntPackSelectionSection .offer').append('<div class="ajaxIconWrapper"><div class="ajaxIcon"><img src="' + compare_between_results_object.template_uri + '/images/common/icons/ajaxloader.png" alt="Loading..."></div></div>');
         jQuery.get(compare_between_results_object.site_url + '/api/' + urlParams + '&load=CompareEnergy', data, function (response) {
             if($('#top-heading-compare-btn-value').val() == 1){
+                $('#ajaxloadertop').addClass('hide');
                 $('#top-heading-compare-btn-value').val('0');
                 if (response == 'no results found') {
                     $('#response-no-result-found-message').show();
                 } else {
-                    $('#searchEnergyDealsPopup').modal('show');
+                    /*$('#searchEnergyDealsPopup').modal('show');
                     var urldata = window.location.href+'&cmp_pid='+currentPack[1];
                     window.location = urldata;
-                    return false;
-                    /*
+                    return false;*/
                     var resData = response.split('****');
                     $('#default-heading-section').hide();
                     $('#comparison-product-title').html(resData[0]);
                     $('#comparison-result-price').html(resData[1]);
                     $('#breakDownPopup').html(resData[2]);
                     $('#comparison-heading-section').show();
-                    */
                 }
             } else {
                 if (response == 'no results found') {

@@ -959,7 +959,7 @@ class AnbCompareEnergy extends AnbCompare
                                                                         <span>kWh</span>
                                                                     </label>
                                                                     <label>
-                                                                        <input type='radio' name='ut' value='m3' ".(($values['ut'] == 'm3' || empty($values['ut'])) ? "checked='checked'" : '')." />
+                                                                        <input type='radio' name='ut' value='m3' ".(($values['ut'] == 'm3' || (empty($values['ut']) && ($values['cat'] == 'gas' || $values['cat'] == 'dualfuel_pack'))) ? "checked='checked'" : '')." />
                                                                         <span>m3</span>
                                                                     </label>
                                                                 </div>

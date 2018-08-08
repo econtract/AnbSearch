@@ -898,7 +898,7 @@ class AnbCompareEnergy extends AnbCompare
                                                     </div>
                                                     
                                                     
-                                                     <div class='block-desc'>".pll__('This is the average consumption of family of 4 with this house charcteristics is 4500 kWh and 1700 m3 gas a year.')."</div>                                                 
+                                                
                                                     
                                                     <div class='buttonWrapper text-left'>
                                                         <button type='button' class='btn btn-primary'>".pll__('Ok')."</button>
@@ -971,7 +971,6 @@ class AnbCompareEnergy extends AnbCompare
                                                         </div>
                                                     </div>
 
-                                                    <div class='block-desc'>".pll__('This is the average consumption of family of 4, 4500 kWh and 1700 m3 gas year')."</div>
                                                     
                                                     <div class='buttonWrapper text-left'>
                                                         <button type='button' class='btn btn-primary'>".pll__('Ok')."</button>

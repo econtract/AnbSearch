@@ -501,7 +501,7 @@ class AnbCompareEnergy extends AnbCompare
                                                                 <input name='cat' id='dualfuel_pack_service_wiz' checked='checked' type='radio' value='dualfuel_pack' " . (($values['cat'] == 'dualfuel_pack' || empty($values['cat'])) ? 'checked="checked"' : '') . ">
                                                                 <label for='dualfuel_pack_service_wiz' class='service-dual-fuel'>
                                                                     <i></i>
-                                                                    <span class='service-label'>".pll__('Dualfuel Pack')."</span>
+                                                                    <span class='service-label'>".pll__('Dual fuel Pack')."</span>
                                                                     <span class='check-box'></span>
                                                                 </label>
                                                             </li>

@@ -555,7 +555,7 @@ class AnbCompareEnergy extends AnbCompare
                                             <div class='panel-body text-center'>
                                                 <div class='singleFormWrapper'>
                                                     <div class='row'>
-                                                        <div class='col-md-3 p-r-0 col-sm-3 col-xs-12 p-t-12'><label for='installation_area' class='control-label p-l-0'>" . pll__('Installation area') . "</label></div>
+                                                        <div class='col-md-3 p-r-0 col-sm-3 col-xs-12 p-t-12 width-auto'><label for='installation_area' class='control-label p-l-0'>" . pll__('Installation area') . "</label></div>
                                                         <div class='col-md-7 col-sm7 col-xs-12'>
                                                             <div class='form-group has-feedback p-l-0'>
                                                                 <div class=''>
@@ -656,11 +656,14 @@ class AnbCompareEnergy extends AnbCompare
                                             </h4>
                                         </div>
                                         <div id='collapseOne' class='panel-collapse collapse' role='tabpanel' aria-labelledby='headingOne'  data-wizard-panel='familyMembers'>
-                                            <div class='panel-body text-center'>
+                                            <div class='panel-body'>
                                     
                                                 <div class='totalPersonWizard'>
                                                     <div class='compPanel withStaticToolTip'>
                                                         <div class='selectionPanel clearfix energy-family'>
+                                                            <div class='form-group'>
+                                                                <label class='block bold-600'>". pll__('How many family members?') ."</label>
+                                                            </div>
                                                             <fieldset class='person-sel gray fancyComp'>
                                                                 <input type='radio' id='person6' name='f' value='6' 
                                                                 " . (("6" == $values['f']) ? 'checked="checked"' : '') . "/>
@@ -878,7 +881,7 @@ class AnbCompareEnergy extends AnbCompare
                                             </h4>
                                         </div>
                                         <div id='collapseFour' class='panel-collapse collapse' role='tabpanel' aria-labelledby='headingFour'  data-wizard-panel='house'>
-                                            <div class='panel-body text-center'>
+                                            <div class='panel-body'>
                                                 <div class='counterPanel'>
                                                     <div class='form-group text-left'>
                                                         <label class='block bold-600 text-left'>" . pll__('What type of house?') . "</label>
@@ -894,7 +897,8 @@ class AnbCompareEnergy extends AnbCompare
 				                                        </div -->
                                                     </div>
                                                     
-                                                    <!-- p class='color-red underline text-left'>".pll__('Tell us more for a accurate estimation')."</p -->                                                 
+                                                    
+                                                     <div class='block-desc'>".pll__('This is the average consumption of family of 4 with this house charcteristics is 4500 kWh and 1700 m3 gas a year.')."</div>                                                 
                                                     
                                                     <div class='buttonWrapper text-left'>
                                                         <button type='button' class='btn btn-primary'>".pll__('Ok')."</button>
@@ -932,7 +936,7 @@ class AnbCompareEnergy extends AnbCompare
                                             </h4>
                                         </div>
                                         <div id='collapseFive' class='panel-collapse collapse' role='tabpanel' aria-labelledby='headingFive'  data-wizard-panel='gas'>
-                                            <div class='panel-body text-center'>
+                                            <div class='panel-body'>
                                                 <div class='counterPanel'>
                                                     <div class='form-group text-left'>
                                                         <div class='check fancyCheck'>
@@ -968,7 +972,7 @@ class AnbCompareEnergy extends AnbCompare
                                                     </div>
 
                                                     <div class='block-desc'>".pll__('This is the average consumption of family of 4, 4500 kWh and 1700 m3 gas year')."</div>
-                                                    <p class='color-red text-left'>" . pll__('More accurate estimation? Tell us more about your house') . "</p>
+                                                    
                                                     <div class='buttonWrapper text-left'>
                                                         <button type='button' class='btn btn-primary'>".pll__('Ok')."</button>
                                                     </div>

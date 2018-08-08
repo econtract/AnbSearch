@@ -199,27 +199,27 @@ class AnbCompareEnergy extends AnbCompare
                                     <div class='family-members'>
                                         <fieldset class='person-sel-sm'>
 
-                                            <input type='radio' id='person6' name='f' value='6' usage-val='".KWH_5_PLUS_PERSON."' usage-val-night='".KWH_5_PLUS_PERSON_NIGHT."' ". (($values['f'] === '6') ? 'checked="checked"' : '') .">
+                                            <input type='radio' id='person6' name='f' value='6' usage-val='".KWH_5_PLUS_PERSON."' usage-val-night='".KWH_5_PLUS_PERSON_NIGHT."' usage-night-ex='".KWH_5_PLUS_PERSON_NIGHT_EX."' ". (($values['f'] === '6') ? 'checked="checked"' : '') .">
                                             <label class='full' for='person6' title='6 ".pll__('persons')."'>
                                                 <span class='person-value'>5+</span>
                                             </label>
 
-                                            <input type='radio' id='person5' name='f' value='5' usage-val='".KWH_5_PERSON."' usage-val-night='".KWH_5_PERSON_NIGHT."' ". (($values['f'] === '5') ? 'checked="checked"' : '') .">
+                                            <input type='radio' id='person5' name='f' value='5' usage-val='".KWH_5_PERSON."' usage-val-night='".KWH_5_PERSON_NIGHT."' usage-night-ex='".KWH_5_PERSON_NIGHT_EX."' ". (($values['f'] === '5') ? 'checked="checked"' : '') .">
                                             <label class='full' for='person5' title='5 ".pll__('persons')."'></label>
 
-                                            <input type='radio' id='person4' name='f' value='4' usage-val='".KWH_4_PERSON."' usage-val-night='".KWH_4_PERSON_NIGHT."' ". (($values['f'] === '4') ? 'checked="checked"' : '') .">
+                                            <input type='radio' id='person4' name='f' value='4' usage-val='".KWH_4_PERSON."' usage-val-night='".KWH_4_PERSON_NIGHT."' usage-night-ex='".KWH_4_PERSON_NIGHT_EX."' ". (($values['f'] === '4') ? 'checked="checked"' : '') .">
                                             <label class='full' for='person4' title='4 ".pll__('persons')."'></label>
 
 
-                                            <input type='radio' id='person3' name='f' value='3' usage-val='".KWH_3_PERSON."' usage-val-night='".KWH_3_PERSON_NIGHT."' ". (($values['f'] === '3') ? 'checked="checked"' : '') .">
+                                            <input type='radio' id='person3' name='f' value='3' usage-val='".KWH_3_PERSON."' usage-val-night='".KWH_3_PERSON_NIGHT."' usage-night-ex='".KWH_3_PERSON_NIGHT_EX."' ". (($values['f'] === '3') ? 'checked="checked"' : '') .">
                                             <label class='full' for='person3' title='3 ".pll__('persons')."'></label>
 
 
-                                            <input type='radio' id='person2' name='f' value='2' usage-val='".KWH_2_PERSON."' usage-val-night='".KWH_2_PERSON_NIGHT."' ". (($values['f'] === '2') ? 'checked="checked"' : '') .">
+                                            <input type='radio' id='person2' name='f' value='2' usage-val='".KWH_2_PERSON."' usage-val-night='".KWH_2_PERSON_NIGHT."' usage-night-ex='".KWH_2_PERSON_NIGHT_EX."' ". (($values['f'] === '2') ? 'checked="checked"' : '') .">
                                             <label class='full' for='person2' title='2 ".pll__('persons')."'></label>
 
 
-                                            <input type='radio' id='person1' name='f' value='1' usage-val='".KWH_1_PERSON."' usage-val-night='".KWH_1_PERSON_NIGHT."' ". (($values['f'] === '1') ? 'checked="checked"' : '') .">
+                                            <input type='radio' id='person1' name='f' value='1' usage-val='".KWH_1_PERSON."' usage-val-night='".KWH_1_PERSON_NIGHT."' usage-night-ex='".KWH_1_PERSON_NIGHT_EX."' ". (($values['f'] === '1') ? 'checked="checked"' : '') .">
                                             <label class='full' for='person1' title='1 ".pll__('persons')."'></label>
                                             <div class='clearfix'></div>
                                         </fieldset>
@@ -237,14 +237,14 @@ class AnbCompareEnergy extends AnbCompare
                                                 </div>
                                                 <div class='night-energy'>
                                                     <i></i>
-                                                    <input type='text' disabled='disabled' name='nou' value='". (($values['nou']) ?: '') ."'/>
+                                                    <input type='text' disabled='disabled' name='nu' value='". (($values['nu']) ?: '') ."'/>
                                                     <label>kwh</label>
                                                 </div>
                                             </div>
                                             <div class='field exclusive-meter-field hide'>
                                                 <div class='night-energy'>
                                                     <i></i>
-                                                    <input type='text' disabled='disabled' name='' value=''/>
+                                                    <input type='text' disabled='disabled' name='nou' value='". (($values['nou']) ?: '') ."'/>
                                                     <label>kwh</label>
                                                 </div>
                                             </div>
@@ -555,7 +555,7 @@ class AnbCompareEnergy extends AnbCompare
                                             <div class='panel-body text-center'>
                                                 <div class='singleFormWrapper'>
                                                     <div class='row'>
-                                                        <div class='col-md-3 p-r-0 col-sm-3 col-xs-12'><label for='installation_area' class='control-label p-l-0'>" . pll__('Installation area') . "</label></div>
+                                                        <div class='col-md-3 p-r-0 col-sm-3 col-xs-12 p-t-12'><label for='installation_area' class='control-label p-l-0'>" . pll__('Installation area') . "</label></div>
                                                         <div class='col-md-7 col-sm7 col-xs-12'>
                                                             <div class='form-group has-feedback p-l-0'>
                                                                 <div class=''>
@@ -828,7 +828,7 @@ class AnbCompareEnergy extends AnbCompare
                                                     <div class='row ".((empty($values['du']) || (!empty($values['consumption_electricity'] && $values['consumption_electricity'] != '1'))) ? "hide" : '')."' id='consumption_electricity_content'>
                                                         <div class='col-md-5 col-sm-5 col-xs-12 form-group'>
                                                             <label class='block bold-600 text-left'>" . pll__('Day consumption') . "</label>
-                                                            <div class='day-consumption'>
+                                                            <div class='day-consumption day-consumption-grey' id='doubleMeterConsumption_grey'>
                                                                 <input type='text' name='du' value='".(($values['du']) ?: '')."' />
                                                             </div>
                                                         </div>

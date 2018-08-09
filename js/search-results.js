@@ -163,17 +163,15 @@ function adjustPersonalSettingScenarios() {
     }
 }
 
-function showWaitingSearchPopup(callingObj, popupId = '', redirect = false, dontUseCallingObj = false) {
+function showWaitingSearchPopup(callingObj, popupId = '', redirect = false, dontUseCallingObj = false, callback = null, redirectIfModalIsShown = false) {
     var _self = callingObj;
 
     if(dontUseCallingObj === true) {
         _self = jQuery(this);
     }
-
     var openModal = _self.parents('.modal.in');
     if(_.isEmpty(popupId)) {
         popupId = openModal.attr('id');
-
         var sector = _self.find('#sector').val() || jQuery('#sector').val();
         if(!_.isEmpty(sector)) {
             if(sector == 'energy') {
@@ -185,21 +183,44 @@ function showWaitingSearchPopup(callingObj, popupId = '', redirect = false, dont
             }
         }
     }
-
     if(openModal.length){
         openPopup = true;
-
         jQuery('#'+popupId).modal('hide');
     } else {
+
         jQuery('#'+popupId).modal('show');
     }
 
     //window.location = wizardProfileFormSubmitRedirect();
     redirectParam = prependQueryStringQuestionMark(wizardProfileFormSubmitRedirect());
-
     if(redirect === true) {
-        window.location = redirectParam;
+        if(redirectIfModalIsShown === true) {//in any case show the waiting modal
+            if($('#'+popupId).hasClass('in')) {
+                window.location = redirectParam;
+            } else {
+                jQuery('#'+popupId).modal('show');
+                window.location = redirectParam;
+            }
+        } else {
+            window.location = redirectParam;
+        }
     }
+    
+    if(callback !== null) {
+        callback();
+    }
+}
+
+function waitingCallback() {
+    var $ = jQuery();
+    $('#wizard_popup_pref_cs').html('');//remove all pref_cs from wizard popup as at this moment they are passed from search navigation
+    var redirectUrl = getRedirectUrl() + '&searchSubmit=';
+    var sortBy = $('#sortResults').val();
+    if(typeof sortBy != "undefined") {
+        redirectUrl += '&sort='+sortBy+'&searchSubmit=';
+    }
+    redirectUrl = prependQueryStringQuestionMark(removeDuplicatesFromUri(redirectUrl));
+    window.location = redirectUrl;
 }
 
 jQuery(document).ready(function($){
@@ -230,7 +251,7 @@ jQuery(document).ready(function($){
     //Search results wizard your profile popup
     $('#yourProfileWizardForm').on('submit', function(e){
         e.preventDefault();
-        showWaitingSearchPopup($(this), '', true, true);
+        showWaitingSearchPopup($(this), '', true, true, null, true);
     });
 
     //sort feature
@@ -246,16 +267,7 @@ jQuery(document).ready(function($){
         e.preventDefault();
         var _self = $(this);
 
-        showWaitingSearchPopup($(this));
-
-        $('#wizard_popup_pref_cs').html('');//remove all pref_cs from wizard popup as at this moment they are passed from search navigation
-        var redirectUrl = getRedirectUrl() + '&searchSubmit=';
-        var sortBy = $('#sortResults').val();
-        if(typeof sortBy != "undefined") {
-            redirectUrl += '&sort='+sortBy+'&searchSubmit=';
-        }
-        redirectUrl = prependQueryStringQuestionMark(removeDuplicatesFromUri(redirectUrl));
-        window.location = redirectUrl;
+        showWaitingSearchPopup($(this), '', false, false, waitingCallback);
     });
 
     $("#calcPbsModal").on("show.bs.modal", function(e) {

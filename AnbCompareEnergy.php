@@ -552,7 +552,7 @@ class AnbCompareEnergy extends AnbCompare
                                             </h4>
                                         </div>
                                         <div id='installationPanel' class='panel-collapse collapse' role='tabpanel' aria-labelledby='headingOne'  data-wizard-panel='location'>
-                                            <div class='panel-body text-center'>
+                                            <div class='panel-body'>
                                                 <div class='singleFormWrapper'>
                                                     <div class='row'>
                                                         <div class='col-md-3 p-r-0 col-sm-3 col-xs-12 p-t-12 width-auto'><label for='installation_area' class='control-label p-l-0'>" . pll__('Installation area') . "</label></div>
@@ -1036,7 +1036,8 @@ class AnbCompareEnergy extends AnbCompare
                                                         </div>
                                                     </div>
 
-                                                    
+                                                    <div class='block-desc'>".pll__('This is the average consumption of family of 4, 4500 kWh and 1700 m3 gas year')."</div>
+                                                    <p class='red-link m-b-20' id='houseMoreDetailBellow'>" . pll__('More accurate estimation? Tell us more about your house') . "</p>
                                                     <div class='buttonWrapper text-left'>
                                                         <button type='button' class='btn btn-primary'>".pll__('Ok')."</button>
                                                     </div>

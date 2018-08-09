@@ -59,7 +59,7 @@ class AnbCompare extends Base
         wp_localize_script('search-compare-script', 'search_compare_obj',
             array('ajax_url' => admin_url('admin-ajax.php'), 'zipcode_api' => ZIPCODE_API, 'template_uri' => get_template_directory_uri()));
 
-        wp_enqueue_script('compare-between-results-script', plugins_url('/js/compare-results.js', __FILE__), array('jquery'), '1.1.5', true);
+        wp_enqueue_script('compare-between-results-script', plugins_url('/js/compare-results.js', __FILE__), array('jquery'), '1.1.6', true);
 
         // in JavaScript, object properties are accessed as ajax_object.ajax_url, ajax_object.we_value
         wp_localize_script('compare-between-results-script', 'compare_between_results_object',
@@ -154,7 +154,9 @@ class AnbCompare extends Base
             'ms_fixed' => '',
             'ms_mobile' => '',
             'pref_pids' => [],
-            'searchSubmit' => '' // conditional param ( this param doesn't belong to API Params)
+            'searchSubmit' => '', // conditional param ( this param doesn't belong to API Params)
+	        'cmp_pid' => '',
+	        'cmp_sid' => ''
         ), $atts, 'anb_search');
        // print_r($atts);die;
 

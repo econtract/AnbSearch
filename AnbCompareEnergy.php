@@ -33,7 +33,7 @@ class AnbCompareEnergy extends AnbCompare
     function enqueueScripts()
     {
 	    wp_enqueue_script('search-results-energy', plugins_url('/js/search-results-energy.js', __FILE__), array('jquery'), '1.0.1', true);
-	    wp_enqueue_script('compare-results-energy', plugins_url('/js/compare-results-energy.js', __FILE__), array('jquery'), '1.0.2', true);
+	    wp_enqueue_script('compare-results-energy', plugins_url('/js/compare-results-energy.js', __FILE__), array('jquery'), '1.0.3', true);
 	    wp_localize_script('compare-results-energy', 'compare_between_results_object',
 		    array(
 			    'ajax_url' => admin_url('admin-ajax.php'),
@@ -1135,7 +1135,7 @@ class AnbCompareEnergy extends AnbCompare
                                                             <div class='custom-select'>
                                                                 <select class='currentSupplier' id='currentProviderEnergy' name='supplier'>
 							                                        <option value=''>".pll__('Select your provider')."</option>
-							                                        ".supplierForDropDown($values['supplier'], ['cat' => 'dualfuel_pack, electricity, gas'])."
+							                                        ".supplierForDropDown(($values['supplier']) ?: $values['cmp_sid'], ['cat' => 'dualfuel_pack, electricity, gas'])."
 							                                    </select>
                                                             </div>
                                                         </div>
@@ -1251,5 +1251,118 @@ class AnbCompareEnergy extends AnbCompare
             return $html;
         }
     }
-}
 
+	/**
+	 * This code was written by danish in anb-search-result-energy.php and Imran moved it here,
+	 * the code is going to remain same the only difference will be that it'll work based on parameters
+	 * @param $firstProduct
+	 * @param $secondProduct
+	 *
+	 * @return array|[productData, labels]
+	 */
+    function getCompareOverviewData($firstProduct, $secondProduct) {
+	    $comparePopUpData['lowest'] = json_decode( json_encode( $firstProduct ), true);
+	    $comparePopUpData['highest'] = json_decode( json_encode( $secondProduct ), true);
+
+	    /*echo "<pre>***";
+	    print_r($comparePopUpData);
+	    echo "</pre>";*/
+
+	    $cid = 0;
+	    $logosPlaced = 0;
+	    $productsData = [];
+	    $labels = [];
+	    foreach ($comparePopUpData as $key => $pdata){
+		    if( ($pdata['product']['producttype'] == 'dualfuel_pack' || $pdata['product']['producttype'] == 'electricity') ){
+			    $productsData['products'][$cid]['logo'] = $pdata['product']['supplier']['logo']['200x140']['transparent']['color'];
+			    $productsData['products'][$cid]['title'] = $pdata['product']['product_name'];
+			    $productsData['products'][$cid]['total_yearly'] = formatPrice($pdata['pricing']['yearly']['promo_price'], 2, '&euro; ');
+			    $logosPlaced = 1;
+
+			    $pbsData = $pdata['product']['electricity']['pricing']['yearly']['price_breakdown_structure'];
+			    $labels['electricity']['main'] = pll__('electricity');
+			    $labels['electricity']['total'] = pll__('Total annual electricity costs (incl.BTW)');
+			    $labels['electricity']['sub_total_yearly'][$cid] = formatPrice($pdata['product']['electricity']['pricing']['yearly']['promo_price'], 2, '&euro; ');
+
+			    $totalPriceEl = $pdata['product']['electricity']['pricing']['yearly']['promo_price'];
+			    $permonthEl = $pdata['product']['electricity']['pricing']['monthly']['promo_price'];
+			    $totalAdvantageEl = $pdata['product']['electricity']['pricing']['yearly']['price'] - $pdata['product']['electricity']['pricing']['yearly']['promo_price'];
+
+			    $sh = 0;
+			    foreach($pbsData as $thisKey => $priceSection){
+				    $sectionlabel = str_replace(' ','_', strip_tags($priceSection['label']));
+				    if($priceSection['pbs_total']) {
+					    $labels['electricity']['data'][$sectionlabel]['total'][$cid] = $priceSection['pbs_total'];
+				    }
+				    $labels['electricity']['data'][$sectionlabel]['label'] = $priceSection['label'];
+				    $hh = 0;
+				    foreach ($priceSection['pbs_lines'] as $pbkey => $pbdata){
+					    $label_key = str_replace(' ','_', strip_tags($pbdata['label']));
+					    $labels['electricity']['data'][$sectionlabel]['data'][$label_key] = $pbdata['label'];
+					    $labels['electricity']['data'][$sectionlabel]['products'][$cid][$hh]['label'] = $pbdata['label'];
+					    $labels['electricity']['data'][$sectionlabel]['products'][$cid][$hh]['multiplicand'] = $pbdata['multiplicand']['value'];
+					    $labels['electricity']['data'][$sectionlabel]['products'][$cid][$hh]['multiplier'] = $pbdata['multiplier']['value'].' '.$pbdata['multiplier']['unit'];
+					    $labels['electricity']['data'][$sectionlabel]['products'][$cid][$hh]['product'] = $pbdata['product']['value'].' '.$pbdata['product']['unit'];
+					    $hh++;
+				    }
+				    $sh++;
+			    }
+		    }
+
+		    if( ($pdata['product']['producttype'] == 'dualfuel_pack' || $pdata['product']['producttype'] == 'gas') ){
+			    $pbsData = $pdata['product']['gas']['pricing']['yearly']['price_breakdown_structure'];
+			    $labels['gas']['main'] = pll__('gas');
+			    $labels['gas']['total'] = pll__('Total annual gas costs (incl.BTW)');
+			    $labels['gas']['sub_total_yearly'][$cid] = formatPrice($pdata['product']['gas']['pricing']['yearly']['promo_price'], 2, '&euro; ');
+			    if($logosPlaced == 0) {
+				    $productsData['products'][$cid]['logo'] = $pdata['product']['supplier']['logo']['200x140']['transparent']['color'];
+				    $productsData['products'][$cid]['title'] = $pdata['product']['product_name'];
+				    $productsData['products'][$cid]['total_yearly'] = formatPrice($pdata['pricing']['yearly']['promo_price'], 2, '&euro; ');
+			    }
+
+			    $totalPriceGas = $pdata['product']['gas']['pricing']['yearly']['promo_price'];
+			    $permonthGas = $pdata['product']['gas']['pricing']['monthly']['promo_price'];
+			    $totalAdvantageGas = $pdata['product']['gas']['pricing']['yearly']['price'] - $pdata['product']['gas']['pricing']['yearly']['promo_price'];
+
+			    $sh = 0;
+			    $logosPlaced = 1;
+			    foreach($pbsData as $thisKey => $priceSection){
+				    $sectionlabel = str_replace(' ','_', strip_tags($priceSection['label']));
+				    if($priceSection['pbs_total']) {
+					    $labels['gas']['data'][$sectionlabel]['total'][$cid] = $priceSection['pbs_total'];
+				    }
+				    $labels['gas']['data'][$sectionlabel]['label'] = $priceSection['label'];
+				    $hh = 0;
+				    foreach ($priceSection['pbs_lines'] as $pbkey => $pbdata){
+					    $label_key = str_replace(' ','_', strip_tags($pbdata['label']));
+					    $labels['gas']['data'][$sectionlabel]['data'][$label_key] = $pbdata['label'];
+					    $labels['gas']['data'][$sectionlabel]['products'][$cid][$hh]['label'] = $pbdata['label'];
+					    $labels['gas']['data'][$sectionlabel]['products'][$cid][$hh]['multiplicand'] = $pbdata['multiplicand']['value'];
+					    $labels['gas']['data'][$sectionlabel]['products'][$cid][$hh]['multiplier'] = $pbdata['multiplier']['value'].' '.$pbdata['multiplier']['unit'];
+					    $labels['gas']['data'][$sectionlabel]['products'][$cid][$hh]['product'] = $pbdata['product']['value'].' '.$pbdata['product']['unit'];
+					    $hh++;
+				    }
+				    $sh++;
+			    }
+		    }
+
+		    $totalPrice = $totalPriceEl + $totalPriceGas;
+		    $totalMonthly = $permonthEl + $permonthGas;
+		    $totalAdvantage = $totalAdvantageEl + $totalAdvantageGas;
+		    //$totalAdvantage = formatPrice($pdata['pricing']['yearly']['price'] - $pdata['pricing']['yearly']['promo_price'], 2, '&euro; ');
+		    $labels['totalfinal']['main'] = pll__('total electricity and gas');
+		    $labels['totalfinal']['total'] = pll__('Total annualcosts (incl.BTW)');
+		    $labels['totalfinal']['data']['costpermonth']['label'] = pll__('Cost/month (incl.BTW)');
+		    $labels['totalfinal']['data']['advoneyear']['label'] = pll__('Total advantage 1st year');
+		    $labels['totalfinal']['data']['costpermonth']['total'][$cid] = formatPrice($totalMonthly, 2, '&euro; ');
+		    $labels['totalfinal']['data']['advoneyear']['total'][$cid] = formatPrice($totalAdvantage, 2, '&euro; ');
+		    $labels['totalfinal']['sub_total_yearly'][$cid] = formatPrice($totalPrice, 2, '&euro; ');
+
+		    $labels['vetsavings']['main'] = pll__('Estimated savings');
+		    $labels['vetsavings']['estotal'][$cid] = formatPrice($totalAdvantage, 2, '&euro; ');
+		    $cid++;
+	    }
+
+	    return [$productsData, $labels];
+    }
+}

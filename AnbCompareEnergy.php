@@ -501,7 +501,7 @@ class AnbCompareEnergy extends AnbCompare
                                                                 <input name='cat' id='dualfuel_pack_service_wiz' checked='checked' type='radio' value='dualfuel_pack' " . (($values['cat'] == 'dualfuel_pack' || empty($values['cat'])) ? 'checked="checked"' : '') . ">
                                                                 <label for='dualfuel_pack_service_wiz' class='service-dual-fuel'>
                                                                     <i></i>
-                                                                    <span class='service-label'>".pll__('Dualfuel Pack')."</span>
+                                                                    <span class='service-label'>".pll__('Dual fuel Pack')."</span>
                                                                     <span class='check-box'></span>
                                                                 </label>
                                                             </li>
@@ -552,7 +552,7 @@ class AnbCompareEnergy extends AnbCompare
                                             </h4>
                                         </div>
                                         <div id='installationPanel' class='panel-collapse collapse' role='tabpanel' aria-labelledby='headingOne'  data-wizard-panel='location'>
-                                            <div class='panel-body text-center'>
+                                            <div class='panel-body'>
                                                 <div class='singleFormWrapper'>
                                                     <div class='row'>
                                                         <div class='col-md-3 p-r-0 col-sm-3 col-xs-12 p-t-12 width-auto'><label for='installation_area' class='control-label p-l-0'>" . pll__('Installation area') . "</label></div>
@@ -897,7 +897,72 @@ class AnbCompareEnergy extends AnbCompare
 				                                        </div -->
                                                     </div>
                                                     
+                                                    <p class='red-link m-b-20' id='houseMoreDetail'>".pll__('Tell us more for a accurate estimation')."</p>
+                                                    <div class='text-left p-t-10 p-b-20 hide' id='houseMoreDetailContent'>
+                                                        <div class='row'>
+                                                            <div class='col-md-10'>
+                                                                <div class='form-group'>
+                                                                    <label class='text-left bold-600 '>".pll__('Is your roof isolated?')."</label>
+                                                                    <div class='custom-select'>
+                                                                        <select disabled='disabled'>
+                                                                            <option value=''>".pll__('Yes')."</option>
+                                                                            <option value=''>".pll__('No')."</option>
+                                                                            <option value=''>".pll__('I dont know')."</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
                                                     
+                                                                <div class='form-group'>
+                                                                    <label class='text-left bold-600 '>".pll__('Are your walls isolated?')."</label>
+                                                                    <div class='custom-select'>
+                                                                        <select disabled='disabled'>
+                                                                            <option value=''>".pll__('Yes')."</option>
+                                                                            <option value=''>".pll__('No')."</option>
+                                                                            <option value=''>".pll__('I dont know')."</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                    
+                                                                <div class='form-group'>
+                                                                    <label class='text-left bold-600 '>".pll__('What type of windows do you have?')."</label>
+                                                                    <div class='custom-select'>
+                                                                        <select disabled='disabled'>
+                                                                            <option value=''>".pll__('Single glass')."</option>
+                                                                            <option value=''>".pll__('Double glass')."</option>
+                                                                            <option value=''>".pll__('I dont know')."</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                    
+                                                                <div class='form-group'>
+                                                                    <label class='text-left bold-600 '>".pll__('How old is your boiler?')."</label>
+                                                                    <div class='custom-select'>
+                                                                        <select disabled='disabled'>
+                                                                            <option value=''>".pll__('I dont have one')."</option>
+                                                                            <option value=''>".pll__('Younger then 10 years')."</option>
+                                                                            <option value=''>".pll__('Older then 10 years')."</option>
+                                                                            <option value=''>".pll__('I dont know')."</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                    
+                                                                <div class='form-group'>
+                                                                    <label class='text-left bold-600 '>".pll__('What about your CV ketel?')."</label>
+                                                                    <div class='custom-select'>
+                                                                        <select disabled='disabled'>
+                                                                            <option value=''>".pll__('I dont have one')."</option>
+                                                                            <option value=''>".pll__('Younger then 10 years')."</option>
+                                                                            <option value=''>".pll__('Older then 10 years')."</option>
+                                                                            <option value=''>".pll__('I dont know')."</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <a class='show-less-link' id='houseLessDetail'>".pll__('')."Show less</a>
+                                                    </div>
+                                                    
+                                                    <div class='block-desc'>".pll__('This is the average consumption of family of 4 with this house charcteristics is 4500 kWh and 1700 m3 gas a year.')."</div>
                                                 
                                                     
                                                     <div class='buttonWrapper text-left'>
@@ -971,7 +1036,8 @@ class AnbCompareEnergy extends AnbCompare
                                                         </div>
                                                     </div>
 
-                                                    
+                                                    <div class='block-desc'>".pll__('This is the average consumption of family of 4, 4500 kWh and 1700 m3 gas year')."</div>
+                                                    <p class='red-link m-b-20' id='houseMoreDetailBellow'>" . pll__('More accurate estimation? Tell us more about your house') . "</p>
                                                     <div class='buttonWrapper text-left'>
                                                         <button type='button' class='btn btn-primary'>".pll__('Ok')."</button>
                                                     </div>

@@ -261,7 +261,7 @@ class AnbCompareEnergy extends AnbCompare
                                         </div>
                                         
                                         <div class='check fancyCheck'>
-                                            <input type='checkbox' name='exc_night_meter' id='exclusiveMeter' class='radio-salutation' value='1'>
+                                            <input type='checkbox' name='exc_night_meter' id='exclusiveMeter' class='radio-salutation' value='1' ". (($values['exc_night_meter'] === '1') ? 'checked="checked"' : '') .">
                                             <label for='exclusiveMeter'>
                                                 <i class='fa fa-circle-o unchecked'></i>
                                                 <i class='fa fa-check-circle checked'></i>

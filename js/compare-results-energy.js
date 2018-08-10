@@ -1,6 +1,6 @@
 
 jQuery(document).ready(function($){
-    function getPacksEnergy(currentObj) {
+    function getPacksEnergy(currentObj, providerDropdownId = 'currentPackEnergy') {
         var data = {
             'action'   : 'productsCallback',
             'supplier' : currentObj.value,
@@ -8,7 +8,7 @@ jQuery(document).ready(function($){
             'brands_trans': compare_between_results_object.brands_trans
         };
 
-        var currentPack= $('#currentPackEnergy');
+        var currentPack= $('#'+providerDropdownId);
         var firstOption = '<option value="">'+compare_between_results_object.select_your_pack+"</option>";
 
         var urlParams = window.location.search
@@ -32,12 +32,24 @@ jQuery(document).ready(function($){
         getPacksEnergy(this);
     });
 
+    $('#currentProviderEnergyTop').on('change', function() {
+        getPacksEnergy(this, 'currentPackEnergyTop');
+    });
+
     $(document).ready(function() {
         var currentEnergyProvider = $('#currentProviderEnergy').val();
 
         if(!_.isEmpty(currentEnergyProvider)) {
             setTimeout(function() {
                 $('#currentProviderEnergy').trigger('change');
+            }, 50);
+        }
+
+        var currentEnergyProviderTop = $('#currentProviderEnergyTop').val();
+
+        if(!_.isEmpty(currentEnergyProviderTop)) {
+            setTimeout(function() {
+                $('#currentProviderEnergyTop').trigger('change');
             }, 50);
         }
 
@@ -63,7 +75,6 @@ jQuery(document).ready(function($){
 
     $('#compareEnergyPopupForm').on('submit', function(e) {
         e.preventDefault();
-        alert("ayaaa...");
         $('#messagenotfound').hide();
         var currentPack = $('#currentPack').val().split('|');
         $('#selectCurrentPack').modal('hide');

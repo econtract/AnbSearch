@@ -50,7 +50,7 @@ jQuery(document).ready(function($){
         }
     });
 
-    $('#compareEnergyPopupForm').on('submit', function(e) {
+    $('#compareEnergyPopupFormTop').on('submit', function(e) {
         e.preventDefault();
         $('#messagenotfound').hide();
         var currentPack = $('#currentPack').val().split('|');
@@ -59,7 +59,16 @@ jQuery(document).ready(function($){
         $('#cmp_sid').val($('#currentProvider').val());
         $('#cmp_pid').val(currentPack[1]);
         $('#searchFilterNav').trigger('submit');
-        /*var lowestPrice = '';
+    });
+
+    $('#compareEnergyPopupForm').on('submit', function(e) {
+        e.preventDefault();
+        alert("ayaaa...");
+        $('#messagenotfound').hide();
+        var currentPack = $('#currentPack').val().split('|');
+        $('#selectCurrentPack').modal('hide');
+
+        var lowestPrice = '';
         if($('#top-heading-compare-btn-value').val() == 1) {
             $('#ajaxloadertop').removeClass('hide');
             $('#response-no-result-found-message').hide();
@@ -69,6 +78,7 @@ jQuery(document).ready(function($){
         } else {
             var serverAction = 'compareBetweenResults';
         }
+
         var data = {
             'action': serverAction,
             'productTypes': currentPack[0],
@@ -115,7 +125,34 @@ jQuery(document).ready(function($){
                 }
             }
         });
-        return false;*/
+        return false;
+    });
+
+    $('#currentProviderEnergyTop').on('change', function() {
+        var data = {
+            'action'   : 'productsCallback',
+            'supplier' : this.value,
+            'telecom_trans': compare_between_results_object.telecom_trans,
+            'brands_trans': compare_between_results_object.brands_trans
+        };
+
+        var currentPack= $('#currentPackEnergyTop');
+        var firstOption = '<option value="">'+compare_between_results_object.select_your_pack+"</option>";
+
+        var urlParams = window.location.search
+        // We can also pass the url value separately from ajaxurl for front end AJAX implementations
+        currentPack.html('<option value="">Loading...</option>');
+
+        // We can also pass the url value separately from ajaxurl for front end AJAX implementations
+        jQuery.get(compare_between_results_object.site_url+'/api/' + urlParams+'&load=ajax', data, function(response) {
+
+            currentPack.html(firstOption +""+response);
+            currentPack
+                .siblings('.form-control-feedback')
+                .removeClass('glyphicon-ok glyphicon-remove');
+
+            currentPack.parents('form').validator('update');
+        });
     });
 });
 

@@ -53,7 +53,7 @@ class AnbCompare extends Base
      */
     function enqueueScripts()
     {
-        wp_enqueue_script('search-compare-script', plugins_url('/js/search-results.js', __FILE__), array('jquery'), '1.1.10', true);
+        wp_enqueue_script('search-compare-script', plugins_url('/js/search-results.js', __FILE__), array('jquery'), '1.2.0', true);
 
         // in JavaScript, object properties are accessed as ajax_object.ajax_url, ajax_object.we_value
         wp_localize_script('search-compare-script', 'search_compare_obj',
@@ -127,6 +127,7 @@ class AnbCompare extends Base
             'cm' => '',
             'f' => '',
 	        'du' => '',
+            'nu' => '',
             'nou' => '',
             'dndu' => '',
             'dnnu' => '',
@@ -136,6 +137,8 @@ class AnbCompare extends Base
             'has_solar' => '',
             'gp' => '',
             'l' => '',
+            'd' => '',
+            'situation' => '',
 
             'num_pc' => '',
             'num_tv' => '',
@@ -186,6 +189,11 @@ class AnbCompare extends Base
 	        	unset($params['pref_cs']);
 	        }
 
+	        if($params['cat'] == 'dualfuel_pack' || $params['cat'] == 'electricity' || $params['cat'] == 'gas'){
+	            $params['d'] = 1;
+	            $params['situation'] = 3;
+            }
+
             /**
              * custom check to allow values from wizard
              * wizard doesn't contain pack_type so these
@@ -220,11 +228,6 @@ class AnbCompare extends Base
             // in case of Max download limit set parameter to -1
             if (isset($params['dl']) && !empty($params['dl']) && $params['dl'] == INTERNET_DOWNLOAD_LIMIT) {
                 $params['dl'] = "-1";
-            }
-
-            if(isset($_GET['meter']) && $_GET['meter'] == 'double'){
-                if( !empty( $params['du'] ) ) { $params['dndu'] = $params['du']; }
-                if( !empty( $params['nou'] ) ) { $params['dnnu'] = $params['nou']; }
             }
 
             $this->cleanArrayData($params);

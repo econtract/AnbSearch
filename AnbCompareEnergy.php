@@ -183,8 +183,8 @@ class AnbCompareEnergy extends AnbCompare
                                         </label>
                                     </div>
                                 </div>
-                                <div class='form-group row'>
-                                        <div class='col-md-4 p-t-10'>
+                                <div class='form-group row flex-row-fix'>
+                                        <div class='col-md-4'>
                                             <label for='installation_area'>" . pll__('Installation area') . "</label>
                                         </div>
                                         <div class='col-md-8 p-l-0'>

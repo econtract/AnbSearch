@@ -288,7 +288,7 @@ class AnbCompareEnergy extends AnbCompare
                                         <div class='field'>
                                             <i></i>
                                             <input type='text' id='m3_u' name='u' value='". (($values['u']) ?: '') ."'/>
-                                            <input type='hidden' name='ut' value='m3'/>
+                                            <input type='hidden' name='ut' value='kwh'/>
                                             <label>m3</label>
                                         </div>
                                     </div>

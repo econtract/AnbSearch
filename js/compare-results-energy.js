@@ -65,10 +65,10 @@ jQuery(document).ready(function($){
     $('#compareEnergyPopupFormTop').on('submit', function(e) {
         e.preventDefault();
         $('#messagenotfound').hide();
-        var currentPack = $('#currentPack').val().split('|');
-        $('#selectCurrentPack').modal('hide');
+        var currentPack = $('#currentPackEnergyTop').val().split('|');
+        $('#selectCurrentPackTop').modal('hide');
 
-        $('#cmp_sid').val($('#currentProvider').val());
+        $('#cmp_sid').val($('#currentProviderEnergyTop').val());
         $('#cmp_pid').val(currentPack[1]);
         $('#searchFilterNav').trigger('submit');
     });

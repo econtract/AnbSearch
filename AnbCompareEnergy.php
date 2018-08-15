@@ -289,7 +289,7 @@ class AnbCompareEnergy extends AnbCompare
                                             <i></i>
                                             <input type='text' id='m3_u' name='u' value='". (($values['u']) ?: '') ."'/>
                                             <input type='hidden' name='ut' value='kwh'/>
-                                            <label>m3</label>
+                                            <label>kWh</label>
                                         </div>
                                     </div>
                                 </div>
@@ -1024,11 +1024,11 @@ class AnbCompareEnergy extends AnbCompare
                                                             <div class='col-md-5 col-sm-5 col-xs-6 form-group p-l-0'>
                                                                 <div class='box-radio'>
                                                                     <label>
-                                                                        <input type='radio' name='ut' value='kwh' ".(($values['ut'] == 'kwh') ? "checked='checked'" : '')." />
+                                                                        <input type='radio' name='ut' value='kwh' ".(($values['ut'] == 'kwh' || (empty($values['ut']) && ($values['cat'] == 'gas' || $values['cat'] == 'dualfuel_pack'))) ? "checked='checked'" : '')." />
                                                                         <span>kWh</span>
                                                                     </label>
                                                                     <label>
-                                                                        <input type='radio' name='ut' value='m3' ".(($values['ut'] == 'm3' || (empty($values['ut']) && ($values['cat'] == 'gas' || $values['cat'] == 'dualfuel_pack'))) ? "checked='checked'" : '')." />
+                                                                        <input type='radio' name='ut' value='m3' ".(($values['ut'] == 'm3') ? "checked='checked'" : '')." />
                                                                         <span>m3</span>
                                                                     </label>
                                                                 </div>

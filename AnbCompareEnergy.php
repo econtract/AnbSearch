@@ -39,7 +39,7 @@ class AnbCompareEnergy extends AnbCompare
 			    'ajax_url' => admin_url('admin-ajax.php'),
 			    'site_url' => get_home_url(),
 			    'current_pack' => pll__('your current pack'),
-			    'select_your_pack' => pll__('Select your pack'),
+			    'select_your_pack' => pll__('I dont know the contract'),
 			    'template_uri' => get_template_directory_uri(),
 			    'lang' => $this->getCurrentLang(),
 			    'features_label' => pll__('Features'),

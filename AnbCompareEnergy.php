@@ -1228,7 +1228,7 @@ class AnbCompareEnergy extends AnbCompare
                                 <ul class="list-unstyled">';
                 foreach ($promotions as $promo ) {
                     if(!empty($promo->texts->name)) {
-                        $promoHTML.= '<li class="promo prominent">'.$promo->texts->name.'</li>';
+                        $promoHTML.= '<li class="promo prominent redHighlight">'.$promo->texts->name.'</li>';
                     }
                 }
                 $promoHTML.= '</ul>

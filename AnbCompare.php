@@ -159,7 +159,8 @@ class AnbCompare extends Base
             'pref_pids' => [],
             'searchSubmit' => '', // conditional param ( this param doesn't belong to API Params)
 	        'cmp_pid' => '',
-	        'cmp_sid' => ''
+	        'cmp_sid' => '',
+	        'greenpeace' => ''
         ), $atts, 'anb_search');
        // print_r($atts);die;
 
@@ -192,6 +193,10 @@ class AnbCompare extends Base
 	        if($params['cat'] == 'dualfuel_pack' || $params['cat'] == 'electricity' || $params['cat'] == 'gas'){
 	            $params['d'] = 1;
 	            $params['situation'] = 3;
+            }
+
+            if($params['greenpeace']) {
+	            $params['greenpeace'] = $params['greenpeace']*5;
             }
 
             /**

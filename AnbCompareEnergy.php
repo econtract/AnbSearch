@@ -838,7 +838,7 @@ class AnbCompareEnergy extends AnbCompare
                                                         <div class='col-md-5 col-sm-5 col-xs-12 form-group ".(($values['meter'] != 'double') ? "hide" : '')."' id='doubleMeterConsumption_content'>
                                                             <label class='block bold-600 text-left'>" . pll__('Night consumption') . "</label>
                                                             <div class='night-consumption'>
-                                                                <input type='text' name='nou' value='".(($values['nou']) ?: '')."'/>
+                                                                <input type='text' name='nou' value='".(($values['nu']) ?: '')."'/>
                                                             </div>
                                                         </div>
                                                     </div>

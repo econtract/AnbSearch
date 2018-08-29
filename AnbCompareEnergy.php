@@ -33,7 +33,7 @@ class AnbCompareEnergy extends AnbCompare
     function enqueueScripts()
     {
 	    wp_enqueue_script('search-results-energy', plugins_url('/js/search-results-energy.js', __FILE__), array('jquery'), '1.0.1', true);
-	    wp_enqueue_script('compare-results-energy', plugins_url('/js/compare-results-energy.js', __FILE__), array('jquery'), '1.0.6', true);
+	    wp_enqueue_script('compare-results-energy', plugins_url('/js/compare-results-energy.js', __FILE__), array('jquery'), '1.0.7', true);
 	    wp_localize_script('compare-results-energy', 'compare_between_results_object',
 		    array(
 			    'ajax_url' => admin_url('admin-ajax.php'),
@@ -1364,5 +1364,139 @@ class AnbCompareEnergy extends AnbCompare
 	    }
 
 	    return [$productsData, $labels];
+    }
+
+    function compareBetweenResults($listProduct) {
+        /*echo '<pre>';
+        print_r($current);
+        echo '</pre>';*/
+        /** @var \AnbTopDeals\AnbProductEnergy $anbTopDeals */
+        $anbTopDeals = wpal_create_instance( \AnbTopDeals\AnbProductEnergy::class );
+        $countProducts = 0;
+        $product     = ($listProduct->product) ?: $listProduct;
+        $pricing     = ($listProduct->pricing) ?: '';
+        $productData = $anbTopDeals->prepareProductData( $product );
+        $productId   = $product->product_id;
+        $supplierId  = $product->supplier_id;
+        $productType = $product->producttype;
+        $endScriptTime = getEndTime();
+        displayCallTime($startScriptTime, $endScriptTime, "Total page load time for Results page invidual gridView till prepareProductData.");
+
+        list(, , , , $toCartLinkHtml) = $anbTopDeals->getToCartAnchorHtml($parentSegment, $productData['product_id'], $productData['supplier_id'], $productData['sg'], $productData['producttype'], $forceCheckAvailability);
+
+        $blockLinkClass = 'block-link';
+        if($forceCheckAvailability) {
+            $blockLinkClass = 'block-link missing-zip';
+        }
+        $toCartLinkHtml = '<a '.$toCartLinkHtml.' class="link '.$blockLinkClass.'">' . pll__( 'Order Now' ) . '</a>';
+
+        if($productData['commission'] === false) {
+            $toCartLinkHtml = '<a href="#not-available" class="link block-link not-available">' . pll__('Not Available') . '</a>';
+        }
+        $servicesHtml = $anbTopDeals->getServicesHtml( $product, $pricing );
+
+        //TODO provide the following code with required objects, and it will then work
+        $advHtml = '';
+        if($pricing) {
+            $yearAdv = $pricing->yearly->price - $pricing->yearly->promo_price;
+            if ( $yearAdv !== 0 ) {
+                $yearAdvArr  = formatPriceInParts( $yearAdv, 2 );
+                $monthlyAdv  = $pricing->monthly->price - $pricing->monthly->promo_price;
+                $monthAdvArr = formatPriceInParts( $monthlyAdv, 2 );
+                $advHtml     .= "<div class='price-label'>
+                        <label>". pll__('Your advantage') ."</label>
+                        <div class='price yearly'>
+                            " . $yearAdvArr['currency'] . " " . $yearAdvArr['price'] . "
+                            <small>," . $yearAdvArr['cents'] . "</small>
+                        </div>
+                        <div class='price monthly hide'>
+                            " . $monthAdvArr['currency'] . ' ' . $monthAdvArr['price'] . "
+                            <small>," . $monthAdvArr['cents'] . "</small>
+                        </div>
+                     </div>";
+            }
+        }
+
+        $html = "<div class='current-package' >
+                <div class='selection'>
+                    <h4>" . pll__( 'Your Current Pack' ) . "</h4>
+                    <a href='#' class='edit' data-toggle='modal' data-target='#selectCurrentPack'><i class='fa fa-chevron-right'></i>" . pll__( 'change pack' ) . "</a>
+                    <a href='#' class='close'><span>×</span></a>
+                </div>
+                <div class='result-box-container' id='listgridview_3'>
+                    <div class='result-box'>
+                        <div class='top-label'>
+                            " . $anbTopDeals->getBadgeSection( '' ) . "
+                        </div>
+                        <div class='flex-grid'>
+                            <div class='cols'>
+                                " . $anbTopDeals->getProductDetailSection( $productData, '', false, '', true ) . "
+                                " . $anbTopDeals->getGreenPeaceRating( $productData ) . "
+                            </div>
+                            <div class='cols'>
+                                <ul class='green-services'>
+                                    " . $servicesHtml . "
+                                </ul>
+                            </div>
+                            <div class='cols grid-hide'>
+                                " . $anbTopDeals->getPromoSection( $product ) . "
+                            </div>
+                            <div class='cols'>
+                                <div class='actual-price-board'>
+                                    " . $anbTopDeals->getPriceHtml( $productData, $pricing, true ) . "
+                                </div>
+                            </div>
+                            <div class='cols grid-show'>
+                                " . $anbTopDeals->getPromoSection( $product ) . "
+                            </div>
+                            <div class='cols'>
+                                <div class='price-label'>
+                                    <label>Potential saving</label>
+                                    <div class='price'>€ 136<small>,00</small></div>
+                                </div>
+                                {$advHtml}
+                                <div class='inner-col grid-show'>
+                                    <!-- div class='promo'>added services</div>
+                                    <ul class='col_7'>
+                                        <li>Isolation</li>
+                                        <li>SOlar panels</li>
+                                        <li>Comfort Service bij storing/defect</li>
+                                        <li>Bijstand elektrische wagen</li>
+                                        <li>Verlengde ganantie</li>
+                                    </ul -->
+                                </div>
+                                <div class='col_8 grid-show border-top'>
+                                    " . decorateLatestOrderByProduct( $product->product_id ) . "
+                                </div>
+                                <a href='/energy/checkout?". http_build_query($_GET). "&hidden_prodsel_cmp=yes&product_to_cart=yes&product_id=".$productId."&provider_id=".$supplierId."&producttype=".$productType."' class='btn btn-primary all-caps'>".pll__('connect now')."</a>";
+        $detailHtml = '<a href="'.getEnergyProductPageUri($productData).'?'. http_build_query($_GET) . '&hidden_prodsel_cmp=yes&product_to_cart=yes&product_id='.$productId.'&provider_id='.$supplierId.'&producttype='.$productType.'"
+                                                 class="link block-link all-caps">'.pll__('Detail').'</a>';
+        if($productData['commission'] === false) {
+            $detailHtml = '<a href="#not-available" class="link block-link not-available">' . pll__('Not Available') . '</a>';
+        }
+
+        $html.= $detailHtml;
+        $html.= "</div>
+                        </div>
+                        <div class='result-footer'>
+                            <div class='pull-left grid-hide'>
+                                " . decorateLatestOrderByProduct( $product->product_id ) . "
+                            </div>
+                            <div class='pull-right'>
+                                <span class='grid-hide'>" . $anbTopDeals->getLastUpdateDate( $productData ) . "</span>
+                                <div class='comparePackage'>
+                                    <div class='checkbox'>
+                                        <label>
+                                            <input type='hidden' name='compareProductType152' value='internet'>
+                                            <input type='checkbox' value='listgridview_" . $countProducts . "'> " . pll__( 'Compare' ) . "
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>";
+        return $html;
     }
 }

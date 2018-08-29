@@ -90,10 +90,19 @@ jQuery(document).ready(function($){
             var serverAction = 'compareBetweenResults';
         }
 
+        var pref_pids_arr = new Array();
+        pref_pids_arr[0] = $('.selected-item-1').attr('pid');
+        pref_pids_arr[1] = $('.selected-item-2').attr('pid');
+        /*
+        var pref_pids = $.param(pref_pids_arr).serializeArray();
+        console.log(pref_pids);
+        return false;
+        */
         var data = {
             'action': serverAction,
             'productTypes': currentPack[0],
             'products': currentPack[1],
+            'pref_pids' : pref_pids_arr,
             'lowestpid': lowestPid,
             'crntPack': compare_between_results_object.current_pack,
             'features_label': compare_between_results_object.features_label,
@@ -104,7 +113,9 @@ jQuery(document).ready(function($){
 
         var urlParams = window.location.search;
         // We can also pass the url value separately from ajaxurl for front end AJAX implementations
+        $('#crntPackSelectionResponse').hide();
         $('#crntPackSelectionSection .offer').append('<div class="ajaxIconWrapper"><div class="ajaxIcon"><img src="' + compare_between_results_object.template_uri + '/images/common/icons/ajaxloader.png" alt="Loading..."></div></div>');
+        $('#crntPackSelectionSection').show();
         jQuery.get(compare_between_results_object.site_url + '/api/' + urlParams + '&load=CompareEnergy', data, function (response) {
             if($('#top-heading-compare-btn-value').val() == 1){
                 $('#ajaxloadertop').addClass('hide');
@@ -122,15 +133,18 @@ jQuery(document).ready(function($){
             } else {
                 if (response == 'no results found') {
                     $('#crntPackSelectionSection').show();
+                    $('#messagenotfound').html('No results found');
                     $('#messagenotfound').show();
                     $('#crntPackSelectionSection .offer .ajaxIconWrapper').remove();//Removing loaders ones result is loaded
                 } else {
+                    $('#crntPackSelectionSection .offer .ajaxIconWrapper').remove();//Removing loaders ones result is loaded
                     var resData = response.split('****');
                     $('#crntPackSelectionSection').hide();
                     $('#messagenotfound').hide();
                     $('#crntPackSelectionResponse').html(resData[0]).show();
                     $('#compare_popup_rates_overview').html(resData[1]);
-                    $('#crntPackSelectionSection .offer .ajaxIconWrapper').remove();//Removing loaders ones result is loaded
+                    $('.selected-item-1').html(resData[2]);
+                    $('.selected-item-2').html(resData[3]);
 
                     fixDealsTableHeight($('.compareSection .dealsTable.grid'));
                 }

@@ -62,7 +62,7 @@ class AnbCompare extends Base
 			    'site_url'     => get_home_url(),
 			    'zipcode_api'  => ZIPCODE_API,
 			    'template_uri' => get_template_directory_uri(),
-			    'current_lang' => getLanguage(),
+			    'lang' => getLanguage(),
 			    'trans_monthly_cost' => pll__( 'Monthly costs' ),
 			    'trans_monthly_total' => pll__( 'Monthly total' ),
 			    'trans_first_month' => pll__( 'First month' ),

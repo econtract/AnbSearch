@@ -338,5 +338,17 @@ jQuery(document).ready(function($){
             jQuery('#ModalCheckAvailability').modal('show');
         }
     });
+
+    //When mobile subscription is none, unselect the mobile checkbox in services list as well
+    //In case mobile subscription is changed from none it'll then check the appropriate service again
+    $('body').on('change', 'input[name=ms_mobile]', function() {
+        //$('#mobile_service_wiz')
+        var subscVal = $(this).val();
+        if(subscVal == -1) {
+            $('#mobile_service_wiz').removeProp('checked');
+        } else {
+            $('#mobile_service_wiz').prop('checked', true);
+        }
+    });
 });
 

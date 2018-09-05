@@ -374,6 +374,9 @@ class AnbCompare extends Base
 		    }
 		    $currentProduct = $listProduct->product;
 
+            // include badge or text - partner logo
+            $includeText = ($currentProduct->supplier->is_partner == 1) ? false : true;
+
 		    list($productData, $priceHtml, $servicesHtml) = $this->extractProductData($this->anbTopDeals, $currentProduct, true);
 
 		    //Promotions, Installation/Activation HTML
@@ -415,7 +418,7 @@ class AnbCompare extends Base
 		    $productResp .= '<div class="offer">
                             <div class="row listRow">
                                 <div class="col-md-3">
-                                    '.$this->anbTopDeals->getProductDetailSection( $productData, $servicesHtml, false, '', true ).'
+                                    '.$this->anbTopDeals->getProductDetailSection( $productData, $servicesHtml, $includeText,false, '', true ).'
                                 </div>
                                 <div class="col-md-3">
                                     '.$this->anbTopDeals->getPromoSection( $promotionHtml, 0, 'dealFeatures', '' ).'
@@ -523,6 +526,9 @@ class AnbCompare extends Base
 
             $currentProduct = $listProduct;
 
+            // include badge or text - partner logo
+            $includeText = ($currentProduct->supplier->is_partner == 1) ? false : true;
+
             list($productData, $priceHtml, $servicesHtml) = $this->extractProductData($this->anbTopDeals, $currentProduct);
 
             //Promotions, Installation/Activation HTML
@@ -562,7 +568,7 @@ class AnbCompare extends Base
                 '</div>' .
 
                 '<div class="offer">' .
-                $this->anbTopDeals->getProductDetailSection($productData, $servicesHtml) .
+                $this->anbTopDeals->getProductDetailSection($productData, $servicesHtml, $includeText) .
                 $this->anbTopDeals->priceSection($priceHtml, $monthDurationPromo, $firstYearPrice, 'dealPrice', '', '', $productData, true) .
                 $this->anbTopDeals->getPromoSection($promotionHtml, $productData['advantage'], 'dealFeatures',
                     '<a href="' . getTelecomProductPageUri($productData) . '" class="btn btn-primary ">' . pll__('Info and options') . '</a>

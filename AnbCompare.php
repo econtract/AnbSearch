@@ -106,7 +106,7 @@ class AnbCompare extends Base
     function getCompareResults($atts, $enableCache = true, $cacheDurationSeconds = 86400)
     {
         if(defined('COMPARE_API_CACHE_DURATION')) {
-            $cacheDurationSeconds = PRODUCT_CACHE_DURATION;
+            $cacheDurationSeconds = COMPARE_API_CACHE_DURATION;
         }
         if (!empty($atts['detaillevel'])) {
             $atts['detaillevel'] = explode(',', $atts['detaillevel']);
@@ -265,11 +265,11 @@ class AnbCompare extends Base
             $displayText = "Time API (Compare) inside getCompareResults";
             if ($enableCache && !isset($_GET['no_cache'])) {
                 $cacheKey = md5(serialize($params) . $_SERVER['REQUEST_URI']) . ":compare";
-                $result = get_transient($cacheKey);
+                $result = mycache_get($cacheKey);
 
                 if($result === false || empty($result)) {
                     $result = $this->anbApi->compare($params);
-                    set_transient($cacheKey, $result, $cacheDurationSeconds);
+	                mycache_set($cacheKey, $result, $cacheDurationSeconds);
                 } else {
                     $displayText = "Time API Cached (Compare) inside getCompareResults";
                 }

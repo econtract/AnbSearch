@@ -231,6 +231,11 @@ jQuery(document).ready(function($){
         };
         var urlParams = window.location.search;
 
+        //check if cat variable is missing if so append that too
+        if(!_.includes(urlParams, 'cat')) {
+            urlParams += '&' + $('input[name*=cat]').serialize();
+        }
+
         $('.loadMore').html('LOADING...');
         // We can also pass the url value separately from ajaxurl for front end AJAX implementations
         $.get(search_compare_obj.ajax_url+urlParams, data, function(response) {

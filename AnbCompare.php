@@ -178,111 +178,108 @@ class AnbCompare extends Base
 
 	    $getParams = $_GET;
 
-        if (isset($getParams['searchSubmit']) || isset($getParams['searchSubmit'])) {
-
-            //$this->cleanArrayData($_GET);
-            if (count($getParams['cat']) >= 2) {
-	            $getParams['cp'] = getPacktypeOnCats($getParams['cat']);
-                $this->orignalCats = $getParams['cat'];
-	            $getParams['cat'] = 'packs';
-            } else {
-                if (is_array($getParams['cat'])) {
-	                $getParams['cat'] = (is_array($getParams['cat'])) ? $getParams['cat'][0] : $getParams['cat'];
-                }
+        //$this->cleanArrayData($_GET);
+        if (count($getParams['cat']) >= 2) {
+            $getParams['cp'] = getPacktypeOnCats($getParams['cat']);
+            $this->orignalCats = $getParams['cat'];
+            $getParams['cat'] = 'packs';
+        } else {
+            if (is_array($getParams['cat'])) {
+                $getParams['cat'] = (is_array($getParams['cat'])) ? $getParams['cat'][0] : $getParams['cat'];
             }
-
-            //$WizardAllowedParams  = ['ms_internet', 'ms_idtv', 'ms_fixed', 'ms_mobile'];
-
-            $params = array_filter($getParams) + $atts;//append any missing but default values
-
-            //print_r($params);
-            //remove empty params
-            $params = array_filter($params);
-
-            //this will not remove if pref_cs is passed as array but is empty so adding another check to ensure that
-	        if(isset($params['pref_cs'][0]) && empty($params['pref_cs'][0])) {
-	        	unset($params['pref_cs']);
-	        }
-
-	        if($params['cat'] == 'dualfuel_pack' || $params['cat'] == 'electricity' || $params['cat'] == 'gas'){
-	            $params['d'] = 1;
-	            $params['situation'] = 3;
-            }
-
-            if($params['greenpeace']) {
-	            $params['greenpeace'] = $params['greenpeace']*5;
-            }
-
-            /**
-             * custom check to allow values from wizard
-             * wizard doesn't contain pack_type so these
-             * values will be used to fetch match records
-             */
-            /*foreach ($WizardAllowedParams as $allowed ) {
-                if (array_key_exists($allowed, $_GET)) {
-                    $params[$allowed] = $_GET[$allowed];
-                }
-            }*/
-
-            // set category to packs when it comes from wizard
-            if (isset($getParams['search_via_wizard'])){
-                $params['cat'] = 'packs';
-            }
-
-            if (strtolower($params['cat']) == "internet") {
-                $params['s'] = 0;//TODO: This is just temporary solution as for internet products API currently expecting this value to be passed
-            }
-
-            if (isset($params['hidden_sp']) && !empty($params['hidden_sp'])) {
-                $params['pref_cs'] = $params['hidden_sp'];
-                unset($params['hidden_sp']);
-            }
-
-            // Covert DS to s because param S in url is reserve word for Wordpress search
-            if (!empty($params['ds'])) {
-                $params['s'] = $params['ds'] * 1000; //Min. download speed in Bps: 1000 Bps = 1Mbps
-                unset($params['ds']);
-            }
-
-            // in case of Max download limit set parameter to -1
-            if (isset($params['dl']) && !empty($params['dl']) && $params['dl'] == INTERNET_DOWNLOAD_LIMIT) {
-                $params['dl'] = "-1";
-            }
-
-            $this->cleanArrayData($params);
-            // get the products
-            $params = $this->allowedParams($params, array_keys($atts));//Don't allow all variables to be passed to API
-
-            // no need to send this parameter to API call
-            unset($params['searchSubmit']);
-
-            //get integer value from zip code
-            if(!is_numeric($params['zip'])) {
-                $params['zip'] = intval($params['zip']);
-            }
-
-            //generate key from params to store in cache
-            displayParams($params);
-            $start = getStartTime();
-            $displayText = "Time API (Compare) inside getCompareResults";
-            if ($enableCache && !isset($_GET['no_cache'])) {
-                $cacheKey = md5(serialize($params) . $_SERVER['REQUEST_URI']) . ":compare";
-                $result = mycache_get($cacheKey);
-
-                if($result === false || empty($result)) {
-                    $result = $this->anbApi->compare($params);
-	                mycache_set($cacheKey, $result, $cacheDurationSeconds);
-                } else {
-                    $displayText = "Time API Cached (Compare) inside getCompareResults";
-                }
-            } else {
-                $result = $this->anbApi->compare($params);
-            }
-            $finish = getEndTime();
-            displayCallTime($start, $finish, $displayText);
-
-            return $result;
         }
+
+        //$WizardAllowedParams  = ['ms_internet', 'ms_idtv', 'ms_fixed', 'ms_mobile'];
+
+        $params = array_filter($getParams) + $atts;//append any missing but default values
+
+        //print_r($params);
+        //remove empty params
+        $params = array_filter($params);
+
+        //this will not remove if pref_cs is passed as array but is empty so adding another check to ensure that
+        if(isset($params['pref_cs'][0]) && empty($params['pref_cs'][0])) {
+            unset($params['pref_cs']);
+        }
+
+        if($params['cat'] == 'dualfuel_pack' || $params['cat'] == 'electricity' || $params['cat'] == 'gas'){
+            $params['d'] = 1;
+            $params['situation'] = 3;
+        }
+
+        if($params['greenpeace']) {
+            $params['greenpeace'] = $params['greenpeace']*5;
+        }
+
+        /**
+         * custom check to allow values from wizard
+         * wizard doesn't contain pack_type so these
+         * values will be used to fetch match records
+         */
+        /*foreach ($WizardAllowedParams as $allowed ) {
+            if (array_key_exists($allowed, $_GET)) {
+                $params[$allowed] = $_GET[$allowed];
+            }
+        }*/
+
+        // set category to packs when it comes from wizard
+        if (isset($getParams['search_via_wizard'])){
+            $params['cat'] = 'packs';
+        }
+
+        if (strtolower($params['cat']) == "internet") {
+            $params['s'] = 0;//TODO: This is just temporary solution as for internet products API currently expecting this value to be passed
+        }
+
+        if (isset($params['hidden_sp']) && !empty($params['hidden_sp'])) {
+            $params['pref_cs'] = $params['hidden_sp'];
+            unset($params['hidden_sp']);
+        }
+
+        // Covert DS to s because param S in url is reserve word for Wordpress search
+        if (!empty($params['ds'])) {
+            $params['s'] = $params['ds'] * 1000; //Min. download speed in Bps: 1000 Bps = 1Mbps
+            unset($params['ds']);
+        }
+
+        // in case of Max download limit set parameter to -1
+        if (isset($params['dl']) && !empty($params['dl']) && $params['dl'] == INTERNET_DOWNLOAD_LIMIT) {
+            $params['dl'] = "-1";
+        }
+
+        $this->cleanArrayData($params);
+        // get the products
+        $params = $this->allowedParams($params, array_keys($atts));//Don't allow all variables to be passed to API
+
+        // no need to send this parameter to API call
+        unset($params['searchSubmit']);
+
+        //get integer value from zip code
+        if(!is_numeric($params['zip'])) {
+            $params['zip'] = intval($params['zip']);
+        }
+
+        //generate key from params to store in cache
+        displayParams($params);
+        $start = getStartTime();
+        $displayText = "Time API (Compare) inside getCompareResults";
+        if ($enableCache && !isset($_GET['no_cache'])) {
+            $cacheKey = md5(serialize($params) . $_SERVER['REQUEST_URI']) . ":compare";
+            $result = mycache_get($cacheKey);
+
+            if($result === false || empty($result)) {
+                $result = $this->anbApi->compare($params);
+                mycache_set($cacheKey, $result, $cacheDurationSeconds);
+            } else {
+                $displayText = "Time API Cached (Compare) inside getCompareResults";
+            }
+        } else {
+            $result = $this->anbApi->compare($params);
+        }
+        $finish = getEndTime();
+        displayCallTime($start, $finish, $displayText);
+
+        return $result;
     }
 
     /**

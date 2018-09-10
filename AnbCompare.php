@@ -53,7 +53,7 @@ class AnbCompare extends Base
      */
     function enqueueScripts()
     {
-        wp_enqueue_script('search-compare-script', plugins_url('/js/search-results.js', __FILE__), array('jquery'), '1.2.2', true);
+        wp_enqueue_script('search-compare-script', plugins_url('/js/search-results.js', __FILE__), array('jquery'), '1.2.3', true);
 
         // in JavaScript, object properties are accessed as ajax_object.ajax_url, ajax_object.we_value
 	    wp_localize_script( 'search-compare-script', 'search_compare_obj',
@@ -176,22 +176,24 @@ class AnbCompare extends Base
         ), $atts, 'anb_search');
        // print_r($atts);die;
 
-        if (isset($_GET['searchSubmit']) || isset($atts['searchSubmit'])) {
+	    $getParams = $_GET;
+
+        if (isset($getParams['searchSubmit']) || isset($getParams['searchSubmit'])) {
 
             //$this->cleanArrayData($_GET);
-            if (count($_GET['cat']) >= 2) {
-                $_GET['cp'] = getPacktypeOnCats($_GET['cat']);
-                $this->orignalCats = $_GET['cat'];
-                $_GET['cat'] = 'packs';
+            if (count($getParams['cat']) >= 2) {
+	            $getParams['cp'] = getPacktypeOnCats($getParams['cat']);
+                $this->orignalCats = $getParams['cat'];
+	            $getParams['cat'] = 'packs';
             } else {
-                if (is_array($_GET['cat'])) {
-                    $_GET['cat'] = (is_array($_GET['cat'])) ? $_GET['cat'][0] : $_GET['cat'];
+                if (is_array($getParams['cat'])) {
+	                $getParams['cat'] = (is_array($getParams['cat'])) ? $getParams['cat'][0] : $getParams['cat'];
                 }
             }
 
             //$WizardAllowedParams  = ['ms_internet', 'ms_idtv', 'ms_fixed', 'ms_mobile'];
 
-            $params = array_filter($_GET) + $atts;//append any missing but default values
+            $params = array_filter($getParams) + $atts;//append any missing but default values
 
             //print_r($params);
             //remove empty params
@@ -223,7 +225,7 @@ class AnbCompare extends Base
             }*/
 
             // set category to packs when it comes from wizard
-            if (isset($_GET['search_via_wizard'])){
+            if (isset($getParams['search_via_wizard'])){
                 $params['cat'] = 'packs';
             }
 

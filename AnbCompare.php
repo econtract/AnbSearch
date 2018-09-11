@@ -429,7 +429,7 @@ class AnbCompare extends Base
                                     <div class="totalCalcWrapper">
                                         '.$this->anbTopDeals->getTotalAdvHtml($productData['advantage']).'
                                     </div>
-                                    <div class="actionButtons">
+                                    <div class="actionButtons print-hide">
                                         '.$orderInfoHtml.'
                                     </div>
                                 </div>
@@ -445,7 +445,7 @@ class AnbCompare extends Base
                                     <div class="rightWrapper">
                                         <!--<span class="waitingTooltip" data-toggle="custom-tooltip-bottom" title="<p>'.pll__('Popover bottom Sed posuere consectetur est at lob ortis. Aenean eu leo quam. Pellentesque ornare sem lacinia quam.').' </p>"><i class="customIcon fa fa-exclamation-triangle"></i> Waiting for input</span> -->
                                         <span class="lastUpdated" data-toggle="custom-tooltip-bottom" title="<p>'.pll__('Sed posuere consectetur est at lob ortis. Aenean eu leo quam. Pellentesque ornare sem lacinia quam.').' </p>"> '.pll__('Last updated').': <span class="timestamp">'.formatDate($currentProduct->last_update).'</span></span>
-                                        <span class="comparePackage">
+                                        <span class="comparePackage print-hide">
 		                                    <label>
 		                                        <input type="hidden"
 		                                               name="compareProductType'.$currentProduct->product_id.'"
@@ -888,7 +888,8 @@ class AnbCompare extends Base
 
         return '<div class="packageDetail ' . $service . '">
                     <div class="iconWrapper">
-                        <i class="service-icons ' . $service . '"></i>
+                        <i class="print-hide service-icons ' . $service . '"></i>
+                        <img src="'.get_bloginfo('template_url').'/images/print-images/'. $service .'.svg" class="print-show">
                     </div>
                     '.$serviceLabel.'
                     <ul class="list-unstyled pkgSummary">

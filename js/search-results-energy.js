@@ -39,14 +39,15 @@ jQuery(document).ready(function($){
         var panelID = "#"+_self.data('panel')+"Panel";
         var profileModal = $('#updateProfileEnergy');
 
-
-
         profileModal.modal('show');
         profileModal
             .find(panelID +' .panel-heading:not(.active) .panel-title a')
             .trigger('click');
+    });
 
-
+    //To fix weired issue of button allignment, which was moving right on imran's machine on FF v61.0.1.
+    $("#updateProfileEnergy").on('shown.bs.modal', function () {
+        $('#mini_wizard_submit_btn').css('position', 'relative');
     });
 });
 

@@ -1262,10 +1262,6 @@ class AnbCompareEnergy extends AnbCompare
 	    $comparePopUpData['lowest'] = json_decode( json_encode( $firstProduct ), true);
 	    $comparePopUpData['highest'] = json_decode( json_encode( $secondProduct ), true);
 
-	    /*echo "<pre>***";
-	    print_r($comparePopUpData);
-	    echo "</pre>";*/
-
 	    $cid = 0;
 	    $logosPlaced = 0;
 	    $productsData = [];
@@ -1281,10 +1277,6 @@ class AnbCompareEnergy extends AnbCompare
 			    $labels['electricity']['main'] = pll__('electricity');
 			    $labels['electricity']['total'] = pll__('Total annual electricity costs (incl.BTW)');
 			    $labels['electricity']['sub_total_yearly'][$cid] = formatPrice($pdata['product']['electricity']['pricing']['yearly']['promo_price'], 2, '&euro; ');
-
-			    $totalPriceEl = $pdata['product']['electricity']['pricing']['yearly']['promo_price'];
-			    $permonthEl = $pdata['product']['electricity']['pricing']['monthly']['promo_price'];
-			    $totalAdvantageEl = $pdata['product']['electricity']['pricing']['yearly']['price'] - $pdata['product']['electricity']['pricing']['yearly']['promo_price'];
 
 			    $sh = 0;
 			    foreach($pbsData as $thisKey => $priceSection){
@@ -1318,10 +1310,6 @@ class AnbCompareEnergy extends AnbCompare
 				    $productsData['products'][$cid]['total_yearly'] = formatPrice($pdata['pricing']['yearly']['promo_price'], 2, '&euro; ');
 			    }
 
-			    $totalPriceGas = $pdata['product']['gas']['pricing']['yearly']['promo_price'];
-			    $permonthGas = $pdata['product']['gas']['pricing']['monthly']['promo_price'];
-			    $totalAdvantageGas = $pdata['product']['gas']['pricing']['yearly']['price'] - $pdata['product']['gas']['pricing']['yearly']['promo_price'];
-
 			    $sh = 0;
 			    $logosPlaced = 1;
 			    foreach($pbsData as $thisKey => $priceSection){
@@ -1344,20 +1332,16 @@ class AnbCompareEnergy extends AnbCompare
 			    }
 		    }
 
-		    $totalPrice = $totalPriceEl + $totalPriceGas;
-		    $totalMonthly = $permonthEl + $permonthGas;
-		    $totalAdvantage = $totalAdvantageEl + $totalAdvantageGas;
-		    //$totalAdvantage = formatPrice($pdata['pricing']['yearly']['price'] - $pdata['pricing']['yearly']['promo_price'], 2, '&euro; ');
 		    $labels['totalfinal']['main'] = pll__('total electricity and gas');
 		    $labels['totalfinal']['total'] = pll__('Total annualcosts (incl.BTW)');
 		    $labels['totalfinal']['data']['costpermonth']['label'] = pll__('Cost/month (incl.BTW)');
 		    $labels['totalfinal']['data']['advoneyear']['label'] = pll__('Total advantage 1st year');
-		    $labels['totalfinal']['data']['costpermonth']['total'][$cid] = formatPrice($totalMonthly, 2, '&euro; ');
-		    $labels['totalfinal']['data']['advoneyear']['total'][$cid] = formatPrice($totalAdvantage, 2, '&euro; ');
-		    $labels['totalfinal']['sub_total_yearly'][$cid] = formatPrice($totalPrice, 2, '&euro; ');
+		    $labels['totalfinal']['data']['costpermonth']['total'][$cid] = formatPrice($pdata['pricing']['monthly']['promo_price'], 2, '&euro; ');
+		    $labels['totalfinal']['data']['advoneyear']['total'][$cid] = formatPrice($pdata['pricing']['yearly']['advantage'], 2, '&euro; ');
+		    $labels['totalfinal']['sub_total_yearly'][$cid] = formatPrice($pdata['pricing']['yearly']['promo_price'], 2, '&euro; ');
 
 		    $labels['vetsavings']['main'] = pll__('Estimated savings');
-		    $labels['vetsavings']['estotal'][$cid] = formatPrice($totalAdvantage, 2, '&euro; ');
+		    $labels['vetsavings']['estotal'][$cid] = formatPrice($pdata['savings']['yearly']['price'], 2, '&euro; ');
 		    $cid++;
 	    }
 

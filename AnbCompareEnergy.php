@@ -33,11 +33,11 @@ class AnbCompareEnergy extends AnbCompare
     function enqueueScripts()
     {
 	    wp_enqueue_script('search-results-energy', plugins_url('/js/search-results-energy.js', __FILE__), array('jquery'), '1.0.2', true);
-	    wp_enqueue_script('compare-results-energy', plugins_url('/js/compare-results-energy.js', __FILE__), array('jquery'), '1.0.7', true);
-	    wp_localize_script('compare-results-energy', 'compare_between_results_object',
+	    wp_enqueue_script('compare-results-energy', plugins_url('/js/compare-results-energy.js', __FILE__), array('jquery'), '1.0.8', true);
+	    wp_localize_script('compare-results-energy', 'compare_between_results_object_energy',
 		    array(
 			    'ajax_url' => admin_url('admin-ajax.php'),
-			    'site_url' => get_home_url(),
+			    'site_url' => pll_home_url(),
 			    'current_pack' => pll__('your current pack'),
 			    'select_your_pack' => pll__('I dont know the contract'),
 			    'template_uri' => get_template_directory_uri(),

@@ -53,13 +53,13 @@ class AnbCompare extends Base
      */
     function enqueueScripts()
     {
-        wp_enqueue_script('search-compare-script', plugins_url('/js/search-results.js', __FILE__), array('jquery'), '1.2.3', true);
+        wp_enqueue_script('search-compare-script', plugins_url('/js/search-results.js', __FILE__), array('jquery'), '1.2.4', true);
 
         // in JavaScript, object properties are accessed as ajax_object.ajax_url, ajax_object.we_value
 	    wp_localize_script( 'search-compare-script', 'search_compare_obj',
 		    array(
 			    'ajax_url'     => admin_url( 'admin-ajax.php' ),
-			    'site_url'     => get_home_url(),
+			    'site_url'     => pll_home_url(),
 			    'zipcode_api'  => ZIPCODE_API,
 			    'template_uri' => get_template_directory_uri(),
 			    'lang' => getLanguage(),
@@ -71,13 +71,13 @@ class AnbCompare extends Base
 			    'trans_ontime_total' => pll__( 'One-time total' )
 		    ) );
 
-        wp_enqueue_script('compare-between-results-script', plugins_url('/js/compare-results.js', __FILE__), array('jquery'), '1.1.6', true);
+        wp_enqueue_script('compare-between-results-script', plugins_url('/js/compare-results.js', __FILE__), array('jquery'), '1.1.7', true);
 
         // in JavaScript, object properties are accessed as ajax_object.ajax_url, ajax_object.we_value
         wp_localize_script('compare-between-results-script', 'compare_between_results_object',
             array(
                 'ajax_url' => admin_url('admin-ajax.php'),
-                'site_url' => get_home_url(),
+                'site_url' => pll_home_url(),
                 'current_pack' => pll__('your current pack'),
                 'select_your_pack' => pll__('Select your pack'),
                 'template_uri' => get_template_directory_uri(),

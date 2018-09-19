@@ -282,6 +282,29 @@ class AnbCompare extends Base
         return $result;
     }
 
+    function getPreviousCompareResults($compareId) {
+        $result = null;
+        $start = getStartTime();
+        $displayText = "Time API (Prevous Compare) inside getPreviousCompareResults";
+        if ($enableCache && !isset($_GET['no_cache'])) {
+            $cacheKey = md5($compareId) . ":compare";
+            $result = mycache_get($cacheKey);
+
+            if($result === false || empty($result)) {
+                $result = $this->anbApi->previousCompare($compareId);
+                mycache_set($cacheKey, $result, $cacheDurationSeconds);
+            } else {
+                $displayText = "Time API Cached (Compare) inside getCompareResults";
+            }
+        } else {
+            $result = $this->anbApi->previousCompare($compareId);
+        }
+        $finish = getEndTime();
+        displayCallTime($start, $finish, $displayText);
+
+        return $result;
+    }
+
     /**
      * get result for compare wizard to show number of found records against search criteria in wizard
      * also get minimum prices of results

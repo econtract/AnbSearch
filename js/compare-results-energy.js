@@ -5,7 +5,8 @@ jQuery(document).ready(function($){
             'action'   : 'productsCallback',
             'supplier' : currentObj.value,
             'telecom_trans': compare_between_results_object_energy.telecom_trans,
-            'brands_trans': compare_between_results_object_energy.brands_trans
+            'brands_trans': compare_between_results_object_energy.brands_trans,
+            'lang': compare_between_results_object_energy.lang
         };
 
         var currentPack= $('#'+providerDropdownId);
@@ -158,7 +159,8 @@ jQuery(document).ready(function($){
             'action'   : 'productsCallback',
             'supplier' : this.value,
             'telecom_trans': compare_between_results_object_energy.telecom_trans,
-            'brands_trans': compare_between_results_object_energy.brands_trans
+            'brands_trans': compare_between_results_object_energy.brands_trans,
+            'lang': compare_between_results_object_energy.lang
         };
 
         var currentPack= $('#currentPackEnergyTop');

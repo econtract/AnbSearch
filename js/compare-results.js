@@ -57,7 +57,8 @@ jQuery(document).ready(function($){
             'action'   : 'productsCallback',
             'supplier' : this.value,
             'telecom_trans': compare_between_results_object.telecom_trans,
-            'brands_trans': compare_between_results_object.brands_trans
+            'brands_trans': compare_between_results_object.brands_trans,
+            'lang': compare_between_results_object.lang,
         };
 
         var currentPack= $('#currentPack');

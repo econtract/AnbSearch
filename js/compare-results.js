@@ -68,6 +68,11 @@ jQuery(document).ready(function($){
         // We can also pass the url value separately from ajaxurl for front end AJAX implementations
         currentPack.html('<option value="">Loading...</option>');
 
+        //if there is no sg fetch that from the popup
+        if(!_.includes(urlParams, 'sg')) {
+            urlParams += '&sg='+$('#currentpack_sg').val();
+        }
+
         // We can also pass the url value separately from ajaxurl for front end AJAX implementations
         jQuery.get(compare_between_results_object.site_url+'/api/' + urlParams+'&load=compare', data, function(response) {
 

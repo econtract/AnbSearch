@@ -16,7 +16,7 @@ jQuery(document).ready(function($){
         currentPack.html('<option value="">Loading...</option>');
 
         // We can also pass the url value separately from ajaxurl for front end AJAX implementations
-        jQuery.get(compare_between_results_object_energy.site_url+'/api/' + urlParams+'&load=ajax', data, function(response) {
+        jQuery.get(compare_between_results_object_energy.site_url+'/api/' + urlParams+'&load=compare', data, function(response) {
 
             currentPack.html(firstOption +""+response);
             currentPack
@@ -169,7 +169,7 @@ jQuery(document).ready(function($){
         currentPack.html('<option value="">Loading...</option>');
 
         // We can also pass the url value separately from ajaxurl for front end AJAX implementations
-        jQuery.get(compare_between_results_object_energy.site_url+'/api/' + urlParams+'&load=ajax', data, function(response) {
+        jQuery.get(compare_between_results_object_energy.site_url+'/api/' + urlParams+'&load=compare', data, function(response) {
 
             currentPack.html(firstOption +""+response);
             currentPack

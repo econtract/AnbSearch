@@ -746,7 +746,7 @@ class AnbCompare extends Base
                               </div>";
         }
 
-        $formNew = $this->getSearchBoxContentHtml($values, $needHelpHtml, $supplierHtml, "Search Deals", false, "", pll__('results'));
+        $formNew = $this->getSearchBoxContentHtml($values, $needHelpHtml, $supplierHtml, pll__("Search Deals"), false, "", pll__('results'));
 
         return $formNew;
     }

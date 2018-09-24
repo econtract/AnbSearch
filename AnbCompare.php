@@ -282,10 +282,10 @@ class AnbCompare extends Base
         return $result;
     }
 
-    function getPreviousCompareResults($compareId) {
+    function getPreviousCompareResults($compareId, $enableCache = true) {
         $result = null;
         $start = getStartTime();
-        $displayText = "Time API (Prevous Compare) inside getPreviousCompareResults";
+        $displayText = "Time API (Previous Compare) inside getPreviousCompareResults";
         if ($enableCache && !isset($_GET['no_cache'])) {
             $cacheKey = md5($compareId) . ":compare";
             $result = mycache_get($cacheKey);

@@ -282,7 +282,11 @@ class AnbCompare extends Base
         return $result;
     }
 
-    function getPreviousCompareResults($compareId, $enableCache = true) {
+    function getPreviousCompareResults($compareId, $enableCache = true, $cacheDurationSeconds = 86400)
+    {
+	    if(defined('COMPARE_API_CACHE_DURATION')) {
+		    $cacheDurationSeconds = COMPARE_API_CACHE_DURATION;
+	    }
         $result = null;
         $start = getStartTime();
         $displayText = "Time API (Previous Compare) inside getPreviousCompareResults";

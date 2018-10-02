@@ -68,7 +68,8 @@ class AnbCompare extends Base
      */
     function enqueueScripts()
     {
-    	if($this->sector == pll__('telecom')) {
+	    if($this->pagename == pll__('results')) {
+    		//This is required for searchFilterNav functionality on energy too
 		    wp_enqueue_script('search-compare-script', plugins_url('/js/search-results.js', __FILE__), array('jquery'), '1.2.5', true);
 
 		    // in JavaScript, object properties are accessed as ajax_object.ajax_url, ajax_object.we_value
@@ -86,11 +87,10 @@ class AnbCompare extends Base
 				    'trans_ontime_costs' => pll__( 'One-time costs' ),
 				    'trans_ontime_total' => pll__( 'One-time total' )
 			    ) );
-	    }
 
-	    if($this->pagename == pll__('results')) {
 		    wp_enqueue_script('compare-between-results-script', plugins_url('/js/compare-results.js', __FILE__), array('jquery'), '1.2.0', true);
 
+		    //This is required for current pack functionality on energy too
 		    // in JavaScript, object properties are accessed as ajax_object.ajax_url, ajax_object.we_value
 		    wp_localize_script('compare-between-results-script', 'compare_between_results_object',
 			    array(

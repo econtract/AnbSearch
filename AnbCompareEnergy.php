@@ -33,7 +33,7 @@ class AnbCompareEnergy extends AnbCompare
     function enqueueScripts()
     {
 	    if($this->sector == pll__('energy')) {
-		    wp_enqueue_script('search-results-energy', plugins_url('/js/search-results-energy.js', __FILE__), array('jquery'), '1.0.3', true);
+		    wp_enqueue_script('search-results-energy', plugins_url('/js/search-results-energy.js', __FILE__), array('jquery'), '1.0.4', true);
 		    wp_localize_script('search-results-energy', 'search_compare_obj_energy',
 			    array(
 				    'ajax_url' => admin_url('admin-ajax.php'),

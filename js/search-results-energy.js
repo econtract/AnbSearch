@@ -1,15 +1,3 @@
-function appendMoreResultsInUrl(url) {
-    url = url.toString();
-    //check if redirectUrl already doesn't has more results option
-    if(url.indexOf("more_results") !== -1) {
-        //do nothing
-    } else {
-        url += '&more_results=true';
-    }
-
-    return url;
-}
-
 jQuery(document).ready(function($){
     $('.loadMoreEnergy').on('click', function() {
         var data = {

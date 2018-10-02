@@ -7,9 +7,9 @@ jQuery(document).ready(function($){
 
         $('.loadMoreEnergy').html('LOADING...');
         // We can also pass the url value separately from ajaxurl for front end AJAX implementations
-        console.log(search_compare_obj.ajax_url+urlParams);
+        console.log(search_compare_obj_energy.ajax_url+urlParams);
         console.log(data);
-        $.get(search_compare_obj.ajax_url+urlParams, data, function(response) {
+        $.get(search_compare_obj_energy.ajax_url+urlParams, data, function(response) {
 
             $('.resultsData').html(response);
             $('.loadMoreEnergy').hide();

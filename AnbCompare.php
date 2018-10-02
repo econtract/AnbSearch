@@ -69,7 +69,7 @@ class AnbCompare extends Base
     function enqueueScripts()
     {
     	if($this->sector == pll__('telecom')) {
-		    wp_enqueue_script('search-compare-script', plugins_url('/js/search-results.js', __FILE__), array('jquery'), '1.2.4', true);
+		    wp_enqueue_script('search-compare-script', plugins_url('/js/search-results.js', __FILE__), array('jquery'), '1.2.5', true);
 
 		    // in JavaScript, object properties are accessed as ajax_object.ajax_url, ajax_object.we_value
 		    wp_localize_script( 'search-compare-script', 'search_compare_obj',
@@ -86,27 +86,26 @@ class AnbCompare extends Base
 				    'trans_ontime_costs' => pll__( 'One-time costs' ),
 				    'trans_ontime_total' => pll__( 'One-time total' )
 			    ) );
+	    }
 
+	    if($this->pagename == pll__('results')) {
+		    wp_enqueue_script('compare-between-results-script', plugins_url('/js/compare-results.js', __FILE__), array('jquery'), '1.2.0', true);
 
-		    if($this->pagename == pll__('results')) {
-			    wp_enqueue_script('compare-between-results-script', plugins_url('/js/compare-results.js', __FILE__), array('jquery'), '1.2.0', true);
-
-			    // in JavaScript, object properties are accessed as ajax_object.ajax_url, ajax_object.we_value
-			    wp_localize_script('compare-between-results-script', 'compare_between_results_object',
-				    array(
-					    'ajax_url' => admin_url('admin-ajax.php'),
-					    'site_url' => pll_home_url(),
-					    'current_pack' => pll__('your current pack'),
-					    'select_your_pack' => pll__('Select your pack'),
-					    'template_uri' => get_template_directory_uri(),
-					    'lang' => $this->getCurrentLang(),
-					    'features_label' => pll__('Features'),
-					    'telecom_trans' => pll__('telecom'),
-					    'energy_trans' => pll__('energy'),
-					    'brands_trans' => pll__('brands')
-				    )
-			    );
-		    }
+		    // in JavaScript, object properties are accessed as ajax_object.ajax_url, ajax_object.we_value
+		    wp_localize_script('compare-between-results-script', 'compare_between_results_object',
+			    array(
+				    'ajax_url' => admin_url('admin-ajax.php'),
+				    'site_url' => pll_home_url(),
+				    'current_pack' => pll__('your current pack'),
+				    'select_your_pack' => pll__('Select your pack'),
+				    'template_uri' => get_template_directory_uri(),
+				    'lang' => $this->getCurrentLang(),
+				    'features_label' => pll__('Features'),
+				    'telecom_trans' => pll__('telecom'),
+				    'energy_trans' => pll__('energy'),
+				    'brands_trans' => pll__('brands')
+			    )
+		    );
 	    }
 
         wp_enqueue_script('wizard-script', plugins_url('/js/wizard.js', __FILE__), array('jquery'), '1.0.5', true);

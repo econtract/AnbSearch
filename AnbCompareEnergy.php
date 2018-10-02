@@ -35,6 +35,9 @@ class AnbCompareEnergy extends AnbCompare
     	if($_GET['debug']) {
     		echo "page name>>>";
     		var_dump($this->pagename);
+
+    		echo "<br>sector>>>";
+		    var_dump($this->sector);
 	    }
 	    if($this->sector == pll__('energy')) {
 		    wp_enqueue_script('search-results-energy', plugins_url('/js/search-results-energy.js', __FILE__), array('jquery'), '1.0.4', true);

@@ -12,6 +12,15 @@ namespace AnbSearch;
 use abApiCrm\includes\controller\OrderController;
 use abSuppliers\AbSuppliers;
 
+if(!function_exists('getUriSegment')) {
+	function getUriSegment($n)
+	{
+		$segment = explode("/", parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
+
+		return count($segment) > 0 && count($segment) >= ($n - 1) ? $segment[$n] : '';
+	}
+}
+
 class AnbCompare extends Base
 {
     /**
@@ -31,11 +40,17 @@ class AnbCompare extends Base
 
     public $orignalCats = [];
 
+    public $sector;
+
+    public $pagename;
+
     /**
      * AnbCompare constructor.
      */
     public function __construct()
     {
+    	$this->sector = getUriSegment(1);
+    	$this->pagename = getUriSegment(2);
         //enqueue JS scripts
         add_action( 'wp_enqueue_scripts', array($this, 'enqueueScripts') );
 
@@ -53,41 +68,46 @@ class AnbCompare extends Base
      */
     function enqueueScripts()
     {
-        wp_enqueue_script('search-compare-script', plugins_url('/js/search-results.js', __FILE__), array('jquery'), '1.2.4', true);
+    	if($this->sector == pll__('telecom')) {
+		    wp_enqueue_script('search-compare-script', plugins_url('/js/search-results.js', __FILE__), array('jquery'), '1.2.4', true);
 
-        // in JavaScript, object properties are accessed as ajax_object.ajax_url, ajax_object.we_value
-	    wp_localize_script( 'search-compare-script', 'search_compare_obj',
-		    array(
-			    'ajax_url'     => admin_url( 'admin-ajax.php' ),
-			    'site_url'     => pll_home_url(),
-			    'zipcode_api'  => ZIPCODE_API,
-			    'template_uri' => get_template_directory_uri(),
-			    'lang' => getLanguage(),
-			    'trans_monthly_cost' => pll__( 'Monthly costs' ),
-			    'trans_monthly_total' => pll__( 'Monthly total' ),
-			    'trans_first_month' => pll__( 'First month' ),
-			    'trans_monthly_total_tooltip_txt' => pll__( 'PBS: Monthly total tooltip text' ),
-			    'trans_ontime_costs' => pll__( 'One-time costs' ),
-			    'trans_ontime_total' => pll__( 'One-time total' )
-		    ) );
+		    // in JavaScript, object properties are accessed as ajax_object.ajax_url, ajax_object.we_value
+		    wp_localize_script( 'search-compare-script', 'search_compare_obj',
+			    array(
+				    'ajax_url'     => admin_url( 'admin-ajax.php' ),
+				    'site_url'     => pll_home_url(),
+				    'zipcode_api'  => ZIPCODE_API,
+				    'template_uri' => get_template_directory_uri(),
+				    'lang' => getLanguage(),
+				    'trans_monthly_cost' => pll__( 'Monthly costs' ),
+				    'trans_monthly_total' => pll__( 'Monthly total' ),
+				    'trans_first_month' => pll__( 'First month' ),
+				    'trans_monthly_total_tooltip_txt' => pll__( 'PBS: Monthly total tooltip text' ),
+				    'trans_ontime_costs' => pll__( 'One-time costs' ),
+				    'trans_ontime_total' => pll__( 'One-time total' )
+			    ) );
 
-        wp_enqueue_script('compare-between-results-script', plugins_url('/js/compare-results.js', __FILE__), array('jquery'), '1.2.0', true);
 
-        // in JavaScript, object properties are accessed as ajax_object.ajax_url, ajax_object.we_value
-        wp_localize_script('compare-between-results-script', 'compare_between_results_object',
-            array(
-                'ajax_url' => admin_url('admin-ajax.php'),
-                'site_url' => pll_home_url(),
-                'current_pack' => pll__('your current pack'),
-                'select_your_pack' => pll__('Select your pack'),
-                'template_uri' => get_template_directory_uri(),
-	            'lang' => $this->getCurrentLang(),
-	            'features_label' => pll__('Features'),
-                'telecom_trans' => pll__('telecom'),
-                'energy_trans' => pll__('energy'),
-	            'brands_trans' => pll__('brands')
-            )
-        );
+		    if($this->pagename == pll__('results')) {
+			    wp_enqueue_script('compare-between-results-script', plugins_url('/js/compare-results.js', __FILE__), array('jquery'), '1.2.0', true);
+
+			    // in JavaScript, object properties are accessed as ajax_object.ajax_url, ajax_object.we_value
+			    wp_localize_script('compare-between-results-script', 'compare_between_results_object',
+				    array(
+					    'ajax_url' => admin_url('admin-ajax.php'),
+					    'site_url' => pll_home_url(),
+					    'current_pack' => pll__('your current pack'),
+					    'select_your_pack' => pll__('Select your pack'),
+					    'template_uri' => get_template_directory_uri(),
+					    'lang' => $this->getCurrentLang(),
+					    'features_label' => pll__('Features'),
+					    'telecom_trans' => pll__('telecom'),
+					    'energy_trans' => pll__('energy'),
+					    'brands_trans' => pll__('brands')
+				    )
+			    );
+		    }
+	    }
 
         wp_enqueue_script('wizard-script', plugins_url('/js/wizard.js', __FILE__), array('jquery'), '1.0.5', true);
 

@@ -355,11 +355,13 @@ class AnbCompareEnergy extends AnbCompare
             $pricing     = $listProduct->pricing;
             $productData = $anbTopDeals->prepareProductData( $product );
             $productId   = $product->product_id;
+	        $supplierId  = $product->supplier_id;
+	        $productType = $product->producttype;
 
             $endScriptTime = getEndTime();
             displayCallTime($startScriptTime, $endScriptTime, "Total page load time for Results page invidual gridView till prepareProductData.");
 
-            list(, , , , $toCartLinkHtml) = $anbTopDeals->getToCartAnchorHtml($parentSegment, $productData['product_id'], $productData['supplier_id'], $productData['sg'], $productData['producttype'], $forceCheckAvailability);
+            list(, , , , $toCartLinkHtml, $checkoutPageLink) = $anbTopDeals->getToCartAnchorHtml($parentSegment, $productData['product_id'], $productData['supplier_id'], $productData['sg'], $productData['producttype'], $forceCheckAvailability);
 
             $blockLinkClass = 'block-link';
             if($forceCheckAvailability) {
@@ -434,7 +436,8 @@ class AnbCompareEnergy extends AnbCompare
             $productResp .= '</ul>';*/
             $productResp .= '</div>';
             $productResp .= '<div class="grid-show border-top col_10">' .decorateLatestOrderByProduct($product->product_id) . '</div>';
-            $productResp .= '<a href="#" class="btn btn-primary all-caps">connect now</a>';
+            /*$productResp .= '<a href="#" class="btn btn-primary all-caps">connect now</a>';*/
+	        $productResp .= "<a class='btn btn-primary all-caps' href='". $checkoutPageLink . '?' . http_build_query($_GET). "&hidden_prodsel_cmp=yes&product_to_cart=yes&product_id=".$productId."&provider_id=".$supplierId."&producttype=".$productType."'>".pll__('connect now')."</a>";
 
 			$detailHtml = '<a href="'.getEnergyProductPageUri($productData).'" 
 			                                                     class="link block-link all-caps">'.pll__('Detail').'</a>';
@@ -1384,7 +1387,9 @@ class AnbCompareEnergy extends AnbCompare
         $endScriptTime = getEndTime();
         displayCallTime($startScriptTime, $endScriptTime, "Total page load time for Results page invidual gridView till prepareProductData.");
 
-        list(, , , , $toCartLinkHtml) = $anbTopDeals->getToCartAnchorHtml($parentSegment, $productData['product_id'], $productData['supplier_id'], $productData['sg'], $productData['producttype'], $forceCheckAvailability);
+	    $parentSegment = getSectorOnCats($_SESSION['product']['cat']);
+
+        list(, , , , $toCartLinkHtml, $checkoutPageLink) = $anbTopDeals->getToCartAnchorHtml($parentSegment, $productData['product_id'], $productData['supplier_id'], $productData['sg'], $productData['producttype'], $forceCheckAvailability);
 
         $blockLinkClass = 'block-link';
         if($forceCheckAvailability) {
@@ -1470,7 +1475,7 @@ class AnbCompareEnergy extends AnbCompare
                                 <div class='col_8 grid-show border-top'>
                                     " . decorateLatestOrderByProduct( $product->product_id ) . "
                                 </div>
-                                <a href='/energy/checkout?". http_build_query($_GET). "&hidden_prodsel_cmp=yes&product_to_cart=yes&product_id=".$productId."&provider_id=".$supplierId."&producttype=".$productType."' class='btn btn-primary all-caps'>".pll__('connect now')."</a>";
+                                <a href='". $checkoutPageLink . '?' . http_build_query($_GET). "&hidden_prodsel_cmp=yes&product_to_cart=yes&product_id=".$productId."&provider_id=".$supplierId."&producttype=".$productType."' class='btn btn-primary all-caps'>".pll__('connect now')."</a>";
         $detailHtml = '<a href="'.getEnergyProductPageUri($productData).'?'. http_build_query($_GET) . '&hidden_prodsel_cmp=yes&product_to_cart=yes&product_id='.$productId.'&provider_id='.$supplierId.'&producttype='.$productType.'"
                                                  class="link block-link all-caps">'.pll__('Detail').'</a>';
         if($productData['commission'] === false) {

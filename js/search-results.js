@@ -306,32 +306,6 @@ jQuery(document).ready(function($){
         adjustPersonalSettingScenarios();
     });
 
-    //Injecting values to checkAvailability modal on results page order now link, now this is generic for product page as well :)
-    jQuery('body').on('click', '.offer a.block-link.missing-zip, .calcContainerAdjust .buttonWrapper a.btn-primary', function() {
-        //reset checkAvailability to orignal form
-        if(jQuery('#ModalCheckAvailabilityClone .modal-content').length >= 1) {
-            jQuery('#ModalCheckAvailability .modal-content').html(jQuery('#ModalCheckAvailabilityClone .modal-content').html());
-            jQuery('#ModalCheckAvailability .modal-content #checkAvailabilityFormClone').attr('id', 'checkAvailabilityForm');
-        }
-        //reset form id to orignal one
-        initTypeahead();
-        var orderNowLink = jQuery(this);
-        //Condition added because on product page it was noticed that check availablity form is being displayed even when the link to cart is there
-        if(orderNowLink.attr('href') == undefined || orderNowLink.attr('href').length == 0) {
-            var pid = orderNowLink.data('pid');
-            var sid = orderNowLink.data('sid');
-            var sg = orderNowLink.data('sg');
-            var prt = orderNowLink.data('prt');
-
-            jQuery('#ModalCheckAvailability').find('[name=pid]').val(pid);
-            jQuery('#ModalCheckAvailability').find('[name=prvid]').val(sid);
-            jQuery('#ModalCheckAvailability').find('[name=sg]').val(sg);
-            jQuery('#ModalCheckAvailability').find('[name=prt]').val(prt);
-
-            jQuery('#ModalCheckAvailability').modal('show');
-        }
-    });
-
     //When mobile subscription is none, unselect the mobile checkbox in services list as well
     //In case mobile subscription is changed from none it'll then check the appropriate service again
     $('body').on('change', 'input[name=ms_mobile]', function() {

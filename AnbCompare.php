@@ -166,6 +166,7 @@ class AnbCompare extends Base
             'ut' => '',
             'houseType' => '',
             'has_solar' => '',
+            'solar_capacity' => '',
             'gp' => '',
             'l' => '',
             'd' => '',

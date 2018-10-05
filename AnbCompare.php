@@ -301,7 +301,7 @@ class AnbCompare extends Base
         return $result;
     }
 
-    function getPreviousCompareResults($compareId, $enableCache = true, $cacheDurationSeconds = 86400)
+    function getPreviousCompareResults($compareId, $recompare = 1, $enableCache = true, $cacheDurationSeconds = 86400)
     {
 	    if(defined('COMPARE_API_CACHE_DURATION')) {
 		    $cacheDurationSeconds = COMPARE_API_CACHE_DURATION;
@@ -310,17 +310,17 @@ class AnbCompare extends Base
         $start = getStartTime();
         $displayText = "Time API (Previous Compare) inside getPreviousCompareResults";
         if ($enableCache && !isset($_GET['no_cache'])) {
-            $cacheKey = md5($compareId) . ":compare";
+            $cacheKey = md5($compareId . $recompare) . ":compare";
             $result = mycache_get($cacheKey);
 
             if($result === false || empty($result)) {
-                $result = $this->anbApi->previousCompare($compareId);
+                $result = $this->anbApi->previousCompare($compareId, ['recompare' => $recompare]);
                 mycache_set($cacheKey, $result, $cacheDurationSeconds);
             } else {
                 $displayText = "Time API Cached (Compare) inside getCompareResults";
             }
         } else {
-            $result = $this->anbApi->previousCompare($compareId);
+            $result = $this->anbApi->previousCompare($compareId, ['recompare' => $recompare]);
         }
         $finish = getEndTime();
         displayCallTime($start, $finish, $displayText);

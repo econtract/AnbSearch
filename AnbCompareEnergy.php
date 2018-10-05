@@ -1172,7 +1172,7 @@ class AnbCompareEnergy extends AnbCompare
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class='check fancyCheck'>
+                                                <!-- div class='check fancyCheck'>
                                                     <input type='checkbox' name='tenMonthCustomer' id='customerSupplier' class='radio-salutation' value='1' ". (($values['tenMonthCustomer'] == '1') ? "checked='checked'" : '') .">
                                                     <label for='customerSupplier'>
                                                         <i class='fa fa-circle-o unchecked'></i>
@@ -1181,7 +1181,7 @@ class AnbCompareEnergy extends AnbCompare
                                                     </label>
                                                 </div>
                                                     
-                                                <div class='block-desc'>".pll__('This is the average consumption of family 4,4500 kWh and 1700 m3 gas a year . You can change the amount if you know your exact usage.')."</div>    
+                                                <div class='block-desc'>".pll__('This is the average consumption of family 4,4500 kWh and 1700 m3 gas a year . You can change the amount if you know your exact usage.')."</div -->    
                                         
                                                 <div class='buttonWrapper text-left'>
                                                     <button type='button' class='btn btn-primary'>".pll__('Ok')."</button>

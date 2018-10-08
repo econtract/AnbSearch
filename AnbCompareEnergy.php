@@ -864,8 +864,25 @@ class AnbCompareEnergy extends AnbCompare
                                                                 <input type='text' name='nu' value='".(($values['nu']) ?: '')."'/>
                                                             </div>
                                                         </div>
+                                                        
+                                                        <div class='col-md-5 col-sm-5 col-xs-12 form-group hide exclusive_meter_consumption_content'>
+                                                            <label class='block bold-600 text-left'>" . pll__('Exclusive night meter') . "</label>
+                                                            <div class='night-consumption'>
+                                                                <input type='text' name='nou' value='".(($values['nou']) ?: '')."'/>
+                                                            </div>
+                                                        </div>
+                                                        <div class='col-md-12 form-group text-left'>
+                                                            <div class='check fancyCheck'>
+                                                                <input type='checkbox' name='exclusive_meter_consumption' id='exclusive_meter_consumption' class='hasContent' value='1' checked />
+                                                                <label for='exclusive_meter_consumption'>
+                                                                    <i class='fa fa-circle-o unchecked'></i>
+                                                                    <i class='fa fa-check-circle checked'></i>
+                                                                    <span>" . pll__('Exclusive night meter') . "</span>
+                                                                </label>
+                                                            </div>
+                                                        </div>
                                                     </div>
-
+                                                    
                                                     <div class='block-desc'>".pll__('Where can I find this information?')."</div>
                                                     
                                                     <div class='buttonWrapper text-left'>

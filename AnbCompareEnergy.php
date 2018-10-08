@@ -792,7 +792,7 @@ class AnbCompareEnergy extends AnbCompare
                                                     </div>
                                                     <div class='form-group text-left'>
                                                         <div class='check fancyCheck'>
-                                                            <input type='checkbox' name='exc_night_meter' id='exc_night_meter' class='radio-salutation' value='1' ".(($values['exc_night_meter'] == '1') ? "checked='checked'" : '').">
+                                                            <input type='checkbox' name='exc_night_meter' id='exc_night_meter' class='hasContent' value='1' ".(($values['exc_night_meter'] == '1') ? "checked='checked'" : '').">
                                                             <label for='exc_night_meter'>
                                                                 <i class='fa fa-circle-o unchecked'></i>
                                                                 <i class='fa fa-check-circle checked'></i>
@@ -864,21 +864,12 @@ class AnbCompareEnergy extends AnbCompare
                                                                 <input type='text' name='nu' value='".(($values['nu']) ?: '')."'/>
                                                             </div>
                                                         </div>
-                                                        
-                                                        <div class='col-md-5 col-sm-5 col-xs-12 form-group hide exclusive_meter_consumption_content'>
+                                                    </div>
+                                                    <div class='row'>
+                                                        <div class='col-md-5 col-sm-5 col-xs-12 form-group hide exc_night_meter_content'>
                                                             <label class='block bold-600 text-left'>" . pll__('Exclusive night meter') . "</label>
                                                             <div class='night-consumption'>
                                                                 <input type='text' name='nou' value='".(($values['nou']) ?: '')."'/>
-                                                            </div>
-                                                        </div>
-                                                        <div class='col-md-12 form-group text-left'>
-                                                            <div class='check fancyCheck'>
-                                                                <input type='checkbox' name='exclusive_meter_consumption' id='exclusive_meter_consumption' class='hasContent' value='1' checked />
-                                                                <label for='exclusive_meter_consumption'>
-                                                                    <i class='fa fa-circle-o unchecked'></i>
-                                                                    <i class='fa fa-check-circle checked'></i>
-                                                                    <span>" . pll__('Exclusive night meter') . "</span>
-                                                                </label>
                                                             </div>
                                                         </div>
                                                     </div>

@@ -65,93 +65,97 @@ jQuery(document).ready(function($){
 
     $('#compareEnergyPopupFormTop').on('submit', function(e) {
         e.preventDefault();
-        $('#messagenotfound').hide();
-        var currentPack = $('#currentPackEnergyTop').val().split('|');
-        $('#selectCurrentPackTop').modal('hide');
+        if(!$(this).find('button[type=submit]').hasClass('disabled')) {
+            $('#messagenotfound').hide();
+            var currentPack = $('#currentPackEnergyTop').val().split('|');
+            $('#selectCurrentPackTop').modal('hide');
 
-        $('#cmp_sid').val($('#currentProviderEnergyTop').val());
-        $('#cmp_pid').val(currentPack[1]);
-        $('#searchFilterNav').trigger('submit');
+            $('#cmp_sid').val($('#currentProviderEnergyTop').val());
+            $('#cmp_pid').val(currentPack[1]);
+            $('#searchFilterNav').trigger('submit');
+        }
     });
 
     $('#compareEnergyPopupForm').on('submit', function(e) {
-        e.preventDefault();
-        $('#messagenotfound').hide();
-        var currentPack = $('#currentPack').val().split('|');
-        $('#selectCurrentPack').modal('hide');
+        if(!$(this).find('button[type=submit]').hasClass('disabled')) {
+            e.preventDefault();
+            $('#messagenotfound').hide();
+            var currentPack = $('#currentPack').val().split('|');
+            $('#selectCurrentPack').modal('hide');
 
-        var lowestPrice = '';
-        if($('#top-heading-compare-btn-value').val() == 1) {
-            $('#ajaxloadertop').removeClass('hide');
-            $('#response-no-result-found-message').hide();
-            var serverAction = 'compareTopResults';
-            var lowestPrice = $('#top-heading-compare-lowest-price').val();
-            var lowestPid = $('#top-heading-compare-lowest-pid').val();
-        } else {
-            var serverAction = 'compareBetweenResults';
-        }
-
-        var pref_pids_arr = new Array();
-        pref_pids_arr[0] = $('.selected-item-1').attr('pid');
-        pref_pids_arr[1] = $('.selected-item-2').attr('pid');
-        /*
-        var pref_pids = $.param(pref_pids_arr).serializeArray();
-        console.log(pref_pids);
-        return false;
-        */
-        var data = {
-            'action': serverAction,
-            'productTypes': currentPack[0],
-            'products': currentPack[1],
-            'pref_pids' : pref_pids_arr,
-            'lowestpid': lowestPid,
-            'crntPack': compare_between_results_object_energy.current_pack,
-            'features_label': compare_between_results_object_energy.features_label,
-            'lang': compare_between_results_object_energy.lang,
-            'lowestPrice': lowestPrice,
-            'brands_trans': compare_between_results_object_energy.brands_trans,
-        };
-
-        var urlParams = window.location.search;
-        // We can also pass the url value separately from ajaxurl for front end AJAX implementations
-        $('#crntPackSelectionResponse').hide();
-        $('#crntPackSelectionSection .offer').append('<div class="ajaxIconWrapper"><div class="ajaxIcon"><img src="' + compare_between_results_object_energy.template_uri + '/images/common/icons/ajaxloader.png" alt="Loading..."></div></div>');
-        $('#crntPackSelectionSection').show();
-        jQuery.get(compare_between_results_object_energy.site_url + '/api/' + urlParams + '&load=CompareEnergy', data, function (response) {
-            if($('#top-heading-compare-btn-value').val() == 1){
-                $('#ajaxloadertop').addClass('hide');
-                $('#top-heading-compare-btn-value').val('0');
-                if (response == 'no results found') {
-                    $('#response-no-result-found-message').show();
-                } else {
-                    var resData = response.split('****');
-                    $('#default-heading-section').hide();
-                    $('#comparison-product-title').html(resData[0]);
-                    $('#comparison-result-price').html(resData[1]);
-                    $('#breakDownPopup').html(resData[2]);
-                    $('#comparison-heading-section').show();
-                }
+            var lowestPrice = '';
+            if ($('#top-heading-compare-btn-value').val() == 1) {
+                $('#ajaxloadertop').removeClass('hide');
+                $('#response-no-result-found-message').hide();
+                var serverAction = 'compareTopResults';
+                var lowestPrice = $('#top-heading-compare-lowest-price').val();
+                var lowestPid = $('#top-heading-compare-lowest-pid').val();
             } else {
-                if (response == 'no results found') {
-                    $('#crntPackSelectionSection').show();
-                    $('#messagenotfound').html('No results found');
-                    $('#messagenotfound').show();
-                    $('#crntPackSelectionSection .offer .ajaxIconWrapper').remove();//Removing loaders ones result is loaded
-                } else {
-                    $('#crntPackSelectionSection .offer .ajaxIconWrapper').remove();//Removing loaders ones result is loaded
-                    var resData = response.split('****');
-                    $('#crntPackSelectionSection').hide();
-                    $('#messagenotfound').hide();
-                    $('#crntPackSelectionResponse').html(resData[0]).show();
-                    $('#compare_popup_rates_overview').html(resData[1]);
-                    $('.selected-item-1').html(resData[2]);
-                    $('.selected-item-2').html(resData[3]);
-
-                    fixDealsTableHeight($('.compareSection .dealsTable.grid'));
-                }
+                var serverAction = 'compareBetweenResults';
             }
-        });
-        return false;
+
+            var pref_pids_arr = new Array();
+            pref_pids_arr[0] = $('.selected-item-1').attr('pid');
+            pref_pids_arr[1] = $('.selected-item-2').attr('pid');
+            /*
+            var pref_pids = $.param(pref_pids_arr).serializeArray();
+            console.log(pref_pids);
+            return false;
+            */
+            var data = {
+                'action': serverAction,
+                'productTypes': currentPack[0],
+                'products': currentPack[1],
+                'pref_pids': pref_pids_arr,
+                'lowestpid': lowestPid,
+                'crntPack': compare_between_results_object_energy.current_pack,
+                'features_label': compare_between_results_object_energy.features_label,
+                'lang': compare_between_results_object_energy.lang,
+                'lowestPrice': lowestPrice,
+                'brands_trans': compare_between_results_object_energy.brands_trans,
+            };
+
+            var urlParams = window.location.search;
+            // We can also pass the url value separately from ajaxurl for front end AJAX implementations
+            $('#crntPackSelectionResponse').hide();
+            $('#crntPackSelectionSection .offer').append('<div class="ajaxIconWrapper"><div class="ajaxIcon"><img src="' + compare_between_results_object_energy.template_uri + '/images/common/icons/ajaxloader.png" alt="Loading..."></div></div>');
+            $('#crntPackSelectionSection').show();
+            jQuery.get(compare_between_results_object_energy.site_url + '/api/' + urlParams + '&load=CompareEnergy', data, function (response) {
+                if ($('#top-heading-compare-btn-value').val() == 1) {
+                    $('#ajaxloadertop').addClass('hide');
+                    $('#top-heading-compare-btn-value').val('0');
+                    if (response == 'no results found') {
+                        $('#response-no-result-found-message').show();
+                    } else {
+                        var resData = response.split('****');
+                        $('#default-heading-section').hide();
+                        $('#comparison-product-title').html(resData[0]);
+                        $('#comparison-result-price').html(resData[1]);
+                        $('#breakDownPopup').html(resData[2]);
+                        $('#comparison-heading-section').show();
+                    }
+                } else {
+                    if (response == 'no results found') {
+                        $('#crntPackSelectionSection').show();
+                        $('#messagenotfound').html('No results found');
+                        $('#messagenotfound').show();
+                        $('#crntPackSelectionSection .offer .ajaxIconWrapper').remove();//Removing loaders ones result is loaded
+                    } else {
+                        $('#crntPackSelectionSection .offer .ajaxIconWrapper').remove();//Removing loaders ones result is loaded
+                        var resData = response.split('****');
+                        $('#crntPackSelectionSection').hide();
+                        $('#messagenotfound').hide();
+                        $('#crntPackSelectionResponse').html(resData[0]).show();
+                        $('#compare_popup_rates_overview').html(resData[1]);
+                        $('.selected-item-1').html(resData[2]);
+                        $('.selected-item-2').html(resData[3]);
+
+                        fixDealsTableHeight($('.compareSection .dealsTable.grid'));
+                    }
+                }
+            });
+            return false;
+        }
     });
 
     $('#currentProviderEnergyTop').on('change', function() {

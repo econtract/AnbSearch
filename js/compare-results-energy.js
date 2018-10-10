@@ -65,13 +65,15 @@ jQuery(document).ready(function($){
 
     $('#compareEnergyPopupFormTop').on('submit', function(e) {
         e.preventDefault();
-        $('#messagenotfound').hide();
-        var currentPack = $('#currentPackEnergyTop').val().split('|');
-        $('#selectCurrentPackTop').modal('hide');
+        if(!$(this).find('button[type=submit]').hasClass('disabled')) {
+            $('#messagenotfound').hide();
+            var currentPack = $('#currentPackEnergyTop').val().split('|');
+            $('#selectCurrentPackTop').modal('hide');
 
-        $('#cmp_sid').val($('#currentProviderEnergyTop').val());
-        $('#cmp_pid').val(currentPack[1]);
-        $('#searchFilterNav').trigger('submit');
+            $('#cmp_sid').val($('#currentProviderEnergyTop').val());
+            $('#cmp_pid').val(currentPack[1]);
+            $('#searchFilterNav').trigger('submit');
+        }
     });
 
     $('#compareEnergyPopupForm').on('submit', function(e) {

@@ -73,6 +73,10 @@ jQuery(document).ready(function($){
             urlParams += '&sg='+$('#currentpack_sg').val();
         }
 
+        if(!_.includes(urlParams, 'cat') && $('#check_energy').val() == 'request_from_energy') {
+            urlParams += '&cat='+$('#currentpack_cat').val();
+        }
+
         // We can also pass the url value separately from ajaxurl for front end AJAX implementations
         jQuery.get(compare_between_results_object.site_url+'/api/' + urlParams+'&load=compare', data, function(response) {
 

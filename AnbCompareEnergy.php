@@ -454,10 +454,7 @@ class AnbCompareEnergy extends AnbCompare
             $productResp .= '<span class="grid-hide">'.$anbTopDeals->getLastUpdateDate( $productData ).'</span>';
             $productResp .= '<div class="comparePackage">';
             $productResp .= '<div class="checkbox">';
-            $productResp .= '<label>';
-            $productResp .= '<input type="hidden" name="compareProductType152" value="internet">';
-            $productResp .= '<input type="checkbox" value="listgridview_'.$chkbox.'"> Compare';
-            $productResp .= '</label>';
+            $productResp .= '<label><input type="checkbox" value="listgridview_'.$chkbox.'" id="cmpcheckbox'.$productId.'" data-val="'.$productId.'">'.pll__('Compare').'</label>';
             $productResp .= '</div>';
             $productResp .= '</div>';
             $productResp .= '</div>';

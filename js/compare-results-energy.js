@@ -16,6 +16,14 @@ jQuery(document).ready(function($){
         // We can also pass the url value separately from ajaxurl for front end AJAX implementations
         currentPack.html('<option value="">Loading...</option>');
 
+        if(!_.includes(urlParams, 'sg')) {
+            urlParams += '&sg='+$('#currentpack_sg').val();
+        }
+
+        if(!_.includes(urlParams, 'cat')) {
+            urlParams += '&cat='+$('#currentpack_cat').val();
+        }
+
         // We can also pass the url value separately from ajaxurl for front end AJAX implementations
         jQuery.get(compare_between_results_object_energy.site_url+'/api/' + urlParams+'&load=compare', data, function(response) {
 
@@ -157,7 +165,7 @@ jQuery(document).ready(function($){
             return false;
         }
     });
-
+    /*
     $('#currentProviderEnergyTop').on('change', function() {
         var data = {
             'action'   : 'productsCallback',
@@ -185,5 +193,6 @@ jQuery(document).ready(function($){
             currentPack.parents('form').validator('update');
         });
     });
+    */
 });
 

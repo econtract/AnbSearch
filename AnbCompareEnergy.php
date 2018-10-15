@@ -235,7 +235,7 @@ class AnbCompareEnergy extends AnbCompare
                                             <label class='full' for='person3' title='3 ".pll__('persons')."'></label>
 
 
-                                            <input type='radio' id='person2' name='f' value='2' usage-val='".KWH_2_PERSON."' usage-val-night='".KWH_2_PERSON_NIGHT."' usage-night-ex='".KWH_2_PERSON_NIGHT_EX."' ". (($values['f'] === '2') ? 'checked="checked"' : '') .">
+                                            <input type='radio' id='person2' name='f' value='2' usage-val='".KWH_2_PERSON."' usage-val-night='".KWH_2_PERSON_NIGHT."' usage-night-ex='".KWH_2_PERSON_NIGHT_EX."' ". (($values['f'] === '2' || empty($values['f'])) ? 'checked="checked"' : '') .">
                                             <label class='full' for='person2' title='2 ".pll__('persons')."'></label>
 
 

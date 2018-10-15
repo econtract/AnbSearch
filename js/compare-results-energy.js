@@ -124,6 +124,11 @@ jQuery(document).ready(function($){
             };
 
             var urlParams = window.location.search;
+
+            if(!_.includes(urlParams, 'cat') && (!_.includes(urlParams, 'zip'))){
+                urlParams+= '&' + $('#allgetparams').val();
+            }
+
             // We can also pass the url value separately from ajaxurl for front end AJAX implementations
             $('#crntPackSelectionResponse').hide();
             $('#crntPackSelectionSection .offer').append('<div class="ajaxIconWrapper"><div class="ajaxIcon"><img src="' + compare_between_results_object_energy.template_uri + '/images/common/icons/ajaxloader.png" alt="Loading..."></div></div>');

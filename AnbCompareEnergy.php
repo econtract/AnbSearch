@@ -1250,11 +1250,11 @@ class AnbCompareEnergy extends AnbCompare
                 $promotions = $prd->promotions;
             }
             if ( count ($promotions) ) {
-                $promoHTML = '<div class="packagePromo">
+                $promoHTML = '<div class="packagePromo with-promo">
                                 <ul class="list-unstyled">';
                 foreach ($promotions as $promo ) {
                     if(!empty($promo->texts->name)) {
-                        $promoHTML.= '<li class="promo prominent redHighlight">'.$promo->texts->name.'</li>';
+                        $promoHTML.= '<li class="promo prominent redHighlight"><svg class="svg-Promo"> <use xlink:href="'.get_bloginfo('template_url').'/images/svg-sprite.svg#Promo"></use> </svg>'.$promo->texts->name.'</li>';
                     }
                 }
                 $promoHTML.= '</ul>

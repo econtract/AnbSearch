@@ -62,7 +62,7 @@ jQuery(document).ready(function($){
         };
 
         var currentPack= $('#currentPack');
-        var firstOption = '<option value="">'+compare_between_results_object.select_your_pack+"</option>";
+        //var firstOption = '<option value="">'+compare_between_results_object.select_your_pack+"</option>";
 
         var urlParams = window.location.search
         // We can also pass the url value separately from ajaxurl for front end AJAX implementations

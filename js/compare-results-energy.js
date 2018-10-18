@@ -123,11 +123,13 @@ jQuery(document).ready(function($){
                 'brands_trans': compare_between_results_object_energy.brands_trans,
             };
 
-            var urlParams = window.location.search;
+            /*var urlParams = window.location.search;
 
             if(!_.includes(urlParams, 'cat') && (!_.includes(urlParams, 'zip'))){
                 urlParams+= '&' + $('#allgetparams').val();
-            }
+            }*/
+
+            var urlParams = '?' + $('#allgetparams').val();
 
             // We can also pass the url value separately from ajaxurl for front end AJAX implementations
             $('#crntPackSelectionResponse').hide();

@@ -387,7 +387,15 @@ class AnbCompareEnergy extends AnbCompare
 
             $endScriptTime = getEndTime();
             displayCallTime($startScriptTime, $endScriptTime, "Total page load time for Results page invidual gridView till getPriceHtml.");*/
-            include(locate_template('template-parts/section/energy-overview-popup.php'));
+            if(!empty($results->current)) {
+                list($productsData, $labels) = $this->getCompareOverviewData($results->current, $listProduct);
+                include(locate_template('template-parts/section/compare-popups-top-section-energy-results.php'));
+                $isSetCompare = true;
+            } else {
+                include(locate_template('template-parts/section/energy-overview-popup.php'));
+                $isSetCompare = false;
+            }
+            //include(locate_template('template-parts/section/energy-overview-popup.php'));
             $productResp .= '<div class="result-box-container" id="listgridview_'.$chkbox.'">';
             $productResp .= '<div class="result-box">';
             $productResp .= '<div class="top-label">'. $anbTopDeals->getBadgeSection('') .'</div>';
@@ -401,16 +409,19 @@ class AnbCompareEnergy extends AnbCompare
             $productResp .= '</div>';
             $productResp .= '<div class="cols grid-hide">' .$anbTopDeals->getPromoSection( $product ). '</div>';
             $productResp .= '<div class="cols">';
-            $productResp .= '<div class="actual-price-board">' .$anbTopDeals->getPriceHtml( $productData, $pricing, true ). '</div>';
+            $productResp .= '<div class="actual-price-board">' .$anbTopDeals->getPriceHtml( $productData, $pricing, true, $isSetCompare ). '</div>';
             $productResp .= '</div>';
             $productResp .= '<div class="cols grid-show">' .$anbTopDeals->getPromoSection( $product ). '</div>';
             $productResp .= '<div class="cols">';
             $productResp .= $anbTopDeals->getPotentialSavings($listProduct->savings);
 
-            $yearAdv = $pricing->yearly->price - $pricing->yearly->promo_price;
-            if($yearAdv !== 0):
+            //$yearAdv = $pricing->yearly->price - $pricing->yearly->promo_price;
+            $yearAdv = $pricing->yearly->advantage;
+
+            //if($yearAdv !== 0):
                 $yearAdvArr = formatPriceInParts($yearAdv, 2);
-                $monthlyAdv = $pricing->monthly->price - $pricing->monthly->promo_price;
+                //$monthlyAdv = $pricing->monthly->price - $pricing->monthly->promo_price;
+                $monthlyAdv = $pricing->monthly->advantage;
                 $monthAdvArr = formatPriceInParts($monthlyAdv, 2);
 
                 $productResp .= '<div class="price-label">';
@@ -424,7 +435,7 @@ class AnbCompareEnergy extends AnbCompare
                 $productResp .= '<small>,' .$monthAdvArr['cents']. '</small>';
                 $productResp .= '</div>';
                 $productResp .= '</div>';
-            endif;
+            //endif;
             $productResp .= '<div class="inner-col grid-show">';
             /*$productResp .= '<div class="promo">added services</div>';
             $productResp .= '<ul class="col_9">';

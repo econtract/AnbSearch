@@ -81,7 +81,7 @@ class AnbCompareEnergy extends AnbCompare
 		    'hidden_sp' => '',
 		    'enable_need_help' => false,
             'hidden_prodsel' => '',
-            'product_type'  => '',
+            'supplier_service'  => '',
 
 	    ), $atts, 'anb_energy_search_form');
 
@@ -141,8 +141,8 @@ class AnbCompareEnergy extends AnbCompare
     )
     {
         $electricityHide = $gasHide = '';
-        if($values['product_type'] === 'electricity'){ $gasHide = 'hide'; }
-        if($values['product_type'] === 'gas'){ $electricityHide = 'hide'; }
+        if($values['supplier_service'] === 'electricity'){ $gasHide = 'hide'; }
+        if($values['supplier_service'] === 'gas'){ $electricityHide = 'hide'; }
 
         $titleHtml = "<h3>" . pll__('Compare energy rates') . "</h3>";
 	    if ($hideTitle) {
@@ -170,7 +170,7 @@ class AnbCompareEnergy extends AnbCompare
                                 <div class='form-group'>
                                     <ul class='service-tabs'>
                                         <li>
-                                            <input type='radio' name='cat' id='service_dual_fuel' value='dualfuel_pack' ". ( ($values['cat'] === 'dualfuel_pack' || empty($values['cat']) || $values['product_type'] === 'dualfuel_pack' ) ? 'checked="checked"' : '') .">
+                                            <input type='radio' name='cat' id='service_dual_fuel' value='dualfuel_pack' ". ( ($values['cat'] === 'dualfuel_pack' || empty($values['cat']) || $values['supplier_service'] === 'dualfuel_pack' ) ? 'checked="checked"' : '') .">
                                             <label for='service_dual_fuel' class='service-dual-fuel'>
                                                 <i></i>
                                                 <span class='service-label'>".pll__('Dual Fuel')."</span>
@@ -178,7 +178,7 @@ class AnbCompareEnergy extends AnbCompare
                                             </label>
                                         </li>
                                         <li>
-                                            <input type='radio' name='cat' id='service_electricity' value='electricity' ". (($values['cat'] === 'electricity' ||  $values['product_type'] === 'electricity') ? 'checked="checked"' : '') .">
+                                            <input type='radio' name='cat' id='service_electricity' value='electricity' ". (($values['cat'] === 'electricity' ||  $values['supplier_service'] === 'electricity') ? 'checked="checked"' : '') .">
                                             <label for='service_electricity' class='service-electricity'>
                                                 <i></i>
                                                 <span class='service-label'>".pll__('Electricity')."</span>
@@ -186,7 +186,7 @@ class AnbCompareEnergy extends AnbCompare
                                             </label>
                                         </li>
                                         <li>
-                                            <input type='radio' name='cat' id='service_gas' value='gas' ". (($values['cat'] === 'gas'  || $values['product_type'] === 'gas') ? 'checked="checked"' : '') .">
+                                            <input type='radio' name='cat' id='service_gas' value='gas' ". (($values['cat'] === 'gas'  || $values['supplier_service'] === 'gas') ? 'checked="checked"' : '') .">
                                             <label for='service_gas' class='service-gas'>
                                                 <i></i>
                                                 <span class='service-label'>".pll__('Gas')."</span>

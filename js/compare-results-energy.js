@@ -1,4 +1,6 @@
-
+function setCurrentPackHeightInCompare(){
+    jQuery('#crntPackSelectionResponse').find('.result-box-container .result-box').height(jQuery('.selected-item-1.result-box-container .result-box').height());
+}
 jQuery(document).ready(function($){
     function getPacksEnergy(currentObj, providerDropdownId = 'currentPackEnergy') {
         var data = {
@@ -161,6 +163,7 @@ jQuery(document).ready(function($){
                         $('#crntPackSelectionSection').hide();
                         $('#messagenotfound').hide();
                         $('#crntPackSelectionResponse').html(resData[0]).show();
+                        setCurrentPackHeightInCompare();
                         $('#compare_popup_rates_overview').html(resData[1]);
                         $('.selected-item-1').html(resData[2]);
                         $('.selected-item-2').html(resData[3]);

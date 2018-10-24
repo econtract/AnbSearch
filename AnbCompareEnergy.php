@@ -51,7 +51,7 @@ class AnbCompareEnergy extends AnbCompare
 		    );
 
 		    if($this->pagename == pll__('results')) {
-			    wp_enqueue_script('compare-results-energy', plugins_url('/js/compare-results-energy.js', __FILE__), array('jquery'), '1.1.5', true);
+			    wp_enqueue_script('compare-results-energy', plugins_url('/js/compare-results-energy.js', __FILE__), array('jquery'), '1.1.6', true);
 			    wp_localize_script('compare-results-energy', 'compare_between_results_object_energy',
 				    array(
 					    'ajax_url' => admin_url('admin-ajax.php'),
@@ -225,27 +225,27 @@ class AnbCompareEnergy extends AnbCompare
                                         <fieldset class='person-sel-sm'>
 
                                             <input type='radio' id='person6' name='f' value='6' usage-val='".KWH_5_PLUS_PERSON."' usage-val-night='".KWH_5_PLUS_PERSON_NIGHT."' usage-night-ex='".KWH_5_PLUS_PERSON_NIGHT_EX."' ". (($values['f'] === '6') ? 'checked="checked"' : '') .">
-                                            <label class='full' for='person6' title='6 ".pll__('persons')."'>
+                                            <label class='full custom-tooltip' for='person6' data-toggle='tooltip' title='5+ ".pll__('persons')."'>
                                                 <span class='person-value'>5+</span>
                                             </label>
 
-                                            <input type='radio' id='person5' name='f' value='5' usage-val='".KWH_5_PERSON."' usage-val-night='".KWH_5_PERSON_NIGHT."' usage-night-ex='".KWH_5_PERSON_NIGHT_EX."' ". (($values['f'] === '5') ? 'checked="checked"' : '') .">
-                                            <label class='full' for='person5' title='5 ".pll__('persons')."'></label>
+                                            <!--<input type='radio' id='person5' name='f' value='5' usage-val='".KWH_5_PERSON."' usage-val-night='".KWH_5_PERSON_NIGHT."' usage-night-ex='".KWH_5_PERSON_NIGHT_EX."' ". (($values['f'] === '5') ? 'checked="checked"' : '') .">
+                                            <label class='full custom-tooltip' for='person5' data-toggle='tooltip' title='5 ".pll__('persons')."'></label>-->
 
                                             <input type='radio' id='person4' name='f' value='4' usage-val='".KWH_4_PERSON."' usage-val-night='".KWH_4_PERSON_NIGHT."' usage-night-ex='".KWH_4_PERSON_NIGHT_EX."' ". (($values['f'] === '4') ? 'checked="checked"' : '') .">
-                                            <label class='full' for='person4' title='4 ".pll__('persons')."'></label>
+                                            <label class='full custom-tooltip' for='person4' data-toggle='tooltip' title='4 ".pll__('persons')."'></label>
 
 
                                             <input type='radio' id='person3' name='f' value='3' usage-val='".KWH_3_PERSON."' usage-val-night='".KWH_3_PERSON_NIGHT."' usage-night-ex='".KWH_3_PERSON_NIGHT_EX."' ". (($values['f'] === '3') ? 'checked="checked"' : '') .">
-                                            <label class='full' for='person3' title='3 ".pll__('persons')."'></label>
+                                            <label class='full custom-tooltip' for='person3' data-toggle='tooltip' title='3 ".pll__('persons')."'></label>
 
 
                                             <input type='radio' id='person2' name='f' value='2' usage-val='".KWH_2_PERSON."' usage-val-night='".KWH_2_PERSON_NIGHT."' usage-night-ex='".KWH_2_PERSON_NIGHT_EX."' ". (($values['f'] === '2' || empty($values['f'])) ? 'checked="checked"' : '') .">
-                                            <label class='full' for='person2' title='2 ".pll__('persons')."'></label>
+                                            <label class='full custom-tooltip' for='person2' data-toggle='tooltip' title='2 ".pll__('persons')."'></label>
 
 
                                             <input type='radio' id='person1' name='f' value='1' usage-val='".KWH_1_PERSON."' usage-val-night='".KWH_1_PERSON_NIGHT."' usage-night-ex='".KWH_1_PERSON_NIGHT_EX."' ". (($values['f'] === '1') ? 'checked="checked"' : '') .">
-                                            <label class='full' for='person1' title='1 ".pll__('persons')."'></label>
+                                            <label class='full custom-tooltip' for='person1' data-toggle='tooltip' title='1 ".pll__('persons')."'></label>
                                             <div class='clearfix'></div>
                                         </fieldset>
                                         <div class='double-meter-fields'>

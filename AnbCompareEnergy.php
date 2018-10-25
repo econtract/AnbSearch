@@ -1474,37 +1474,14 @@ class AnbCompareEnergy extends AnbCompare
                                     " . $anbTopDeals->getPriceHtml( $productData, $pricing, true ) . "
                                 </div>
                             </div>
-                            <div class='cols grid-show'>
-                                " . $anbTopDeals->getPromoSection( $product ) . "
-                            </div>
-                            <div class='cols'>
-                                <div class='price-label'>
-                                    <label>Potential saving</label>
-                                    <div class='price'>€ 136<small>,00</small></div>
-                                </div>
-                                {$advHtml}
-                                <div class='inner-col grid-show'>
-                                    <!-- div class='promo'>added services</div>
-                                    <ul class='col_7'>
-                                        <li>Isolation</li>
-                                        <li>SOlar panels</li>
-                                        <li>Comfort Service bij storing/defect</li>
-                                        <li>Bijstand elektrische wagen</li>
-                                        <li>Verlengde ganantie</li>
-                                    </ul -->
-                                </div>
-                                <div class='col_8 grid-show border-top'>
-                                    " . decorateLatestOrderByProduct( $product->product_id ) . "
-                                </div>
-                                <a href='". $checkoutPageLink . '?' . http_build_query($_GET). "&hidden_prodsel_cmp=yes&product_to_cart=yes&product_id=".$productId."&provider_id=".$supplierId."&producttype=".$productType."' class='btn btn-primary all-caps'>".pll__('connect now')."</a>";
-        $detailHtml = '<a href="'.getEnergyProductPageUri($productData).'?'. http_build_query($_GET) . '&hidden_prodsel_cmp=yes&product_to_cart=yes&product_id='.$productId.'&provider_id='.$supplierId.'&producttype='.$productType.'"
-                                                 class="link block-link all-caps">'.pll__('Detail').'</a>';
-        if($productData['commission'] === false) {
-            $detailHtml = '<a href="#not-available" class="link block-link not-available">' . pll__('Not Available') . '</a>';
-        }
+                            <div class='cols grid-show'></div>
+                            <div class='cols'>";
+                            if($productData['commission'] === false) {
+                                $detailHtml = '<a href="#not-available" class="link block-link not-available">' . pll__('Not Available') . '</a>';
+                            }
 
-        $html.= $detailHtml;
-        $html.= "</div>
+                            $html.= $detailHtml;
+                $html.= "</div>
                         </div>
                         <div class='result-footer'>
                             <div class='pull-left grid-hide'>

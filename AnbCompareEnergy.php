@@ -531,11 +531,12 @@ class AnbCompareEnergy extends AnbCompare
                                                 <div class='form-group'>
                                                     <div class='selectServicesComp'>
                                                         <label class='block bold-600 text-left'>".pll__('I like to compare')."</label>
-                                                        <ul class='service-tabs'>
+                                                        <ul class='service-tabs service-tabs-svg'>
                                                             <li>
                                                                 <input name='cat' id='dualfuel_pack_service_wiz' checked='checked' type='radio' value='dualfuel_pack' " . (($values['cat'] == 'dualfuel_pack' || empty($values['cat'])) ? 'checked="checked"' : '') . ">
                                                                 <label for='dualfuel_pack_service_wiz' class='service-dual-fuel'>
-                                                                    <i></i>
+                                                                    <i><svg class='svg-energy'><use xlink:href='".get_template_directory_uri()."/images/svg-sprite.svg#svg-energy'></use></svg></i>
+                                                                    <i><svg class='svg-energy-gas'><use xlink:href='".get_template_directory_uri()."/images/svg-sprite.svg#svg-energy-gas'></use></svg></i>
                                                                     <span class='service-label'>".pll__('Dual fuel Pack')."</span>
                                                                     <span class='check-box'></span>
                                                                 </label>
@@ -543,7 +544,7 @@ class AnbCompareEnergy extends AnbCompare
                                                             <li>
                                                                 <input name='cat' id='electricity_service_wiz' type='radio' value='electricity' " . (($values['cat'] == 'electricity') ? 'checked="checked"' : '') . ">
                                                                 <label for='electricity_service_wiz' class='service-electricity'>
-                                                                <i></i>
+                                                                <i><svg class='svg-energy'><use xlink:href='".get_template_directory_uri()."/images/svg-sprite.svg#svg-energy'></use></svg></i>
                                                                 <span class='service-label'>".pll__('Electricity')."</span>
                                                                 <span class='check-box'></span>
                                                                 </label>
@@ -551,7 +552,7 @@ class AnbCompareEnergy extends AnbCompare
                                                             <li>
                                                                 <input name='cat' id='gas_service_wiz' type='radio' value='gas' " . (($values['cat'] == 'gas') ? 'checked="checked"' : '') . ">
                                                                 <label for='gas_service_wiz' class='service-gas'>
-                                                                    <i></i>
+                                                                    <i><svg class='svg-energy-gas'><use xlink:href='".get_template_directory_uri()."/images/svg-sprite.svg#svg-energy-gas'></use></svg></i>
                                                                     <span class='service-label'>".pll__('Gas')."</span>
                                                                     <span class='check-box'></span>
                                                                 </label>

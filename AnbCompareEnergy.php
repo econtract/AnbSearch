@@ -1326,7 +1326,7 @@ class AnbCompareEnergy extends AnbCompare
 			    foreach($pbsData as $thisKey => $priceSection){
 				    $sectionlabel = str_replace(' ','_', strip_tags($priceSection['label']));
 				    if($priceSection['pbs_total']) {
-					    $labels['electricity']['data'][$sectionlabel]['total'][$cid] = $priceSection['pbs_total'];
+					    $labels['electricity']['data'][$sectionlabel]['total'][$cid] = formatPrice($priceSection['pbs_total']['value'], 2, $priceSection['pbs_total']['unit'].' ');
 				    }
 				    $labels['electricity']['data'][$sectionlabel]['label'] = $priceSection['label'];
 				    $hh = 0;
@@ -1359,7 +1359,7 @@ class AnbCompareEnergy extends AnbCompare
 			    foreach($pbsData as $thisKey => $priceSection){
 				    $sectionlabel = str_replace(' ','_', strip_tags($priceSection['label']));
 				    if($priceSection['pbs_total']) {
-					    $labels['gas']['data'][$sectionlabel]['total'][$cid] = $priceSection['pbs_total'];
+					    $labels['gas']['data'][$sectionlabel]['total'][$cid] = formatPrice($priceSection['pbs_total']['value'], 2, $priceSection['pbs_total']['unit'].' ');
 				    }
 				    $labels['gas']['data'][$sectionlabel]['label'] = $priceSection['label'];
 				    $hh = 0;

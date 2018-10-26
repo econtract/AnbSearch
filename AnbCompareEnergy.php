@@ -1256,42 +1256,46 @@ class AnbCompareEnergy extends AnbCompare
 	}
 
 	function getPBSBreakDownHTML($prd, $sec){
-	    if(isset($prd->$sec)){
+	    if(isset($prd->$sec)) {
             $currPricing = $prd->$sec->pricing;
-            $yearlyPromoPriceArr = formatPriceInParts($currPricing->yearly->promo_price, 2);
             $specs = $prd->$sec->specifications;
-            $greenOrigin = $specs->green_origin;
             $promotions = $prd->$sec->promotions;
-            if(empty($promotions)) {
-                $promotions = $prd->promotions;
-            }
-            if ( count ($promotions) ) {
-                $promoHTML = '<div class="packagePromo with-promo">
-                                <ul class="list-unstyled">';
-                foreach ($promotions as $promo ) {
-                    if(!empty($promo->texts->name)) {
-                        $promoHTML.= '<li class="promo prominent redHighlight"><svg class="svg-Promo"> <use xlink:href="'.get_bloginfo('template_url').'/images/svg-sprite.svg#Promo"></use> </svg>'.$promo->texts->name.'</li>';
-                    }
-                }
-                $promoHTML.= '</ul>
-                            </div>';
-            }
-            $html = '';
-            $html.= '<li class="packOption">
-                        <div class="packageDetail">
-                            <div class="packageDesc hasOldPrice">' . intval($greenOrigin->value) . $greenOrigin->unit . ' '.$specs->tariff_type->label.'</div>
-                            <div class="packagePrice">
-                                <!--span class="oldPrice">€ 70,95</span-->
-                                <span class="currentPrice">
-                                    <span class="currency">' . $yearlyPromoPriceArr['currency'] . '</span>
-                                    <span class="amount">' . $yearlyPromoPriceArr['price'] . '</span>
-                                    <span class="cents">' . $yearlyPromoPriceArr['cents'] . '</span>
-                                </span>
-                            </div>'.$promoHTML.'
-                        </div>                                    
-                    </li>';
-            return $html;
+        } else {
+            $currPricing = $prd->pricing;
+            $specs = $prd->product->specifications;
+            $promotions = $prd->product->promotions;
+	    }
+        $yearlyPromoPriceArr = formatPriceInParts($currPricing->yearly->promo_price, 2);
+        $greenOrigin = $specs->green_origin;
+        if(empty($promotions)) {
+            $promotions = $prd->promotions;
         }
+        if ( count ($promotions) ) {
+            $promoHTML = '<div class="packagePromo with-promo">
+                            <ul class="list-unstyled">';
+            foreach ($promotions as $promo ) {
+                if(!empty($promo->texts->name)) {
+                    $promoHTML.= '<li class="promo prominent redHighlight"><svg class="svg-Promo"> <use xlink:href="'.get_bloginfo('template_url').'/images/svg-sprite.svg#Promo"></use> </svg>'.$promo->texts->name.'</li>';
+                }
+            }
+            $promoHTML.= '</ul>
+                        </div>';
+        }
+        $html = '';
+        $html.= '<li class="packOption">
+                    <div class="packageDetail">
+                        <div class="packageDesc hasOldPrice">' . intval($greenOrigin->value) . $greenOrigin->unit . ' '.$specs->tariff_type->label.'</div>
+                        <div class="packagePrice">
+                            <!--span class="oldPrice">€ 70,95</span-->
+                            <span class="currentPrice">
+                                <span class="currency">' . $yearlyPromoPriceArr['currency'] . '</span>
+                                <span class="amount">' . $yearlyPromoPriceArr['price'] . '</span>
+                                <span class="cents">' . $yearlyPromoPriceArr['cents'] . '</span>
+                            </span>
+                        </div>'.$promoHTML.'
+                    </div>                                    
+                </li>';
+        return $html;
     }
 
 	/**

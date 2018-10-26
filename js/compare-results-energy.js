@@ -12,7 +12,7 @@ jQuery(document).ready(function($){
         };
 
         var currentPack= $('#'+providerDropdownId);
-        var firstOption = '<option value="i_dnt_know_contract">'+compare_between_results_object_energy.select_your_pack+"</option>";
+        var firstOption = '<option value="pack|i_dnt_know_contract">'+compare_between_results_object_energy.select_your_pack+"</option>";
 
         var urlParams = window.location.search
         // We can also pass the url value separately from ajaxurl for front end AJAX implementations

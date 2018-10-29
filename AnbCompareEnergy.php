@@ -1266,6 +1266,8 @@ class AnbCompareEnergy extends AnbCompare
             $promotions = $prd->product->promotions;
 	    }
         $yearlyPromoPriceArr = formatPriceInParts($currPricing->yearly->promo_price, 2);
+        $yearlyPriceArr = formatPriceInParts($currPricing->yearly->price, 2);
+
         $greenOrigin = $specs->green_origin;
         if(empty($promotions)) {
             $promotions = $prd->promotions;
@@ -1286,7 +1288,9 @@ class AnbCompareEnergy extends AnbCompare
                     <div class="packageDetail">
                         <div class="packageDesc hasOldPrice">' . intval($greenOrigin->value) . $greenOrigin->unit . ' '.$specs->tariff_type->label.'</div>
                         <div class="packagePrice">
-                            <!--span class="oldPrice">€ 70,95</span-->
+                            <span class="oldPrice">
+                            '.$yearlyPriceArr['currency'].' '.$yearlyPriceArr['price'].'.'.$yearlyPriceArr['cents'].'
+                            </span>
                             <span class="currentPrice">
                                 <span class="currency">' . $yearlyPromoPriceArr['currency'] . '</span>
                                 <span class="amount">' . $yearlyPromoPriceArr['price'] . '</span>

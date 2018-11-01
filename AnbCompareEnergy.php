@@ -82,7 +82,7 @@ class AnbCompareEnergy extends AnbCompare
 		    'enable_need_help' => false,
             'hidden_prodsel' => '',
             'supplier_service'  => '',
-
+            'search_form_action' => '',
 	    ), $atts, 'anb_energy_search_form');
 
 	    $values = $atts;
@@ -143,6 +143,7 @@ class AnbCompareEnergy extends AnbCompare
         $electricityHide = $gasHide = '';
         if($values['supplier_service'] === 'electricity'){ $gasHide = 'hide'; }
         if($values['supplier_service'] === 'gas'){ $electricityHide = 'hide'; }
+        if(!empty($values['search_form_action'])){ $resultsPageUri = $values['search_form_action']; }
 
         $titleHtml = "<h3>" . pll__('Compare energy rates') . "</h3>";
 	    if ($hideTitle) {

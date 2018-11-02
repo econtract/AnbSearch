@@ -1,6 +1,6 @@
 function setEmptyDivHeight(){
     var currentHeight = jQuery('.selected-item-1.result-box-container .result-box').height();
-    jQuery('#crntPackSelectionSection .offer.empty').height(currentHeight-6);
+    jQuery('#crntPackSelectionSection .offer.empty').height(currentHeight);
 }
 function setCurrentPackHeightInCompare(){
     setTimeout(function(){

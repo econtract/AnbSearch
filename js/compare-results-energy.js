@@ -12,6 +12,9 @@ function setCurrentPackHeightInCompare(){
 jQuery(document).ready(function($){
     $("#compareSearchEnergy").on("shown.bs.modal", function(e) {
         setEmptyDivHeight();
+        if(!_.isEmpty('#crntPackSelectionResponse')){
+            setCurrentPackHeightInCompare();
+        }
     });
     function getPacksEnergy(currentObj, providerDropdownId = 'currentPackEnergy') {
         var data = {

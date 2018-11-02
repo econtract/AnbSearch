@@ -1,7 +1,18 @@
+function setEmptyDivHeight(){
+    var currentHeight = jQuery('.selected-item-1.result-box-container .result-box').height();
+    jQuery('#crntPackSelectionSection .offer.empty').height(currentHeight-6);
+}
 function setCurrentPackHeightInCompare(){
-    jQuery('#crntPackSelectionResponse').find('.result-box-container .result-box').height(jQuery('.selected-item-1.result-box-container .result-box').height());
+    setTimeout(function(){
+        var currentHeight = jQuery('.selected-item-1.result-box-container .result-box').height();
+        jQuery('#crntPackSelectionResponse').find('.result-box-container .result-box').height(currentHeight);
+        jQuery('#crntPackSelectionResponse').animate({opacity: "1"}, 'fast');
+    }, 600);
 }
 jQuery(document).ready(function($){
+    $("#compareSearchEnergy").on("shown.bs.modal", function(e) {
+        setEmptyDivHeight();
+    });
     function getPacksEnergy(currentObj, providerDropdownId = 'currentPackEnergy') {
         var data = {
             'action'   : 'productsCallback',
@@ -162,13 +173,14 @@ jQuery(document).ready(function($){
                         var resData = response.split('****');
                         $('#crntPackSelectionSection').hide();
                         $('#messagenotfound').hide();
+                        jQuery('#crntPackSelectionResponse').css('opacity', 0);
                         $('#crntPackSelectionResponse').html(resData[0]).show();
-                        setCurrentPackHeightInCompare();
                         $('#compare_popup_rates_overview').html(resData[1]);
                         $('.selected-item-1').html(resData[2]);
                         $('.selected-item-2').html(resData[3]);
 
                         fixDealsTableHeight($('.compareSection .dealsTable.grid'));
+                        setCurrentPackHeightInCompare();
                     }
                 }
             });

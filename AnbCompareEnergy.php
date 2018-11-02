@@ -51,7 +51,7 @@ class AnbCompareEnergy extends AnbCompare
 		    );
 
 		    if($this->pagename == pll__('results')) {
-			    wp_enqueue_script('compare-results-energy', plugins_url('/js/compare-results-energy.js', __FILE__), array('jquery'), '1.1.6', true);
+			    wp_enqueue_script('compare-results-energy', plugins_url('/js/compare-results-energy.js', __FILE__), array('jquery'), '1.1.7', true);
 			    wp_localize_script('compare-results-energy', 'compare_between_results_object_energy',
 				    array(
 					    'ajax_url' => admin_url('admin-ajax.php'),
@@ -82,7 +82,6 @@ class AnbCompareEnergy extends AnbCompare
 		    'enable_need_help' => false,
             'hidden_prodsel' => '',
             'supplier_service'  => '',
-
 	    ), $atts, 'anb_energy_search_form');
 
 	    $values = $atts;

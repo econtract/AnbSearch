@@ -1174,7 +1174,7 @@ class AnbCompare extends Base
                                             </h4>
                                         </div>
                                         <div id='compareCompPanel' class='panel-collapse collapse in' role='tabpanel'
-                                             aria-labelledby='headingOne'  data-wizard-panel='compare'>
+                                             aria-labelledby='headingOne'  data-wizard-panel='compare' aria-expanded='true'>
                                             <div class='panel-body text-center'>
                                                 <div class='form-group'>
                                                     <div class='selectServicesComp'>
@@ -1242,11 +1242,16 @@ class AnbCompare extends Base
                                                         </ul>
                                                     </div>
                                                 </div>
-                                                <!--<div class='buttonWrapper'>
-                                                    <button type='button' class='btn btn-primary'><i
-                                                                class='fa fa-check'></i> " . pll__('Ok') . "
+                                                <div class='staticTooltipWrapper'>
+                                                    <div class='staticTooltip'>
+                                                        <p>".pll__('Did you know combining services is often much more interesting for your wallet?')." </p>
+                                                    </div>
+                                                </div>
+                                                <div class='buttonWrapper'>
+                                                    <button type='button' class='btn btn-primary'>
+                                                        <i class='fa fa-check'></i> " . pll__('Ok') . "
                                                     </button>
-                                                </div> -->
+                                                </div>
                                             </div>
                                         </div>
                                     </div>

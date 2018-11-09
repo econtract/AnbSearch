@@ -1257,10 +1257,12 @@ class AnbCompareEnergy extends AnbCompare
 
 	function getPBSBreakDownHTML($prd, $sec){
 	    if(isset($prd->$sec)) {
+	        $prdObj = $prd->$sec;
             $currPricing = $prd->$sec->pricing;
             $specs = $prd->$sec->specifications;
             $promotions = $prd->$sec->promotions;
         } else {
+            $prdObj = $prd->product;
             $currPricing = $prd->pricing;
             $specs = $prd->product->specifications;
             $promotions = $prd->product->promotions;
@@ -1286,7 +1288,8 @@ class AnbCompareEnergy extends AnbCompare
         $html = '';
         $html.= '<li class="packOption">
                     <div class="packageDetail">
-                        <div class="packageDesc hasOldPrice">' . intval($greenOrigin->value) . $greenOrigin->unit . ' '.$specs->tariff_type->label.'</div>
+                        <!--div class="packageDesc hasOldPrice">' . intval($greenOrigin->value) . $greenOrigin->unit . ' '.$specs->tariff_type->label.'</div-->
+                        <div class="packageDesc hasOldPrice">' . $prdObj->product_name . '</div>
                         <div class="packagePrice">
                             <span class="oldPrice">
                             '.$yearlyPriceArr['currency'].' '.$yearlyPriceArr['price'].'.'.$yearlyPriceArr['cents'].'

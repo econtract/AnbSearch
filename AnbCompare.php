@@ -85,10 +85,10 @@ class AnbCompare extends Base
 				    'trans_first_month' => pll__( 'First month' ),
 				    'trans_monthly_total_tooltip_txt' => pll__( 'PBS: Monthly total tooltip text' ),
 				    'trans_ontime_costs' => pll__( 'One-time costs' ),
-				    'trans_ontime_total' => pll__( 'One-time total' )
+				    'trans_ontime_total' => pll__( 'One-time total' ),
 			    ) );
 
-		    wp_enqueue_script('compare-between-results-script', plugins_url('/js/compare-results.js', __FILE__), array('jquery'), '1.2.3', true);
+		    wp_enqueue_script('compare-between-results-script', plugins_url('/js/compare-results.js', __FILE__), array('jquery'), '1.2.4', true);
 
 		    //This is required for current pack functionality on energy too
 		    // in JavaScript, object properties are accessed as ajax_object.ajax_url, ajax_object.we_value
@@ -103,7 +103,20 @@ class AnbCompare extends Base
 				    'features_label' => pll__('Features'),
 				    'telecom_trans' => pll__('telecom'),
 				    'energy_trans' => pll__('energy'),
-				    'brands_trans' => pll__('brands')
+				    'brands_trans' => pll__('brands'),
+                    'selected_pack' => pll__('selected pack'),
+                    'change_pack' => pll__('change pack'),
+                    'customer_score' => pll__('Customer Score'),
+                    'trans_ontime_total' => pll__('One-time costs'),
+                    'trans_installation' => pll__('Installation'),
+                    'trans_free_activation' => pll__('Free activation'),
+                    'trans_Free_modem' => pll__('Free modem'),
+                    'trans_your_advantage' => pll__('Your advantage'),
+                    'trans_order_now' => pll__('Order Now'),
+                    'trans_info_options' => pll__('Info and options'),
+
+
+
 			    )
 		    );
 	    }

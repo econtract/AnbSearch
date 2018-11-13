@@ -37,14 +37,26 @@ jQuery(document).ready(function($){
             'features_label': compare_between_results_object.features_label,
             'lang': compare_between_results_object.lang,
             'telecom_trans': compare_between_results_object.telecom_trans,
-            'brands_trans': compare_between_results_object.brands_trans
+            'brands_trans': compare_between_results_object.brands_trans,
+            'selected_pack' :  compare_between_results_object.selected_pack,
+            'change_pack' :  compare_between_results_object.change_pack,
+            'trans_ontime_total' : compare_between_results_object.trans_ontime_total,
+            'customer_score' : compare_between_results_object.customer_score,
+            'trans_installation' : compare_between_results_object.trans_installation,
+
+            'trans_free_activation' : compare_between_results_object.trans_free_activation,
+            'trans_Free_modem' : compare_between_results_object.trans_Free_modem,
+            'trans_your_advantage' : compare_between_results_object.trans_your_advantage,
+            'trans_order_now' : compare_between_results_object.trans_order_now,
+            'trans_info_options' : compare_between_results_object.trans_info_options,
+
+
         };
 
         var urlParams = window.location.search;
         $('#compareBetweenResultsResponse').html('<div class="ajaxIconWrapper"><div class="ajaxIcon"><img src="'+compare_between_results_object.template_uri+'/images/common/icons/ajaxloader.png" alt="Loading..."></div></div>');
         // We can also pass the url value separately from ajaxurl for front end AJAX implementations
         jQuery.get(compare_between_results_object.site_url+'/api/' + urlParams+'&load=compare', data, function(response) {
-
             $('#compareBetweenResultsResponse').html(response);
             fixDealsTableHeight($('.compareSection .dealsTable.grid'));
         });
@@ -62,7 +74,8 @@ jQuery(document).ready(function($){
         };
 
         var currentPack= $('#currentPack');
-        var firstOption = '<option value="">'+compare_between_results_object.select_your_pack+"</option>";
+        //var firstOption = '<option value="">'+compare_between_results_object.select_your_pack+"</option>";
+        var firstOption = '';
 
         var urlParams = window.location.search
         // We can also pass the url value separately from ajaxurl for front end AJAX implementations
@@ -102,7 +115,20 @@ jQuery(document).ready(function($){
             'features_label': compare_between_results_object.features_label,
             'lang': compare_between_results_object.lang,
             'telecom_trans': compare_between_results_object.telecom_trans,
-            'brands_trans': compare_between_results_object.brands_trans
+            'brands_trans': compare_between_results_object.brands_trans,
+            'selected_pack' :  compare_between_results_object.selected_pack,
+            'change_pack' :  compare_between_results_object.change_pack,
+
+            'trans_ontime_total' : compare_between_results_object.trans_ontime_total,
+            'customer_score' : compare_between_results_object.customer_score,
+            'trans_installation' : compare_between_results_object.trans_installation,
+
+            'trans_free_activation' : compare_between_results_object.trans_free_activation,
+            'trans_Free_modem' : compare_between_results_object.trans_Free_modem,
+            'trans_your_advantage' : compare_between_results_object.trans_your_advantage,
+            'trans_order_now' : compare_between_results_object.trans_order_now,
+            'trans_info_options' : compare_between_results_object.trans_info_options,
+
         };
 
         var urlParams = window.location.search;

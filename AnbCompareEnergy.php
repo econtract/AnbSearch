@@ -51,7 +51,7 @@ class AnbCompareEnergy extends AnbCompare
 		    );
 
 		    if($this->pagename == pll__('results')) {
-			    wp_enqueue_script('compare-results-energy', plugins_url('/js/compare-results-energy.js', __FILE__), array('jquery'), '1.1.4', true);
+			    wp_enqueue_script('compare-results-energy', plugins_url('/js/compare-results-energy.js', __FILE__), array('jquery'), '1.1.8', true);
 			    wp_localize_script('compare-results-energy', 'compare_between_results_object_energy',
 				    array(
 					    'ajax_url' => admin_url('admin-ajax.php'),
@@ -81,7 +81,7 @@ class AnbCompareEnergy extends AnbCompare
 		    'hidden_sp' => '',
 		    'enable_need_help' => false,
             'hidden_prodsel' => '',
-
+            'supplier_service'  => '',
 	    ), $atts, 'anb_energy_search_form');
 
 	    $values = $atts;
@@ -139,7 +139,11 @@ class AnbCompareEnergy extends AnbCompare
         $hideTitle = false, $infoMsg = "", $resultsPageUri = self::RESULTS_PAGE_URI
     )
     {
-	    $titleHtml = "<h3>" . pll__('Compare energy rates') . "</h3>";
+        $electricityHide = $gasHide = '';
+        if($values['supplier_service'] === 'electricity'){ $gasHide = 'hide'; }
+        if($values['supplier_service'] === 'gas'){ $electricityHide = 'hide'; }
+
+        $titleHtml = "<h3>" . pll__('Compare energy rates') . "</h3>";
 	    if ($hideTitle) {
 		    $titleHtml = "";
 	    }
@@ -165,7 +169,7 @@ class AnbCompareEnergy extends AnbCompare
                                 <div class='form-group'>
                                     <ul class='service-tabs'>
                                         <li>
-                                            <input type='radio' name='cat' id='service_dual_fuel' value='dualfuel_pack' ". (($values['cat'] === 'dualfuel_pack' || empty($values['cat'])) ? 'checked="checked"' : '') .">
+                                            <input type='radio' name='cat' id='service_dual_fuel' value='dualfuel_pack' ". ( ($values['cat'] === 'dualfuel_pack' || empty($values['cat']) || $values['supplier_service'] === 'dualfuel_pack' ) ? 'checked="checked"' : '') .">
                                             <label for='service_dual_fuel' class='service-dual-fuel'>
                                                 <i></i>
                                                 <span class='service-label'>".pll__('Dual Fuel')."</span>
@@ -173,7 +177,7 @@ class AnbCompareEnergy extends AnbCompare
                                             </label>
                                         </li>
                                         <li>
-                                            <input type='radio' name='cat' id='service_electricity' value='electricity' ". (($values['cat'] === 'electricity') ? 'checked="checked"' : '') .">
+                                            <input type='radio' name='cat' id='service_electricity' value='electricity' ". (($values['cat'] === 'electricity' ||  $values['supplier_service'] === 'electricity') ? 'checked="checked"' : '') .">
                                             <label for='service_electricity' class='service-electricity'>
                                                 <i></i>
                                                 <span class='service-label'>".pll__('Electricity')."</span>
@@ -181,7 +185,7 @@ class AnbCompareEnergy extends AnbCompare
                                             </label>
                                         </li>
                                         <li>
-                                            <input type='radio' name='cat' id='service_gas' value='gas' ". (($values['cat'] === 'gas') ? 'checked="checked"' : '') .">
+                                            <input type='radio' name='cat' id='service_gas' value='gas' ". (($values['cat'] === 'gas'  || $values['supplier_service'] === 'gas') ? 'checked="checked"' : '') .">
                                             <label for='service_gas' class='service-gas'>
                                                 <i></i>
                                                 <span class='service-label'>".pll__('Gas')."</span>
@@ -214,33 +218,33 @@ class AnbCompareEnergy extends AnbCompare
                                       </div>
                                 </div>
                                 
-                                <div class='form-group family-members-container'>
+                                <div class='form-group family-members-container $electricityHide'>
                                     <label>".pll__('How many family members?')."</label>
                                     <div class='family-members'>
                                         <fieldset class='person-sel-sm'>
 
                                             <input type='radio' id='person6' name='f' value='6' usage-val='".KWH_5_PLUS_PERSON."' usage-val-night='".KWH_5_PLUS_PERSON_NIGHT."' usage-night-ex='".KWH_5_PLUS_PERSON_NIGHT_EX."' ". (($values['f'] === '6') ? 'checked="checked"' : '') .">
-                                            <label class='full' for='person6' title='6 ".pll__('persons')."'>
+                                            <label class='full custom-tooltip' for='person6' data-toggle='tooltip' title='5+ ".pll__('persons')."'>
                                                 <span class='person-value'>5+</span>
                                             </label>
 
-                                            <input type='radio' id='person5' name='f' value='5' usage-val='".KWH_5_PERSON."' usage-val-night='".KWH_5_PERSON_NIGHT."' usage-night-ex='".KWH_5_PERSON_NIGHT_EX."' ". (($values['f'] === '5') ? 'checked="checked"' : '') .">
-                                            <label class='full' for='person5' title='5 ".pll__('persons')."'></label>
+                                            <!--<input type='radio' id='person5' name='f' value='5' usage-val='".KWH_5_PERSON."' usage-val-night='".KWH_5_PERSON_NIGHT."' usage-night-ex='".KWH_5_PERSON_NIGHT_EX."' ". (($values['f'] === '5') ? 'checked="checked"' : '') .">
+                                            <label class='full custom-tooltip' for='person5' data-toggle='tooltip' title='5 ".pll__('persons')."'></label>-->
 
                                             <input type='radio' id='person4' name='f' value='4' usage-val='".KWH_4_PERSON."' usage-val-night='".KWH_4_PERSON_NIGHT."' usage-night-ex='".KWH_4_PERSON_NIGHT_EX."' ". (($values['f'] === '4') ? 'checked="checked"' : '') .">
-                                            <label class='full' for='person4' title='4 ".pll__('persons')."'></label>
+                                            <label class='full custom-tooltip' for='person4' data-toggle='tooltip' title='4 ".pll__('persons')."'></label>
 
 
                                             <input type='radio' id='person3' name='f' value='3' usage-val='".KWH_3_PERSON."' usage-val-night='".KWH_3_PERSON_NIGHT."' usage-night-ex='".KWH_3_PERSON_NIGHT_EX."' ". (($values['f'] === '3') ? 'checked="checked"' : '') .">
-                                            <label class='full' for='person3' title='3 ".pll__('persons')."'></label>
+                                            <label class='full custom-tooltip' for='person3' data-toggle='tooltip' title='3 ".pll__('persons')."'></label>
 
 
                                             <input type='radio' id='person2' name='f' value='2' usage-val='".KWH_2_PERSON."' usage-val-night='".KWH_2_PERSON_NIGHT."' usage-night-ex='".KWH_2_PERSON_NIGHT_EX."' ". (($values['f'] === '2' || empty($values['f'])) ? 'checked="checked"' : '') .">
-                                            <label class='full' for='person2' title='2 ".pll__('persons')."'></label>
+                                            <label class='full custom-tooltip' for='person2' data-toggle='tooltip' title='2 ".pll__('persons')."'></label>
 
 
                                             <input type='radio' id='person1' name='f' value='1' usage-val='".KWH_1_PERSON."' usage-val-night='".KWH_1_PERSON_NIGHT."' usage-night-ex='".KWH_1_PERSON_NIGHT_EX."' ". (($values['f'] === '1') ? 'checked="checked"' : '') .">
-                                            <label class='full' for='person1' title='1 ".pll__('persons')."'></label>
+                                            <label class='full custom-tooltip' for='person1' data-toggle='tooltip' title='1 ".pll__('persons')."'></label>
                                             <div class='clearfix'></div>
                                         </fieldset>
                                         <div class='double-meter-fields'>
@@ -301,7 +305,7 @@ class AnbCompareEnergy extends AnbCompare
                                         </div>
                                     </div>
                                 </div>
-                                <div class='form-group house-type-container'>
+                                <div class='form-group house-type-container $gasHide'>
                                     <label>".pll__('What type of house?')."</label>
                                     <div class='house-selector'>
                                         ".$this->getHouseTypeHtml($values)."
@@ -387,7 +391,15 @@ class AnbCompareEnergy extends AnbCompare
 
             $endScriptTime = getEndTime();
             displayCallTime($startScriptTime, $endScriptTime, "Total page load time for Results page invidual gridView till getPriceHtml.");*/
-            include(locate_template('template-parts/section/energy-overview-popup.php'));
+            if(!empty($results->current)) {
+                list($productsData, $labels) = $this->getCompareOverviewData($results->current, $listProduct);
+                include(locate_template('template-parts/section/compare-popups-top-section-energy-results.php'));
+                $isSetCompare = true;
+            } else {
+                include(locate_template('template-parts/section/energy-overview-popup.php'));
+                $isSetCompare = false;
+            }
+            //include(locate_template('template-parts/section/energy-overview-popup.php'));
             $productResp .= '<div class="result-box-container" id="listgridview_'.$chkbox.'">';
             $productResp .= '<div class="result-box">';
             $productResp .= '<div class="top-label">'. $anbTopDeals->getBadgeSection('') .'</div>';
@@ -401,16 +413,20 @@ class AnbCompareEnergy extends AnbCompare
             $productResp .= '</div>';
             $productResp .= '<div class="cols grid-hide">' .$anbTopDeals->getPromoSection( $product ). '</div>';
             $productResp .= '<div class="cols">';
-            $productResp .= '<div class="actual-price-board">' .$anbTopDeals->getPriceHtml( $productData, $pricing, true ). '</div>';
+            $productResp .= '<div class="actual-price-board">' .$anbTopDeals->getPriceHtml( $productData, $pricing, true, $isSetCompare ). '</div>';
             $productResp .= '</div>';
             $productResp .= '<div class="cols grid-show">' .$anbTopDeals->getPromoSection( $product ). '</div>';
             $productResp .= '<div class="cols">';
-            $productResp .= $anbTopDeals->getPotentialSavings($listProduct->savings);
+            if(is_object($listProduct->savings)) {
+                $productResp .= $anbTopDeals->getPotentialSavings($listProduct->savings);
+            }
 
-            $yearAdv = $pricing->yearly->price - $pricing->yearly->promo_price;
+            //$yearAdv = $pricing->yearly->price - $pricing->yearly->promo_price;
+            $yearAdv = $pricing->yearly->advantage;
             if($yearAdv !== 0):
                 $yearAdvArr = formatPriceInParts($yearAdv, 2);
-                $monthlyAdv = $pricing->monthly->price - $pricing->monthly->promo_price;
+                //$monthlyAdv = $pricing->monthly->price - $pricing->monthly->promo_price;
+                $monthlyAdv = $pricing->monthly->advantage;
                 $monthAdvArr = formatPriceInParts($monthlyAdv, 2);
 
                 $productResp .= '<div class="price-label">';
@@ -439,8 +455,7 @@ class AnbCompareEnergy extends AnbCompare
             /*$productResp .= '<a href="#" class="btn btn-primary all-caps">connect now</a>';*/
 	        $productResp .= "<a class='btn btn-primary all-caps' href='". $checkoutPageLink . '?' . http_build_query($_GET). "&hidden_prodsel_cmp=yes&product_to_cart=yes&product_id=".$productId."&provider_id=".$supplierId."&producttype=".$productType."'>".pll__('connect now')."</a>";
 
-			$detailHtml = '<a href="'.getEnergyProductPageUri($productData).'" 
-			                                                     class="link block-link all-caps">'.pll__('Detail').'</a>';
+			$detailHtml = '<a href="'.getEnergyProductPageUri($productData) . '?' . http_build_query($_GET). '&hidden_prodsel_cmp=yes&product_to_cart=yes&product_id='.$productId.'&provider_id='.$supplierId.'&producttype='.$productType.'" class="link block-link all-caps">'.pll__('Detail').'</a>';
 			if($productData['commission'] === false) {
 				$detailHtml = '<a href="#not-available" class="link block-link not-available">' . pll__('Not Available') . '</a>';
 			}
@@ -516,11 +531,12 @@ class AnbCompareEnergy extends AnbCompare
                                                 <div class='form-group'>
                                                     <div class='selectServicesComp'>
                                                         <label class='block bold-600 text-left'>".pll__('I like to compare')."</label>
-                                                        <ul class='service-tabs'>
+                                                        <ul class='service-tabs service-tabs-svg'>
                                                             <li>
                                                                 <input name='cat' id='dualfuel_pack_service_wiz' checked='checked' type='radio' value='dualfuel_pack' " . (($values['cat'] == 'dualfuel_pack' || empty($values['cat'])) ? 'checked="checked"' : '') . ">
                                                                 <label for='dualfuel_pack_service_wiz' class='service-dual-fuel'>
-                                                                    <i></i>
+                                                                    <i><svg class='svg-energy'><use xlink:href='".get_template_directory_uri()."/images/svg-sprite.svg#svg-energy'></use></svg></i>
+                                                                    <i><svg class='svg-energy-gas'><use xlink:href='".get_template_directory_uri()."/images/svg-sprite.svg#svg-energy-gas'></use></svg></i>
                                                                     <span class='service-label'>".pll__('Dual fuel Pack')."</span>
                                                                     <span class='check-box'></span>
                                                                 </label>
@@ -528,7 +544,7 @@ class AnbCompareEnergy extends AnbCompare
                                                             <li>
                                                                 <input name='cat' id='electricity_service_wiz' type='radio' value='electricity' " . (($values['cat'] == 'electricity') ? 'checked="checked"' : '') . ">
                                                                 <label for='electricity_service_wiz' class='service-electricity'>
-                                                                <i></i>
+                                                                <i><svg class='svg-energy'><use xlink:href='".get_template_directory_uri()."/images/svg-sprite.svg#svg-energy'></use></svg></i>
                                                                 <span class='service-label'>".pll__('Electricity')."</span>
                                                                 <span class='check-box'></span>
                                                                 </label>
@@ -536,7 +552,7 @@ class AnbCompareEnergy extends AnbCompare
                                                             <li>
                                                                 <input name='cat' id='gas_service_wiz' type='radio' value='gas' " . (($values['cat'] == 'gas') ? 'checked="checked"' : '') . ">
                                                                 <label for='gas_service_wiz' class='service-gas'>
-                                                                    <i></i>
+                                                                    <i><svg class='svg-energy-gas'><use xlink:href='".get_template_directory_uri()."/images/svg-sprite.svg#svg-energy-gas'></use></svg></i>
                                                                     <span class='service-label'>".pll__('Gas')."</span>
                                                                     <span class='check-box'></span>
                                                                 </label>
@@ -1240,42 +1256,53 @@ class AnbCompareEnergy extends AnbCompare
 	}
 
 	function getPBSBreakDownHTML($prd, $sec){
-	    if(isset($prd->$sec)){
+	    if(isset($prd->$sec)) {
+	        $prdObj = $prd->$sec;
             $currPricing = $prd->$sec->pricing;
-            $yearlyPromoPriceArr = formatPriceInParts($currPricing->yearly->promo_price, 2);
             $specs = $prd->$sec->specifications;
-            $greenOrigin = $specs->green_origin;
             $promotions = $prd->$sec->promotions;
-            if(empty($promotions)) {
-                $promotions = $prd->promotions;
-            }
-            if ( count ($promotions) ) {
-                $promoHTML = '<div class="packagePromo with-promo">
-                                <ul class="list-unstyled">';
-                foreach ($promotions as $promo ) {
-                    if(!empty($promo->texts->name)) {
-                        $promoHTML.= '<li class="promo prominent redHighlight"><svg class="svg-Promo"> <use xlink:href="'.get_bloginfo('template_url').'/images/svg-sprite.svg#Promo"></use> </svg>'.$promo->texts->name.'</li>';
-                    }
-                }
-                $promoHTML.= '</ul>
-                            </div>';
-            }
-            $html = '';
-            $html.= '<li class="packOption">
-                        <div class="packageDetail">
-                            <div class="packageDesc hasOldPrice">' . intval($greenOrigin->value) . $greenOrigin->unit . ' '.$specs->tariff_type->label.'</div>
-                            <div class="packagePrice">
-                                <!--span class="oldPrice">€ 70,95</span-->
-                                <span class="currentPrice">
-                                    <span class="currency">' . $yearlyPromoPriceArr['currency'] . '</span>
-                                    <span class="amount">' . $yearlyPromoPriceArr['price'] . '</span>
-                                    <span class="cents">' . $yearlyPromoPriceArr['cents'] . '</span>
-                                </span>
-                            </div>'.$promoHTML.'
-                        </div>                                    
-                    </li>';
-            return $html;
+        } else {
+            $prdObj = $prd->product;
+            $currPricing = $prd->pricing;
+            $specs = $prd->product->specifications;
+            $promotions = $prd->product->promotions;
+	    }
+        $yearlyPromoPriceArr = formatPriceInParts($currPricing->yearly->promo_price, 2);
+        $yearlyPriceArr = formatPriceInParts($currPricing->yearly->price, 2);
+
+        $greenOrigin = $specs->green_origin;
+        if(empty($promotions)) {
+            $promotions = $prd->promotions;
         }
+        if ( count ($promotions) ) {
+            $promoHTML = '<div class="packagePromo with-promo">
+                            <ul class="list-unstyled">';
+            foreach ($promotions as $promo ) {
+                if(!empty($promo->texts->name)) {
+                    $promoHTML.= '<li class="promo prominent redHighlight"><svg class="svg-Promo"> <use xlink:href="'.get_bloginfo('template_url').'/images/svg-sprite.svg#Promo"></use> </svg>'.$promo->texts->name.'</li>';
+                }
+            }
+            $promoHTML.= '</ul>
+                        </div>';
+        }
+        $html = '';
+        $html.= '<li class="packOption">
+                    <div class="packageDetail">
+                        <!--div class="packageDesc hasOldPrice">' . intval($greenOrigin->value) . $greenOrigin->unit . ' '.$specs->tariff_type->label.'</div-->
+                        <div class="packageDesc hasOldPrice">' . $prdObj->product_name . '</div>
+                        <div class="packagePrice">
+                            <span class="oldPrice">
+                            '.$yearlyPriceArr['currency'].' '.$yearlyPriceArr['price'].'.'.$yearlyPriceArr['cents'].'
+                            </span>
+                            <span class="currentPrice">
+                                <span class="currency">' . $yearlyPromoPriceArr['currency'] . '</span>
+                                <span class="amount">' . $yearlyPromoPriceArr['price'] . '</span>
+                                <span class="cents">' . $yearlyPromoPriceArr['cents'] . '</span>
+                            </span>
+                        </div>'.$promoHTML.'
+                    </div>                                    
+                </li>';
+        return $html;
     }
 
 	/**
@@ -1310,7 +1337,7 @@ class AnbCompareEnergy extends AnbCompare
 			    foreach($pbsData as $thisKey => $priceSection){
 				    $sectionlabel = str_replace(' ','_', strip_tags($priceSection['label']));
 				    if($priceSection['pbs_total']) {
-					    $labels['electricity']['data'][$sectionlabel]['total'][$cid] = $priceSection['pbs_total'];
+					    $labels['electricity']['data'][$sectionlabel]['total'][$cid] = formatPrice($priceSection['pbs_total']['value'], 2, $priceSection['pbs_total']['unit'].' ');
 				    }
 				    $labels['electricity']['data'][$sectionlabel]['label'] = $priceSection['label'];
 				    $hh = 0;
@@ -1343,7 +1370,7 @@ class AnbCompareEnergy extends AnbCompare
 			    foreach($pbsData as $thisKey => $priceSection){
 				    $sectionlabel = str_replace(' ','_', strip_tags($priceSection['label']));
 				    if($priceSection['pbs_total']) {
-					    $labels['gas']['data'][$sectionlabel]['total'][$cid] = $priceSection['pbs_total'];
+					    $labels['gas']['data'][$sectionlabel]['total'][$cid] = formatPrice($priceSection['pbs_total']['value'], 2, $priceSection['pbs_total']['unit'].' ');
 				    }
 				    $labels['gas']['data'][$sectionlabel]['label'] = $priceSection['label'];
 				    $hh = 0;
@@ -1458,37 +1485,14 @@ class AnbCompareEnergy extends AnbCompare
                                     " . $anbTopDeals->getPriceHtml( $productData, $pricing, true ) . "
                                 </div>
                             </div>
-                            <div class='cols grid-show'>
-                                " . $anbTopDeals->getPromoSection( $product ) . "
-                            </div>
-                            <div class='cols'>
-                                <div class='price-label'>
-                                    <label>Potential saving</label>
-                                    <div class='price'>€ 136<small>,00</small></div>
-                                </div>
-                                {$advHtml}
-                                <div class='inner-col grid-show'>
-                                    <!-- div class='promo'>added services</div>
-                                    <ul class='col_7'>
-                                        <li>Isolation</li>
-                                        <li>SOlar panels</li>
-                                        <li>Comfort Service bij storing/defect</li>
-                                        <li>Bijstand elektrische wagen</li>
-                                        <li>Verlengde ganantie</li>
-                                    </ul -->
-                                </div>
-                                <div class='col_8 grid-show border-top'>
-                                    " . decorateLatestOrderByProduct( $product->product_id ) . "
-                                </div>
-                                <a href='". $checkoutPageLink . '?' . http_build_query($_GET). "&hidden_prodsel_cmp=yes&product_to_cart=yes&product_id=".$productId."&provider_id=".$supplierId."&producttype=".$productType."' class='btn btn-primary all-caps'>".pll__('connect now')."</a>";
-        $detailHtml = '<a href="'.getEnergyProductPageUri($productData).'?'. http_build_query($_GET) . '&hidden_prodsel_cmp=yes&product_to_cart=yes&product_id='.$productId.'&provider_id='.$supplierId.'&producttype='.$productType.'"
-                                                 class="link block-link all-caps">'.pll__('Detail').'</a>';
-        if($productData['commission'] === false) {
-            $detailHtml = '<a href="#not-available" class="link block-link not-available">' . pll__('Not Available') . '</a>';
-        }
+                            <div class='cols grid-show'></div>
+                            <div class='cols'>";
+                            if($productData['commission'] === false) {
+                                $detailHtml = '<a href="#not-available" class="link block-link not-available">' . pll__('Not Available') . '</a>';
+                            }
 
-        $html.= $detailHtml;
-        $html.= "</div>
+                            $html.= $detailHtml;
+                $html.= "</div>
                         </div>
                         <div class='result-footer'>
                             <div class='pull-left grid-hide'>

@@ -49,6 +49,7 @@ jQuery(document).ready(function($){
             'trans_your_advantage' : compare_between_results_object.trans_your_advantage,
             'trans_order_now' : compare_between_results_object.trans_order_now,
             'trans_info_options' : compare_between_results_object.trans_info_options,
+            'trans_mth' : compare_between_results_object.trans_mth,
 
 
         };
@@ -128,6 +129,7 @@ jQuery(document).ready(function($){
             'trans_your_advantage' : compare_between_results_object.trans_your_advantage,
             'trans_order_now' : compare_between_results_object.trans_order_now,
             'trans_info_options' : compare_between_results_object.trans_info_options,
+            'trans_mth' : compare_between_results_object.trans_mth,
 
         };
 

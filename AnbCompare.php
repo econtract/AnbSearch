@@ -468,7 +468,7 @@ class AnbCompare extends Base
 		    } else {
 			    $toCartLinkHtml = '<a href="#not-available" class="link block-link not-available">' . pll__('Not Available') . '</a>';
 		    }
-		    $appendHtml = '<p class="message">' . $this->decorateLatestOrderByProduct($currentProduct->product_id) . '</p>';
+		    $appendHtml = '<p class="message">' . decorateLatestOrderByProduct($currentProduct->product_id) . '</p>';
 		    $orderInfoHtml = '<div class="buttonWrapper">
                             <a href="' . getTelecomProductPageUri($productData) . '" class="btn btn-primary ">' . pll__( 'Info and options' ) . '</a>
                             '.$toCartLinkHtml.'
@@ -632,7 +632,7 @@ class AnbCompare extends Base
                 $this->anbTopDeals->getPromoSection($promotionHtml, $productData['advantage'], 'dealFeatures',
                     '<a href="' . getTelecomProductPageUri($productData) . '" class="btn btn-primary ">' . pll__('Info and options') . '</a>
                                                      '.$toCartLinkHtml.'
-                                                     <p class="message">' . $this->decorateLatestOrderByProduct($productData['product_id']) . '</p>') .
+                                                     <p class="message">' . decorateLatestOrderByProduct($productData['product_id']) . '</p>') .
                 '<div class="packageInfo">' .
                 $this->getServiceDetail($currentProduct) .
                 '</div>' .
@@ -2103,22 +2103,5 @@ class AnbCompare extends Base
         return $orderController->getLatestOrderByProductResponse();
 
         wp_die();
-    }
-
-    /**
-     * @param $productID
-     * @return string
-     */
-    public function decorateLatestOrderByProduct($productID)
-    {
-        $output = '';
-
-        $response = $this->getLatestOrderByProduct($productID);
-
-        if (!empty($response)) {
-            $output = $response->client->name . " " . pll__('from') . " " . $response->address->city . " " . pll__('ordered') . " " . $response->created_ago;
-        }
-
-        return $output;
     }
 }

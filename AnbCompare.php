@@ -88,7 +88,7 @@ class AnbCompare extends Base
 				    'trans_ontime_total' => pll__( 'One-time total' ),
 			    ) );
 
-		    wp_enqueue_script('compare-between-results-script', plugins_url('/js/compare-results.js', __FILE__), array('jquery'), '1.2.4', true);
+		    wp_enqueue_script('compare-between-results-script', plugins_url('/js/compare-results.js', __FILE__), array('jquery'), '1.2.5', true);
 
 		    //This is required for current pack functionality on energy too
 		    // in JavaScript, object properties are accessed as ajax_object.ajax_url, ajax_object.we_value
@@ -114,6 +114,7 @@ class AnbCompare extends Base
                     'trans_your_advantage' => pll__('Your advantage'),
                     'trans_order_now' => pll__('Order Now'),
                     'trans_info_options' => pll__('Info and options'),
+                    'trans_mth' => pll__('mth'),
 
 
 

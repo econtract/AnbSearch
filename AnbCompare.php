@@ -780,7 +780,8 @@ class AnbCompare extends Base
                               </div>";
         }
 
-        $formNew = $this->getSearchBoxContentHtml($values, $needHelpHtml, $supplierHtml, pll__("Search Deals"), false, "", pll__('results'));
+        //In below call change '/' . getUriSegment(1) . '/' .pll__('results') to pll__('results') in case you want to submit it on the same URL struture like on provider details page.
+        $formNew = $this->getSearchBoxContentHtml($values, $needHelpHtml, $supplierHtml, pll__("Search Deals"), false, "", '/' . getUriSegment(1) . '/' .pll__('results'));
 
         return $formNew;
     }
@@ -2090,7 +2091,6 @@ class AnbCompare extends Base
 
         wp_die();
     }
-
 
     /**
      * @param $productID

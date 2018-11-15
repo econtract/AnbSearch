@@ -380,18 +380,10 @@ class AnbCompareEnergy extends AnbCompare
 
             $servicesHtml = $anbTopDeals->getServicesHtml( $product, $pricing );
 
-            /*
-            //Services HTML
-            $servicesHtml = $anbTopDeals->getServicesHtml( $productData );
+            $promoPopUpLogo = $anbTopDeals->getLogoSection($productData);
 
-            $endScriptTime = getEndTime();
-            displayCallTime($startScriptTime, $endScriptTime, "Total page load time for Results page invidual gridView till getServicesHtml.");
+            $promoPopUpDetailsArr = $anbTopDeals->getPromoSection($product, true);
 
-            //Price HTML
-            $priceHtml = $anbTopDeals->getPriceHtml( $productData, true );
-
-            $endScriptTime = getEndTime();
-            displayCallTime($startScriptTime, $endScriptTime, "Total page load time for Results page invidual gridView till getPriceHtml.");*/
             if(!empty($results->current)) {
                 list($productsData, $labels) = $this->getCompareOverviewData($results->current, $listProduct);
                 include(locate_template('template-parts/section/compare-popups-top-section-energy-results.php'));

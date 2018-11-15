@@ -43,16 +43,18 @@ jQuery(document).ready(function($){
             'trans_ontime_total' : compare_between_results_object.trans_ontime_total,
             'customer_score' : compare_between_results_object.customer_score,
             'trans_installation' : compare_between_results_object.trans_installation,
-
             'trans_free_activation' : compare_between_results_object.trans_free_activation,
-            'trans_Free_modem' : compare_between_results_object.trans_Free_modem,
+            'trans_free_modem' : compare_between_results_object.trans_Free_modem,
             'trans_your_advantage' : compare_between_results_object.trans_your_advantage,
             'trans_order_now' : compare_between_results_object.trans_order_now,
             'trans_info_options' : compare_between_results_object.trans_info_options,
             'trans_mth' : compare_between_results_object.trans_mth,
+            'trans_free' : compare_between_results_object.trans_free,
+            'trans_free_installation' : compare_between_results_object.trans_free_installation,
+            'trans_activation' : compare_between_results_object.trans_activation,
+            'trans_modem' : compare_between_results_object.trans_modem,
 
-
-        };
+    };
 
         var urlParams = window.location.search;
         $('#compareBetweenResultsResponse').html('<div class="ajaxIconWrapper"><div class="ajaxIcon"><img src="'+compare_between_results_object.template_uri+'/images/common/icons/ajaxloader.png" alt="Loading..."></div></div>');
@@ -119,17 +121,19 @@ jQuery(document).ready(function($){
             'brands_trans': compare_between_results_object.brands_trans,
             'selected_pack' :  compare_between_results_object.selected_pack,
             'change_pack' :  compare_between_results_object.change_pack,
-
             'trans_ontime_total' : compare_between_results_object.trans_ontime_total,
             'customer_score' : compare_between_results_object.customer_score,
             'trans_installation' : compare_between_results_object.trans_installation,
-
             'trans_free_activation' : compare_between_results_object.trans_free_activation,
-            'trans_Free_modem' : compare_between_results_object.trans_Free_modem,
+            'trans_free_modem' : compare_between_results_object.trans_Free_modem,
             'trans_your_advantage' : compare_between_results_object.trans_your_advantage,
             'trans_order_now' : compare_between_results_object.trans_order_now,
             'trans_info_options' : compare_between_results_object.trans_info_options,
             'trans_mth' : compare_between_results_object.trans_mth,
+            'trans_free' : compare_between_results_object.trans_free,
+            'trans_free_installation' : compare_between_results_object.trans_free_installation,
+            'trans_activation' : compare_between_results_object.trans_activation,
+            'trans_modem' : compare_between_results_object.trans_modem,
 
         };
 

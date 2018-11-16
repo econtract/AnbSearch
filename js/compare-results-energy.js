@@ -137,6 +137,8 @@ jQuery(document).ready(function($){
                 'lang': compare_between_results_object_energy.lang,
                 'lowestPrice': lowestPrice,
                 'brands_trans': compare_between_results_object_energy.brands_trans,
+                'checkout_button_trans' : compare_between_results_object_energy.checkout_button_trans,
+                'details_page_trans' : compare_between_results_object_energy.details_page_trans,
             };
 
             /*var urlParams = window.location.search;

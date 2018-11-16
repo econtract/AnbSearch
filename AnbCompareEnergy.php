@@ -63,7 +63,9 @@ class AnbCompareEnergy extends AnbCompare
 					    'features_label' => pll__('Features'),
 					    'telecom_trans' => pll__('telecom'),
 					    'energy_trans' => pll__('energy'),
-					    'brands_trans' => pll__('brands')
+					    'brands_trans' => pll__('brands'),
+                        'checkout_button_trans' => pll__('connect now'),
+                        'details_page_trans' => pll__('Detail'),
 				    )
 			    );
 		    }

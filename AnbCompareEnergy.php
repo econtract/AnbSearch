@@ -51,7 +51,7 @@ class AnbCompareEnergy extends AnbCompare
 		    );
 
 		    if($this->pagename == pll__('results')) {
-			    wp_enqueue_script('compare-results-energy', plugins_url('/js/compare-results-energy.js', __FILE__), array('jquery'), '1.1.9', true);
+			    wp_enqueue_script('compare-results-energy', plugins_url('/js/compare-results-energy.js', __FILE__), array('jquery'), '1.2.0', true);
 			    wp_localize_script('compare-results-energy', 'compare_between_results_object_energy',
 				    array(
 					    'ajax_url' => admin_url('admin-ajax.php'),
@@ -66,6 +66,7 @@ class AnbCompareEnergy extends AnbCompare
 					    'brands_trans' => pll__('brands'),
                         'checkout_button_trans' => pll__('connect now'),
                         'details_page_trans' => pll__('Detail'),
+                        'select_your_energy_pack' => pll__('Select your pack'),
 				    )
 			    );
 		    }

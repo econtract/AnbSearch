@@ -67,13 +67,13 @@ jQuery(document).ready(function($){
 
     // Call for pop suppliers dropDown
     $('#currentProvider').on('change', function() {
-
         var data = {
             'action'   : 'productsCallback',
             'supplier' : this.value,
             'telecom_trans': compare_between_results_object.telecom_trans,
             'brands_trans': compare_between_results_object.brands_trans,
             'lang': compare_between_results_object.lang,
+            'select_your_pack' :  compare_between_results_object.select_your_pack,
         };
 
         var currentPack= $('#currentPack');

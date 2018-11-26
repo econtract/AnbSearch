@@ -395,7 +395,7 @@ class AnbCompareEnergy extends AnbCompare
                 include(locate_template('template-parts/section/energy-overview-popup.php'));
                 $isSetCompare = false;
             }
-            //include(locate_template('template-parts/section/energy-overview-popup.php'));
+            include(locate_template('template-parts/section/energy-promotions-popup.php'));
             $productResp .= '<div class="result-box-container" id="listgridview_'.$chkbox.'">';
             $productResp .= '<div class="result-box">';
             $productResp .= '<div class="top-label">'. $anbTopDeals->getBadgeSection('') .'</div>';

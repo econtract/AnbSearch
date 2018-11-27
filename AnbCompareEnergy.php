@@ -396,7 +396,7 @@ class AnbCompareEnergy extends AnbCompare
                 include(locate_template('template-parts/section/energy-overview-popup.php'));
                 $isSetCompare = false;
             }
-            //include(locate_template('template-parts/section/energy-overview-popup.php'));
+            include(locate_template('template-parts/section/energy-promotions-popup.php'));
             $productResp .= '<div class="result-box-container" id="listgridview_'.$chkbox.'">';
             $productResp .= '<div class="result-box">';
             $productResp .= '<div class="top-label">'. $anbTopDeals->getBadgeSection('') .'</div>';
@@ -1389,11 +1389,13 @@ class AnbCompareEnergy extends AnbCompare
 		    $labels['totalfinal']['data']['costpermonth']['label'] = pll__('Cost/month (incl.BTW)');
 		    $labels['totalfinal']['data']['advoneyear']['label'] = pll__('Total advantage 1st year');
 		    $labels['totalfinal']['data']['costpermonth']['total'][$cid] = formatPrice($pdata['pricing']['monthly']['promo_price'], 2, '&euro; ');
-		    $labels['totalfinal']['data']['advoneyear']['total'][$cid] = formatPrice($pdata['pricing']['yearly']['advantage'], 2, '&euro; ');
+		    $advOneYearTotal = ( $pdata['pricing']['yearly']['advantage'] > 0 ) ? formatPrice($pdata['pricing']['yearly']['advantage'], 2, '&euro; ') : '&nbsp;';
+            $estimatedSavingTotal = ( $pdata['savings']['yearly']['promo_price'] > 0 ) ? formatPrice($pdata['savings']['yearly']['promo_price'], 2, '&euro; ') : '&nbsp;';
+		    $labels['totalfinal']['data']['advoneyear']['total'][$cid] = $advOneYearTotal;
 		    $labels['totalfinal']['sub_total_yearly'][$cid] = formatPrice($pdata['pricing']['yearly']['promo_price'], 2, '&euro; ');
 
 		    $labels['vetsavings']['main'] = pll__('Estimated savings');
-		    $labels['vetsavings']['estotal'][$cid] = formatPrice($pdata['savings']['yearly']['promo_price'], 2, '&euro; ');
+		    $labels['vetsavings']['estotal'][$cid] = $estimatedSavingTotal;
 		    $cid++;
 	    }
 

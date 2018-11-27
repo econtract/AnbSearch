@@ -51,12 +51,12 @@ class AnbCompareEnergy extends AnbCompare
 		    );
 
 		    if($this->pagename == pll__('results')) {
-			    wp_enqueue_script('compare-results-energy', plugins_url('/js/compare-results-energy.js', __FILE__), array('jquery'), '1.2.0', true);
+			    wp_enqueue_script('compare-results-energy', plugins_url('/js/compare-results-energy.js', __FILE__), array('jquery'), '1.2.1', true);
 			    wp_localize_script('compare-results-energy', 'compare_between_results_object_energy',
 				    array(
 					    'ajax_url' => admin_url('admin-ajax.php'),
 					    'site_url' => pll_home_url(),
-					    'current_pack' => pll__('your current pack'),
+					    'current_pack' => pll__('Your Current Energy Pack'),
 					    'select_your_pack' => pll__('I dont know the contract'),
 					    'template_uri' => get_template_directory_uri(),
 					    'lang' => $this->getCurrentLang(),
@@ -67,6 +67,7 @@ class AnbCompareEnergy extends AnbCompare
                         'checkout_button_trans' => pll__('connect now'),
                         'details_page_trans' => pll__('Detail'),
                         'select_your_energy_pack' => pll__('Select your pack'),
+                        'change_pack' => pll__('change pack'),
 				    )
 			    );
 		    }
@@ -1454,7 +1455,7 @@ class AnbCompareEnergy extends AnbCompare
 
         $html = "<div class='current-package' >
                 <div class='selection'>
-                    <h4>" . pll__( 'Your Current Pack' ) . "</h4>
+                    <h4>" . pll__( 'Your Current Energy Pack' ) . "</h4>
                     <a href='#' class='edit' data-toggle='modal' data-target='#selectCurrentPack'><i class='fa fa-chevron-right'></i>" . pll__( 'change pack' ) . "</a>
                     <a href='#' class='close'><span>×</span></a>
                 </div>

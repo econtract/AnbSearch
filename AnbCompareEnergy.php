@@ -1324,12 +1324,16 @@ class AnbCompareEnergy extends AnbCompare
 			    $productsData['products'][$cid]['title'] = $pdata['product']['product_name'];
 			    $productsData['products'][$cid]['total_yearly'] = formatPrice($pdata['pricing']['yearly']['promo_price'], 2, '&euro; ');
 			    $logosPlaced = 1;
-
-			    $pbsData = $pdata['product']['electricity']['pricing']['yearly']['price_breakdown_structure'];
+                $pbsData = $pdata['product']['electricity']['pricing']['yearly']['price_breakdown_structure'];
+                if($pdata['product']['producttype'] == 'electricity'){
+                    $pbsData = $pdata['pricing']['yearly']['price_breakdown_structure'];
+                }
 			    $labels['electricity']['main'] = pll__('electricity');
 			    $labels['electricity']['total'] = pll__('Total annual electricity costs (incl.BTW)');
-			    $labels['electricity']['sub_total_yearly'][$cid] = formatPrice($pdata['product']['electricity']['pricing']['yearly']['promo_price'], 2, '&euro; ');
-
+                $labels['electricity']['sub_total_yearly'][$cid] = formatPrice($pdata['product']['electricity']['pricing']['yearly']['promo_price'], 2, '&euro; ');
+			    if($pdata['product']['producttype'] == 'electricity'){
+                    $labels['electricity']['sub_total_yearly'][$cid] = formatPrice($pdata['pricing']['yearly']['promo_price'], 2, '&euro; ');
+                }
 			    $sh = 0;
 			    foreach($pbsData as $thisKey => $priceSection){
 				    $sectionlabel = str_replace(' ','_', strip_tags($priceSection['label']));
@@ -1352,10 +1356,16 @@ class AnbCompareEnergy extends AnbCompare
 		    }
 
 		    if( ($pdata['product']['producttype'] == 'dualfuel_pack' || $pdata['product']['producttype'] == 'gas') ){
-			    $pbsData = $pdata['product']['gas']['pricing']['yearly']['price_breakdown_structure'];
+                $pbsData = $pdata['product']['gas']['pricing']['yearly']['price_breakdown_structure'];
+		        if($pdata['product']['producttype'] == 'gas'){
+                    $pbsData = $pdata['pricing']['yearly']['price_breakdown_structure'];
+                }
 			    $labels['gas']['main'] = pll__('gas');
 			    $labels['gas']['total'] = pll__('Total annual gas costs (incl.BTW)');
 			    $labels['gas']['sub_total_yearly'][$cid] = formatPrice($pdata['product']['gas']['pricing']['yearly']['promo_price'], 2, '&euro; ');
+                if($pdata['product']['producttype'] == 'gas'){
+                    $labels['electricity']['sub_total_yearly'][$cid] = formatPrice($pdata['pricing']['yearly']['promo_price'], 2, '&euro; ');
+                }
 			    if($logosPlaced == 0) {
 				    $productsData['products'][$cid]['logo'] = $pdata['product']['supplier']['logo']['200x140']['transparent']['color'];
 				    $productsData['products'][$cid]['title'] = $pdata['product']['product_name'];

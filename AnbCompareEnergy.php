@@ -1364,7 +1364,7 @@ class AnbCompareEnergy extends AnbCompare
 			    $labels['gas']['total'] = pll__('Total annual gas costs (incl.BTW)');
 			    $labels['gas']['sub_total_yearly'][$cid] = formatPrice($pdata['product']['gas']['pricing']['yearly']['promo_price'], 2, '&euro; ');
                 if($pdata['product']['producttype'] == 'gas'){
-                    $labels['electricity']['sub_total_yearly'][$cid] = formatPrice($pdata['pricing']['yearly']['promo_price'], 2, '&euro; ');
+                    $labels['gas']['sub_total_yearly'][$cid] = formatPrice($pdata['pricing']['yearly']['promo_price'], 2, '&euro; ');
                 }
 			    if($logosPlaced == 0) {
 				    $productsData['products'][$cid]['logo'] = $pdata['product']['supplier']['logo']['200x140']['transparent']['color'];
@@ -1393,8 +1393,10 @@ class AnbCompareEnergy extends AnbCompare
 				    $sh++;
 			    }
 		    }
-
-		    $labels['totalfinal']['main'] = pll__('total electricity and gas');
+            $labels['totalfinal']['main'] = pll__('total electricity and gas');
+		    if($_GET['cat'] == 'gas' || $_GET['cat'] == 'electricity'){
+                $labels['totalfinal']['main'] = pll__('total '.$_GET['cat']);
+            }
 		    $labels['totalfinal']['total'] = pll__('Total annualcosts (incl.BTW)');
 		    $labels['totalfinal']['data']['costpermonth']['label'] = pll__('Cost/month (incl.BTW)');
 		    $labels['totalfinal']['data']['advoneyear']['label'] = pll__('Total advantage 1st year');

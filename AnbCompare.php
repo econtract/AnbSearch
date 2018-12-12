@@ -127,18 +127,20 @@ class AnbCompare extends Base
 		    );
 	    }
 
-        wp_enqueue_script('wizard-script', plugins_url('/js/wizard.js', __FILE__), array('jquery'), '1.0.5', true);
+        if($this->pagename == pll__('wizard') && $this->sector == pll__('telecom')) {
+            wp_enqueue_script('wizard-script', plugins_url('/js/wizard.js', __FILE__), array('jquery'), '1.0.5', true);
 
-        // in JavaScript, object properties are accessed as ajax_object.ajax_url, ajax_object.we_value
-        wp_localize_script('wizard-script', 'wizard_object',
-            array(
-                'ajax_url'      => admin_url('admin-ajax.php'),
-                'zip_empty'     => pll__('Zip cannot be empty'),
-                'zip_invalid'   => pll__('Please enter valid Zip Code'),
-                'offers_msg'    => pll__( 'offers' )." " . pll__('starting from'),
-                'no_offers_msg' => pll__('No offers in your area'),
-                'currency'      => $this->getCurrencySymbol($this->currencyUnit)
-            ));
+            // in JavaScript, object properties are accessed as ajax_object.ajax_url, ajax_object.we_value
+            wp_localize_script('wizard-script', 'wizard_object',
+                array(
+                    'ajax_url' => admin_url('admin-ajax.php'),
+                    'zip_empty' => pll__('Zip cannot be empty'),
+                    'zip_invalid' => pll__('Please enter valid Zip Code'),
+                    'offers_msg' => pll__('offers') . " " . pll__('starting from'),
+                    'no_offers_msg' => pll__('No offers in your area'),
+                    'currency' => $this->getCurrencySymbol($this->currencyUnit)
+                ));
+        }
     }
 
     function getCompareResults($atts, $enableCache = true, $cacheDurationSeconds = 86400)

@@ -71,6 +71,19 @@ class AnbCompareEnergy extends AnbCompare
 				    )
 			    );
 		    }
+
+            wp_enqueue_script('wizard-energy-script', plugins_url('/js/wizard-energy.js', __FILE__), array('jquery'), '1.0.0', true);
+
+            // in JavaScript, object properties are accessed as ajax_object.ajax_url, ajax_object.we_value
+            wp_localize_script('wizard-energy-script', 'wizard_energy_object',
+                array(
+                    'ajax_url'      => admin_url('admin-ajax.php'),
+                    'zip_empty'     => pll__('Zip cannot be empty'),
+                    'zip_invalid'   => pll__('Please enter valid Zip Code'),
+                    'offers_msg'    => pll__( 'offers' )." " . pll__('starting from'),
+                    'no_offers_msg' => pll__('No offers in your area'),
+                    'currency'      => $this->getCurrencySymbol($this->currencyUnit)
+                ));
 	    }
     }
 

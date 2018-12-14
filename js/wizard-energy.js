@@ -1,3 +1,5 @@
+//Below empty function is being called in main.js. If removed you will get js errors.
+// Same function is used in Telecom Wizard
 window.wizardAjaxCall = function() {
 
 }
@@ -49,6 +51,7 @@ jQuery(document).ready(function($){
     $('.showResultsImmediately').on('click', function (e) {
         e.preventDefault();
         jQuery('#searchEnergyWizardPopup').modal('show');
+        $(this).parents('form').submit();
     });
 
 

@@ -72,7 +72,7 @@ class AnbCompareEnergy extends AnbCompare
 			    );
 		    }
 
-            wp_enqueue_script('wizard-energy-script', plugins_url('/js/wizard-energy.js', __FILE__), array('jquery'), '1.0.1', true);
+            wp_enqueue_script('wizard-energy-script', plugins_url('/js/wizard-energy.js', __FILE__), array('jquery'), '1.0.2', true);
 
             // in JavaScript, object properties are accessed as ajax_object.ajax_url, ajax_object.we_value
             wp_localize_script('wizard-energy-script', 'wizard_energy_object',

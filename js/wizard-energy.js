@@ -13,7 +13,16 @@ function notyMessage(message) {
     }).show();
 }
 
+function addNumberingToQuestions(){
+    jQuery('.CheckOutSteps').find('li').first().addClass('active');
+    var wizMasterUl = jQuery('.wizMaster.wizMaster-energy');
+    wizMasterUl.find('span.bullet').html('');
+    wizMasterUl.children('li.step').each(function(index){jQuery(this).find('span.bullet').html(index+1+'.');});
+}
+
 jQuery(document).ready(function($){
+    //Wizard page numbering through jquery that comes before heading on each section
+    addNumberingToQuestions();
 
     /**
      * Wizard Section

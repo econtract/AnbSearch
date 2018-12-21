@@ -632,7 +632,7 @@ class AnbCompareEnergy extends AnbCompare
                                         </div>
                                     </div>
                                     
-                                   <!--Use-->
+                                    <!--Use-->
                                     <div class='panel panel-default' id='usagePanel'>
                                         <div class='panel-heading' role='tab' id='consumerHeading'>
                                             <h4 class='panel-title'>
@@ -776,8 +776,127 @@ class AnbCompareEnergy extends AnbCompare
                                         </div>
                                     </div>
                                     
-                                    <!-- Double meter -->
-                                    <div class='panel panel-default family-members-container electricity-content' id='doubleMeterPanel'>
+                                    <!-- House -->
+                                    <div class='panel panel-default house-type-container gas-content' id='housePanel'>
+                                        <div class='panel-heading' role='tab' id='headingFour'>
+                                            <h4 class='panel-title'>
+                                                <a class='collapsed' role='button' data-toggle='collapse' data-parent='#accordion' href='#collapseFour' aria-expanded='false' aria-controls='collapseFour'>
+                                                    <span class='headingTitle'>
+                                                        <span class='icon-holder'><i class='energy-icons home'></i></span>
+                                                        <span class='caption'>
+                                                            <span class='caption_close'>". pll__('House') ."</span>
+                                                            <span class='caption_open'>". pll__('House') ."</span>
+                                                        </span>
+                                                        <span class='selectedInfo'></span>
+                                                        <span class='changeInfo'>". pll__('Change') ."</span>
+                                                    </span>
+                                                </a>
+                                            </h4>
+                                        </div>
+                                        <div id='collapseFour' class='panel-collapse collapse' role='tabpanel' aria-labelledby='headingFour'  data-wizard-panel='house'>
+                                            <div class='panel-body'>
+                                                <div class='counterPanel'>
+                                                    <div class='form-group text-left'>
+                                                        <label class='block bold-600 text-left'>" . pll__('What type of house?') . "</label>
+                                                    </div>
+                                                    <div class='house-selector'>
+                                                        ".$this->getHouseTypeHtml($values)."
+				                                        <!-- div class='field m-l-10'>
+				                                            <i></i>
+				                                            <input type='text' id='m3_u' name='u' value='". (($values['u']) ?: '') ."'/>
+				                                            <input type='hidden' name='ut' value='m3'/>
+				                                            <label>m3</label>
+				                                            <span class='question-circle custom-tooltip' data-toggle='tooltip' title='".pll__('Informational text for gas')."'></span>
+				                                        </div -->
+                                                    </div>
+                                                    
+                                                    <p class='red-link m-b-20' id='houseMoreDetail'>".pll__('Tell us more for a accurate estimation')."</p>
+                                                    
+                                                    <div class='block-desc'>".pll__('This is the average consumption of family of 4 with this house charcteristics is 4500 kWh and 1700 m3 gas a year.')."</div>
+                                                
+                                                    
+                                                    <div class='buttonWrapper text-left'>
+                                                        <button type='button' class='btn btn-primary'>".pll__('Ok')."</button>
+                                                    </div>
+                                                    <!--div class='info'>
+                                                        <p>Some information will come here as well just like any other
+                                                            information so current putting lorem ipsum to see how it
+                                                            looks</p>
+                                                    </div
+                                                    <div class='buttonWrapper'>
+                                                        <button type='button' class='btn btn-primary'><i
+                                                                    class='fa fa-check'></i> " . pll__('Ok') . "
+                                                        </button>
+                                                    </div>-->
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Solar Energy -->
+                                    <div class='panel panel-default solar-panel-container electricity-content' id='solarEnergyPanel'>
+                                        <div class='panel-heading' role='tab' id='headingSix'>
+                                            <h4 class='panel-title'>
+                                                <a class='collapsed' role='button' data-toggle='collapse' data-parent='#accordion' href='#collapseSix' aria-expanded='false' aria-controls='collapseSix'>
+                                                    <span class='headingTitle'>
+                                                        <span class='icon-holder'><i class='energy-icons solar'></i></span>
+                                                        <span class='caption'>
+                                                            <span class='caption_close'>" . pll__('No solar energy') . "</span>
+                                                            <span class='caption_open'>" . pll__('Do you have solar energy?') . "</span>
+                                                        </span>
+                                                        <span class='selectedInfo'></span>
+                                                        <span class='changeInfo'>". pll__('Change') ."</span>
+                                                    </span>
+                                                </a>
+                                            </h4>
+                                        </div>
+                                        <div id='collapseSix' class='panel-collapse collapse' role='tabpanel' aria-labelledby='headingSix'  data-wizard-panel='solarEnergy'>
+                                            <div class='panel-body text-center'>
+                                                <div class='counterPanel'>
+                                                    <div class='form-group text-left'>
+                                                        <div class='check fancyCheck'>
+                                                            <input type='checkbox' name='has_solar' id='solarPanel' class='radio-salutation' value='1' ". (($values['has_solar'] === '1') ? 'checked="checked"' : '') .">
+                                                            <label for='solarPanel'>
+                                                                <i class='fa fa-circle-o unchecked'></i>
+                                                                <i class='fa fa-check-circle checked'></i>
+                                                                <span>" . pll__('Yes, I have solar panels') . "</span>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    <div class='form-group text-left'>
+                                                        <div class='check fancyCheck'>
+                                                            <input type='checkbox' name='transCapacityCheck' id='transCapacityCheck' class='radio-salutation' value='1' ". (($values['transCapacityCheck'] === '1') ? 'checked="checked"' : '') .">
+                                                            <label for='transCapacityCheck'>
+                                                                <i class='fa fa-circle-o unchecked'></i>
+                                                                <i class='fa fa-check-circle checked'></i>
+                                                                <span>" . pll__('I know the capacity of the transformer') . "</span>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    <div id='have_transformer' class='". (($values['transCapacityCheck'] != '1') ? 'hide' : '') ."'>
+                                                        <label class='block bold-600 text-left'>" . pll__('Average capacity of the transformer') . "</label>
+                                                        <div class='row'>
+                                                            <div class='col-md-5 col-sm-5 col-xs-12 form-group'>
+                                                                <div class='solar-capacity'>
+                                                                    <input type='text' name='solar_capacity' value='". (($values['solar_capacity']) ?: '') ."' />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class='block-desc'>".pll__('This is the average consumption of family 4,4500 kWh and 1700 m3 gas a year . You can change the amount if you know your exact usage.')."</div>
+                                                    <div class='buttonWrapper text-left'>
+                                                        <button type='button' class='btn btn-primary'>".pll__('Ok')."</button>
+                                                    </div>
+                                                    
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                     <!-- Double meter -->
+                                     <div class='panel panel-default family-members-container electricity-content' id='doubleMeterPanel'>
                                         <div class='panel-heading' role='tab' id='headingTwo'>
                                             <h4 class='panel-title'>
                                                 <a class='collapsed' role='button' data-toggle='collapse' data-parent='#accordion' href='#collapseTwo' aria-expanded='false' aria-controls='collapseTwo'>
@@ -917,16 +1036,16 @@ class AnbCompareEnergy extends AnbCompare
                                         </div>
                                     </div>
                                     
-                                    <!-- House -->
-                                    <div class='panel panel-default house-type-container gas-content' id='housePanel'>
-                                        <div class='panel-heading' role='tab' id='headingFour'>
+                                    <!-- Gas -->
+                                    <div class='panel panel-default house-type-container gas-content' id='gasPanel'>
+                                        <div class='panel-heading' role='tab' id='headingFive'>
                                             <h4 class='panel-title'>
-                                                <a class='collapsed' role='button' data-toggle='collapse' data-parent='#accordion' href='#collapseFour' aria-expanded='false' aria-controls='collapseFour'>
+                                                <a class='collapsed' role='button' data-toggle='collapse' data-parent='#accordion' href='#collapseFive' aria-expanded='false' aria-controls='collapseFive'>
                                                     <span class='headingTitle'>
-                                                        <span class='icon-holder'><i class='energy-icons home'></i></span>
+                                                        <span class='icon-holder'><i class='energy-icons fire'></i></span>
                                                         <span class='caption'>
-                                                            <span class='caption_close'>". pll__('House') ."</span>
-                                                            <span class='caption_open'>". pll__('House') ."</span>
+                                                            <span class='caption_close'>".pll__('Gas Usage')."</span>
+                                                            <span class='caption_open'>".pll__('Gas Usage')."</span>
                                                         </span>
                                                         <span class='selectedInfo'></span>
                                                         <span class='changeInfo'>". pll__('Change') ."</span>
@@ -934,24 +1053,45 @@ class AnbCompareEnergy extends AnbCompare
                                                 </a>
                                             </h4>
                                         </div>
-                                        <div id='collapseFour' class='panel-collapse collapse' role='tabpanel' aria-labelledby='headingFour'  data-wizard-panel='house'>
+                                        <div id='collapseFive' class='panel-collapse collapse' role='tabpanel' aria-labelledby='headingFive'  data-wizard-panel='gas'>
                                             <div class='panel-body'>
                                                 <div class='counterPanel'>
                                                     <div class='form-group text-left'>
-                                                        <label class='block bold-600 text-left'>" . pll__('What type of house?') . "</label>
+                                                        <div class='check fancyCheck'>
+                                                            <input type='checkbox' name='gas_consumption' id='gas_consumption' class='radio-salutation check' value='1' ".(($values['gas_consumption'] == '1' || !empty($values['u'])) ? "checked='checked'" : '').">
+                                                            <label for='gas_consumption'>
+                                                                <i class='fa fa-circle-o unchecked'></i>
+                                                                <i class='fa fa-check-circle checked'></i>
+                                                                <span>" . pll__('I know my consumption') . "</span>
+                                                            </label>
+                                                        </div>
                                                     </div>
-                                                    <div class='house-selector'>
-                                                        ".$this->getHouseTypeHtml($values)."
-				                                        <!-- div class='field m-l-10'>
-				                                            <i></i>
-				                                            <input type='text' id='m3_u' name='u' value='". (($values['u']) ?: '') ."'/>
-				                                            <input type='hidden' name='ut' value='m3'/>
-				                                            <label>m3</label>
-				                                            <span class='question-circle custom-tooltip' data-toggle='tooltip' title='".pll__('Informational text for gas')."'></span>
-				                                        </div -->
+                                                    <div id='gas_consumption_content' class='".(empty($values['u']) || (!empty($values['gas_consumption'] && $values['gas_consumption'] != '1')) ? "hide" : '')."'>
+                                                        <label class='block bold-600 text-left'>" . pll__('Average Gas Consumption') . "</label>
+                                                        <div class='row'>
+                                                            <div class='col-md-3 col-sm-3 col-xs-6 form-group'>
+                                                                <div class='gas-consumption'>
+                                                                    <input type='text' name='u' value='". (($values['u']) ?: '') ."' />
+                                                                </div>
+                                                            </div>
+                                                            <div class='col-md-5 col-sm-5 col-xs-6 form-group p-l-0'>
+                                                                <div class='box-radio'>
+                                                                    <label>
+                                                                        <input type='radio' name='ut' value='kwh' ".(($values['ut'] == 'kwh' || (empty($values['ut']) && ($values['cat'] == 'gas' || $values['cat'] == 'dualfuel_pack'))) ? "checked='checked'" : '')." />
+                                                                        <span>kWh</span>
+                                                                    </label>
+                                                                    <label>
+                                                                        <input type='radio' name='ut' value='m3' ".(($values['ut'] == 'm3') ? "checked='checked'" : '')." />
+                                                                        <span>m3</span>
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </div>
+
+                                                    <div class='block-desc'>".pll__('This is the average consumption of family of 4, 4500 kWh and 1700 m3 gas year')."</div>
+                                                    <p class='red-link m-b-20' id='houseMoreDetailBellow'>" . pll__('More accurate estimation? Tell us more about your house') . "</p>
                                                     
-                                                    <p class='red-link m-b-20' id='houseMoreDetail'>".pll__('Tell us more for a accurate estimation')."</p>
                                                     <div class='text-left p-t-10 p-b-20 hide' id='houseMoreDetailContent'>
                                                         <div class='row'>
                                                             <div class='col-md-10'>
@@ -1016,144 +1156,6 @@ class AnbCompareEnergy extends AnbCompare
                                                         <a class='show-less-link' id='houseLessDetail'>".pll__('')."Show less</a>
                                                     </div>
                                                     
-                                                    <div class='block-desc'>".pll__('This is the average consumption of family of 4 with this house charcteristics is 4500 kWh and 1700 m3 gas a year.')."</div>
-                                                
-                                                    
-                                                    <div class='buttonWrapper text-left'>
-                                                        <button type='button' class='btn btn-primary'>".pll__('Ok')."</button>
-                                                    </div>
-                                                    <!--div class='info'>
-                                                        <p>Some information will come here as well just like any other
-                                                            information so current putting lorem ipsum to see how it
-                                                            looks</p>
-                                                    </div
-                                                    <div class='buttonWrapper'>
-                                                        <button type='button' class='btn btn-primary'><i
-                                                                    class='fa fa-check'></i> " . pll__('Ok') . "
-                                                        </button>
-                                                    </div>-->
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <!-- Gas -->
-                                    <div class='panel panel-default house-type-container gas-content' id='gasPanel'>
-                                        <div class='panel-heading' role='tab' id='headingFive'>
-                                            <h4 class='panel-title'>
-                                                <a class='collapsed' role='button' data-toggle='collapse' data-parent='#accordion' href='#collapseFive' aria-expanded='false' aria-controls='collapseFive'>
-                                                    <span class='headingTitle'>
-                                                        <span class='icon-holder'><i class='energy-icons fire'></i></span>
-                                                        <span class='caption'>
-                                                            <span class='caption_close'>".pll__('Gas Usage')."</span>
-                                                            <span class='caption_open'>".pll__('Gas Usage')."</span>
-                                                        </span>
-                                                        <span class='selectedInfo'></span>
-                                                        <span class='changeInfo'>". pll__('Change') ."</span>
-                                                    </span>
-                                                </a>
-                                            </h4>
-                                        </div>
-                                        <div id='collapseFive' class='panel-collapse collapse' role='tabpanel' aria-labelledby='headingFive'  data-wizard-panel='gas'>
-                                            <div class='panel-body'>
-                                                <div class='counterPanel'>
-                                                    <div class='form-group text-left'>
-                                                        <div class='check fancyCheck'>
-                                                            <input type='checkbox' name='gas_consumption' id='gas_consumption' class='radio-salutation check' value='1' ".(($values['gas_consumption'] == '1' || !empty($values['u'])) ? "checked='checked'" : '').">
-                                                            <label for='gas_consumption'>
-                                                                <i class='fa fa-circle-o unchecked'></i>
-                                                                <i class='fa fa-check-circle checked'></i>
-                                                                <span>" . pll__('I know my consumption') . "</span>
-                                                            </label>
-                                                        </div>
-                                                    </div>
-                                                    <div id='gas_consumption_content' class='".(empty($values['u']) || (!empty($values['gas_consumption'] && $values['gas_consumption'] != '1')) ? "hide" : '')."'>
-                                                        <label class='block bold-600 text-left'>" . pll__('Average Gas Consumption') . "</label>
-                                                        <div class='row'>
-                                                            <div class='col-md-3 col-sm-3 col-xs-6 form-group'>
-                                                                <div class='gas-consumption'>
-                                                                    <input type='text' name='u' value='". (($values['u']) ?: '') ."' />
-                                                                </div>
-                                                            </div>
-                                                            <div class='col-md-5 col-sm-5 col-xs-6 form-group p-l-0'>
-                                                                <div class='box-radio'>
-                                                                    <label>
-                                                                        <input type='radio' name='ut' value='kwh' ".(($values['ut'] == 'kwh' || (empty($values['ut']) && ($values['cat'] == 'gas' || $values['cat'] == 'dualfuel_pack'))) ? "checked='checked'" : '')." />
-                                                                        <span>kWh</span>
-                                                                    </label>
-                                                                    <label>
-                                                                        <input type='radio' name='ut' value='m3' ".(($values['ut'] == 'm3') ? "checked='checked'" : '')." />
-                                                                        <span>m3</span>
-                                                                    </label>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class='block-desc'>".pll__('This is the average consumption of family of 4, 4500 kWh and 1700 m3 gas year')."</div>
-                                                    <p class='red-link m-b-20' id='houseMoreDetailBellow'>" . pll__('More accurate estimation? Tell us more about your house') . "</p>
-                                                    <div class='buttonWrapper text-left'>
-                                                        <button type='button' class='btn btn-primary'>".pll__('Ok')."</button>
-                                                    </div>
-                                                    
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    
-                                    <!-- Solar Energy -->
-                                    <div class='panel panel-default solar-panel-container electricity-content' id='solarEnergyPanel'>
-                                        <div class='panel-heading' role='tab' id='headingSix'>
-                                            <h4 class='panel-title'>
-                                                <a class='collapsed' role='button' data-toggle='collapse' data-parent='#accordion' href='#collapseSix' aria-expanded='false' aria-controls='collapseSix'>
-                                                    <span class='headingTitle'>
-                                                        <span class='icon-holder'><i class='energy-icons solar'></i></span>
-                                                        <span class='caption'>
-                                                            <span class='caption_close'>" . pll__('No solar energy') . "</span>
-                                                            <span class='caption_open'>" . pll__('Do you have solar energy?') . "</span>
-                                                        </span>
-                                                        <span class='selectedInfo'></span>
-                                                        <span class='changeInfo'>". pll__('Change') ."</span>
-                                                    </span>
-                                                </a>
-                                            </h4>
-                                        </div>
-                                        <div id='collapseSix' class='panel-collapse collapse' role='tabpanel' aria-labelledby='headingSix'  data-wizard-panel='solarEnergy'>
-                                            <div class='panel-body text-center'>
-                                                <div class='counterPanel'>
-                                                    <div class='form-group text-left'>
-                                                        <div class='check fancyCheck'>
-                                                            <input type='checkbox' name='has_solar' id='solarPanel' class='radio-salutation' value='1' ". (($values['has_solar'] === '1') ? 'checked="checked"' : '') .">
-                                                            <label for='solarPanel'>
-                                                                <i class='fa fa-circle-o unchecked'></i>
-                                                                <i class='fa fa-check-circle checked'></i>
-                                                                <span>" . pll__('Yes, I have solar panels') . "</span>
-                                                            </label>
-                                                        </div>
-                                                    </div>
-                                                    
-                                                    <div class='form-group text-left'>
-                                                        <div class='check fancyCheck'>
-                                                            <input type='checkbox' name='transCapacityCheck' id='transCapacityCheck' class='radio-salutation' value='1' ". (($values['transCapacityCheck'] === '1') ? 'checked="checked"' : '') .">
-                                                            <label for='transCapacityCheck'>
-                                                                <i class='fa fa-circle-o unchecked'></i>
-                                                                <i class='fa fa-check-circle checked'></i>
-                                                                <span>" . pll__('I know the capacity of the transformer') . "</span>
-                                                            </label>
-                                                        </div>
-                                                    </div>
-                                                    
-                                                    <div id='have_transformer' class='". (($values['transCapacityCheck'] != '1') ? 'hide' : '') ."'>
-                                                        <label class='block bold-600 text-left'>" . pll__('Average capacity of the transformer') . "</label>
-                                                        <div class='row'>
-                                                            <div class='col-md-5 col-sm-5 col-xs-12 form-group'>
-                                                                <div class='solar-capacity'>
-                                                                    <input type='text' name='solar_capacity' value='". (($values['solar_capacity']) ?: '') ."' />
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class='block-desc'>".pll__('This is the average consumption of family 4,4500 kWh and 1700 m3 gas a year . You can change the amount if you know your exact usage.')."</div>
                                                     <div class='buttonWrapper text-left'>
                                                         <button type='button' class='btn btn-primary'>".pll__('Ok')."</button>
                                                     </div>

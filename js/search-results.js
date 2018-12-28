@@ -274,7 +274,8 @@ jQuery(document).ready(function($){
             '&trans_first_month=' + search_compare_obj.trans_first_month +
             '&trans_monthly_total_tooltip_txt=' + search_compare_obj.trans_monthly_total_tooltip_txt +
             '&trans_ontime_costs=' + search_compare_obj.trans_ontime_costs +
-            '&trans_ontime_total=' + search_compare_obj.trans_ontime_total;
+            '&trans_ontime_total=' + search_compare_obj.trans_ontime_total +
+            '&trans_mth=' + search_compare_obj.trans_mth;
 
         //console.log("search_compare_obj***", search_compare_obj);
         target.find('.modal-body').html('<div class="ajaxIconWrapper"><div class="ajaxIcon"><img src="'+search_compare_obj.template_uri+'/images/common/icons/ajaxloader.png" alt="Loading..."></div></div>');

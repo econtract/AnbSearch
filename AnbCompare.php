@@ -2113,4 +2113,8 @@ class AnbCompare extends Base
 
         wp_die();
     }
+
+    public function getSalesAgentsInternalMode(){
+        return json_decode($this->anbApi->getSalesAgent());
+    }
 }

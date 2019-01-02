@@ -1541,4 +1541,92 @@ class AnbCompareEnergy extends AnbCompare
             </div>";
         return $html;
     }
+
+    function getUsageResults($params = array()){
+
+        return $this->usageResultsEnergy($params);
+    }
+
+    function usageResultsEnergy($enableCache = true, $cacheDurationSeconds = 86400){
+
+        if(isset($_GET['cat']) && !empty($_GET['cat'])){
+            $params['product_type'] =  $_GET['cat'];
+        } else {
+            $params['product_type'] =  'dualfuel_pack';
+        }
+        if(isset($_GET['sg']) && !empty($_GET['sg'])) {
+            $params['segment'] = ($_GET['sg'] == 'consumer') ? '1' : '2';
+        }
+        if(isset($_GET['f']) && !empty($_GET['f'])) {
+            $params['family_size'] = $_GET['f'];
+        }
+        if(isset($_GET['residence_type']) && !empty($_GET['residence_type'])) {
+            $params['residence_type'] = $_GET['residence_type'];
+        }
+        if(isset($_GET['home_size']) && !empty($_GET['home_size'])) {
+            $params['home_size'] = $_GET['home_size'];
+        }
+        if(isset($_GET['meter_type']) && !empty($_GET['meter_type'])) {
+            $params['meter_type'] = $_GET['meter_type'];
+        }
+        if(isset($_GET['has_solar']) && !empty($_GET['has_solar'])) {
+            $params['has_solar'] = $_GET['has_solar'];
+        }
+        if(isset($_GET['roof_isolation']) && !empty($_GET['roof_isolation'])) {
+            $params['roof_isolation'] = $_GET['roof_isolation'];
+        }
+        if(isset($_GET['wall_isolation']) && !empty($_GET['wall_isolation'])) {
+            $params['wall_isolation'] = $_GET['wall_isolation'];
+        }
+        if(isset($_GET['glass']) && !empty($_GET['glass'])) {
+            $params['glass'] = $_GET['glass'];
+        }
+        if(isset($_GET['boiler']) && !empty($_GET['boiler'])) {
+            $params['boiler'] = $_GET['boiler'];
+        }
+        if(isset($params['cv']) && !empty($_GET['cv'])) {
+            $params['cv'] = $_GET['cv'];
+        }
+
+        if(defined('COMPARE_API_CACHE_DURATION')) {
+            $cacheDurationSeconds = COMPARE_API_CACHE_DURATION;
+        }
+        $atts = shortcode_atts(array(
+            'product_type' => '',
+            'segment' => '',
+            'family_size' => '',
+            'residence_type' => '',
+            'home_size' => '',
+            'meter_type' => '',
+            'has_solar' => '',
+            'roof_isolation' => '',
+            'wall_isolation' => '',
+            'glass' => '',
+            'boiler' => '',
+            'cv' => ''
+        ), $atts, 'anb_search_usage');
+        $params = array_filter($params);
+
+        $this->cleanArrayData($params);
+        $params = $this->allowedParams($params, array_keys($atts));//Don't allow all variables to be passed to API
+        displayParams($params);
+        $start = getStartTime();
+        $displayText = "Time API (Compare) inside getCompareResults";
+        if ($enableCache && !isset($_GET['no_cache'])) {
+            $cacheKey = md5(serialize($params)) . ":usage_vals";
+            $result = mycache_get($cacheKey);
+
+            if($result === false || empty($result)) {
+                $result = $this->anbApi->getUsageResults($params);
+                mycache_set($cacheKey, $result, $cacheDurationSeconds);
+            } else {
+                $displayText = "Time API Cached (Compare) inside usage in wizard";
+            }
+        } else {
+            $result = $this->anbApi->getUsageResults($params);
+        }
+        $finish = getEndTime();
+        displayCallTime($start, $finish, $displayText);
+        return $result;
+    }
 }

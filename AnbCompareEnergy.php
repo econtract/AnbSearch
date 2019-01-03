@@ -1240,22 +1240,22 @@ class AnbCompareEnergy extends AnbCompare
 
 	function getHouseTypeHtml($values) {
 		return "<div class='house-type'>
-                <label class='single-house' data-toggle='tooltip' title='House 1'>
+                <label class='single-house' data-toggle='tooltip' title='".pll__('House 1')."'>
                     <input type='radio' name='houseType' id='single_house' value='".pll__('single')."' usage-val='".KWH_SINGLE_HOUSE."' ". (($values['houseType'] === pll__('single')) ? 'checked="checked"' : '') ."/>
                     <i class='houses'></i>
                 </label>
 
-                <label class='double-house' data-toggle='tooltip' title='House 2'>
+                <label class='double-house' data-toggle='tooltip' title='".pll__('House 2')."'>
                     <input type='radio' name='houseType' id='double_house' value='".pll__('double')."' usage-val='".KWH_DOUBLE_HOUSE."' ". (($values['houseType'] === pll__('double')) ? 'checked="checked"' : '') ."/>
                     <i class='houses'></i>
                 </label>
 
-                <label class='triple-house' data-toggle='tooltip' title='House 3'>
+                <label class='triple-house' data-toggle='tooltip' title='".pll__('House 3')."'>
                     <input type='radio' name='houseType' id='triple_house' value='".pll__('tripple')."' usage-val='".KWH_TRIPLE_HOUSE."' ". (($values['houseType'] === pll__('tripple')) ? 'checked="checked"' : '') ."/>
                     <i class='houses'></i>
                 </label>
 
-                <label class='tetra-house' data-toggle='tooltip' title='House 4'>
+                <label class='tetra-house' data-toggle='tooltip' title='".pll__('House 4')."'>
                     <input type='radio' name='houseType' id='tetra_house' value='".pll__('tetra')."' usage-val='".KWH_TETRA_HOUSE."' ". (($values['houseType'] === pll__('tetra')) ? 'checked="checked"' : '') ."/>
                     <i class='houses'></i>
                 </label>

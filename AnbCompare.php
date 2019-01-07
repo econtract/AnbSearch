@@ -1212,7 +1212,7 @@ class AnbCompare extends Base
                             <form action='" . $resultsPageUri . "' id='anbSearchForm'>
                                 <div class='form-group'>
                                     <label>" . pll__('Services') . "</label>
-                                    <div class='selectServices'>
+                                    <div class='selectServices mobileSelectServices'>
                                         <ul class='list-unstyled'>
                                             <li>
                                                 <div>

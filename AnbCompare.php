@@ -1216,8 +1216,8 @@ class AnbCompare extends Base
                                         <ul class='list-unstyled'>
                                             <li>
                                                 <div>
-                                                    <input name='cat[]' id='mobile_service' type='radio' value='gsm'
-                                                    " . ((in_array("gsm", $values['cat']) === true) ? 'checked="checked"' : '') . ">
+                                                    <input name='producttype' id='mobile_service' type='checkbox' value='mobile'
+                                                    " . ((in_array("mobile", $values['cat']) === true) ? 'checked="checked"' : '') . ">
                                                     <label for='mobile_service'>
                                                         <span class='icon'>
                                                             <i class='sprite sprite-mobile'></i>
@@ -1232,9 +1232,9 @@ class AnbCompare extends Base
                                             </li>
                                             <li>
                                                 <div>
-                                                    <input name='cat[]' id='mobile_internet' type='radio' value='mobile_internet'
+                                                    <input name='producttype' id='mobile_internet' type='checkbox' value='mobile_internet'
                                                     " . ((in_array("mobile_internet", $values['cat']) === true) ? 'checked="checked"' : '') . ">
-                                                    <label for='mobile_service'>
+                                                    <label for='mobile_internet'>
                                                         <span class='icon'>
                                                             <i class='sprite sprite-mobile-internet'></i>
                                                         </span>

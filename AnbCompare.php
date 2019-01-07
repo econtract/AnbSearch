@@ -1157,27 +1157,6 @@ class AnbCompare extends Base
                                       data-error='" . pll__('Please enter valid zip code') . "' autocomplete='off' query_method='cities' query_key='postcode' required>
                                 </div>
                                 {$supplierHtml}";
-        /*
-        <div class='form-group'>
-            <label>" . pll__('Type of Use') . "</label>
-            <div class='radio fancyRadio'>
-                <input name='sg' value='consumer' id='private_type' checked='checked' type='radio'
-                " . (("private" == $values['sg']) ? 'checked="checked"' : '') . ">
-                <label for='private_type'>
-                    <i class='fa fa-circle-o unchecked'></i>
-                    <i class='fa fa-check-circle checked'></i>
-                    <span>" . pll__('Private') . "</span>
-                </label>
-                <input name='sg' value='sme' id='business_type' type='radio'
-                " . (("sme" == $values['sg']) ? 'checked="checked"' : '') . ">
-                <label for='business_type'>
-                    <i class='fa fa-circle-o unchecked'></i>
-                    <i class='fa fa-check-circle checked'></i>
-                    <span>" . pll__('Business') . "</span>
-                </label>
-            </div>
-        </div>
-        */
         $formNew.= "<div class='form-group11'>
                                     <div class='check fancyCheck'>
                                         <input name='sg' value='consumer' type='hidden' id='valconsumer'>
@@ -1278,27 +1257,6 @@ class AnbCompare extends Base
                                       data-error='" . pll__('Please enter valid zip code') . "' autocomplete='off' query_method='cities' query_key='postcode' required>
                                 </div>
                                 {$supplierHtml}";
-        /*
-        <div class='form-group'>
-            <label>" . pll__('Type of Use') . "</label>
-            <div class='radio fancyRadio'>
-                <input name='sg' value='consumer' id='private_type' checked='checked' type='radio'
-                " . (("private" == $values['sg']) ? 'checked="checked"' : '') . ">
-                <label for='private_type'>
-                    <i class='fa fa-circle-o unchecked'></i>
-                    <i class='fa fa-check-circle checked'></i>
-                    <span>" . pll__('Private') . "</span>
-                </label>
-                <input name='sg' value='sme' id='business_type' type='radio'
-                " . (("sme" == $values['sg']) ? 'checked="checked"' : '') . ">
-                <label for='business_type'>
-                    <i class='fa fa-circle-o unchecked'></i>
-                    <i class='fa fa-check-circle checked'></i>
-                    <span>" . pll__('Business') . "</span>
-                </label>
-            </div>
-        </div>
-        */
         $formNew.= "<div class='form-group11'>
                                     <div class='check fancyCheck'>
                                         <input name='sg' value='consumer' type='hidden' id='valconsumer'>

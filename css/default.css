@@ -114,6 +114,7 @@
   float: left;
   width: 25%;
   margin-left: -1px; }
+.searchBoxContent .selectServices.mobileSelectServices ul li {width: 50%;text-align: center;}
 .searchBoxContent .selectServices ul li:first-child {
   margin-left: 0; }
 .searchBoxContent .selectServices ul li label {

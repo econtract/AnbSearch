@@ -33,7 +33,7 @@ jQuery(document).ready(function($){
 
         var urlParams = window.location.search
         // We can also pass the url value separately from ajaxurl for front end AJAX implementations
-        currentPack.html('<option value="">Loading...</option>');
+        currentPack.html('<option value="">'+ compare_between_results_object_energy.trans_loading_dots +'</option>');
 
         if(!_.includes(urlParams, 'sg')) {
             urlParams += '&sg='+$('#currentpack_sg').val();
@@ -155,7 +155,7 @@ jQuery(document).ready(function($){
 
             // We can also pass the url value separately from ajaxurl for front end AJAX implementations
             $('#crntPackSelectionResponse').hide();
-            $('#crntPackSelectionSection .offer').append('<div class="ajaxIconWrapper"><div class="ajaxIcon"><img src="' + compare_between_results_object_energy.template_uri + '/images/common/icons/ajaxloader.png" alt="Loading..."></div></div>');
+            $('#crntPackSelectionSection .offer').append('<div class="ajaxIconWrapper"><div class="ajaxIcon"><img src="' + compare_between_results_object_energy.template_uri + '/images/common/icons/ajaxloader.png" alt="' + compare_between_results_object_energy.trans_loading_dots + '"></div></div>');
             $('#crntPackSelectionSection').show();
             jQuery.get(compare_between_results_object_energy.site_url + '/api/' + urlParams + '&load=CompareEnergy', data, function (response) {
                 if ($('#top-heading-compare-btn-value').val() == 1) {

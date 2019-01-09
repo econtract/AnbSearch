@@ -5,7 +5,7 @@ jQuery(document).ready(function($){
         };
         var urlParams = window.location.search;
 
-        $('.loadMoreEnergy').html('LOADING...');
+        $('.loadMoreEnergy').html(search_compare_obj_energy.trans_loading_dots);
         // We can also pass the url value separately from ajaxurl for front end AJAX implementations
         console.log(search_compare_obj_energy.ajax_url+urlParams);
         console.log(data);

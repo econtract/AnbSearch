@@ -224,7 +224,7 @@ jQuery(document).ready(function($){
             urlParams += '&' + $('input[name*=cat]').serialize();
         }
 
-        $('.loadMore').html('LOADING...');
+        $('.loadMore').html(search_compare_obj.trans_loading_dots);
         // We can also pass the url value separately from ajaxurl for front end AJAX implementations
         $.get(search_compare_obj.ajax_url+urlParams, data, function(response) {
 
@@ -278,7 +278,7 @@ jQuery(document).ready(function($){
             '&trans_mth=' + search_compare_obj.trans_mth;
 
         //console.log("search_compare_obj***", search_compare_obj);
-        target.find('.modal-body').html('<div class="ajaxIconWrapper"><div class="ajaxIcon"><img src="'+search_compare_obj.template_uri+'/images/common/icons/ajaxloader.png" alt="Loading..."></div></div>');
+        target.find('.modal-body').html('<div class="ajaxIconWrapper"><div class="ajaxIcon"><img src="'+search_compare_obj.template_uri+'/images/common/icons/ajaxloader.png" alt="'+search_compare_obj.trans_loading_dots+'"></div></div>');
         $.get(search_compare_obj.site_url+'/api/', link.attr("href")+'&load=product&lang='+search_compare_obj.lang+'&'+transLabelsUri, function(response) {
 
             target.find(".modal-body").html(response);

@@ -40,18 +40,19 @@ class AnbCompareEnergy extends AnbCompare
 		    var_dump($this->sector);
 	    }
 	    if($this->sector == pll__('energy')) {
-		    wp_enqueue_script('search-results-energy', plugins_url('/js/search-results-energy.js', __FILE__), array('jquery'), '1.0.4', true);
+		    wp_enqueue_script('search-results-energy', plugins_url('/js/search-results-energy.js', __FILE__), array('jquery'), '1.0.5', true);
 		    wp_localize_script('search-results-energy', 'search_compare_obj_energy',
 			    array(
-				    'ajax_url' => admin_url('admin-ajax.php'),
-				    'site_url' => pll_home_url(),
-				    'template_uri' => get_template_directory_uri(),
-				    'lang' => $this->getCurrentLang()
+				    'ajax_url'              => admin_url('admin-ajax.php'),
+				    'site_url'              => pll_home_url(),
+				    'template_uri'          => get_template_directory_uri(),
+				    'lang'                  => $this->getCurrentLang(),
+                    'trans_loading_dots'    => pll__('Loading...')
 			    )
 		    );
 
 		    if($this->pagename == pll__('results')) {
-			    wp_enqueue_script('compare-results-energy', plugins_url('/js/compare-results-energy.js', __FILE__), array('jquery'), '1.2.2', true);
+			    wp_enqueue_script('compare-results-energy', plugins_url('/js/compare-results-energy.js', __FILE__), array('jquery'), '1.2.3', true);
 			    wp_localize_script('compare-results-energy', 'compare_between_results_object_energy',
 				    array(
 					    'ajax_url' => admin_url('admin-ajax.php'),
@@ -68,6 +69,7 @@ class AnbCompareEnergy extends AnbCompare
                         'details_page_trans' => pll__('Detail'),
                         'select_your_energy_pack' => pll__('Select your pack'),
                         'change_pack' => pll__('change pack'),
+                        'trans_loading_dots'    => pll__('Loading...')
 				    )
 			    );
 		    }

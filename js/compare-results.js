@@ -57,7 +57,7 @@ jQuery(document).ready(function($){
     };
 
         var urlParams = window.location.search;
-        $('#compareBetweenResultsResponse').html('<div class="ajaxIconWrapper"><div class="ajaxIcon"><img src="'+compare_between_results_object.template_uri+'/images/common/icons/ajaxloader.png" alt="Loading..."></div></div>');
+        $('#compareBetweenResultsResponse').html('<div class="ajaxIconWrapper"><div class="ajaxIcon"><img src="'+compare_between_results_object.template_uri+'/images/common/icons/ajaxloader.png" alt="'+compare_between_results_object.trans_loading_dots+'"></div></div>');
         // We can also pass the url value separately from ajaxurl for front end AJAX implementations
         jQuery.get(compare_between_results_object.site_url+'/api/' + urlParams+'&load=compare', data, function(response) {
             $('#compareBetweenResultsResponse').html(response);
@@ -82,7 +82,7 @@ jQuery(document).ready(function($){
 
         var urlParams = window.location.search
         // We can also pass the url value separately from ajaxurl for front end AJAX implementations
-        currentPack.html('<option value="">Loading...</option>');
+        currentPack.html('<option value="">'+compare_between_results_object.trans_loading_dots+'</option>');
 
         //if there is no sg fetch that from the popup
         if(!_.includes(urlParams, 'sg')) {
@@ -139,7 +139,7 @@ jQuery(document).ready(function($){
 
         var urlParams = window.location.search;
         // We can also pass the url value separately from ajaxurl for front end AJAX implementations
-        $('#crntPackSelectionSection .offer').append('<div class="ajaxIconWrapper"><div class="ajaxIcon"><img src="'+compare_between_results_object.template_uri+'/images/common/icons/ajaxloader.png" alt="Loading..."></div></div>');
+        $('#crntPackSelectionSection .offer').append('<div class="ajaxIconWrapper"><div class="ajaxIcon"><img src="'+compare_between_results_object.template_uri+'/images/common/icons/ajaxloader.png" alt="'+compare_between_results_object.trans_loading_dots+'"></div></div>');
         jQuery.get(compare_between_results_object.site_url+'/api/' + urlParams+'&load=compare', data, function(response) {
 
             $('#crntPackSelectionSection').hide();

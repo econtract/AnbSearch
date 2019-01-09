@@ -70,7 +70,7 @@ class AnbCompare extends Base
     {
         if($this->pagename == pll__('results')) {
             //This is required for searchFilterNav functionality on energy too
-            wp_enqueue_script('search-compare-script', plugins_url('/js/search-results.js', __FILE__), array('jquery'), '1.2.7', true);
+            wp_enqueue_script('search-compare-script', plugins_url('/js/search-results.js', __FILE__), array('jquery'), '1.2.8', true);
 
             // in JavaScript, object properties are accessed as ajax_object.ajax_url, ajax_object.we_value
             wp_localize_script( 'search-compare-script', 'search_compare_obj',
@@ -86,11 +86,11 @@ class AnbCompare extends Base
                     'trans_monthly_total_tooltip_txt' => pll__( 'PBS: Monthly total tooltip text' ),
                     'trans_ontime_costs' => pll__( 'One-time costs' ),
                     'trans_ontime_total' => pll__( 'One-time total' ),
-                    'trans_mth'          => pll__('mth')
+                    'trans_mth'          => pll__('mth'),
+                    'trans_loading_dots'       => pll__('Loading...')
                 ) );
 
-            wp_enqueue_script('compare-between-results-script', plugins_url('/js/compare-results.js', __FILE__), array('jquery'), '1.2.7', true);
-
+            wp_enqueue_script('compare-between-results-script', plugins_url('/js/compare-results.js', __FILE__), array('jquery'), '1.2.8', true);
             //This is required for current pack functionality on energy too
             // in JavaScript, object properties are accessed as ajax_object.ajax_url, ajax_object.we_value
             wp_localize_script('compare-between-results-script', 'compare_between_results_object',
@@ -121,9 +121,7 @@ class AnbCompare extends Base
                     'trans_activation' => pll__('Activation'),
                     'trans_free_modem' => pll__('Free modem'),
                     'trans_modem' => pll__('Modem'),
-
-
-
+                    'trans_loading_dots'   => pll__('Loading...')
                 )
             );
         }

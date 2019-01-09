@@ -520,9 +520,8 @@ class AnbCompareEnergy extends AnbCompare
 		$formNew = "<div class='formWrapper'>
                         <form action='" . $resultsPageUri . "' id='yourProfileWizardForm' data-toggle='validator' role='form'>
                         	<div class='container-fluid'>
-	                            <div class='panel-group formWrapper-energy' id='accordion' role='tablist' aria-multiselectable='true'>
-	                            
-	                                <!--Compare-->	                            	
+	                            <div class='panel-group formWrapper-energy' id='accordion' role='tablist' aria-multiselectable='true'>	                            
+	                                <!--Compare-->
 	                            	<div class='panel panel-default' id='comparePanel'>
                                         <div class='panel-heading active' role='tab' id='CompareHeading'>
                                             <h4 class='panel-title'>
@@ -546,7 +545,7 @@ class AnbCompareEnergy extends AnbCompare
                                                         <label class='block bold-600 text-left'>".pll__('I like to compare')."</label>
                                                         <ul class='service-tabs service-tabs-svg'>
                                                             <li>
-                                                                <input name='cat' id='dualfuel_pack_service_wiz' checked='checked' type='radio' data-val='".pll__('Dual fuel Pack')."' value='dualfuel_pack' " . (($values['cat'] == 'dualfuel_pack' || empty($values['cat'])) ? 'checked="checked"' : '') . ">
+                                                                <input class='call-usages-data' name='cat' id='dualfuel_pack_service_wiz' checked='checked' type='radio' data-val='".pll__('Dual fuel Pack')."' value='dualfuel_pack' " . (($values['cat'] == 'dualfuel_pack' || empty($values['cat'])) ? 'checked="checked"' : '') . ">
                                                                 <label for='dualfuel_pack_service_wiz' class='service-dual-fuel'>
                                                                     <i><svg class='svg-energy'><use xlink:href='".get_template_directory_uri()."/images/svg-sprite.svg#svg-energy'></use></svg></i>
                                                                     <i><svg class='svg-energy-gas'><use xlink:href='".get_template_directory_uri()."/images/svg-sprite.svg#svg-energy-gas'></use></svg></i>
@@ -555,7 +554,7 @@ class AnbCompareEnergy extends AnbCompare
                                                                 </label>
                                                             </li>
                                                             <li>
-                                                                <input name='cat' id='electricity_service_wiz' type='radio' data-val='".pll__('Electricity')."' value='electricity' " . (($values['cat'] == 'electricity') ? 'checked="checked"' : '') . ">
+                                                                <input class='call-usages-data' name='cat' id='electricity_service_wiz' type='radio' data-val='".pll__('Electricity')."' value='electricity' " . (($values['cat'] == 'electricity') ? 'checked="checked"' : '') . ">
                                                                 <label for='electricity_service_wiz' class='service-electricity'>
                                                                 <i><svg class='svg-energy'><use xlink:href='".get_template_directory_uri()."/images/svg-sprite.svg#svg-energy'></use></svg></i>
                                                                 <span class='service-label'>".pll__('Electricity')."</span>
@@ -563,7 +562,7 @@ class AnbCompareEnergy extends AnbCompare
                                                                 </label>
                                                             </li>
                                                             <li>
-                                                                <input name='cat' id='gas_service_wiz' type='radio' data-val='".pll__('Gas')."' value='gas' " . (($values['cat'] == 'gas') ? 'checked="checked"' : '') . ">
+                                                                <input class='call-usages-data' name='cat' id='gas_service_wiz' type='radio' data-val='".pll__('Gas')."' value='gas' " . (($values['cat'] == 'gas') ? 'checked="checked"' : '') . ">
                                                                 <label for='gas_service_wiz' class='service-gas'>
                                                                     <i><svg class='svg-energy-gas'><use xlink:href='".get_template_directory_uri()."/images/svg-sprite.svg#svg-energy-gas'></use></svg></i>
                                                                     <span class='service-label'>".pll__('Gas')."</span>
@@ -666,14 +665,14 @@ class AnbCompareEnergy extends AnbCompare
                                                 <div class='form-group'>
                                                     <label>" . pll__('Type of Use') . "</label>
                                                     <div class='radio fancyRadio'>
-                                                        <input name='sg' value='consumer' id='wiz_private_type' type='radio'
+                                                        <input class='call-usages-data' name='sg' value='consumer' id='wiz_private_type' type='radio'
                                                                " . (("consumer" == $values['sg'] || empty($values['sg'])) ? 'checked="checked"' : '') . ">
                                                         <label for='wiz_private_type'>
                                                             <i class='fa fa-circle-o unchecked'></i>
                                                             <i class='fa fa-check-circle checked'></i>
                                                             <span>" . pll__('Private') . "</span>
                                                         </label>
-                                                        <input name='sg' value='sme' id='wiz_business_type' type='radio'
+                                                        <input class='call-usages-data' name='sg' value='sme' id='wiz_business_type' type='radio'
                                                         " . (("sme" == $values['sg']) ? 'checked="checked"' : '') . ">
                                                         <label for='wiz_business_type'>
                                                             <i class='fa fa-circle-o unchecked'></i>
@@ -718,7 +717,7 @@ class AnbCompareEnergy extends AnbCompare
                                                                 <label class='block bold-600'>". pll__('How many family members?') ."</label>
                                                             </div>
                                                             <fieldset class='person-sel gray fancyComp'>
-                                                                <input type='radio' id='person6' name='f' value='6' 
+                                                                <input class='call-usages-data' type='radio' id='person6' name='f' value='6' 
                                                                 " . (("6" == $values['f']) ? 'checked="checked"' : '') . "/>
                                                                 <label class = 'full' for='person6' title='6 ". pll__('persons') ."'>
                                                                     <span class='person-value'>5+</span>
@@ -727,7 +726,7 @@ class AnbCompareEnergy extends AnbCompare
                                                                     <p>6 ". pll__('person is betterInfo about extensive use of internet') ." </p>
                                                                 </div>
                                     
-                                                                <input type='radio' id='person5' name='f' value='5' 
+                                                                <input class='call-usages-data' type='radio' id='person5' name='f' value='5' 
                                                                 " . (("5" == $values['f']) ? 'checked="checked"' : '') . "/>
                                                                 <label class = 'full' for='person5' title='5 ". pll__('persons') ."'>
                                                                 </label>
@@ -735,7 +734,7 @@ class AnbCompareEnergy extends AnbCompare
                                                                     <p>". pll__('5th Person. Info about extensive use of internet.') .". </p>
                                                                 </div>
                                     
-                                                                <input type='radio' id='person4' name='f' value='4' 
+                                                                <input class='call-usages-data' type='radio' id='person4' name='f' value='4' 
                                                                 " . (("4" == $values['f']) ? 'checked="checked"' : '') . "/>
                                                                 <label class = 'full' for='person4' title='4 ". pll__('persons') ."'>
                                                                 </label>
@@ -743,7 +742,7 @@ class AnbCompareEnergy extends AnbCompare
                                                                     <p>". pll__('4thInfo about extensive use of internet') ." </p>
                                                                 </div>
                                     
-                                                                <input type='radio' id='person3' name='f' value='3' 
+                                                                <input class='call-usages-data' type='radio' id='person3' name='f' value='3' 
                                                                 " . (("3" == $values['f']) ? 'checked="checked"' : '') . "/>
                                                                 <label class = 'full' for='person3' title='3 ". pll__('persons') ."'>
                                                                 </label>
@@ -751,7 +750,7 @@ class AnbCompareEnergy extends AnbCompare
                                                                     <p>". pll__('3rd Info about extensive use of internet') ."</p>
                                                                 </div>
                                     
-                                                                <input type='radio' id='person2' name='f' value='2' 
+                                                                <input class='call-usages-data' type='radio' id='person2' name='f' value='2' 
                                                                 " . (("2" == $values['f']) ? 'checked="checked"' : '') . "/>
                                                                 <label class = 'full' for='person2' title='2 ". pll__('persons') ."'>
 
@@ -760,7 +759,7 @@ class AnbCompareEnergy extends AnbCompare
                                                                     <p>". pll__('Two person info about extensive use of internet') ."</p>
                                                                 </div>
                                     
-                                                                <input type='radio' id='person1' name='f' value='1' 
+                                                                <input class='call-usages-data' type='radio' id='person1' name='f' value='1' 
                                                                 " . (("1" == $values['f']) ? 'checked="checked"' : '') . "/>
                                                                 <label class = 'full' for='person1' title='1 ". pll__('person') ."'>
 
@@ -862,7 +861,7 @@ class AnbCompareEnergy extends AnbCompare
                                                 <div class='counterPanel'>
                                                     <div class='form-group text-left'>
                                                         <div class='check fancyCheck'>
-                                                            <input type='checkbox' name='has_solar' id='solarPanel' class='radio-salutation' value='1' ". (($values['has_solar'] === '1') ? 'checked="checked"' : '') .">
+                                                            <input type='checkbox' name='has_solar' id='solarPanel' class='call-usages-data radio-salutation' value='1' ". (($values['has_solar'] === '1') ? 'checked="checked"' : '') .">
                                                             <label for='solarPanel'>
                                                                 <i class='fa fa-circle-o unchecked'></i>
                                                                 <i class='fa fa-check-circle checked'></i>
@@ -873,7 +872,7 @@ class AnbCompareEnergy extends AnbCompare
                                                     
                                                     <div class='form-group text-left'>
                                                         <div class='check fancyCheck'>
-                                                            <input type='checkbox' name='transCapacityCheck' id='transCapacityCheck' class='radio-salutation' value='1' ". (($values['transCapacityCheck'] === '1') ? 'checked="checked"' : '') .">
+                                                            <input type='checkbox' name='transCapacityCheck' id='transCapacityCheck' class='call-usages-data radio-salutation' value='1' ". (($values['transCapacityCheck'] === '1') ? 'checked="checked"' : '') .">
                                                             <label for='transCapacityCheck'>
                                                                 <i class='fa fa-circle-o unchecked'></i>
                                                                 <i class='fa fa-check-circle checked'></i>
@@ -887,7 +886,7 @@ class AnbCompareEnergy extends AnbCompare
                                                         <div class='row'>
                                                             <div class='col-md-5 col-sm-5 col-xs-12 form-group'>
                                                                 <div class='solar-capacity'>
-                                                                    <input type='text' name='solar_capacity' value='". (($values['solar_capacity']) ?: '') ."' />
+                                                                    <input id='usage_solar_capacity' type='text' name='solar_capacity' value='". (($values['solar_capacity']) ?: '') ."' />
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -926,13 +925,13 @@ class AnbCompareEnergy extends AnbCompare
                                                     <div class='form-group'>
                                                         <div class='fancy-radio inline'>
                                                             <label>
-                                                                <input type='radio' value='single' name='meter' ".(($values['meter'] == pll__('single') || empty($values['meter'])) ? "checked='checked'" : '')."/>
+                                                                <input class='call-usages-data' type='radio' value='single' name='meter' ".(($values['meter'] == pll__('single') || empty($values['meter'])) ? "checked='checked'" : '')."/>
                                                                 <span></span>
                                                                 <img src='".get_template_directory_uri()."/images/common/single-meter.svg' alt='' height='52' />
                                                             </label>
                                                             
                                                             <label>
-                                                                <input type='radio' value='double' name='meter' ".(($values['meter'] == pll__('double')) ? "checked='checked'" : '')." id='doubleMeterConsumption' class='check-consumption'/>
+                                                                <input class='call-usages-data' type='radio' value='double' name='meter' ".(($values['meter'] == pll__('double')) ? "checked='checked'" : '')." id='doubleMeterConsumption' class='check-consumption'/>
                                                                 <span></span>
                                                                 <img src='".get_template_directory_uri()."/images/common/double-meter.svg' alt='' height='52' />
                                                             </label>
@@ -941,7 +940,7 @@ class AnbCompareEnergy extends AnbCompare
                                                     </div>
                                                     <div class='form-group text-left'>
                                                         <div class='check fancyCheck'>
-                                                            <input type='checkbox' name='exc_night_meter' id='exc_night_meter' class='hasContent' value='1' ".(($values['exc_night_meter'] == '1') ? "checked='checked'" : '').">
+                                                            <input type='checkbox' name='exc_night_meter' id='exc_night_meter' class='call-usages-data hasContent' value='1' ".(($values['exc_night_meter'] == '1') ? "checked='checked'" : '').">
                                                             <label for='exc_night_meter'>
                                                                 <i class='fa fa-circle-o unchecked'></i>
                                                                 <i class='fa fa-check-circle checked'></i>
@@ -1004,13 +1003,13 @@ class AnbCompareEnergy extends AnbCompare
                                                         <div class='col-md-5 col-sm-5 col-xs-12 form-group'>
                                                             <label class='block bold-600 text-left'>" . pll__('Day consumption') . "</label>
                                                             <div class='day-consumption day-consumption-grey' id='doubleMeterConsumption_grey'>
-                                                                <input type='text' name='du' value='".(($values['du']) ?: '')."' />
+                                                                <input id='single-meter-du' type='text' name='du' value='".(($values['du']) ?: '')."' />
                                                             </div>
                                                         </div>
                                                         <div class='col-md-5 col-sm-5 col-xs-12 form-group ".(($values['meter'] != 'double') ? "hide" : '')."' id='doubleMeterConsumption_content'>
                                                             <label class='block bold-600 text-left'>" . pll__('Night consumption') . "</label>
                                                             <div class='night-consumption'>
-                                                                <input type='text' name='nu' value='".(($values['nu']) ?: '')."'/>
+                                                                <input id='double-meter-nu' type='text' name='nu' value='".(($values['nu']) ?: '')."'/>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -1018,7 +1017,7 @@ class AnbCompareEnergy extends AnbCompare
                                                         <div class='col-md-5 col-sm-5 col-xs-12 form-group hide exc_night_meter_content'>
                                                             <label class='block bold-600 text-left'>" . pll__('Exclusive night meter') . "</label>
                                                             <div class='night-consumption'>
-                                                                <input type='text' name='nou' value='".(($values['nou']) ?: '')."'/>
+                                                                <input id='exclusive-night-meter-nou' type='text' name='nou' value='".(($values['nou']) ?: '')."'/>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -1078,7 +1077,7 @@ class AnbCompareEnergy extends AnbCompare
                                                         <div class='row'>
                                                             <div class='col-md-3 col-sm-3 col-xs-6 form-group'>
                                                                 <div class='gas-consumption'>
-                                                                    <input type='text' name='u' value='". (($values['u']) ?: '') ."' />
+                                                                    <input id='m3_u' type='text' name='u' value='". (($values['u']) ?: '') ."' />
                                                                 </div>
                                                             </div>
                                                             <div class='col-md-5 col-sm-5 col-xs-6 form-group p-l-0'>
@@ -1105,9 +1104,9 @@ class AnbCompareEnergy extends AnbCompare
                                                                 <div class='form-group'>
                                                                     <label class='text-left bold-600 '>".pll__('Is your roof isolated?')."</label>
                                                                     <div class='custom-select'>
-                                                                        <select disabled='disabled'>
-                                                                            <option value=''>".pll__('Yes')."</option>
-                                                                            <option value=''>".pll__('No')."</option>
+                                                                        <select disabled='disabled' class='call-usages-data' name='roof_isolation'>
+                                                                            <option value='1'>".pll__('Yes')."</option>
+                                                                            <option value='0'>".pll__('No')."</option>
                                                                             <option value=''>".pll__('I dont know')."</option>
                                                                         </select>
                                                                     </div>
@@ -1116,9 +1115,9 @@ class AnbCompareEnergy extends AnbCompare
                                                                 <div class='form-group'>
                                                                     <label class='text-left bold-600 '>".pll__('Are your walls isolated?')."</label>
                                                                     <div class='custom-select'>
-                                                                        <select disabled='disabled'>
-                                                                            <option value=''>".pll__('Yes')."</option>
-                                                                            <option value=''>".pll__('No')."</option>
+                                                                        <select disabled='disabled' class='call-usages-data' name='wall_isolation'>
+                                                                            <option value='1'>".pll__('Yes')."</option>
+                                                                            <option value='0'>".pll__('No')."</option>
                                                                             <option value=''>".pll__('I dont know')."</option>
                                                                         </select>
                                                                     </div>
@@ -1127,9 +1126,9 @@ class AnbCompareEnergy extends AnbCompare
                                                                 <div class='form-group'>
                                                                     <label class='text-left bold-600 '>".pll__('What type of windows do you have?')."</label>
                                                                     <div class='custom-select'>
-                                                                        <select disabled='disabled'>
-                                                                            <option value=''>".pll__('Single glass')."</option>
-                                                                            <option value=''>".pll__('Double glass')."</option>
+                                                                        <select disabled='disabled' class='call-usages-data' name='glass'>
+                                                                            <option value='single'>".pll__('Single glass')."</option>
+                                                                            <option value='double'>".pll__('Double glass')."</option>
                                                                             <option value=''>".pll__('I dont know')."</option>
                                                                         </select>
                                                                     </div>
@@ -1138,10 +1137,10 @@ class AnbCompareEnergy extends AnbCompare
                                                                 <div class='form-group'>
                                                                     <label class='text-left bold-600 '>".pll__('How old is your boiler?')."</label>
                                                                     <div class='custom-select'>
-                                                                        <select disabled='disabled'>
-                                                                            <option value=''>".pll__('I dont have one')."</option>
-                                                                            <option value=''>".pll__('Younger then 10 years')."</option>
-                                                                            <option value=''>".pll__('Older then 10 years')."</option>
+                                                                        <select disabled='disabled' class='call-usages-data' name='boiler'>
+                                                                            <option value='0'>".pll__('I dont have one')."</option>
+                                                                            <option value='<10'>".pll__('Younger then 10 years')."</option>
+                                                                            <option value='>10'>".pll__('Older then 10 years')."</option>
                                                                             <option value=''>".pll__('I dont know')."</option>
                                                                         </select>
                                                                     </div>
@@ -1150,10 +1149,10 @@ class AnbCompareEnergy extends AnbCompare
                                                                 <div class='form-group'>
                                                                     <label class='text-left bold-600 '>".pll__('What about your CV ketel?')."</label>
                                                                     <div class='custom-select'>
-                                                                        <select disabled='disabled'>
-                                                                            <option value=''>".pll__('I dont have one')."</option>
-                                                                            <option value=''>".pll__('Younger then 10 years')."</option>
-                                                                            <option value=''>".pll__('Older then 10 years')."</option>
+                                                                        <select disabled='disabled' class='call-usages-data' name='cv'>
+                                                                            <option value='0'>".pll__('I dont have one')."</option>
+                                                                            <option value='<10'>".pll__('Younger then 10 years')."</option>
+                                                                            <option value='>10'>".pll__('Older then 10 years')."</option>
                                                                             <option value=''>".pll__('I dont know')."</option>
                                                                         </select>
                                                                     </div>
@@ -1596,18 +1595,18 @@ class AnbCompareEnergy extends AnbCompare
             $params['has_solar'] = '1';
         }
         if(isset($_GET['roof_isolation']) && !empty($_GET['roof_isolation'])) {
-            $params['roof_isolation'] = '1';
+            $params['roof_isolation'] = $_GET['roof_isolation'];
         }
         if(isset($_GET['wall_isolation']) && !empty($_GET['wall_isolation'])) {
-            $params['wall_isolation'] = '1';
+            $params['wall_isolation'] = $_GET['wall_isolation'];
         }
         if(isset($_GET['glass']) && !empty($_GET['glass'])) {
             $params['glass'] = $_GET['glass'];
         }
-        if(isset($_GET['boiler']) && !empty($_GET['boiler'])) {
+        if(isset($_GET['boiler']) && !empty($_GET['boiler']) && $_GET['boiler'] != '0') {
             $params['boiler'] = $_GET['boiler'];
         }
-        if(isset($params['cv']) && !empty($_GET['cv'])) {
+        if(isset($params['cv']) && !empty($_GET['cv']) && $_GET['cv'] != '0') {
             $params['cv'] = $_GET['cv'];
         }
 

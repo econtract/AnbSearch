@@ -51,6 +51,9 @@ add_action( 'wp_ajax_nopriv_getCompareResultsForWizard', array($result, 'getComp
 add_action('wp_ajax_moreResultsEnergy', array($energy, 'moreResults'));
 add_action( 'wp_ajax_nopriv_moreResultsEnergy', array($energy, 'moreResults'));
 
+add_action('wp_ajax_usageResultsEnergy', array($energy, 'usageResultsEnergy'));
+add_action( 'wp_ajax_nopriv_usageResultsEnergy', array($energy, 'usageResultsEnergy'));
+
 /** @var AnbToolbox $anbToolbox */
 $anbToolbox = wpal_create_instance( AnbToolbox::class );
 add_action('wp_ajax_ajaxQueryToolboxApi', array($anbToolbox, 'ajaxQueryToolboxApi'));

@@ -1427,7 +1427,7 @@ class AnbCompareEnergy extends AnbCompare
 		    $labels['totalfinal']['data']['advoneyear']['total'][$cid] = $advOneYearTotal;
 		    $labels['totalfinal']['sub_total_yearly'][$cid] = formatPrice($pdata['pricing']['yearly']['promo_price'], 2, '&euro; ');
 
-		    $labels['vetsavings']['main'] = pll__('Estimated savings');
+		    $labels['vetsavings']['main'] = pll__('Estimated Savings');
 		    $labels['vetsavings']['estotal'][$cid] = $estimatedSavingTotal;
 		    $cid++;
 	    }

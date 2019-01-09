@@ -1550,6 +1550,14 @@ class AnbCompareEnergy extends AnbCompare
 
     function usageResultsEnergy($enableCache = true, $cacheDurationSeconds = 86400, $isAjaxCall = false){
 
+        if(!$enableCache){ $enableCache = true; }
+
+        if(defined('COMPARE_API_CACHE_DURATION')) {
+            $cacheDurationSeconds = COMPARE_API_CACHE_DURATION;
+        } else {
+            $cacheDurationSeconds = 86400;
+        }
+
         if(isset($_GET['ajax']) && $_GET['ajax'] == true){
             $isAjaxCall = true;
         }
@@ -1610,9 +1618,6 @@ class AnbCompareEnergy extends AnbCompare
             $params['cv'] = $_GET['cv'];
         }
 
-        if(defined('COMPARE_API_CACHE_DURATION')) {
-            $cacheDurationSeconds = COMPARE_API_CACHE_DURATION;
-        }
         $atts = shortcode_atts(array(
             'producttype' => '',
             'segment' => '',
@@ -1634,6 +1639,7 @@ class AnbCompareEnergy extends AnbCompare
         displayParams($params);
         $start = getStartTime();
         $displayText = "Time API (Compare) inside getCompareResults";
+
         if ($enableCache && !isset($_GET['no_cache'])) {
             $cacheKey = md5(serialize($params)) . ":usage_vals";
             $result = mycache_get($cacheKey);

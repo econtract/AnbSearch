@@ -13,12 +13,12 @@ use abApiCrm\includes\controller\OrderController;
 use abSuppliers\AbSuppliers;
 
 if(!function_exists('getUriSegment')) {
-	function getUriSegment($n)
-	{
-		$segment = explode("/", parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
+    function getUriSegment($n)
+    {
+        $segment = explode("/", parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
 
-		return count($segment) > 0 && count($segment) >= ($n - 1) ? $segment[$n] : '';
-	}
+        return count($segment) > 0 && count($segment) >= ($n - 1) ? $segment[$n] : '';
+    }
 }
 
 class AnbCompare extends Base
@@ -49,8 +49,8 @@ class AnbCompare extends Base
      */
     public function __construct()
     {
-    	$this->sector = getUriSegment(1);
-    	$this->pagename = getUriSegment(2);
+        $this->sector = getUriSegment(1);
+        $this->pagename = getUriSegment(2);
         //enqueue JS scripts
         add_action( 'wp_enqueue_scripts', array($this, 'enqueueScripts') );
 
@@ -91,7 +91,6 @@ class AnbCompare extends Base
                 ) );
 
             wp_enqueue_script('compare-between-results-script', plugins_url('/js/compare-results.js', __FILE__), array('jquery'), '1.2.8', true);
-
             //This is required for current pack functionality on energy too
             // in JavaScript, object properties are accessed as ajax_object.ajax_url, ajax_object.we_value
             wp_localize_script('compare-between-results-script', 'compare_between_results_object',
@@ -123,7 +122,6 @@ class AnbCompare extends Base
                     'trans_free_modem' => pll__('Free modem'),
                     'trans_modem' => pll__('Modem'),
                     'trans_loading_dots'   => pll__('Loading...')
-
                 )
             );
         }
@@ -179,7 +177,7 @@ class AnbCompare extends Base
             'pr' => '',
             'cm' => '',
             'f' => '',
-	        'du' => '',
+            'du' => '',
             'nu' => '',
             'nou' => '',
             'dndu' => '',
@@ -212,13 +210,13 @@ class AnbCompare extends Base
             'ms_mobile' => '',
             'pref_pids' => [],
             'searchSubmit' => '', // conditional param ( this param doesn't belong to API Params)
-	        'cmp_pid' => '',
-	        'cmp_sid' => '',
-	        'greenpeace' => ''
+            'cmp_pid' => '',
+            'cmp_sid' => '',
+            'greenpeace' => ''
         ), $atts, 'anb_search');
-       // print_r($atts);die;
+        // print_r($atts);die;
 
-	    $getParams = $_GET;
+        $getParams = $_GET;
 
         //$this->cleanArrayData($_GET);
         if (count($getParams['cat']) >= 2) {
@@ -326,9 +324,9 @@ class AnbCompare extends Base
 
     function getPreviousCompareResults($compareId, $recompare = 1, $enableCache = true, $cacheDurationSeconds = 86400)
     {
-	    if(defined('COMPARE_API_CACHE_DURATION')) {
-		    $cacheDurationSeconds = COMPARE_API_CACHE_DURATION;
-	    }
+        if(defined('COMPARE_API_CACHE_DURATION')) {
+            $cacheDurationSeconds = COMPARE_API_CACHE_DURATION;
+        }
         $result = null;
         $start = getStartTime();
         $displayText = "Time API (Previous Compare) inside getPreviousCompareResults";
@@ -430,60 +428,60 @@ class AnbCompare extends Base
         $products = json_decode($products);
 
         /** @var \AnbTopDeals\AnbProduct $anbTopDeals */
-	    $anbTopDeals = wpal_create_instance( \AnbTopDeals\AnbProduct::class );
+        $anbTopDeals = wpal_create_instance( \AnbTopDeals\AnbProduct::class );
 
         $countProducts = 0;
-	    foreach ($products->results as $listProduct) {
+        foreach ($products->results as $listProduct) {
 
-		    $countProducts++;
+            $countProducts++;
 
-		    if ($countProducts <= $this->defaultNumberOfResults) {
-			    continue;
-		    }
-		    $currentProduct = $listProduct->product;
+            if ($countProducts <= $this->defaultNumberOfResults) {
+                continue;
+            }
+            $currentProduct = $listProduct->product;
 
             // include badge or text - partner logo
             $includeText = ($currentProduct->supplier->is_partner == 1) ? false : true;
 
-		    list($productData, $priceHtml, $servicesHtml) = $this->extractProductData($this->anbTopDeals, $currentProduct, true);
+            list($productData, $priceHtml, $servicesHtml) = $this->extractProductData($this->anbTopDeals, $currentProduct, true);
 
-		    //Promotions, Installation/Activation HTML
-		    //display installation and activation price
-		    $promotionHtml = $this->anbTopDeals->getPromoInternalSection($productData, true);//True here will drop promotions
+            //Promotions, Installation/Activation HTML
+            //display installation and activation price
+            $promotionHtml = $this->anbTopDeals->getPromoInternalSection($productData, true);//True here will drop promotions
 
-		    list($advPrice, $monthDurationPromo, $firstYearPrice) = $this->anbTopDeals->getPriceInfo($productData);
+            list($advPrice, $monthDurationPromo, $firstYearPrice) = $this->anbTopDeals->getPriceInfo($productData);
 
-		    $parentSegment = getSectorOnCats($_SESSION['product']['cat']);
-		    $checkoutPageLink = '/' . $parentSegment . '/' . pll__('checkout');
+            $parentSegment = getSectorOnCats($_SESSION['product']['cat']);
+            $checkoutPageLink = '/' . $parentSegment . '/' . pll__('checkout');
 
-		    $forceCheckAvailability = false;
+            $forceCheckAvailability = false;
 
-		    if ( empty( $_GET['zip'] ) ) {
-			    //don't continue if zip is empty
-			    $forceCheckAvailability = true;
-		    }
+            if ( empty( $_GET['zip'] ) ) {
+                //don't continue if zip is empty
+                $forceCheckAvailability = true;
+            }
 
-		    list(, , , , $toCartLinkHtml) = $anbTopDeals->getToCartAnchorHtml($parentSegment, $productData['product_id'], $productData['supplier_id'], $productData['sg'], $productData['producttype'], $forceCheckAvailability);
+            list(, , , , $toCartLinkHtml) = $anbTopDeals->getToCartAnchorHtml($parentSegment, $productData['product_id'], $productData['supplier_id'], $productData['sg'], $productData['producttype'], $forceCheckAvailability);
 
-		    /*$toCartLinkHtml = "href='" . $checkoutPageLink . "?product_to_cart&product_id=" . $productData['product_id'] .
-		                      "&provider_id=" . $productData['supplier_id'] . "&sg={$productData['sg']}&producttype={$productData['producttype']}'";*/
-		    $blockLinkClass = 'block-link';
-		    if($forceCheckAvailability) {
-			    $blockLinkClass = 'block-link missing-zip';
-		    }
+            /*$toCartLinkHtml = "href='" . $checkoutPageLink . "?product_to_cart&product_id=" . $productData['product_id'] .
+                              "&provider_id=" . $productData['supplier_id'] . "&sg={$productData['sg']}&producttype={$productData['producttype']}'";*/
+            $blockLinkClass = 'block-link';
+            if($forceCheckAvailability) {
+                $blockLinkClass = 'block-link missing-zip';
+            }
 
-		    if($productData['commission'] === true) {
-			    $toCartLinkHtml = '<a ' . $toCartLinkHtml . ' class="link '.$blockLinkClass.'">' . pll__('Order Now') . '</a>';
-		    } else {
-			    $toCartLinkHtml = '<a href="#not-available" class="link block-link not-available">' . pll__('Not Available') . '</a>';
-		    }
-		    $appendHtml = '<p class="message">' . decorateLatestOrderByProduct($currentProduct->product_id) . '</p>';
-		    $orderInfoHtml = '<div class="buttonWrapper">
+            if($productData['commission'] === true) {
+                $toCartLinkHtml = '<a ' . $toCartLinkHtml . ' class="link '.$blockLinkClass.'">' . pll__('Order Now') . '</a>';
+            } else {
+                $toCartLinkHtml = '<a href="#not-available" class="link block-link not-available">' . pll__('Not Available') . '</a>';
+            }
+            $appendHtml = '<p class="message">' . decorateLatestOrderByProduct($currentProduct->product_id) . '</p>';
+            $orderInfoHtml = '<div class="buttonWrapper">
                             <a href="' . getTelecomProductPageUri($productData) . '" class="btn btn-primary ">' . pll__( 'Info and options' ) . '</a>
                             '.$toCartLinkHtml.'
                           </div>';
-		    //echo "yoooo...1";die();
-		    $productResp .= '<div class="offer">
+            //echo "yoooo...1";die();
+            $productResp .= '<div class="offer">
                             <div class="row listRow">
                                 <div class="col-md-3">
                                     '.$this->anbTopDeals->getProductDetailSection( $productData, $servicesHtml, $includeText,false, '', true ).'
@@ -528,35 +526,35 @@ class AnbCompare extends Base
                             </div>
                         </div>';
 
-		    //old product response with old design
-		    /*$productResponse .= '<div class="offer">
-							<div class="row listRow">
-								<div class="col-md-4">
-									' . $this->anbTopDeals->getProductDetailSection($productData, $servicesHtml) . '
-								</div>
-								<div class="col-md-3">
-								' . $this->anbTopDeals->getPromoSection($promotionHtml, $advPrice, 'dealFeatures', $appendHtml) . '
-								</div>
-								<div class="col-md-2">
-								   ' . $this->anbTopDeals->priceSection($priceHtml, $monthDurationPromo, $firstYearPrice, 'dealPrice', '') . '
-								</div>
-								<div class="col-md-3">
-									<div class="actionButtons">
-										<div class="comparePackage">
-											<label>
-												<input type="hidden" name="compareProductType' . $currentProduct->product_id . '>" value="' . $currentProduct->producttype . '">
-												<input type="checkbox" value="' . $currentProduct->product_id . '"> ' . pll__('Compare') . '
-											</label>
-										</div>
-										<div class="buttonWrapper">
-											<a href="/' . pll__('brands') . '/' . $currentProduct->supplier_slug . '/' . $currentProduct->product_slug . '" class="btn btn-primary btn-block">' . pll__('Info and options') . '</a>
-											'.$toCartLinkHtml.'
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>';*/
-	    }
+            //old product response with old design
+            /*$productResponse .= '<div class="offer">
+                            <div class="row listRow">
+                                <div class="col-md-4">
+                                    ' . $this->anbTopDeals->getProductDetailSection($productData, $servicesHtml) . '
+                                </div>
+                                <div class="col-md-3">
+                                ' . $this->anbTopDeals->getPromoSection($promotionHtml, $advPrice, 'dealFeatures', $appendHtml) . '
+                                </div>
+                                <div class="col-md-2">
+                                   ' . $this->anbTopDeals->priceSection($priceHtml, $monthDurationPromo, $firstYearPrice, 'dealPrice', '') . '
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="actionButtons">
+                                        <div class="comparePackage">
+                                            <label>
+                                                <input type="hidden" name="compareProductType' . $currentProduct->product_id . '>" value="' . $currentProduct->producttype . '">
+                                                <input type="checkbox" value="' . $currentProduct->product_id . '"> ' . pll__('Compare') . '
+                                            </label>
+                                        </div>
+                                        <div class="buttonWrapper">
+                                            <a href="/' . pll__('brands') . '/' . $currentProduct->supplier_slug . '/' . $currentProduct->product_slug . '" class="btn btn-primary btn-block">' . pll__('Info and options') . '</a>
+                                            '.$toCartLinkHtml.'
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>';*/
+        }
 
         echo $productResp;
 
@@ -667,35 +665,35 @@ class AnbCompare extends Base
      */
     public function productsCallback()
     {
-	    $extSuppTbl = new \wpdb(DB_PRODUCT_USER, DB_PRODUCT_PASS, DB_PRODUCT, DB_PRODUCT_HOST);
-	    $startTime = getStartTime();
-	    $statemet = $extSuppTbl->prepare(
-		    "SELECT producttype,product_id,product_name FROM supplier_products 
+        $extSuppTbl = new \wpdb(DB_PRODUCT_USER, DB_PRODUCT_PASS, DB_PRODUCT, DB_PRODUCT_HOST);
+        $startTime = getStartTime();
+        $statemet = $extSuppTbl->prepare(
+            "SELECT producttype,product_id,product_name FROM supplier_products 
 				WHERE supplier_id=%d AND lang=%s AND segment=%s AND (active=%d OR active=%d) AND (producttype=%s OR producttype=%s) 
 				ORDER BY product_name",
-		    [
-			    $_REQUEST['supplier'],
-			    $this->getCurrentLang(),
-			    $_REQUEST['sg'],
-			    $this->productStatus[0],
-			    $this->productStatus[1],
-			    $this->productTypes[0],
-			    $this->productTypes[1],
-		    ]
-	    );
+            [
+                $_REQUEST['supplier'],
+                $this->getCurrentLang(),
+                $_REQUEST['sg'],
+                $this->productStatus[0],
+                $this->productStatus[1],
+                $this->productTypes[0],
+                $this->productTypes[1],
+            ]
+        );
 
-	    $products = $extSuppTbl->get_results($statemet, ARRAY_A);
-	    $endTime = getEndTime();
+        $products = $extSuppTbl->get_results($statemet, ARRAY_A);
+        $endTime = getEndTime();
 
-	    if($_GET['debug']) {
-	        displayCallTime($startTime, $endTime, 'Display Time for Comp Query+++');
-	    }
+        if($_GET['debug']) {
+            displayCallTime($startTime, $endTime, 'Display Time for Comp Query+++');
+        }
 
         if (empty($products)) {
             return $html = '';
         }
 
-	    $startTime = getStartTime();
+        $startTime = getStartTime();
         $html = '<option value="">' . pll__('Select your pack') . '</option>';
 
         foreach ($products as $product) {
@@ -703,34 +701,34 @@ class AnbCompare extends Base
         }
 
         print $html;
-	    $endTime = getStartTime();
-	    if($_GET['debug']) {
-		    displayCallTime($startTime, $endTime, '+++HTML GENERATED+++');
-	    }
+        $endTime = getStartTime();
+        if($_GET['debug']) {
+            displayCallTime($startTime, $endTime, '+++HTML GENERATED+++');
+        }
         wp_die(); // this is required to terminate immediately and return a proper response
     }
 
     function getProductDetails($productId, $supplierId, $producttype, $lang = "") {
-    	if(empty($lang)) {
-		    $lang = $this->getCurrentLang();
-	    }
-	    $extSuppTbl = new \wpdb(DB_PRODUCT_USER, DB_PRODUCT_PASS, DB_PRODUCT, DB_PRODUCT_HOST);
-	    $startTime = getStartTime();
-	    $statemet = $extSuppTbl->prepare(
-		    "SELECT producttype,product_id,product_name FROM supplier_products 
+        if(empty($lang)) {
+            $lang = $this->getCurrentLang();
+        }
+        $extSuppTbl = new \wpdb(DB_PRODUCT_USER, DB_PRODUCT_PASS, DB_PRODUCT, DB_PRODUCT_HOST);
+        $startTime = getStartTime();
+        $statemet = $extSuppTbl->prepare(
+            "SELECT producttype,product_id,product_name FROM supplier_products 
 			WHERE product_id=%d AND supplier_id=%d AND producttype=%s AND lang=%s AND (active=%d OR active=%d) 
 			ORDER BY product_name",
-		    [
-			    $productId,
-			    $supplierId,
-			    $producttype,
-			    $lang,
-			    $this->productStatus[0],
-			    $this->productStatus[1],
-		    ]
-	    );
+            [
+                $productId,
+                $supplierId,
+                $producttype,
+                $lang,
+                $this->productStatus[0],
+                $this->productStatus[1],
+            ]
+        );
 
-	    return $extSuppTbl->get_row($statemet, ARRAY_A);
+        return $extSuppTbl->get_row($statemet, ARRAY_A);
     }
 
     function searchForm($atts)
@@ -752,7 +750,7 @@ class AnbCompare extends Base
             $values = $_GET + $atts;//append any missing but default values
         }
 
-        if($values['cat'] == 'packs') {
+        if ($values['cat'] == 'packs') {
             $values['cat'] = $this->orignalCats;//restore the selection
         }
 
@@ -772,8 +770,8 @@ class AnbCompare extends Base
             $supplierHtml = $this->generateHiddenSupplierHtml($values['hidden_sp']);
         } else {
             //$supplierHtml = $this->generateSupplierHtml($values['pref_cs']);
-	        //No need to fetch suppliers now
-	        $supplierHtml = '';
+            //No need to fetch suppliers now
+            $supplierHtml = '';
         }
 
         $needHelpHtml = "";
@@ -789,8 +787,69 @@ class AnbCompare extends Base
         }
 
         //In below call change '/' . getUriSegment(1) . '/' .pll__('results') to pll__('results') in case you want to submit it on the same URL struture like on provider details page.
-        $formNew = $this->getSearchBoxContentHtml($values, $needHelpHtml, $supplierHtml, pll__("Search Deals"), false, "", '/' . getUriSegment(1) . '/' .pll__('results'));
 
+        $formNew = $this->getSearchBoxContentHtml($values, $needHelpHtml, $supplierHtml, pll__("Search Deals"), false, "", '/' . getUriSegment(1) . '/' . pll__('results'));
+        return $formNew;
+    }
+
+    public function searchFormMobile($atts)
+    {
+        $atts = shortcode_atts(array(
+            'cat' => '',
+            'zip' => '',
+            'pref_cs' => '',
+            'sg' => 'consumer',
+            'lang' => $this->getCurrentLang(),
+            'hidden_sp' => '',
+            'enable_need_help' => false
+
+        ), $atts, 'anb_mobile_search_form');
+
+        $values = $atts;
+
+        if (!empty($_GET)) {
+            $values = $_GET + $atts;//append any missing but default values
+        }
+
+        if ($values['cat'] == 'packs') {
+            $values['cat'] = $this->orignalCats;//restore the selection
+        }
+
+        $this->convertMultiValToArray($values['cat']);
+
+        if ($_GET['debug']) {
+            echo "<pre>";
+            print_r($values);
+            echo "</pre>";
+        }
+
+        //$this->loadFormStyles();
+        //$this->loadJqSumoSelect();
+        //$this->loadBootstrapSelect();
+        //for self page esc_url( $_SERVER['REQUEST_URI'] )
+        if (!empty($values['hidden_sp'])) {
+            $supplierHtml = $this->generateHiddenSupplierHtml($values['hidden_sp']);
+        } else {
+            //$supplierHtml = $this->generateSupplierHtml($values['pref_cs']);
+            //No need to fetch suppliers now
+            $supplierHtml = '';
+        }
+
+        $needHelpHtml = "";
+
+        if ($values['enable_need_help'] == true) {
+            $needHelpHtml .= "<div class='needHelp'>
+                                <a href='javascript:void(0)' data-toggle='modal' data-target='#widgetPopup' data-backdrop='static' data-keyboard='false'>
+                                    <i class='floating-icon fa fa-chevron-right'></i>
+                                    <h6>" . pll__('Need help?') . "</h6>
+                                    <p>" . pll__('We\'ll guide you') . "</p>
+                                </a>
+                              </div>";
+        }
+
+        //In below call change '/' . getUriSegment(1) . '/' .pll__('results') to pll__('results') in case you want to submit it on the same URL struture like on provider details page.
+
+        $formNew = $this->getMobileSearchBoxContentHtml($values, $needHelpHtml, $supplierHtml, pll__("Search Deals"), false, "", '/' . getUriSegment(1) . '/' . pll__('results'));
         return $formNew;
     }
 
@@ -925,22 +984,22 @@ class AnbCompare extends Base
             foreach ($product->packtypes as $key => $packType) {
 
                 $features = $packType->core_features->{$key};
-	            if($listView) {
-		            $servicesHtml .= '<div class="col-md-3">'.
-		                             $this->generateServiceDetailHtml($key, $packType->product_name, $features, $listView).
-		                             '</div>';
-	            } else {
-		            $servicesHtml .= $this->generateServiceDetailHtml($key, $packType->product_name, $features, $listView);
-	            }
+                if($listView) {
+                    $servicesHtml .= '<div class="col-md-3">'.
+                        $this->generateServiceDetailHtml($key, $packType->product_name, $features, $listView).
+                        '</div>';
+                } else {
+                    $servicesHtml .= $this->generateServiceDetailHtml($key, $packType->product_name, $features, $listView);
+                }
             }
         } else {
             $features = $product->core_features->internet;
             $servicesHtml = $this->generateServiceDetailHtml("internet", $product->product_name, $features, $listView);
-	        if($listView) {
-		        $servicesHtml = '<div class="col-md-3">'.
-		                         $this->generateServiceDetailHtml("internet", $product->product_name, $features, $listView).
-		                         '</div>';
-	        }
+            if($listView) {
+                $servicesHtml = '<div class="col-md-3">'.
+                    $this->generateServiceDetailHtml("internet", $product->product_name, $features, $listView).
+                    '</div>';
+            }
         }
 
         return $servicesHtml;
@@ -953,7 +1012,7 @@ class AnbCompare extends Base
         }
         $serviceLabel = '<h6>' . $productName . '</h6>';
         if($listView === true) {
-	        $serviceLabel = '';
+            $serviceLabel = '';
         }
 
         return '<div class="packageDetail ' . $service . '">
@@ -1096,28 +1155,107 @@ class AnbCompare extends Base
                                       data-error='" . pll__('Please enter valid zip code') . "' autocomplete='off' query_method='cities' query_key='postcode' required>
                                 </div>
                                 {$supplierHtml}";
-                                /*
-                                <div class='form-group'>
-                                    <label>" . pll__('Type of Use') . "</label>
-                                    <div class='radio fancyRadio'>
-                                        <input name='sg' value='consumer' id='private_type' checked='checked' type='radio'
-                                        " . (("private" == $values['sg']) ? 'checked="checked"' : '') . ">
-                                        <label for='private_type'>
-                                            <i class='fa fa-circle-o unchecked'></i>
-                                            <i class='fa fa-check-circle checked'></i>
-                                            <span>" . pll__('Private') . "</span>
-                                        </label>
-                                        <input name='sg' value='sme' id='business_type' type='radio'
-                                        " . (("sme" == $values['sg']) ? 'checked="checked"' : '') . ">
-                                        <label for='business_type'>
-                                            <i class='fa fa-circle-o unchecked'></i>
-                                            <i class='fa fa-check-circle checked'></i>
-                                            <span>" . pll__('Business') . "</span>
+        $formNew.= "<div class='form-group11'>
+                                    <div class='check fancyCheck'>
+                                        <input name='sg' value='consumer' type='hidden' id='valconsumer'>
+                                        <input name='sg' id='showBusinessDeal' class='radio-salutation' value='sme' type='checkbox' " . (("sme" == $values['sg']) ? 'checked="checked"' : '') . ">
+                                        <label for='showBusinessDeal'>
+                                            <i class='fa fa-circle-o unchecked' id='disableconsumer'></i>
+                                            <i class='fa fa-check-circle checked' id='enableconsumer'></i>
+                                            <span>". pll__('Show business deals') ."</span>
                                         </label>
                                     </div>
+                                </div>                                
+                                <div class='btnWrapper'>
+                                    {$hiddenMultipleProvidersHtml}
+                                    <button name='searchSubmit' type='submit' class='btn btn-default btn-block' >$submitBtnTxt</button>
                                 </div>
-                                */
-                    $formNew.= "<div class='form-group11'>
+                            </form>
+                        </div>
+                    </div>
+                </div>";
+
+        return $formNew;
+    }
+
+    /**
+     * @param $values
+     * @param string $needHelpHtml
+     * @param string $supplierHtml
+     * @param string $submitBtnTxt
+     * @param bool $hideTitle
+     * @param string $infoMsg
+     * @param string $resultsPageUri
+     *
+     * @return string
+     */
+    public function getMobileSearchBoxContentHtml(
+        $values, $needHelpHtml = "", $supplierHtml = "", $submitBtnTxt = "Search Deals",
+        $hideTitle = false, $infoMsg = "", $resultsPageUri = self::RESULTS_PAGE_URI
+    )
+    {
+        $titleHtml = "<h3>" . pll__('Search') . "</h3>";
+        if ($hideTitle) {
+            $titleHtml = "";
+        }
+
+        $hiddenMultipleProvidersHtml = $this->getSuppliersHiddenInputFields($values, $supplierHtml);
+
+        $formNew = "<div class='searchBoxContent'>
+                    <div class='searchBox'>
+                        " . $needHelpHtml . "
+                        " . $titleHtml . "
+                        <p class='caption'>" . pll__('Select the service you like to compare') . "</p>
+                        <div class='formWrapper'>
+                            <form action='" . $resultsPageUri . "' id='anbSearchForm'>
+                                <div class='form-group'>
+                                    <label>" . pll__('Services') . "</label>
+                                    <div class='selectServices mobileSelectServices'>
+                                        <ul class='list-unstyled'>
+                                            <li>
+                                                <div>
+                                                    <input name='cat[]' id='mobile_service' type='checkbox' value='mobile'
+                                                    " . ((in_array("mobile", $values['cat']) === true) ? 'checked="checked"' : '') . ">
+                                                    <label for='mobile_service'>
+                                                        <span class='icon'>
+                                                            <i class='sprite sprite-mobile'></i>
+                                                        </span>
+                                                        <span class='description'>" . pll__('Mobile') . "</span>
+                                                        <span class='tick-icon'>
+                                                            <i class='fa fa-check'></i>
+                                                            <i class='fa fa-square-o'></i>
+                                                        </span>
+                                                    </label>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div>
+                                                    <input name='cat[]' id='mobile_internet' type='checkbox' value='mobile_internet'
+                                                    " . ((in_array("mobile_internet", $values['cat']) === true) ? 'checked="checked"' : '') . ">
+                                                    <label for='mobile_internet'>
+                                                        <span class='icon'>
+                                                            <i class='sprite sprite-mobile-internet'></i>
+                                                        </span>
+                                                        <span class='description'>" . pll__('Mobile Internet') . "</span>
+                                                        <span class='tick-icon'>
+                                                            <i class='fa fa-check'></i>
+                                                            <i class='fa fa-square-o'></i>
+                                                        </span>
+                                                    </label>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>    
+                                </div>
+                                {$infoMsg}
+                                <div class='form-group'>
+                                    <label for='installation_area'>" . pll__('Installation area') . "</label>
+                                    <input type='text' class='form-control typeahead' id='installation_area' name='zip' 
+                                      value='" . ((!empty($values['zip'])) ? $values['zip'] : '') . "' placeholder='" . pll__('Enter Zipcode') . "'
+                                      data-error='" . pll__('Please enter valid zip code') . "' autocomplete='off' query_method='cities' query_key='postcode' required>
+                                </div>
+                                {$supplierHtml}";
+        $formNew.= "<div class='form-group11'>
                                     <div class='check fancyCheck'>
                                         <input name='sg' value='consumer' type='hidden' id='valconsumer'>
                                         <input name='sg' id='showBusinessDeal' class='radio-salutation' value='sme' type='checkbox' " . (("sme" == $values['sg']) ? 'checked="checked"' : '') . ">
@@ -1144,11 +1282,11 @@ class AnbCompare extends Base
         $hiddenMultipleProvidersHtml = "";
 
         if (empty($supplierHtml)) {//If no supplier html generated but pref_cs are present keep them included as hidden values
-	        $hiddenMultipleProvidersHtml .= '<div id="wizard_popup_pref_cs" class="hidden">';
+            $hiddenMultipleProvidersHtml .= '<div id="wizard_popup_pref_cs" class="hidden">';
             foreach ($values['pref_cs'] as $provider) {
                 $hiddenMultipleProvidersHtml .= "<input type='hidden' name='pref_cs[]' value='" . $provider . "' />";
             }
-	        $hiddenMultipleProvidersHtml .= '</div>';
+            $hiddenMultipleProvidersHtml .= '</div>';
         }
 
         return $hiddenMultipleProvidersHtml;
@@ -1171,7 +1309,7 @@ class AnbCompare extends Base
         }
 
         $hiddenMultipleProvidersHtml = $this->getSuppliersHiddenInputFields($values, $supplierHtml);
-	    $hiddenMultipleProvidersHtml = '';
+        $hiddenMultipleProvidersHtml = '';
 
         $formNew = "<div class='formWrapper'>
                         <form action='" . $resultsPageUri . "' class='form-horizontal' id='yourProfileWizardForm' data-toggle='validator' role='form'>

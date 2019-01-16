@@ -159,6 +159,16 @@ class AnbCompareEnergy extends AnbCompare
         $hideTitle = false, $infoMsg = "", $resultsPageUri = self::RESULTS_PAGE_URI
     )
     {
+        $_GET['producttype'] = (!isset($_GET['producttype'])) ? "dualfuel_pack" : $_GET['producttype'];
+        $_GET['sg'] = (!isset($_GET['sg'])) ? 'consumer' : $_GET['sg'];
+        $_GET['f'] = (!isset($_GET['f'])) ? '2' : $_GET['f'];
+        $resultsUsages = json_decode($this->usageResultsEnergy());
+
+        $du = (empty($values['du'])) ? $resultsUsages->data->du : $values['du'];
+        $nu = (empty($values['nu'])) ? $resultsUsages->data->nu : $values['nu'];
+        $nou = (empty($values['nou'])) ? $resultsUsages->data->nou : $values['nou'];
+        $u = (empty($values['u'])) ? $resultsUsages->data->u : $values['u'];
+
         $electricityHide = $gasHide = '';
         if($values['supplier_service'] === 'electricity'){ $gasHide = 'hide'; }
         if($values['supplier_service'] === 'gas'){ $electricityHide = 'hide'; }
@@ -270,25 +280,25 @@ class AnbCompareEnergy extends AnbCompare
                                         <div class='double-meter-fields'>
                                             <div class='field general-energy kwh-energy'>
                                                 <i></i>
-                                                <input id='single-meter-du' type='text' name='du' value='". (($values['du']) ?: '') ."'/>
+                                                <input id='single-meter-du' type='text' name='du' api-value='". $du ."' value='". $du ."'/>
                                                 <label>kwh</label>
                                             </div>
                                             <div class='field day-night-energy kwh-energy hide'>
                                                 <div class='day-energy'>
                                                     <i></i>
-                                                    <input id='double-meter-du' type='text' disabled='disabled' name='du' value='". (($values['du']) ?: '') ."'/>
+                                                    <input id='double-meter-du' type='text' disabled='disabled' name='du' api-value='". $du ."' value='". $du ."'/>
                                                     <label>kwh</label>
                                                 </div>
                                                 <div class='night-energy'>
                                                     <i></i>
-                                                    <input id='double-meter-nu' type='text' disabled='disabled' name='nu' value='". (($values['nu']) ?: '') ."'/>
+                                                    <input id='double-meter-nu' type='text' disabled='disabled' name='nu' api-value='". $nu ."' value='". $nu ."'/>
                                                     <label>kwh</label>
                                                 </div>
                                             </div>
                                             <div class='field exclusive-meter-field hide'>
                                                 <div class='night-energy'>
                                                     <i></i>
-                                                    <input id='exclusive-night-meter-nou' type='text' disabled='disabled' name='nou' value='". (($values['nou']) ?: '') ."'/>
+                                                    <input id='exclusive-night-meter-nou' type='text' disabled='disabled' api-value='". $nou ."' name='nou' value='". $nou ."'/>
                                                     <label>kwh</label>
                                                 </div>
                                             </div>
@@ -331,7 +341,7 @@ class AnbCompareEnergy extends AnbCompare
                                         ".$this->getHouseTypeHtml($values)."
                                         <div class='field'>
                                             <i></i>
-                                            <input type='text' id='m3_u' name='u' value='". (($values['u']) ?: '') ."'/>
+                                            <input type='text' id='m3_u' name='u' api-value='". $u ."' value='". $u ."'/>
                                             <input type='hidden' name='ut' value='kwh'/>
                                             <label>kWh</label>
                                         </div>
@@ -1584,6 +1594,7 @@ class AnbCompareEnergy extends AnbCompare
         if(isset($_GET['home_size']) && !empty($_GET['home_size'])) {
             $params['home_size'] = $_GET['home_size'];
         }
+        if(!isset($_GET['meter']) || empty($_GET['meter'])) { $_GET['meter'] = 'single'; }
         if(isset($_GET['meter']) && !empty($_GET['meter'])) {
             if($_GET['meter'] == 'single'){
                 $params['meter_type'] = '1';
@@ -1596,8 +1607,6 @@ class AnbCompareEnergy extends AnbCompare
                     $params['meter_type'] = '4';
                 }
             }
-        } else {
-            $params['meter_type'] = '1';
         }
         if(isset($_GET['has_solar']) && !empty($_GET['has_solar'])) {
             $params['has_solar'] = '1';

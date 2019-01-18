@@ -351,7 +351,7 @@ class AnbCompareEnergy extends AnbCompare
                                 	{$hiddenMultipleProvidersHtml}
                                 	{$supplierHtml}
                                 	{$hiddenProdSelHTML}
-                                    <button name='searchSubmit' type='submit' class='btn btn-default btn-block' >$submitBtnTxt</button>
+                                    <button name='searchSubmit' type='submit' disabled class='btn btn-default btn-block' >$submitBtnTxt</button>
                                 </div>
                             </form>
                         </div>
@@ -1013,13 +1013,13 @@ class AnbCompareEnergy extends AnbCompare
                                                         <div class='col-md-5 col-sm-5 col-xs-12 form-group'>
                                                             <label class='block bold-600 text-left'>" . pll__('Day consumption') . "</label>
                                                             <div class='day-consumption day-consumption-grey' id='doubleMeterConsumption_grey'>
-                                                                <input id='single-meter-du' type='text' name='du' value='".(($values['du']) ?: '')."' />
+                                                                <input id='single-meter-du' type='text' disabled='disabled' name='du' value='".(($values['du']) ?: '')."' />
                                                             </div>
                                                         </div>
                                                         <div class='col-md-5 col-sm-5 col-xs-12 form-group ".(($values['meter'] != 'double') ? "hide" : '')."' id='doubleMeterConsumption_content'>
                                                             <label class='block bold-600 text-left'>" . pll__('Night consumption') . "</label>
                                                             <div class='night-consumption'>
-                                                                <input id='double-meter-nu' type='text' name='nu' value='".(($values['nu']) ?: '')."'/>
+                                                                <input id='double-meter-nu' type='text' disabled='disabled' name='nu' value='".(($values['nu']) ?: '')."'/>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -1027,7 +1027,7 @@ class AnbCompareEnergy extends AnbCompare
                                                         <div class='col-md-5 col-sm-5 col-xs-12 form-group hide exc_night_meter_content'>
                                                             <label class='block bold-600 text-left'>" . pll__('Exclusive night meter') . "</label>
                                                             <div class='night-consumption'>
-                                                                <input id='exclusive-night-meter-nou' type='text' name='nou' value='".(($values['nou']) ?: '')."'/>
+                                                                <input id='exclusive-night-meter-nou' type='text' disabled='disabled' name='nou' value='".(($values['nou']) ?: '')."'/>
                                                             </div>
                                                         </div>
                                                     </div>

@@ -67,7 +67,7 @@ class AnbCompareEnergy extends AnbCompare
 					    'brands_trans' => pll__('brands'),
                         'checkout_button_trans' => pll__('connect now'),
                         'details_page_trans' => pll__('Detail'),
-                        'select_your_energy_pack' => pll__('Select your pack'),
+                        'select_your_energy_pack' => pll__('Select your contract'),
                         'change_pack' => pll__('change pack'),
                         'trans_loading_dots'    => pll__('Loading...')
 				    )

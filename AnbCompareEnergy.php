@@ -701,7 +701,7 @@ class AnbCompareEnergy extends AnbCompare
                                     </div>
                                     
                                     <!--Family Members-->
-                                    <div class='panel panel-default family-members-container electricity-content' id='familyPanel'>
+                                    <div class='panel panel-default family-members-container electricity-content " . (($values['cat'] == 'gas')  ? 'hide' : '') . "' id='familyPanel'>
                                         <div class='panel-heading' role='tab' id='headingOne'>
                                             <h4 class='panel-title'>
                                                 <a role='button' data-toggle='collapse' data-parent='#accordion' href='#collapseOne' aria-expanded='true' aria-controls='collapseOne'>
@@ -793,7 +793,7 @@ class AnbCompareEnergy extends AnbCompare
                                     </div>
                                     
                                     <!-- House -->
-                                    <div class='panel panel-default house-type-container gas-content' id='housePanel'>
+                                    <div class='panel panel-default house-type-container gas-content " . (($values['cat'] == 'electricity')  ? 'hide' : '') . "' id='housePanel'>
                                         <div class='panel-heading' role='tab' id='headingFour'>
                                             <h4 class='panel-title'>
                                                 <a class='collapsed' role='button' data-toggle='collapse' data-parent='#accordion' href='#collapseFour' aria-expanded='false' aria-controls='collapseFour'>
@@ -850,7 +850,7 @@ class AnbCompareEnergy extends AnbCompare
                                     </div>
 
                                     <!-- Solar Energy -->
-                                    <div class='panel panel-default solar-panel-container electricity-content' id='solarEnergyPanel'>
+                                    <div class='panel panel-default solar-panel-container electricity-content " . (($values['cat'] == 'gas')  ? 'hide' : '') . "' id='solarEnergyPanel'>
                                         <div class='panel-heading' role='tab' id='headingSix'>
                                             <h4 class='panel-title'>
                                                 <a class='collapsed' role='button' data-toggle='collapse' data-parent='#accordion' href='#collapseSix' aria-expanded='false' aria-controls='collapseSix'>
@@ -912,7 +912,7 @@ class AnbCompareEnergy extends AnbCompare
                                     </div>
                                     
                                      <!-- Double meter -->
-                                     <div class='panel panel-default family-members-container electricity-content' id='doubleMeterPanel'>
+                                     <div class='panel panel-default family-members-container electricity-content " . (($values['cat'] == 'gas')  ? 'hide' : '') . "' id='doubleMeterPanel'>
                                         <div class='panel-heading' role='tab' id='headingTwo'>
                                             <h4 class='panel-title'>
                                                 <a class='collapsed' role='button' data-toggle='collapse' data-parent='#accordion' href='#collapseTwo' aria-expanded='false' aria-controls='collapseTwo'>
@@ -980,7 +980,7 @@ class AnbCompareEnergy extends AnbCompare
                                     </div>
                                     
                                     <!-- Electricity -->
-                                    <div class='panel panel-default family-members-container electricity-content' id='electricityBlockPanel'>
+                                    <div class='panel panel-default family-members-container electricity-content " . (($values['cat'] == 'gas')  ? 'hide' : '') . "' id='electricityBlockPanel'>
                                         <div class='panel-heading' role='tab' id='headingThree'>
                                             <h4 class='panel-title'>
                                                 <a class='collapsed' role='button' data-toggle='collapse' data-parent='#accordion' href='#collapseThree' aria-expanded='false' aria-controls='collapseThree'>
@@ -1013,21 +1013,21 @@ class AnbCompareEnergy extends AnbCompare
                                                         <div class='col-md-5 col-sm-5 col-xs-12 form-group'>
                                                             <label class='block bold-600 text-left'>" . pll__('Day consumption') . "</label>
                                                             <div class='day-consumption day-consumption-grey' id='doubleMeterConsumption_grey'>
-                                                                <input id='single-meter-du' type='text' disabled='disabled' name='du' value='".(($values['du']) ?: '')."' />
+                                                                <input id='single-meter-du' type='text' api-value='".(($values['du']) ?: '')."' name='du' value='".(($values['du']) ?: '')."' />
                                                             </div>
                                                         </div>
                                                         <div class='col-md-5 col-sm-5 col-xs-12 form-group ".(($values['meter'] != 'double') ? "hide" : '')."' id='doubleMeterConsumption_content'>
                                                             <label class='block bold-600 text-left'>" . pll__('Night consumption') . "</label>
                                                             <div class='night-consumption'>
-                                                                <input id='double-meter-nu' type='text' disabled='disabled' name='nu' value='".(($values['nu']) ?: '')."'/>
+                                                                <input id='double-meter-nu' type='text' name='nu' api-value='".(($values['nu']) ?: '')."' value='".(($values['nu']) ?: '')."'/>
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div class='row'>
-                                                        <div class='col-md-5 col-sm-5 col-xs-12 form-group hide exc_night_meter_content'>
+                                                        <div class='col-md-5 col-sm-5 col-xs-12 form-group exc_night_meter_content ". (!empty($values['nou']) ? '' : 'hide') ."'>
                                                             <label class='block bold-600 text-left'>" . pll__('Exclusive night meter') . "</label>
                                                             <div class='night-consumption'>
-                                                                <input id='exclusive-night-meter-nou' type='text' disabled='disabled' name='nou' value='".(($values['nou']) ?: '')."'/>
+                                                                <input id='exclusive-night-meter-nou' type='text' name='nou' api-value='".(($values['nou']) ?: '')."' value='".(($values['nou']) ?: '')."'/>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -1053,7 +1053,7 @@ class AnbCompareEnergy extends AnbCompare
                                     </div>
                                     
                                     <!-- Gas -->
-                                    <div class='panel panel-default house-type-container gas-content' id='gasPanel'>
+                                    <div class='panel panel-default house-type-container gas-content " . (($values['cat'] == 'electricity')  ? 'hide' : '') . "' id='gasPanel'>
                                         <div class='panel-heading' role='tab' id='headingFive'>
                                             <h4 class='panel-title'>
                                                 <a class='collapsed' role='button' data-toggle='collapse' data-parent='#accordion' href='#collapseFive' aria-expanded='false' aria-controls='collapseFive'>
@@ -1087,7 +1087,7 @@ class AnbCompareEnergy extends AnbCompare
                                                         <div class='row'>
                                                             <div class='col-md-3 col-sm-3 col-xs-6 form-group'>
                                                                 <div class='gas-consumption'>
-                                                                    <input id='m3_u' type='text' name='u' value='". (($values['u']) ?: '') ."' />
+                                                                    <input id='m3_u' type='text' api-value='". (($values['u']) ?: '') ."' name='u' value='". (($values['u']) ?: '') ."' />
                                                                 </div>
                                                             </div>
                                                             <div class='col-md-5 col-sm-5 col-xs-6 form-group p-l-0'>

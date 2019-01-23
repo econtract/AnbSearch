@@ -896,7 +896,7 @@ class AnbCompareEnergy extends AnbCompare
                                                         <div class='row'>
                                                             <div class='col-md-5 col-sm-5 col-xs-12 form-group'>
                                                                 <div class='solar-capacity'>
-                                                                    <input id='usage_solar_capacity' type='text' name='solar_capacity' value='". (($values['solar_capacity']) ?: '') ."' />
+                                                                    <input id='usage_solar_capacity' type='text' name='solar_capacity' usage-val='".SOLAR_USAGE."' value='". (($values['solar_capacity']) ?: '') ."' />
                                                                 </div>
                                                             </div>
                                                         </div>

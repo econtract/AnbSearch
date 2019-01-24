@@ -92,6 +92,10 @@ class AnbCompareEnergy extends AnbCompare
 
     function searchForm($atts)
     {
+        if( ( isset($atts['product_type']) && !empty($atts['product_type']) ) && ( !isset ( $atts['cat'] ) ) ){
+            $atts['cat'] = $atts['product_type'];
+        }
+
 	    $atts = shortcode_atts(array(
 		    'cat' => '',
 		    'zip' => '',
@@ -113,7 +117,7 @@ class AnbCompareEnergy extends AnbCompare
 	    $this->convertMultiValToArray($values['cat']);
 
 	    if ($_GET['debug']) {
-		    echo "<pre>";
+		    echo "<pre>VALUES >> ";
 		    print_r($values);
 		    echo "</pre>";
 	    }
@@ -160,7 +164,8 @@ class AnbCompareEnergy extends AnbCompare
         $hideTitle = false, $infoMsg = "", $resultsPageUri = self::RESULTS_PAGE_URI
     )
     {
-        $_GET['producttype'] = (!isset($_GET['producttype'])) ? "dualfuel_pack" : $_GET['producttype'];
+        $_GET['producttype'] = (!isset($_GET['producttype'])) ? $values['cat'] : $_GET['producttype'];
+        if(empty($_GET['producttype'])){ $_GET['producttype'] = 'dualfuel_pack'; }
         $_GET['sg'] = (!isset($_GET['sg'])) ? 'consumer' : $_GET['sg'];
         $_GET['f'] = (!isset($_GET['f'])) ? '2' : $_GET['f'];
         $resultsUsages = json_decode($this->usageResultsEnergy());
@@ -171,8 +176,8 @@ class AnbCompareEnergy extends AnbCompare
         $u = (empty($values['u'])) ? $resultsUsages->data->u : $values['u'];
 
         $electricityHide = $gasHide = '';
-        if($values['supplier_service'] === 'electricity'){ $gasHide = 'hide'; }
-        if($values['supplier_service'] === 'gas'){ $electricityHide = 'hide'; }
+        if($values['supplier_service'] === 'electricity' || $values['cat'] == 'electricity'){ $gasHide = 'hide'; }
+        if($values['supplier_service'] === 'gas' || $values['cat'] == 'gas'){ $electricityHide = 'hide'; }
 
         $titleHtml = "<h3>" . pll__('Compare energy rates') . "</h3>";
 	    if ($hideTitle) {

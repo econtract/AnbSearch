@@ -24,9 +24,8 @@ jQuery(document).ready(function($){
             'brands_trans': compare_between_results_object_energy.brands_trans,
             'lang': compare_between_results_object_energy.lang,
             'select_your_pack' : compare_between_results_object_energy.select_your_energy_pack,
-            'i_dont_know_contract' : compare_between_results_object_energy.select_your_pack
+            'i_dont_know_contract' : compare_between_results_object_energy.trans_idontknow
         };
-
         var currentPack= $('#'+providerDropdownId);
         var firstOption = '';
         //Commented on request of the client, requested in ticket #RED-3166

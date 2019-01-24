@@ -74,8 +74,8 @@ jQuery(document).ready(function($){
             'brands_trans': compare_between_results_object.brands_trans,
             'lang': compare_between_results_object.lang,
             'select_your_pack' :  compare_between_results_object.select_your_pack,
+            'i_dont_know_contract' : compare_between_results_object.trans_idontknow,
         };
-
         var currentPack= $('#currentPack');
         //var firstOption = '<option value="">'+compare_between_results_object.select_your_pack+"</option>";
         var firstOption = '';

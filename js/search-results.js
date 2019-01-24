@@ -230,6 +230,8 @@ jQuery(document).ready(function($){
 
             $('.resultsData').html(response);
             $('.loadMore').hide();
+            //Telecom result page listview Price vertical middle Function is in main.js
+            listViewDealPriceVerticallyCenter();
 
         });
 

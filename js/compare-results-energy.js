@@ -148,6 +148,8 @@ jQuery(document).ready(function($){
                 'guarantee_1_month' : compare_between_results_object_energy.trans_guarantee1month,
                 'guarantee_1_year_info' : compare_between_results_object_energy.trans_guarantee1yearinfo,
                 'guarantee_1_month_info' : compare_between_results_object_energy.trans_guarantee1monthinfo,
+                'potential_saving' : compare_between_results_object_energy.trans_potentialsaving,
+                'your_advantage' : compare_between_results_object_energy.trans_youradvantage,
             };
 
             /*var urlParams = window.location.search;

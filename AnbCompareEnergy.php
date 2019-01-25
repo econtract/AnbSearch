@@ -76,6 +76,8 @@ class AnbCompareEnergy extends AnbCompare
                         'trans_guarantee1month' => pll__('guaranteed 1st month'),
                         'trans_guarantee1yearinfo' => pll__('guaranteed 1st year info text'),
                         'trans_guarantee1monthinfo' => pll__('guaranteed 1st month info text'),
+                        'trans_potentialsaving' => pll__('Potential saving'),
+                        'trans_youradvantage' => pll__('Your advantage')
 				    )
 			    );
 		    }

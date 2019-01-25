@@ -66,7 +66,7 @@ jQuery(document).ready(function($){
                 var formAction = $("#wizardZipForm").attr('action');
                 var appendParam = '?zip='+zip+'&sg='+sg;
 
-                window.location.href = formAction + appendParam;
+                
             } else {
 
                 _self.find('#emptyZip').hide();

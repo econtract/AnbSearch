@@ -143,6 +143,11 @@ jQuery(document).ready(function($){
                 'checkout_button_trans' : compare_between_results_object_energy.checkout_button_trans,
                 'details_page_trans' : compare_between_results_object_energy.details_page_trans,
                 'change_pack' : compare_between_results_object_energy.change_pack,
+                'customer_rating' : compare_between_results_object_energy.trans_customerrating,
+                'guarantee_1_year' : compare_between_results_object_energy.trans_guarantee1year,
+                'guarantee_1_month' : compare_between_results_object_energy.trans_guarantee1month,
+                'guarantee_1_year_info' : compare_between_results_object_energy.trans_guarantee1yearinfo,
+                'guarantee_1_month_info' : compare_between_results_object_energy.trans_guarantee1monthinfo,
             };
 
             /*var urlParams = window.location.search;

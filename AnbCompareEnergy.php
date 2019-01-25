@@ -52,7 +52,7 @@ class AnbCompareEnergy extends AnbCompare
 		    );
 
 		    if($this->pagename == pll__('results') || $this->pagename == 'energenie' ) {
-			    wp_enqueue_script('compare-results-energy', plugins_url('/js/compare-results-energy.js', __FILE__), array('jquery'), '1.2.5', true);
+			    wp_enqueue_script('compare-results-energy', plugins_url('/js/compare-results-energy.js', __FILE__), array('jquery'), '1.2.6', true);
 			    wp_localize_script('compare-results-energy', 'compare_between_results_object_energy',
 				    array(
 					    'ajax_url' => admin_url('admin-ajax.php'),
@@ -70,7 +70,12 @@ class AnbCompareEnergy extends AnbCompare
                         'select_your_energy_pack' => pll__('Select your contract'),
                         'change_pack' => pll__('change pack'),
                         'trans_loading_dots'    => pll__('Loading...'),
-                        'trans_idontknow' => pll__('I dont know the contract')
+                        'trans_idontknow' => pll__('I dont know the contract'),
+                        'trans_customerrating' => pll__('Customer Score'),
+                        'trans_guarantee1year' => pll__('guaranteed 1st year'),
+                        'trans_guarantee1month' => pll__('guaranteed 1st month'),
+                        'trans_guarantee1yearinfo' => pll__('guaranteed 1st year info text'),
+                        'trans_guarantee1monthinfo' => pll__('guaranteed 1st month info text'),
 				    )
 			    );
 		    }

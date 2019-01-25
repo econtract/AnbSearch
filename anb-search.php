@@ -4,7 +4,7 @@ Plugin Name: Aanbieders Search
 Depends: Wp Autoload with Namespaces, Aanbieders Api Client, Polylang
 Plugin URI: http://URI_Of_Page_Describing_Plugin_and_Updates
 Description: Search plugin for Aanbieders.
-Version: 1.0.1
+Version: 1.0.2
 Author: Imran Zahoor
 Author URI: http://imranzahoor.wordpress.com/
 License: A "Slug" license name e.g. GPL2

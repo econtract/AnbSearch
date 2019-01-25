@@ -1212,36 +1212,31 @@ class AnbCompare extends Base
                                 <div class='form-group'>
                                     <label>" . pll__('Services') . "</label>
                                     <div class='selectServices mobileSelectServices'>
-                                        <ul class='list-unstyled'>
+                                        <ul class='list-unstyled service-tabs'>
                                             <li>
                                                 <div>
-                                                    <input name='cat[]' id='mobile_service' type='checkbox' value='mobile'
+                                                    <input name='cat[]' id='mobile_service' type='radio' value='mobile'
                                                     " . ((in_array("mobile", $values['cat']) === true) ? 'checked="checked"' : '') . ">
                                                     <label for='mobile_service'>
                                                         <span class='icon'>
                                                             <i class='sprite sprite-mobile'></i>
                                                         </span>
                                                         <span class='description'>" . pll__('Mobile') . "</span>
-                                                        <span class='tick-icon'>
-                                                            <i class='fa fa-check'></i>
-                                                            <i class='fa fa-square-o'></i>
-                                                        </span>
+                                                        <span class='check-box'></span>
                                                     </label>
                                                 </div>
                                             </li>
                                             <li>
                                                 <div>
-                                                    <input name='cat[]' id='mobile_internet' type='checkbox' value='mobile_internet'
+                                                    <input name='cat[]' id='mobile_internet' type='radio' value='mobile_internet'
                                                     " . ((in_array("mobile_internet", $values['cat']) === true) ? 'checked="checked"' : '') . ">
                                                     <label for='mobile_internet'>
-                                                        <span class='icon'>
-                                                            <i class='sprite sprite-mobile-internet'></i>
+                                                        <span class='icon mobile_internet'>
+                                                            
+                                                            <svg class='svg-mobile-data-sim'> <use xlink:href='".get_bloginfo('template_url') ."/images/svg-sprite.svg#svg-mobile-data-sim'></use> </svg>
                                                         </span>
                                                         <span class='description'>" . pll__('Mobile Internet') . "</span>
-                                                        <span class='tick-icon'>
-                                                            <i class='fa fa-check'></i>
-                                                            <i class='fa fa-square-o'></i>
-                                                        </span>
+                                                        <span class='check-box'></span>
                                                     </label>
                                                 </div>
                                             </li>

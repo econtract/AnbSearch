@@ -52,6 +52,30 @@ jQuery(document).ready(function($){
             _self.modal('show');
             return;
         }
+
+
+        var data = {
+            'action': 'verifyWizardZipCode',
+            'zip'   : zip
+        };
+
+
+        $.post(wizard_object.ajax_url, data, function(response) {
+
+            if (response) {
+                var formAction = $("#wizardZipForm").attr('action');
+                var appendParam = '?zip='+zip+'&sg='+sg;
+
+                window.location.href = formAction + appendParam;
+            } else {
+
+                _self.find('#emptyZip').hide();
+                _self.find('#wrongZip p').append('<span>  ' + zip + '</span>');
+                _self.find('#wrongZip').show();
+                _self.modal('show');
+            }
+
+        });
             $('.zipWrapper').addClass('hide');
             $('.catWrapper').removeClass('hide');
             setMiddleContent($('.middle-content'));

@@ -60,7 +60,7 @@ jQuery(document).ready(function($){
         };
 
 
-        $.post(wizard_object.ajax_url, data, function(response) {
+        $.post(wizard_energy_object.ajax_url, data, function(response) {
 
             if (response) {
                 var formAction = $("#wizardZipForm").attr('action');

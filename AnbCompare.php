@@ -850,7 +850,7 @@ class AnbCompare extends Base
 
         //In below call change '/' . getUriSegment(1) . '/' .pll__('results') to pll__('results') in case you want to submit it on the same URL struture like on provider details page.
 
-        $formNew = $this->getMobileSearchBoxContentHtml($values, $needHelpHtml, $supplierHtml, pll__("Search Deals"), false, "", '/' . getUriSegment(1) . '/' . pll__('results'));
+        $formNew = $this->getMobileSearchBoxContentHtml($values, $needHelpHtml, $supplierHtml, pll__("Search Deals"), false, "", '/telecom/' . pll__('results'));
         return $formNew;
     }
 

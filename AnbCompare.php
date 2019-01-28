@@ -980,7 +980,6 @@ class AnbCompare extends Base
     function getServiceDetail($product, $listView = false)
     {
         $servicesHtml = '';
-
         if(isset($product->packtypes)) {
             foreach ($product->packtypes as $key => $packType) {
 
@@ -995,10 +994,11 @@ class AnbCompare extends Base
             }
         } else {
             $features = $product->core_features->internet;
-            $servicesHtml = $this->generateServiceDetailHtml("internet", $product->product_name, $features, $listView);
+            $service = ($product->producttype == 'mobile_internet') ? 'mobile_internet' : 'internet';
+            $servicesHtml = $this->generateServiceDetailHtml($service, $product->product_name, $features, $listView);
             if($listView) {
                 $servicesHtml = '<div class="col-md-3">'.
-                    $this->generateServiceDetailHtml("internet", $product->product_name, $features, $listView).
+                    $this->generateServiceDetailHtml($service, $product->product_name, $features, $listView).
                     '</div>';
             }
         }
@@ -1015,12 +1015,15 @@ class AnbCompare extends Base
         if($listView === true) {
             $serviceLabel = '';
         }
+        if($service == 'mobile_internet'){
+            $iconHTML = '<img src="'.get_bloginfo('template_url').'/images/print-images/mobile-data-sim.svg">';
+        } else {
+            $iconHTML = '<i class="print-hide service-icons ' . $service . '"></i>
+                        <img src="'.get_bloginfo('template_url').'/images/print-images/'. $service .'.svg" class="print-show">';
+        }
 
         return '<div class="packageDetail ' . $service . '">
-                    <div class="iconWrapper">
-                        <i class="print-hide service-icons ' . $service . '"></i>
-                        <img src="'.get_bloginfo('template_url').'/images/print-images/'. $service .'.svg" class="print-show">
-                    </div>
+                    <div class="iconWrapper">'.$iconHTML.'</div>
                     '.$serviceLabel.'
                     <ul class="list-unstyled pkgSummary">
                        ' . $featuresHtml . '

@@ -53,7 +53,7 @@ jQuery(document).ready(function($){
             'trans_free_installation' : compare_between_results_object.trans_free_installation,
             'trans_activation' : compare_between_results_object.trans_activation,
             'trans_modem' : compare_between_results_object.trans_modem,
-
+            'template_uri' : compare_between_results_object.template_uri,
     };
 
         var urlParams = window.location.search;

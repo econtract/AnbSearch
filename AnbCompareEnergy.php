@@ -1571,6 +1571,7 @@ class AnbCompareEnergy extends AnbCompare
         return $html;
     }
 
+    // uasgae function
     function usageResultsEnergy($enableCache = true, $cacheDurationSeconds = 86400, $isAjaxCall = false){
 
         if(!$enableCache){ $enableCache = true; }

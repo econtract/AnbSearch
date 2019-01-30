@@ -716,7 +716,7 @@ class AnbCompare extends Base
         $extSuppTbl = new \wpdb(DB_PRODUCT_USER, DB_PRODUCT_PASS, DB_PRODUCT, DB_PRODUCT_HOST);
         $startTime = getStartTime();
         $statemet = $extSuppTbl->prepare(
-            "SELECT producttype,product_id,product_name,commission_fee_fixed FROM supplier_products 
+            "SELECT producttype,product_id,product_name,commission_fee_fixed as commission, segment FROM supplier_products 
 			WHERE product_id=%d AND supplier_id=%d AND producttype=%s AND lang=%s AND (active=%d OR active=%d) 
 			ORDER BY product_name",
             [

@@ -213,6 +213,8 @@ class AnbCompare extends Base
             'searchSubmit' => '', // conditional param ( this param doesn't belong to API Params)
             'cmp_pid' => '',
             'cmp_sid' => '',
+            'excl_sids' => '',
+            'excl_pids' => '',
             'greenpeace' => ''
         ), $atts, 'anb_search');
         // print_r($atts);die;

@@ -1105,7 +1105,7 @@ class AnbCompare extends Base
                                             <li>
                                                 <div>
                                                     <input name='cat[]' id='tv_service' type='checkbox' value='tv' 
-                                                    " . ((in_array("tv", $values['cat']) === true) ? 'checked="checked"' : '') . ">
+                                                    " . ((in_array("tv", $values['cat']) === true) ? 'checked="checked"' : (empty($values['cat'])) ? 'checked="checked"' : '') . ">
                                                     <label for='tv_service'>
                                                         <span class='icon'>
                                                             <i class='sprite sprite-tv'></i>

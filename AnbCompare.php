@@ -246,8 +246,12 @@ class AnbCompare extends Base
         }
 
         if($params['cat'] == 'dualfuel_pack' || $params['cat'] == 'electricity' || $params['cat'] == 'gas'){
-            $params['d'] = 1;
-            $params['situation'] = 3;
+            if(!isset($params['d'])) {
+                $params['d'] = 1;
+            }
+            if(!isset($params['situation'])) {
+                $params['situation'] = 3;
+            }
         }
 
         if($params['greenpeace']) {

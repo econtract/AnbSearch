@@ -215,7 +215,8 @@ class AnbCompare extends Base
             'cmp_sid' => '',
             'excl_sids' => '',
             'excl_pids' => '',
-            'greenpeace' => ''
+            'greenpeace' => '',
+            'meter' => ''
         ), $atts, 'anb_search');
         // print_r($atts);die;
 

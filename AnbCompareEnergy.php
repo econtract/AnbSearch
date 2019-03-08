@@ -379,7 +379,7 @@ class AnbCompareEnergy extends AnbCompare
         $forceCheckAvailability = false;
         $parentSegment = getSectorOnCats( $_SESSION['product']['cat'] );
         $products = $this->getCompareResults([
-            'detaillevel' => 'supplier,logo,services,price,reviews,texts,promotions,core_features,specifications'
+            'detaillevel' => 'supplier,logo,services,price,reviews,texts,promotions,core_features,specifications,attachments,availability,contact_info,contract_periods'
         ]);
 
         $results = json_decode($products);
@@ -499,6 +499,8 @@ class AnbCompareEnergy extends AnbCompare
             $productResp .= '</div>';
             $productResp .= '</div>';
             $productResp .= '<div class="result-footer">';
+            $productResp .= locate_template('includes/tabs.php');
+            /*
             $productResp .= '<div class="pull-left grid-hide">'.decorateLatestOrderByProduct($product->product_id) . '</div>';
             $productResp .= '<div class="pull-right">';
             $productResp .= '<span class="grid-hide">'.$anbTopDeals->getLastUpdateDate( $productData ).'</span>';
@@ -508,6 +510,7 @@ class AnbCompareEnergy extends AnbCompare
             $productResp .= '</div>';
             $productResp .= '</div>';
             $productResp .= '</div>';
+            */
             $productResp .= '</div>';
             $productResp .= '</div>';
             $productResp .= '</div>';

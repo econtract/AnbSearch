@@ -410,14 +410,14 @@ class AnbCompareEnergy extends AnbCompare
 
             list(, , , , $toCartLinkHtml, $checkoutPageLink) = $anbTopDeals->getToCartAnchorHtml($parentSegment, $productData['product_id'], $productData['supplier_id'], $productData['sg'], $productData['producttype'], $forceCheckAvailability);
 
-            $blockLinkClass = 'block-link';
+            $blockLinkClass = '';
             if($forceCheckAvailability) {
-                $blockLinkClass = 'block-link missing-zip';
+                $blockLinkClass = 'missing-zip';
             }
-            $toCartLinkHtml = '<a '.$toCartLinkHtml.' class="btn btn-primary all-caps link '.$blockLinkClass.'">' . pll__( 'Order Now' ) . '</a>';
+            $toCartLinkHtml = '<a '.$toCartLinkHtml.' class="btn btn-primary all-caps '.$blockLinkClass.'">' . pll__( 'Order Now' ) . '</a>';
 
             if($productData['commission'] === false) {
-                $toCartLinkHtml = '<a href="#not-available" class="link block-link not-available">' . pll__('Not Available') . '</a>';
+                $toCartLinkHtml = '<a href="#not-available" class="btn btn-default not-available">' . pll__('Not Available') . '</a>';
             }
 
             $servicesHtml = $anbTopDeals->getServicesHtml( $product, $pricing );

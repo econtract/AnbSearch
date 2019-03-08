@@ -1223,6 +1223,7 @@ class AnbCompareEnergy extends AnbCompare
                                                             <div class='custom-select'>
                                                                 <select class='currentSupplier' id='currentProviderEnergy' name='supplier'>
 							                                        <option value=''>".pll__('Select your provider')."</option>
+							                                        <option value='0'>".pll__('Other')."</option>
 							                                        ".supplierForDropDown(($values['supplier']) ?: $values['cmp_sid'], ['cat' => 'dualfuel_pack, electricity, gas'])."
 							                                    </select>
                                                             </div>
@@ -1420,7 +1421,7 @@ class AnbCompareEnergy extends AnbCompare
 			    }
 
 			    $sh = 0;
-			    $logosPlaced = 1;
+			    //$logosPlaced = 1;
 			    foreach($pbsData as $thisKey => $priceSection){
 				    $sectionlabel = str_replace(' ','_', strip_tags($priceSection['label']));
 				    if($priceSection['pbs_total']) {

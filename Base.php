@@ -44,7 +44,7 @@ class Base
     /**
      * @var int
      */
-    public $defaultNumberOfResults = 4;
+    public $defaultNumberOfResults = 10;
 
     /**
      * AnbCompare constructor.

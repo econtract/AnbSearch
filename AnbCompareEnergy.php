@@ -414,7 +414,7 @@ class AnbCompareEnergy extends AnbCompare
             if($forceCheckAvailability) {
                 $blockLinkClass = 'block-link missing-zip';
             }
-            $toCartLinkHtml = '<a '.$toCartLinkHtml.' class="link '.$blockLinkClass.'">' . pll__( 'Order Now' ) . '</a>';
+            $toCartLinkHtml = '<a '.$toCartLinkHtml.' class="btn btn-primary all-caps link '.$blockLinkClass.'">' . pll__( 'Order Now' ) . '</a>';
 
             if($productData['commission'] === false) {
                 $toCartLinkHtml = '<a href="#not-available" class="link block-link not-available">' . pll__('Not Available') . '</a>';
@@ -488,7 +488,7 @@ class AnbCompareEnergy extends AnbCompare
             $productResp .= '</div>';
             $productResp .= '<div class="grid-show border-top col_10">' .decorateLatestOrderByProduct($product->product_id) . '</div>';
             /*$productResp .= '<a href="#" class="btn btn-primary all-caps">connect now</a>';*/
-	        $productResp .= "<a class='btn btn-primary all-caps' href='". $checkoutPageLink . '?' . http_build_query($_GET). "&hidden_prodsel_cmp=yes&product_to_cart=yes&product_id=".$productId."&provider_id=".$supplierId."&producttype=".$productType."'>".pll__('connect now')."</a>";
+	        //$productResp .= "<a class='btn btn-primary all-caps' href='". $checkoutPageLink . '?' . http_build_query($_GET). "&hidden_prodsel_cmp=yes&product_to_cart=yes&product_id=".$productId."&provider_id=".$supplierId."&producttype=".$productType."'>".pll__('connect now')."</a>";
 
 	        /*
 			$detailHtml = '<a href="'.getEnergyProductPageUri($productData) . '?' . http_build_query($_GET). '&hidden_prodsel_cmp=yes&product_to_cart=yes&product_id='.$productId.'&provider_id='.$supplierId.'&producttype='.$productType.'" class="link block-link all-caps">'.pll__('Detail').'</a>';
@@ -501,7 +501,11 @@ class AnbCompareEnergy extends AnbCompare
             $productResp .= '</div>';
             $productResp .= '</div>';
             $productResp .= '<div class="result-footer">';
-            $productResp .= include(locate_template('includes/tabs.php'));
+            ob_start();
+            include(locate_template('includes/tabs.php'));
+            $tabs = ob_get_clean();
+
+            $productResp .= $tabs;
             /*
             $productResp .= '<div class="pull-left grid-hide">'.decorateLatestOrderByProduct($product->product_id) . '</div>';
             $productResp .= '<div class="pull-right">';

@@ -1417,7 +1417,7 @@ class AnbCompareEnergy extends AnbCompare
 			    }
 
 			    $sh = 0;
-			    $logosPlaced = 1;
+			    //$logosPlaced = 1;
 			    foreach($pbsData as $thisKey => $priceSection){
 				    $sectionlabel = str_replace(' ','_', strip_tags($priceSection['label']));
 				    if($priceSection['pbs_total']) {

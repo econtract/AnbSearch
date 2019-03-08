@@ -490,16 +490,18 @@ class AnbCompareEnergy extends AnbCompare
             /*$productResp .= '<a href="#" class="btn btn-primary all-caps">connect now</a>';*/
 	        $productResp .= "<a class='btn btn-primary all-caps' href='". $checkoutPageLink . '?' . http_build_query($_GET). "&hidden_prodsel_cmp=yes&product_to_cart=yes&product_id=".$productId."&provider_id=".$supplierId."&producttype=".$productType."'>".pll__('connect now')."</a>";
 
+	        /*
 			$detailHtml = '<a href="'.getEnergyProductPageUri($productData) . '?' . http_build_query($_GET). '&hidden_prodsel_cmp=yes&product_to_cart=yes&product_id='.$productId.'&provider_id='.$supplierId.'&producttype='.$productType.'" class="link block-link all-caps">'.pll__('Detail').'</a>';
 			if($productData['commission'] === false) {
 				$detailHtml = '<a href="#not-available" class="link block-link not-available">' . pll__('Not Available') . '</a>';
 			}
+	        */
 
-            $productResp .= $detailHtml;
+            $productResp .= $toCartLinkHtml;
             $productResp .= '</div>';
             $productResp .= '</div>';
             $productResp .= '<div class="result-footer">';
-            $productResp .= locate_template('includes/tabs.php');
+            $productResp .= include(locate_template('includes/tabs.php'));
             /*
             $productResp .= '<div class="pull-left grid-hide">'.decorateLatestOrderByProduct($product->product_id) . '</div>';
             $productResp .= '<div class="pull-right">';

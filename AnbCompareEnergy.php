@@ -1220,6 +1220,7 @@ class AnbCompareEnergy extends AnbCompare
                                                             <div class='custom-select'>
                                                                 <select class='currentSupplier' id='currentProviderEnergy' name='supplier'>
 							                                        <option value=''>".pll__('Select your provider')."</option>
+							                                        <option value='0'>".pll__('Other')."</option>
 							                                        ".supplierForDropDown(($values['supplier']) ?: $values['cmp_sid'], ['cat' => 'dualfuel_pack, electricity, gas'])."
 							                                    </select>
                                                             </div>

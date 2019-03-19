@@ -52,6 +52,7 @@ jQuery(document).ready(function($){
                 .removeClass('glyphicon-ok glyphicon-remove');
 
             currentPack.parents('form').validator('update');
+            currentPack.removeClass('hide');
         });
     }
 

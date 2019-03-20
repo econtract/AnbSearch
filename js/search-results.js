@@ -43,11 +43,19 @@ function prependQueryStringQuestionMark(finalRedirect) {
     return finalRedirect;
 }
 
-function wizardProfileFormSubmitRedirect() {
-    var searchFilterNav = jQuery('#searchFilterNav').serialize();
-    var yourProfileWizardForm = jQuery('#yourProfileWizardForm').serialize();
+function wizardProfileFormSubmitRedirect(object = false) {
+    var redirectTo;
+    if(object) {
+        var params = object.serialize();
+        redirectTo = params + '&searchSubmit=&profile_wizard=';
+    }
+    else{
+        var searchFilterNav = jQuery('#searchFilterNav').serialize();
+        var yourProfileWizardForm = jQuery('#yourProfileWizardForm').serialize();
 
-    var redirectTo = yourProfileWizardForm + '&' + searchFilterNav + '&searchSubmit=&profile_wizard=';
+        redirectTo = yourProfileWizardForm + '&' + searchFilterNav + '&searchSubmit=&profile_wizard=';
+    }
+
     var finalRedirect = removeDuplicatesFromUri(redirectTo);
     return finalRedirect;
 }
@@ -180,7 +188,7 @@ function showWaitingSearchPopup(callingObj, popupId = '', redirect = false, dont
     }
 
     //window.location = wizardProfileFormSubmitRedirect();
-    redirectParam = prependQueryStringQuestionMark(wizardProfileFormSubmitRedirect());
+    redirectParam = prependQueryStringQuestionMark(wizardProfileFormSubmitRedirect(_self));
     if(redirect === true) {
         if(redirectIfModalIsShown === true) {//in any case show the waiting modal
             if($('#'+popupId).hasClass('in')) {
@@ -246,7 +254,7 @@ jQuery(document).ready(function($){
     //Search results wizard your profile popup
     $('#yourProfileWizardForm').on('submit', function(e){
         e.preventDefault();
-        showWaitingSearchPopup($(this), '', true, true, null, true);
+        showWaitingSearchPopup($(this), '', false, false);
     });
 
     //sort feature
@@ -262,7 +270,7 @@ jQuery(document).ready(function($){
         e.preventDefault();
         var _self = $(this);
 
-        showWaitingSearchPopup($(this), '', false, false, waitingCallback);
+        showWaitingSearchPopup($(this), '', false, false);
     });
 
     $("#calcPbsModal").on("show.bs.modal", function(e) {

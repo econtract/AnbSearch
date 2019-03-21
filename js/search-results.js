@@ -45,18 +45,19 @@ function prependQueryStringQuestionMark(finalRedirect) {
 
 function wizardProfileFormSubmitRedirect(object = false) {
     var redirectTo;
+    var finalRedirect;
     if(object) {
         var params = object.serialize();
         redirectTo = params + '&searchSubmit=&profile_wizard=';
+        finalRedirect = redirectTo;
     }
     else{
         var searchFilterNav = jQuery('#searchFilterNav').serialize();
         var yourProfileWizardForm = jQuery('#yourProfileWizardForm').serialize();
 
         redirectTo = yourProfileWizardForm + '&' + searchFilterNav + '&searchSubmit=&profile_wizard=';
+        finalRedirect = removeDuplicatesFromUri(redirectTo);
     }
-
-    var finalRedirect = removeDuplicatesFromUri(redirectTo);
     return finalRedirect;
 }
 

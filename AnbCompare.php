@@ -2267,7 +2267,7 @@ class AnbCompare extends Base
 
         $params['detaillevel'] = [ 'core_features' ];
         $params['lang'] = $language;
-        $params['producttype'] = $productType;
+        $params['cat'] = $productType;
         $result = $this->anbApi->getProducts( $params, $productId );
         return json_decode($result);
     }

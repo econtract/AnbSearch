@@ -2261,4 +2261,14 @@ class AnbCompare extends Base
     public function getSalesAgentsInternalMode(){
         return json_decode($this->anbApi->getSalesAgent());
     }
+
+    public function getProduct($productId, $productType, $language){
+        $params = [];
+        
+        $params['detaillevel'] = [ 'core_features' ];
+        $params['language'] = $language;
+        $params['producttype'] = $productType;
+        $result = $this->anbApi->getProducts( $params, $productId );
+        return json_decode($result);
+    }
 }

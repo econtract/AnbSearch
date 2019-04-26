@@ -379,7 +379,7 @@ class AnbCompareEnergy extends AnbCompare
         $forceCheckAvailability = false;
         $parentSegment = getSectorOnCats( $_SESSION['product']['cat'] );
         $products = $this->getCompareResults([
-            'detaillevel' => 'supplier,logo,services,price,reviews,texts,promotions,core_features,specifications,attachments,availability,contact_info,contract_periods'
+            'detaillevel' => 'supplier,logo,services,price,reviews,texts,promotions,core_features,specifications,attachments,availability,contact_info,contract_periods,reviews_texts'
         ]);
 
         $results = json_decode($products);

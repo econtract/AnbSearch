@@ -1405,10 +1405,9 @@ class AnbCompareEnergy extends AnbCompare
                         <div class='top-label'>
                             " . $anbTopDeals->getBadgeSection( '' ) . "
                         </div>
-                        <div class='flex-grid'>"
-                            . include(locate_template('template-parts/section/energy-results-product.php')) .
-                        "</div>
-                        </div>
+                        <div class='flex-grid'>";
+                            $html.= include(locate_template('template-parts/section/energy-results-product.php')) ;
+                $html.= "</div>
                         <div class='result-footer'>
                             <div class='pull-left grid-hide'>
                                 " . decorateLatestOrderByProduct( $product->product_id ) . "

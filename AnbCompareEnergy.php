@@ -1404,8 +1404,7 @@ class AnbCompareEnergy extends AnbCompare
         $currentProduct = 1;
         include(locate_template('template-parts/section/energy-results-product.php')) ;
         $html.= ob_get_clean();
-        $html.= "</div>
-            </div>";
+        $html.= "</div>";
         return $html;
     }
 

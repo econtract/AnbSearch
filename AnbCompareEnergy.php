@@ -1399,36 +1399,12 @@ class AnbCompareEnergy extends AnbCompare
                     <h4>" . pll__( 'Your Current Energy Pack' ) . "</h4>
                     <a href='#' class='edit' data-toggle='modal' data-target='#selectCurrentPack'><i class='fa fa-chevron-right'></i>" . pll__( 'change pack' ) . "</a>
                     <a href='#' class='close'><span>×</span></a>
-                </div>
-                <div class='result-box-container' id='listgridview_3'>
-                    <div class='result-box'>
-                        <div class='top-label'>
-                            " . $anbTopDeals->getBadgeSection( '' ) . "
-                        </div>
-                        <div class='flex-grid'>";
+                </div>";
         ob_start();
         $currentProduct = 1;
         include(locate_template('template-parts/section/energy-results-product.php')) ;
         $html.= ob_get_clean();
         $html.= "</div>
-                        <div class='result-footer'>
-                            <div class='pull-left grid-hide'>
-                                " . decorateLatestOrderByProduct( $product->product_id ) . "
-                            </div>
-                            <div class='pull-right'>
-                                <span class='grid-hide'>" . $anbTopDeals->getLastUpdateDate( $productData ) . "</span>
-                                <div class='comparePackage'>
-                                    <div class='checkbox'>
-                                        <label>
-                                            <input type='hidden' name='compareProductType152' value='internet'>
-                                            <input type='checkbox' value='listgridview_" . $countProducts . "'> " . pll__( 'Compare' ) . "
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>";
         return $html;
     }

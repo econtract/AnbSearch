@@ -1405,32 +1405,9 @@ class AnbCompareEnergy extends AnbCompare
                         <div class='top-label'>
                             " . $anbTopDeals->getBadgeSection( '' ) . "
                         </div>
-                        <div class='flex-grid'>
-                            <div class='cols'>
-                                " . $anbTopDeals->getProductDetailSection( $productData, '', false, '', true ) . "
-                                " . $anbTopDeals->getGreenPeaceRatingWithImages( $productData ) . "
-                            </div>
-                            <div class='cols'>
-                                <ul class='green-services'>
-                                    " . $servicesHtml . "
-                                </ul>
-                            </div>
-                            <div class='cols grid-hide'>
-                                " . $anbTopDeals->getPromoSection( $product ) . "
-                            </div>
-                            <div class='cols'>
-                                <div class='actual-price-board'>
-                                    " . $anbTopDeals->getPriceHtml( $productData, $pricing, true ) . "
-                                </div>
-                            </div>
-                            <div class='cols grid-show'></div>
-                            <div class='cols'>";
-                            if($productData['commission'] === false) {
-                                $detailHtml = '<a href="#not-available" class="link block-link not-available">' . pll__('Not Available') . '</a>';
-                            }
-
-                            $html.= $detailHtml;
-                $html.= "</div>
+                        <div class='flex-grid'>"
+                            . include(locate_template('template-parts/section/energy-results-product.php')) .
+                        "</div>
                         </div>
                         <div class='result-footer'>
                             <div class='pull-left grid-hide'>

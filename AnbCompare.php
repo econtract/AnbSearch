@@ -191,6 +191,7 @@ class AnbCompare extends Base
             'gp' => '',
             'l' => '',
             'd' => '',
+            't' => '',
             'situation' => '',
 
             'num_pc' => '',

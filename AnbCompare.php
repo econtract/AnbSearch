@@ -296,6 +296,15 @@ class AnbCompare extends Base
             $params['dl'] = "-1";
         }
 
+        if(isset($params['t'])) {
+            if (in_array('f', $params['t']) && in_array('i', $params['t'])) {
+                $tariffType = 'no';
+            } else {
+                $tariffType = current($params['t']);
+            }
+            $params['t'] = $tariffType;
+        }
+
         $this->cleanArrayData($params);
         // get the products
         $params = $this->allowedParams($params, array_keys($atts));//Don't allow all variables to be passed to API

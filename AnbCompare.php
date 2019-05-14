@@ -193,6 +193,7 @@ class AnbCompare extends Base
             'd' => '',
             't' => '',
             'situation' => '',
+            'ignore_promos' => '',
 
             'num_pc' => '',
             'num_tv' => '',

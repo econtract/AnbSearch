@@ -44,6 +44,8 @@ class AnbCompare extends Base
 
     public $pagename;
 
+    public $defaultNumberOfResults = 4;
+
     /**
      * AnbCompare constructor.
      */

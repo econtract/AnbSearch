@@ -484,20 +484,20 @@ class AnbCompare extends Base
 
             /*$toCartLinkHtml = "href='" . $checkoutPageLink . "?product_to_cart&product_id=" . $productData['product_id'] .
                               "&provider_id=" . $productData['supplier_id'] . "&sg={$productData['sg']}&producttype={$productData['producttype']}'";*/
-            $blockLinkClass = 'block-link';
+            $blockLinkClass = '';
             if($forceCheckAvailability) {
-                $blockLinkClass = 'block-link missing-zip';
+                $blockLinkClass = 'missing-zip';
             }
 
             if($productData['commission'] === true) {
-                $toCartLinkHtml = '<a ' . $toCartLinkHtml . ' class="link '.$blockLinkClass.'">' . pll__('Order Now') . '</a>';
+                $toCartLinkHtml = '<a ' . $toCartLinkHtml . ' class="btn btn-primary '.$blockLinkClass.'">' . pll__('Order Now') . '</a>';
             } else {
-                $toCartLinkHtml = '<a href="#not-available" class="link block-link not-available">' . pll__('Not Available') . '</a>';
+                $toCartLinkHtml = '<a href="#not-available" class="btn btn-primary not-available">' . pll__('Not Available') . '</a>';
             }
             $appendHtml = '<p class="message">' . decorateLatestOrderByProduct($currentProduct->product_id) . '</p>';
             $orderInfoHtml = '<div class="buttonWrapper">
-                            <a href="' . getTelecomProductPageUri($productData) . '" class="btn btn-primary ">' . pll__( 'Info and options' ) . '</a>
                             '.$toCartLinkHtml.'
+                            <a href="' . getTelecomProductPageUri($productData) . '" class="link block-link">' . pll__( 'Info and options' ) . '</a>
                           </div>';
             //echo "yoooo...1";die();
             $productResp .= '<div class="offer">

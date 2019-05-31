@@ -186,7 +186,17 @@ class AnbCompareEnergy extends AnbCompare
         if($values['supplier_service'] === 'electricity' || $values['cat'] == 'electricity'){ $gasHide = 'hide'; }
         if($values['supplier_service'] === 'gas' || $values['cat'] == 'gas'){ $electricityHide = 'hide'; }
 
-        $titleHtml = "<h3>" . pll__('Compare energy rates') . "</h3>";
+        if($_GET['producttype'] == 'dualfuel_pack') {
+            $title = pll__('Compare energy rates');
+        }
+        elseif($_GET['producttype'] == 'electricity') {
+            $title = pll__('Compare electricity rates');
+        }
+        elseif($_GET['producttype'] == 'gas') {
+            $title = pll__('Compare gas rates');
+        }
+
+        $titleHtml = "<h3>" . $title . "</h3>";
 	    if ($hideTitle) {
 		    $titleHtml = "";
 	    }

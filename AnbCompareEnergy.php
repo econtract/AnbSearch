@@ -140,8 +140,20 @@ class AnbCompareEnergy extends AnbCompare
 	    $needHelpHtml = "";
 
 	    if ($values['enable_need_help'] == true) {
+	        /*
+	        ### CHANGE THIS once the other scenario's in the wizard are working correctly ####
 		    $needHelpHtml .= "<div class='needHelp'>
                                 <a href='javascript:void(0)' data-toggle='modal' data-target='#widgetPopupEnergy' data-backdrop='static' data-keyboard='false'>
+                                    <i class='floating-icon fa fa-chevron-right'></i>
+                                    <h6>" . pll__('get a personalized simulation') . "</h6>
+                                    <p>" . pll__('We calculate your potential savings') . "</p>
+                                </a>
+                              </div>";
+	        */
+
+	        $wizardStartPage = getPageForTemplate('anb-energy-wizard-zip.php');
+            $needHelpHtml .= "<div class='needHelp'>
+                                <a href=".$wizardStartPage."'>
                                     <i class='floating-icon fa fa-chevron-right'></i>
                                     <h6>" . pll__('get a personalized simulation') . "</h6>
                                     <p>" . pll__('We calculate your potential savings') . "</p>

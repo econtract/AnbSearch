@@ -149,8 +149,13 @@ class AnbCompareEnergy extends AnbCompare
                               </div>";
 	    }
 
+	    $formSubmitUrl = getPageForTemplate('anb-search-results-energy1a.php');
+	    if(!$formSubmitUrl) {
+            $formSubmitUrl = '/' . getUriSegment(1) . '/' .pll__('results');
+        }
+
 	    //In below call change '/' . getUriSegment(1) . '/' .pll__('results') to pll__('results') in case you want to submit it on the same URL struture like on provider details page.
-	    $formNew = $this->getSearchBoxContentHtml($values, $needHelpHtml, $supplierHtml, pll__("Compare Energy Prices"), false, "", '/' . getUriSegment(1) . '/' .pll__('results'));
+	    $formNew = $this->getSearchBoxContentHtml($values, $needHelpHtml, $supplierHtml, pll__("Compare Energy Prices"), false, "", $formSubmitUrl);
 
 	    return $formNew;
     }

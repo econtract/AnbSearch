@@ -153,7 +153,7 @@ class AnbCompareEnergy extends AnbCompare
 
 	        $wizardStartPage = getPageForTemplate('anb-energy-wizard-zip.php');
             $needHelpHtml .= "<div class='needHelp'>
-                                <a href=".$wizardStartPage."'>
+                                <a href='".$wizardStartPage."'>
                                     <i class='floating-icon fa fa-chevron-right'></i>
                                     <h6>" . pll__('get a personalized simulation') . "</h6>
                                     <p>" . pll__('We calculate your potential savings') . "</p>

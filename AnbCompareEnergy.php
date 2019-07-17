@@ -19,6 +19,11 @@ class AnbCompareEnergy extends AnbCompare
      */
     const RESULTS_PAGE_URI = "/energy/uitslagen/";
 
+    /**
+     * @var int
+     */
+    public $defaultNumberOfResults = 10;
+
     public function __construct()
     {
         parent::__construct();

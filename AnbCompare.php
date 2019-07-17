@@ -150,11 +150,12 @@ class AnbCompare extends Base
         if(defined('COMPARE_API_CACHE_DURATION')) {
             $cacheDurationSeconds = COMPARE_API_CACHE_DURATION;
         }
-        if (!empty($atts['detaillevel'])) {
+
+        if ( !empty($atts['detaillevel']) && !is_array($atts['detaillevel']) ) {
             $atts['detaillevel'] = explode(',', $atts['detaillevel']);
         }
-        //print_r($atts);
-        if (!empty($atts['product_ids'])) {
+
+        if ( !empty($atts['product_ids']) && !is_array($atts['product_ids']) ) {
             $atts['product_ids'] = explode(",", $atts['product_ids']);
         }
 
@@ -1026,10 +1027,12 @@ class AnbCompare extends Base
         return $servicesHtml;
     }
 
-    function generateServiceDetailHtml ($service, $productName, $features = '', $listView = false) {
+    function generateServiceDetailHtml ($service, $productName, $features = array(), $listView = false) {
         $featuresHtml = '';
-        foreach ($features as $feature) {
-            $featuresHtml .= '<li>' . $feature->label . '</li>';
+        if ( is_array($features) ) {
+            foreach ($features as $feature) {
+                $featuresHtml .= '<li>' . $feature->label . '</li>';
+            }
         }
         $serviceLabel = '<h6>' . $productName . '</h6>';
         if($listView === true) {

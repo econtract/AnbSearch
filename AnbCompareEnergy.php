@@ -421,7 +421,7 @@ class AnbCompareEnergy extends AnbCompare
         $chkbox = 100;
         foreach ($results->results as $listProduct) :
             $chkbox++;
-            if ($countProducts <= $this->defaultNumberOfResults) {
+            if ($countProducts < $this->defaultNumberOfResults) {
                 $countProducts++;
                 continue;
             }

@@ -2215,7 +2215,11 @@ class AnbCompare extends Base
         $get = array_merge($_GET, $get);//preserve everything in core $_GET
         //Remove any duplicates in cat as well, while we do
         if(isset($_GET['cat'])) {
-            $_GET['cat'] = array_unique($_GET['cat']);
+            $cat = $_GET['cat'];
+            if (!is_array($cat)) {
+                $cat = array($_GET['cat']);
+            }
+            $_GET['cat'] = array_unique($cat);
         }
 
         return $get;

@@ -150,11 +150,12 @@ class AnbCompare extends Base
         if(defined('COMPARE_API_CACHE_DURATION')) {
             $cacheDurationSeconds = COMPARE_API_CACHE_DURATION;
         }
-        if (!empty($atts['detaillevel'])) {
+
+        if ( !empty($atts['detaillevel']) && !is_array($atts['detaillevel']) ) {
             $atts['detaillevel'] = explode(',', $atts['detaillevel']);
         }
-        //print_r($atts);
-        if (!empty($atts['product_ids'])) {
+
+        if ( !empty($atts['product_ids']) && !is_array($atts['product_ids']) ) {
             $atts['product_ids'] = explode(",", $atts['product_ids']);
         }
 
@@ -1034,10 +1035,12 @@ class AnbCompare extends Base
         return $servicesHtml;
     }
 
-    function generateServiceDetailHtml ($service, $productName, $features = '', $listView = false) {
+    function generateServiceDetailHtml ($service, $productName, $features = array(), $listView = false) {
         $featuresHtml = '';
-        foreach ($features as $feature) {
-            $featuresHtml .= '<li>' . $feature->label . '</li>';
+        if ( is_array($features) ) {
+            foreach ($features as $feature) {
+                $featuresHtml .= '<li>' . $feature->label . '</li>';
+            }
         }
         $serviceLabel = '<h6>' . $productName . '</h6>';
         if($listView === true) {
@@ -2223,7 +2226,11 @@ class AnbCompare extends Base
         $get = array_merge($_GET, $get);//preserve everything in core $_GET
         //Remove any duplicates in cat as well, while we do
         if(isset($_GET['cat'])) {
-            $_GET['cat'] = array_unique($_GET['cat']);
+            $cat = $_GET['cat'];
+            if (!is_array($cat)) {
+                $cat = array($_GET['cat']);
+            }
+            $_GET['cat'] = array_unique($cat);
         }
 
         return $get;

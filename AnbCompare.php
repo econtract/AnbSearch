@@ -491,6 +491,10 @@ class AnbCompare extends Base
                 $blockLinkClass = 'missing-zip';
             }
 
+            if($listProduct->links->order_deeplink) {
+                $toCartLinkHtml = "href='".$listProduct->links->order_deeplink."'";
+            }
+
             if($productData['commission'] === true) {
                 $toCartLinkHtml = '<a ' . $toCartLinkHtml . ' class="btn btn-primary '.$blockLinkClass.'">' . pll__('Order Now') . '</a>';
             } else {
@@ -628,6 +632,10 @@ class AnbCompare extends Base
             $checkoutPageLink = '/' . $parentSegment . '/' . pll__('checkout');
             $toCartLinkHtml = "href='" . $checkoutPageLink . "?product_to_cart&product_id=" . $productData['product_id'] .
                 "&provider_id=" . $productData['supplier_id'] . "&sg={$productData['sg']}&producttype={$productData['producttype']}'";
+
+            if($listProduct->links->order_deeplink) {
+                $toCartLinkHtml = "href='".$listProduct->links->order_deeplink."'";
+            }
             $toCartLinkHtml = '<a ' . $toCartLinkHtml . ' class="link block-link">' . pll__('Order Now') . '</a>';
 
             $selectedVal = !empty($_REQUEST['crntPack']) ? $_REQUEST['crntPack'] : pll__('Selected Pack') . ' ' . $countProducts;

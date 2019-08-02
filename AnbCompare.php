@@ -444,7 +444,7 @@ class AnbCompare extends Base
         $productResponse = '';
 
         $products = $this->getCompareResults([
-            'detaillevel' => 'supplier,logo,services,price,reviews,texts,promotions,core_features'
+            'detaillevel' => 'supplier,logo,services,price,reviews,texts,promotions,core_features,links'
         ]);
 
         $products = json_decode($products);
@@ -604,7 +604,7 @@ class AnbCompare extends Base
                 'lang' => $this->getCurrentLang(),
                 'status' => $this->productStatus,
                 'cat' => $category,
-                'detaillevel' => ['supplier', 'logo', 'services', 'price', 'reviews', 'texts', 'promotions', 'core_features']
+                'detaillevel' => ['supplier', 'logo', 'services', 'price', 'reviews', 'texts', 'promotions', 'core_features', 'links']
             ]
         );
 

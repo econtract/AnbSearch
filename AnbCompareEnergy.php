@@ -117,23 +117,16 @@ class AnbCompareEnergy extends AnbCompare
         $values = $atts;
 
         if (!empty($_GET)) {
-            $values = $_GET + $atts;//append any missing but default values
+            $values = $_GET + $atts;
         }
 
         $this->convertMultiValToArray($values['cat']);
-
-        if ($_GET['debug']) {
-            echo "<pre>VALUES >> ";
-            print_r($values);
-            echo "</pre>";
-        }
 
         $supplierHtml = '';
         if (!empty($values['hidden_sp'])) {
             $supplierHtml = $this->generateHiddenSupplierHtml($values['hidden_sp']);
         } else {
-            //$supplierHtml = $this->generateSupplierHtml($values['pref_cs']);
-            //This is not needed, uncomment this if you want to display the suppliers list
+            $supplierHtml = $this->generateSupplierHtmlEnergy($values['pref_cs']);
         }
 
         //In below call change '/' . getUriSegment(1) . '/' .pll__('results') to pll__('results') in case you want to submit it on the same URL struture like on provider details page.
@@ -363,9 +356,10 @@ class AnbCompareEnergy extends AnbCompare
                                 </div>
                                 <!-- // END: I DON'T KNOW MY ANNUAL CONSUMPTION -->
                             </div>
+
+                            {$supplierHtml}
+
                             <div class='btnWrapper text-center p-b-0'>
-                                {$hiddenMultipleProvidersHtml}
-                                {$supplierHtml}
                                 {$hiddenProdSelHTML}
                                 <button name='searchSubmit' type='submit' class='btn btn-default btn-block' >$submitBtnTxt</button>
                             </div>

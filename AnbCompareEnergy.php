@@ -19,87 +19,81 @@ class AnbCompareEnergy extends AnbCompare
      */
     const RESULTS_PAGE_URI = "/energy/uitslagen/";
 
-    /**
-     * @var int
-     */
-    public $defaultNumberOfResults = 10;
-
     public function __construct()
     {
         parent::__construct();
 
-	    add_action( 'wp_enqueue_scripts', array($this, 'enqueueScripts') );
+        add_action( 'wp_enqueue_scripts', array($this, 'enqueueScripts') );
     }
-
 
     /**
      * enqueue ajax scripts
      */
     function enqueueScripts()
     {
-    	if($_GET['debug']) {
-    		echo "page name>>>";
-    		var_dump($this->pagename);
+        if($_GET['debug']) {
+            echo "page name>>>";
+            var_dump($this->pagename);
 
-    		echo "<br>sector>>>";
-		    var_dump($this->sector);
-	    }
-	    if($this->sector == pll__('energy')) {
-		    wp_enqueue_script('search-results-energy', plugins_url('/js/search-results-energy.js', __FILE__), array('jquery'), '1.0.5', true);
-		    wp_localize_script('search-results-energy', 'search_compare_obj_energy',
-			    array(
-				    'ajax_url'              => admin_url('admin-ajax.php'),
-				    'site_url'              => pll_home_url(),
-				    'template_uri'          => get_template_directory_uri(),
-				    'lang'                  => $this->getCurrentLang(),
-                    'trans_loading_dots'    => pll__('Loading...')
-			    )
-		    );
+            echo "<br>sector>>>";
+            var_dump($this->sector);
+        }
+        if($this->sector == pll__('energy')) {
+            wp_enqueue_script('search-results-energy', plugins_url('/js/search-results-energy.js', __FILE__), array('jquery'), '1.0.5', true);
+            wp_localize_script('search-results-energy', 'search_compare_obj_energy',
+                               array(
+                                   'ajax_url'              => admin_url('admin-ajax.php'),
+                                   'site_url'              => pll_home_url(),
+                                   'template_uri'          => get_template_directory_uri(),
+                                   'lang'                  => $this->getCurrentLang(),
+                                   'trans_loading_dots'    => pll__('Loading...')
+                               )
+                              );
 
-		    if($this->pagename == pll__('results') || $this->pagename == 'energenie' ) {
-			    wp_enqueue_script('compare-results-energy', plugins_url('/js/compare-results-energy.js', __FILE__), array('jquery'), '1.2.7', true);
-			    wp_localize_script('compare-results-energy', 'compare_between_results_object_energy',
-				    array(
-					    'ajax_url' => admin_url('admin-ajax.php'),
-					    'site_url' => pll_home_url(),
-					    'current_pack' => pll__('Your Current Energy Pack'),
-					    'select_your_pack' => pll__('I dont know the contract'),
-					    'template_uri' => get_template_directory_uri(),
-					    'lang' => $this->getCurrentLang(),
-					    'features_label' => pll__('Features'),
-					    'telecom_trans' => pll__('telecom'),
-					    'energy_trans' => pll__('energy'),
-					    'brands_trans' => pll__('brands'),
-                        'checkout_button_trans' => pll__('connect now'),
-                        'details_page_trans' => pll__('Detail'),
-                        'select_your_energy_pack' => pll__('Select your contract'),
-                        'change_pack' => pll__('change pack'),
-                        'trans_loading_dots'    => pll__('Loading...'),
-                        'trans_idontknow' => pll__('I dont know the contract'),
-                        'trans_customerrating' => pll__('Customer Score'),
-                        'trans_guarantee1year' => pll__('guaranteed 1st year'),
-                        'trans_guarantee1month' => pll__('guaranteed 1st month'),
-                        'trans_guarantee1yearinfo' => pll__('guaranteed 1st year info text'),
-                        'trans_guarantee1monthinfo' => pll__('guaranteed 1st month info text'),
-                        'trans_potentialsaving' => pll__('Potential saving'),
-                        'trans_youradvantage' => pll__('Your advantage')
-				    )
-			    );
-		    }
+            if($this->pagename == pll__('results') || $this->pagename == 'energenie' ) {
+                wp_enqueue_script('compare-results-energy', plugins_url('/js/compare-results-energy.js', __FILE__), array('jquery'), '1.2.7', true);
+                wp_localize_script('compare-results-energy', 'compare_between_results_object_energy',
+                                   array(
+                                       'ajax_url' => admin_url('admin-ajax.php'),
+                                       'site_url' => pll_home_url(),
+                                       'current_pack' => pll__('Your Current Energy Pack'),
+                                       'select_your_pack' => pll__('I dont know the contract'),
+                                       'template_uri' => get_template_directory_uri(),
+                                       'lang' => $this->getCurrentLang(),
+                                       'features_label' => pll__('Features'),
+                                       'telecom_trans' => pll__('telecom'),
+                                       'energy_trans' => pll__('energy'),
+                                       'brands_trans' => pll__('brands'),
+                                       'checkout_button_trans' => pll__('connect now'),
+                                       'details_page_trans' => pll__('Detail'),
+                                       'select_your_energy_pack' => pll__('Select your contract'),
+                                       'change_pack' => pll__('change pack'),
+                                       'trans_loading_dots'    => pll__('Loading...'),
+                                       'trans_idontknow' => pll__('I dont know the contract'),
+                                       'trans_customerrating' => pll__('Customer Score'),
+                                       'trans_guarantee1year' => pll__('guaranteed 1st year'),
+                                       'trans_guarantee1month' => pll__('guaranteed 1st month'),
+                                       'trans_guarantee1yearinfo' => pll__('guaranteed 1st year info text'),
+                                       'trans_guarantee1monthinfo' => pll__('guaranteed 1st month info text'),
+                                       'trans_potentialsaving' => pll__('Potential saving'),
+                                       'trans_youradvantage' => pll__('Your advantage')
+                                   )
+                                  );
+            }
 
             wp_enqueue_script('wizard-energy-script', plugins_url('/js/wizard-energy.js', __FILE__), array('jquery'), '1.0.3', true);
 
             // in JavaScript, object properties are accessed as ajax_object.ajax_url, ajax_object.we_value
             wp_localize_script('wizard-energy-script', 'wizard_energy_object',
-                array(
-                    'ajax_url'      => admin_url('admin-ajax.php'),
-                    'zip_empty'     => pll__('Zip cannot be empty'),
-                    'zip_invalid'   => pll__('Please enter valid Zip Code'),
-                    'offers_msg'    => pll__( 'offers' )." " . pll__('starting from'),
-                    'no_offers_msg' => pll__('No offers in your area'),
-                    'currency'      => $this->getCurrencySymbol($this->currencyUnit)
-                ));
-	    }
+                               array(
+                                   'ajax_url'      => admin_url('admin-ajax.php'),
+                                   'zip_empty'     => pll__('Zip cannot be empty'),
+                                   'zip_invalid'   => pll__('Please enter valid Zip Code'),
+                                   'offers_msg'    => pll__( 'offers' )." " . pll__('starting from'),
+                                   'no_offers_msg' => pll__('No offers in your area'),
+                                   'currency'      => $this->getCurrencySymbol($this->currencyUnit)
+                               ));
+        }
     }
 
     function searchForm($atts)
@@ -108,78 +102,48 @@ class AnbCompareEnergy extends AnbCompare
             $atts['cat'] = $atts['product_type'];
         }
 
-	    $atts = shortcode_atts(array(
-		    'cat' => '',
-		    'zip' => '',
-		    'pref_cs' => '',
-		    'sg' => 'consumer',
-		    'lang' => $this->getCurrentLang(),
-		    'hidden_sp' => '',
-		    'enable_need_help' => false,
+        $atts = shortcode_atts(array(
+            'cat' => '',
+            'zip' => '',
+            'pref_cs' => '',
+            'sg' => 'consumer',
+            'lang' => $this->getCurrentLang(),
+            'hidden_sp' => '',
+            'enable_need_help' => false,
             'hidden_prodsel' => '',
             'supplier_service'  => '',
-	    ), $atts, 'anb_energy_search_form');
+        ), $atts, 'anb_energy_search_form');
 
-	    $values = $atts;
+        $values = $atts;
 
-	    if (!empty($_GET)) {
-		    $values = $_GET + $atts;//append any missing but default values
-	    }
-
-	    $this->convertMultiValToArray($values['cat']);
-
-	    if ($_GET['debug']) {
-		    echo "<pre>VALUES >> ";
-		    print_r($values);
-		    echo "</pre>";
-	    }
-
-	    $supplierHtml = '';
-	    if (!empty($values['hidden_sp'])) {
-		    $supplierHtml = $this->generateHiddenSupplierHtml($values['hidden_sp']);
-	    } else {
-		    //$supplierHtml = $this->generateSupplierHtml($values['pref_cs']);
-		    //This is not needed, uncomment this if you want to display the suppliers list
-	    }
-
-	    $needHelpHtml = "";
-
-	    if ($values['enable_need_help'] == true) {
-	        /*
-	        ### CHANGE THIS once the other scenario's in the wizard are working correctly ####
-		    $needHelpHtml .= "<div class='needHelp'>
-                                <a href='javascript:void(0)' data-toggle='modal' data-target='#widgetPopupEnergy' data-backdrop='static' data-keyboard='false'>
-                                    <i class='floating-icon fa fa-chevron-right'></i>
-                                    <h6>" . pll__('get a personalized simulation') . "</h6>
-                                    <p>" . pll__('We calculate your potential savings') . "</p>
-                                </a>
-                              </div>";
-	        */
-
-	        $wizardStartPage = getPageForTemplate('anb-energy-wizard-zip.php');
-            $needHelpHtml .= "<div class='needHelp'>
-                                <a href='".$wizardStartPage."'>
-                                    <i class='floating-icon fa fa-chevron-right'></i>
-                                    <h6>" . pll__('get a personalized simulation') . "</h6>
-                                    <p>" . pll__('We calculate your potential savings') . "</p>
-                                </a>
-                              </div>";
-	    }
-
-	    $formSubmitUrl = getPageForTemplate('anb-search-results-energy1a.php');
-	    if(!$formSubmitUrl) {
-            $formSubmitUrl = '/' . getUriSegment(1) . '/' .pll__('results');
+        if (!empty($_GET)) {
+            $values = $_GET + $atts;//append any missing but default values
         }
 
-	    //In below call change '/' . getUriSegment(1) . '/' .pll__('results') to pll__('results') in case you want to submit it on the same URL struture like on provider details page.
-	    $formNew = $this->getSearchBoxContentHtml($values, $needHelpHtml, $supplierHtml, pll__("Compare Energy Prices"), false, "", $formSubmitUrl);
+        $this->convertMultiValToArray($values['cat']);
 
-	    return $formNew;
+        if ($_GET['debug']) {
+            echo "<pre>VALUES >> ";
+            print_r($values);
+            echo "</pre>";
+        }
+
+        $supplierHtml = '';
+        if (!empty($values['hidden_sp'])) {
+            $supplierHtml = $this->generateHiddenSupplierHtml($values['hidden_sp']);
+        } else {
+            //$supplierHtml = $this->generateSupplierHtml($values['pref_cs']);
+            //This is not needed, uncomment this if you want to display the suppliers list
+        }
+
+        //In below call change '/' . getUriSegment(1) . '/' .pll__('results') to pll__('results') in case you want to submit it on the same URL struture like on provider details page.
+        $formNew = $this->getSearchBoxContentHtml($values, $supplierHtml, pll__("Compare Energy Prices"), false, "", '/' . getUriSegment(1) . '/' .pll__('results'));
+
+        return $formNew;
     }
 
     /**
      * @param $values
-     * @param string $needHelpHtml
      * @param string $supplierHtml
      * @param string $submitBtnTxt
      * @param bool $hideTitle
@@ -189,7 +153,7 @@ class AnbCompareEnergy extends AnbCompare
      * @return string
      */
     public function getSearchBoxContentHtml(
-        $values, $needHelpHtml = "", $supplierHtml = "", $submitBtnTxt = "Compare Energy Prices",
+        $values, $supplierHtml = "", $submitBtnTxt = "Compare Energy Prices",
         $hideTitle = false, $infoMsg = "", $resultsPageUri = self::RESULTS_PAGE_URI
     )
     {
@@ -208,283 +172,242 @@ class AnbCompareEnergy extends AnbCompare
         if($values['supplier_service'] === 'electricity' || $values['cat'] == 'electricity'){ $gasHide = 'hide'; }
         if($values['supplier_service'] === 'gas' || $values['cat'] == 'gas'){ $electricityHide = 'hide'; }
 
-        if($_GET['producttype'] == 'dualfuel_pack') {
-            $title = pll__('Compare energy rates');
+        $titleHtml = "<h3>" . pll__('Compare energy rates') . "</h3>";
+        if ($hideTitle) {
+            $titleHtml = "";
         }
-        elseif($_GET['producttype'] == 'electricity') {
-            $title = pll__('Compare electricity rates');
-        }
-        elseif($_GET['producttype'] == 'gas') {
-            $title = pll__('Compare gas rates');
-        }
-
-        $titleHtml = "<h3>" . $title . "</h3>";
-	    if ($hideTitle) {
-		    $titleHtml = "";
-	    }
 
         $resultsPageUri = ($values['hidden_prodsel'] == 'yes') ? '' : $resultsPageUri;
 
-	    $hiddenMultipleProvidersHtml = $this->getSuppliersHiddenInputFields($values, $supplierHtml);
+        $hiddenMultipleProvidersHtml = $this->getSuppliersHiddenInputFields($values, $supplierHtml);
         $hiddenProdSelHTML = '';
-	    if($values['hidden_prodsel'] == 'yes') {
+        if($values['hidden_prodsel'] == 'yes') {
             $hiddenProdSelHTML = '<input type="hidden" name="hidden_prodsel_cmp" value="yes" />';
         }
-	    // html for quick search content
-	    $formNew = "<div class='quick-search-content'>
+        // html for quick search content
+        $formNew = "<div class='quick-search-content'>
                     <div class='searchBox'>
-                        " . $needHelpHtml . "
                         " . $titleHtml . "
                         <div class='formWraper'>
                             <form action='" . $resultsPageUri . "' id='quickSearchForm'>";
-	                if($values['hidden_prodsel'] == '') {
-                        $formNew.= "<div class='form-group hide'>
-                                	<label>" . pll__('I like to compare') . "</label>
+        if($values['hidden_prodsel'] == '') {
+            $formNew.= "
+                        <div class='form-group no-m'>
+                            <div class='form-group-title'>" . pll__('I like to compare') . "</div>
+                            <ul class='js-service-tabs c-search__services'>
+                                <li class='c-search__services--item'>
+                                    <input class='call-usages-data' type='radio' name='cat' id='service_dual_fuel' value='dualfuel_pack' ". ( ($values['cat'] === 'dualfuel_pack' || empty($values['cat']) || $values['supplier_service'] === 'dualfuel_pack' ) ? 'checked="checked"' : '') .">
+                                    <label for='service_dual_fuel' class='service-dual-fuel'></label>
+                                </li>
+                                <li class='c-search__services--item'>
+                                    <input class='call-usages-data' type='radio' name='cat' id='service_electricity' value='electricity' ". (($values['cat'] === 'electricity' ||  $values['supplier_service'] === 'electricity') ? 'checked="checked"' : '') .">
+                                    <label for='service_electricity' class='service-electricity'></label>
+                                </li>
+                                <li class='c-search__services--item'>
+                                    <input class='call-usages-data' type='radio' name='cat' id='service_gas' value='gas' ". (($values['cat'] === 'gas'  || $values['supplier_service'] === 'gas') ? 'checked="checked"' : '') .">
+                                    <label for='service_gas' class='service-gas'></label>
+                                </li>
+                            </ul>
+                        </div>";
+        }
+        $formNew.= "{$infoMsg}
+                            <div class='form-group is-text-right'>
+                                <div class='check fancyCheck'>
+                                    <input type='hidden' name='sg' value='consumer' class='call-usages-data'>
+                                    <input type='checkbox' name='sg' id='showBusinessDeal' class='call-usages-data radio-salutation' value='sme' ". (($values['sg'] === 'sme') ? 'checked="checked"' : '') .">
+                                    <label for='showBusinessDeal'>
+                                        <i class='fa fa-circle-o unchecked'></i>
+                                        <i class='fa fa-check-circle checked'></i>
+                                        <span>".pll__('Show business deals')."</span>
+                                    </label>
                                 </div>
-                                <div class='form-group'>
-                                    <ul class='service-tabs'>
-                                        <li>
-                                            <input class='call-usages-data' type='radio' name='cat' id='service_dual_fuel' value='dualfuel_pack' ". ( ($values['cat'] === 'dualfuel_pack' || empty($values['cat']) || $values['supplier_service'] === 'dualfuel_pack' ) ? 'checked="checked"' : '') .">
-                                            <label for='service_dual_fuel' class='service-dual-fuel'>
-                                                <i></i>
-                                                <span class='service-label'>".pll__('Dual Fuel')."</span>
-                                                <span class='check-box'></span>
-                                            </label>
-                                        </li>
-                                        <li>
-                                            <input class='call-usages-data' type='radio' name='cat' id='service_electricity' value='electricity' ". (($values['cat'] === 'electricity' ||  $values['supplier_service'] === 'electricity') ? 'checked="checked"' : '') .">
-                                            <label for='service_electricity' class='service-electricity'>
-                                                <i></i>
-                                                <span class='service-label'>".pll__('Electricity')."</span>
-                                                <span class='check-box'></span>
-                                            </label>
-                                        </li>
-                                        <li>
-                                            <input class='call-usages-data' type='radio' name='cat' id='service_gas' value='gas' ". (($values['cat'] === 'gas'  || $values['supplier_service'] === 'gas') ? 'checked="checked"' : '') .">
-                                            <label for='service_gas' class='service-gas'>
-                                                <i></i>
-                                                <span class='service-label'>".pll__('Gas')."</span>
-                                                <span class='check-box'></span>
-                                            </label>
-                                        </li>
-                                    </ul>
-                                </div>";
-                    }
-                    $formNew.= "{$infoMsg}
-                                <div class='form-group'>
-                                    <div class='check fancyCheck'>
-                                        <input type='hidden' name='sg' value='consumer' class='call-usages-data'>
-                                        <input type='checkbox' name='sg' id='showBusinessDeal' class='call-usages-data radio-salutation' value='sme' ". (($values['sg'] === 'sme') ? 'checked="checked"' : '') .">
-                                        <label for='showBusinessDeal'>
-                                            <i class='fa fa-circle-o unchecked'></i>
-                                            <i class='fa fa-check-circle checked'></i>
-                                            <span>".pll__('Show business deals')."</span>
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class='form-group row flex-row-fix'>
-                                        <div class='col-md-4'>
-                                            <label for='installation_area'>" . pll__('Installation area') . "</label>
+                            </div>
+
+                            <div class='form-group'>
+                                <div class='form-group-title'>" . pll__('Installation area') . "</div>
+                                <input type='text' class='no-icon form-control typeahead' id='installation_area' name='zip' value='" . ((!empty($values['zip'])) ? $values['zip'] : '') . "' placeholder='" . pll__('Enter Zipcode') . "' data-error='" . pll__('Please enter valid zip code') . "' autocomplete='off' query_method='cities' query_key='postcode' required>
+                            </div>
+
+                            <div class='form-group'>
+
+                                <!-- // START: I KNOW MY ANNUAL CONSUMPTION -->
+                                <div class='js-i-know-annual-consumption'>
+                                    <div class='row'>
+                                        <div class='col-xs-12 col-md-6'>
+                                            <span class='form-group-title'>".pll__('estimate annual consumption')."</span>
                                         </div>
-                                        <div class='col-md-8 p-l-0'>
-                                            <input type='text' class='form-control typeahead' id='installation_area' name='zip' 
-                                            value='" . ((!empty($values['zip'])) ? $values['zip'] : '') . "' placeholder='" . pll__('Enter Zipcode') . "'
-                                            data-error='" . pll__('Please enter valid zip code') . "' autocomplete='off' query_method='cities' query_key='postcode' required>
-                                      </div>
-                                </div>
-                                
-                                <div class='form-group family-members-container $electricityHide'>
-                                    <label>".pll__('How many family members?')."</label>
-                                    <div class='family-members'>
-                                        <fieldset class='person-sel-sm'>
 
-                                            <input class='call-usages-data' type='radio' id='person6' name='f' value='6' usage-val='".KWH_5_PLUS_PERSON."' usage-val-night='".KWH_5_PLUS_PERSON_NIGHT."' usage-night-ex='".KWH_5_PLUS_PERSON_NIGHT_EX."' ". (($values['f'] === '6') ? 'checked="checked"' : '') .">
-                                            <label class='full custom-tooltip' for='person6' data-toggle='tooltip' title='5+ ".pll__('persons')."'>
-                                                <span class='person-value'>5+</span>
-                                            </label>
+                                        <div class='col-xs-12 col-md-6 is-consumption-toggle'>
+                                            <a class='js-enter-consumption'>".pll__('i enter my consumption')."</a>
+                                        </div>
+                                    </div>
 
-                                            <!--<input class='call-usages-data' type='radio' id='person5' name='f' value='5' usage-val='".KWH_5_PERSON."' usage-val-night='".KWH_5_PERSON_NIGHT."' usage-night-ex='".KWH_5_PERSON_NIGHT_EX."' ". (($values['f'] === '5') ? 'checked="checked"' : '') .">
-                                            <label class='full custom-tooltip' for='person5' data-toggle='tooltip' title='5 ".pll__('persons')."'></label>-->
+                                    <div class='row'>
+                                        <div class='col-xs-12 col-md-5 no-padding-mobile c-selector'>
+                                            <div class='has-border p-1'>
+                                                <fieldset class='person-sel-sm'>
+                                                    <input class='call-usages-data' type='radio' id='person6' name='f' value='6' usage-val='".KWH_5_PLUS_PERSON."' usage-val-night='".KWH_5_PLUS_PERSON_NIGHT."' usage-night-ex='".KWH_5_PLUS_PERSON_NIGHT_EX."' ". (($values['f'] === '6') ? 'checked="checked"' : '') .">
+                                                    <label class='full custom-tooltip' for='person6' data-toggle='tooltip' title='5+ ".pll__('persons')."'></label>
 
-                                            <input class='call-usages-data' type='radio' id='person4' name='f' value='4' usage-val='".KWH_4_PERSON."' usage-val-night='".KWH_4_PERSON_NIGHT."' usage-night-ex='".KWH_4_PERSON_NIGHT_EX."' ". (($values['f'] === '4') ? 'checked="checked"' : '') .">
-                                            <label class='full custom-tooltip' for='person4' data-toggle='tooltip' title='4 ".pll__('persons')."'></label>
+                                                    <input class='call-usages-data' type='radio' id='person4' name='f' value='4' usage-val='".KWH_4_PERSON."' usage-val-night='".KWH_4_PERSON_NIGHT."' usage-night-ex='".KWH_4_PERSON_NIGHT_EX."' ". (($values['f'] === '4') ? 'checked="checked"' : '') .">
+                                                    <label class='full custom-tooltip' for='person4' data-toggle='tooltip' title='4 ".pll__('persons')."'></label>
 
 
-                                            <input class='call-usages-data' type='radio' id='person3' name='f' value='3' usage-val='".KWH_3_PERSON."' usage-val-night='".KWH_3_PERSON_NIGHT."' usage-night-ex='".KWH_3_PERSON_NIGHT_EX."' ". (($values['f'] === '3') ? 'checked="checked"' : '') .">
-                                            <label class='full custom-tooltip' for='person3' data-toggle='tooltip' title='3 ".pll__('persons')."'></label>
+                                                    <input class='call-usages-data' type='radio' id='person3' name='f' value='3' usage-val='".KWH_3_PERSON."' usage-val-night='".KWH_3_PERSON_NIGHT."' usage-night-ex='".KWH_3_PERSON_NIGHT_EX."' ". (($values['f'] === '3') ? 'checked="checked"' : '') .">
+                                                    <label class='full custom-tooltip' for='person3' data-toggle='tooltip' title='3 ".pll__('persons')."'></label>
 
 
-                                            <input class='call-usages-data' type='radio' id='person2' name='f' value='2' usage-val='".KWH_2_PERSON."' usage-val-night='".KWH_2_PERSON_NIGHT."' usage-night-ex='".KWH_2_PERSON_NIGHT_EX."' ". (($values['f'] === '2' || empty($values['f'])) ? 'checked="checked"' : '') .">
-                                            <label class='full custom-tooltip' for='person2' data-toggle='tooltip' title='2 ".pll__('persons')."'></label>
+                                                    <input class='call-usages-data' type='radio' id='person2' name='f' value='2' usage-val='".KWH_2_PERSON."' usage-val-night='".KWH_2_PERSON_NIGHT."' usage-night-ex='".KWH_2_PERSON_NIGHT_EX."' ". (($values['f'] === '2' || empty($values['f'])) ? 'checked="checked"' : '') .">
+                                                    <label class='full custom-tooltip' for='person2' data-toggle='tooltip' title='2 ".pll__('persons')."'></label>
 
 
-                                            <input class='call-usages-data' type='radio' id='person1' name='f' value='1' usage-val='".KWH_1_PERSON."' usage-val-night='".KWH_1_PERSON_NIGHT."' usage-night-ex='".KWH_1_PERSON_NIGHT_EX."' ". (($values['f'] === '1') ? 'checked="checked"' : '') .">
-                                            <label class='full custom-tooltip' for='person1' data-toggle='tooltip' title='1 ".pll__('persons')."'></label>
-                                            <div class='clearfix'></div>
-                                        </fieldset>
-                                        <div class='double-meter-fields'>
-                                            <div class='field general-energy kwh-energy'>
-                                                <i></i>
-                                                <input id='single-meter-du' type='text' name='du' api-value='". $du ."' value='". $du ."'/>
-                                                <label>kwh</label>
+                                                    <input class='call-usages-data' type='radio' id='person1' name='f' value='1' usage-val='".KWH_1_PERSON."' usage-val-night='".KWH_1_PERSON_NIGHT."' usage-night-ex='".KWH_1_PERSON_NIGHT_EX."' ". (($values['f'] === '1') ? 'checked="checked"' : '') .">
+                                                    <label class='full custom-tooltip' for='person1' data-toggle='tooltip' title='1 ".pll__('persons')."'></label>
+                                                </fieldset>
+                                                <span class='select-title'>".pll__('amount family members')."</span>
                                             </div>
-                                            <div class='field day-night-energy kwh-energy hide'>
-                                                <div class='day-energy'>
-                                                    <i></i>
-                                                    <input id='double-meter-du' type='text' name='du' api-value='". $du ."' value='". $du ."'/>
-                                                    <label>kwh</label>
+                                        </div>
+
+                                        <div class='col-xs-12 col-md-7 no-pl no-padding-mobile c-selector'>
+                                            <div class='has-border p-1'>
+                                                <div class='house-selector'>
+                                                    ".$this->getHouseTypeHtml($values)."
                                                 </div>
-                                                <div class='night-energy'>
-                                                    <i></i>
-                                                    <input id='double-meter-nu' type='text' name='nu' api-value='". $nu ."' value='". $nu ."'/>
-                                                    <label>kwh</label>
+                                                <span class='select-title'>".pll__('your home type')."</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- // END: I KNOW MY ANNUAL CONSUMPTION -->
+
+                                <!-- // START: I DON'T KNOW MY ANNUAL CONSUMPTION -->
+                                <div class='js-i-dont-know-annual-consumption is-hidden'>
+
+                                    <div class='row'>
+                                        <div class='col-xs-12 col-md-6'>
+                                            <span class='form-group-title'>".pll__('fill in annual consumption')."</span>
+                                        </div>
+                                        <div class='col-xs-12 col-md-6 is-consumption-toggle'>
+                                            <a class='js-help-estimate'>".pll__('help me estimate')."</a>
+                                        </div>
+                                    </div>
+
+                                    <div class='row'>
+                                        <div class='col-xs-12 col-md-6 js-is-elek'>
+                                            <div class='form-group family-members-container $electricityHide'>
+                                                <div class='family-members'>
+                                                    <!-- // Input Day meter -->
+                                                    <div class='double-meter-fields'>
+                                                        <div class='field kwh-energy'>
+                                                            <input class='general-energy' id='single-meter-du' type='text' name='du' api-value='". $du ."' value='". $du ."'/>
+                                                        </div>
+                                                    </div>
+
+                                                    <!--// Input Day/Night meter -->
+                                                    <div class='field day-night-energy hide'>
+                                                        <div class='kwh-energy'>
+                                                            <input class='day-energy' id='double-meter-du' type='text' name='du' api-value='". $du ."' value='". $du ."'/>
+                                                        </div>
+                                                        <div class='kwh-energy'>
+                                                            <input class='night-energy' id='double-meter-nu' type='text' name='nu' api-value='". $nu ."' value='". $nu ."'/>
+                                                        </div>
+                                                    </div>
+
+                                                    <!--// Input Exlusive Night meter -->
+                                                    <div class='field exclusive-meter-field kwh-energy hide'>
+                                                        <input class='night-energy' id='exclusive-night-meter-nou' type='text' api-value='". $nou ."' name='nou' value='". $nou ."'/>
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div class='field exclusive-meter-field hide'>
-                                                <div class='night-energy'>
-                                                    <i></i>
-                                                    <input id='exclusive-night-meter-nou' type='text' api-value='". $nou ."' name='nou' value='". $nou ."'/>
-                                                    <label>kwh</label>
+
+                                            <div class='form-group'>
+                                                <div class='js-is-doubleMeter is-doubleMeter check fancyCheck'>
+                                                    <input type='checkbox' name='meter' id='doubleMeter' class='call-usages-data radio-salutation' value='double' ". (($values['meter'] === 'double') ? 'checked="checked"' : '') .">
+                                                    <label for='doubleMeter'>
+                                                        <i class='fa fa-circle-o unchecked'></i>
+                                                        <i class='fa fa-check-circle checked'></i>
+                                                        <span>".pll__('Double meter')."</span>
+                                                    </label>
+                                                </div>
+
+                                                <div class='js-is-exclusiveMeter is-exclusiveMeter check fancyCheck'>
+                                                    <input type='checkbox' name='exc_night_meter' id='exclusiveMeter' class='call-usages-data radio-salutation' value='1' ". (($values['exc_night_meter'] === '1') ? 'checked="checked"' : '') .">
+                                                    <label for='exclusiveMeter'>
+                                                        <i class='fa fa-circle-o unchecked'></i>
+                                                        <i class='fa fa-check-circle checked'></i>
+                                                        <span>".pll__('Exclusive night meter')."</span>
+                                                    </label>
+                                                </div>
+
+                                                <div class='js-is-solarpanel solar-panel-container'>
+                                                    <div class='check fancyCheck'>
+                                                        <input type='checkbox' name='has_solar' id='solarPanel' class='call-usages-data radio-salutation' value='1' ". (($values['has_solar'] === '1') ? 'checked="checked"' : '') .">
+                                                        <label for='solarPanel'>
+                                                            <i class='fa fa-circle-o unchecked'></i>
+                                                            <i class='fa fa-check-circle checked'></i>
+                                                            <span>".pll__('I have solar panels')."</span>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class='col-xs-12 col-md-6 js-is-gas'>
+                                            <div class='form-group house-type-container $gasHide'>
+                                                <div class='house-selector kwh-energy'>
+                                                    <input class='is-gas-input' type='text' id='m3_u' name='u' api-value='". $u ."' value='". $u ."'/>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class='form-group'>
-                                        <div class='check fancyCheck'>
-                                            <input type='checkbox' name='meter' id='doubleMeter' class='call-usages-data radio-salutation' value='double' ". (($values['meter'] === 'double') ? 'checked="checked"' : '') .">
-                                            <label for='doubleMeter'>
-                                                <i class='fa fa-circle-o unchecked'></i>
-                                                <i class='fa fa-check-circle checked'></i>
-                                                <span>".pll__('Double meter')."</span>
-                                            </label>
-                                        </div>
-                                        
-                                        <div class='check fancyCheck'>
-                                            <input type='checkbox' name='exc_night_meter' id='exclusiveMeter' class='call-usages-data radio-salutation' value='1' ". (($values['exc_night_meter'] === '1') ? 'checked="checked"' : '') .">
-                                            <label for='exclusiveMeter'>
-                                                <i class='fa fa-circle-o unchecked'></i>
-                                                <i class='fa fa-check-circle checked'></i>
-                                                <span>".pll__('Exclusive night meter')."</span>
-                                            </label>
-                                        </div>
-                                        
-                                        <div class='solar-panel-container'>
-                                            <div class='check fancyCheck'>
-                                                <input type='checkbox' name='has_solar' id='solarPanel' class='call-usages-data radio-salutation' value='1' ". (($values['has_solar'] === '1') ? 'checked="checked"' : '') .">
-                                                <label for='solarPanel'>
-                                                    <i class='fa fa-circle-o unchecked'></i>
-                                                    <i class='fa fa-check-circle checked'></i>
-                                                    <span>".pll__('I have solar panels')."</span>
-                                                </label>
-                                            </div>
-                                        </div>
-                                    </div>
                                 </div>
-                                <div class='form-group house-type-container $gasHide'>
-                                    <label>".pll__('What type of house?')."</label>
-                                    <div class='house-selector'>
-                                        ".$this->getHouseTypeHtml($values)."
-                                        <div class='field'>
-                                            <i></i>
-                                            <input type='text' id='m3_u' name='u' api-value='". $u ."' value='". $u ."'/>
-                                            <input type='hidden' name='ut' value='kwh'/>
-                                            <label>kWh</label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class='btnWrapper text-center p-b-0'>
-                                	{$hiddenMultipleProvidersHtml}
-                                	{$supplierHtml}
-                                	{$hiddenProdSelHTML}
-                                    <button name='searchSubmit' type='submit' disabled class='btn btn-default btn-block' >$submitBtnTxt</button>
-                                </div>
-                            </form>
+                                <!-- // END: I DON'T KNOW MY ANNUAL CONSUMPTION -->
+                            </div>
+                            <div class='btnWrapper text-center p-b-0'>
+                                {$hiddenMultipleProvidersHtml}
+                                {$supplierHtml}
+                                {$hiddenProdSelHTML}
+                                <button name='searchSubmit' type='submit' class='btn btn-default btn-block' >$submitBtnTxt</button>
+                            </div>
                         </div>
-                    </div>
-                </div>";
+                    </form>
+                </div>
+            </div>
+        </div>";
 
-	    return $formNew;
+        return $formNew;
     }
 
-    function moreResults()
-    {
+    function moreResults(){
         $productResp = '';
         $forceCheckAvailability = false;
-        $showTop = false;
-        $parentSegment = getSectorOnCats($_SESSION[ 'product' ][ 'cat' ]);
-
-        if( empty($_GET[ 'zip' ]) ) {
-            //don't continue if zip is empty
-            $forceCheckAvailability = true;
-        }
-        if( isset($_GET[ 'exc_night_meter' ]) && $_GET[ 'exc_night_meter' ] == 1 ) {
-            $nou = $_GET[ 'nou' ];
-        } else {
-            unset($_GET[ 'nou' ]);
-        }
-        $du = $_GET[ 'du' ];
-        if( isset($_GET[ 'meter' ]) && $_GET[ 'meter' ] == 'double' ) {
-            $nu = $_GET[ 'nu' ];
-        } else {
-            unset($_GET[ 'nu' ]);
-        }
-        $has_solar = ( isset($_GET[ 'has_solar' ]) && $_GET[ 'has_solar' ] == 1 ) ? $_GET[ 'has_solar' ] : '';
-
-        if( isset($_GET[ 'cmp_pid' ]) && ( $_GET[ 'cmp_pid' ] == 'i_dnt_know_contract' || empty($_GET[ 'cmp_pid' ]) ) && !isset($_GET[ 'currentPack' ]) ) {
-            $_GET[ 'cmp_pid' ] = '';
-            unset($_GET[ 'currentPack' ]);
-        } else {
-            if( empty($_GET[ 'cmp_pid' ]) ) {
-                $_GET[ 'cmp_pid' ] = explode('|', $_GET[ 'currentPack' ])[ 1 ];
-                unset($_GET[ 'currentPack' ]);
-                $paramsTop[ 'cmp_pid' ] = $_GET[ 'cmp_pid' ];
-                $_GET[ 'currentPack' ] = $_GET[ 'cat' ] . '|' . $_GET[ 'cmp_pid' ];
-                if( !isset($_GET[ 'cmp_sid' ]) || empty($_GET[ 'cmp_sid' ]) && isset($_GET[ 'supplier' ]) ) {
-                    $_GET[ 'cmp_sid' ] = $_GET[ 'supplier' ];
-                }
-            }
-        }
-
-        if( isset($_GET[ 'cmp_sid' ]) && !empty($_GET[ 'cmp_sid' ]) ) {
-            $_GET[ 'supplier' ] = $_GET[ 'cmp_sid' ];
-        }
-
-        if( !isset($_GET[ 'meter' ]) ) {
-            $_GET[ 'meter' ] = 'single';
-        }
-
+        $parentSegment = getSectorOnCats( $_SESSION['product']['cat'] );
         $products = $this->getCompareResults([
-            'detaillevel' => 'supplier,logo,services,price,reviews,texts,promotions,core_features,specifications,attachments,availability,contact_info,contract_periods,reviews_texts',
-            'du'          => $du,
-            'nu'          => $nu,
-            'nou'         => $nou,
-            'sg'          => $_GET[ 'sg' ],
-            'd'           => isset($_GET[ 'd' ]) ? $_GET[ 'd' ] : 1,
-            'lang'        => getLanguage()
+            'detaillevel' => 'supplier,logo,services,price,reviews,texts,promotions,core_features,specifications,attachments,availability,contact_info,contract_periods,reviews_texts'
         ]);
 
-        $result = \json_decode($products);
+        $results = json_decode($products);
         /** @var \AnbTopDeals\AnbProductEnergy $anbTopDeals */
-        $anbTopDeals = wpal_create_instance(\AnbTopDeals\AnbProductEnergy::class);
+        $anbTopDeals = wpal_create_instance( \AnbTopDeals\AnbProductEnergy::class );
         $countProducts = 0;
         $chkbox = 100;
-        foreach( $result->results as $listProduct ) :
-            $chkbox++;
-            if( $countProducts < $this->defaultNumberOfResults ) {
-                $countProducts++;
-                continue;
-            }
-            ob_start();
+        foreach ($results->results as $listProduct) :
+        $countProducts++;
+        $chkbox++;
+        if ($countProducts <= $this->defaultNumberOfResults) {
+            continue;
+        }
+        ob_start();
 
-            include( locate_template('template-parts/section/energy-results-product.php') );
+        include(locate_template('template-parts/section/energy-results-product.php'));
 
-            $productResp .= ob_get_clean();
+        $productResp .= ob_get_clean();
         endforeach;
         echo $productResp;
         wp_die(); // this is required to terminate immediately and return a proper response
     }
 
-	/**
+    /**
 	 * @param $values
 	 * @param string $submitBtnTxt
 	 * @param bool $hideTitle
@@ -493,20 +416,19 @@ class AnbCompareEnergy extends AnbCompare
 	 *
 	 * @return string
 	 */
-	public function getWizardSearchBoxContentHtml($values, $submitBtnTxt = "Search Deals", $hideTitle = false, $resultsPageUri = self::RESULTS_PAGE_URI, $supplierHtml = "")
-	{
-		$titleHtml = "<h3>" . pll__('Change Profile') . "</h3>";
-		if ($hideTitle) {
-			$titleHtml = "";
-		}
+    public function getWizardSearchBoxContentHtml($values, $submitBtnTxt = "Search Deals", $hideTitle = false, $resultsPageUri = self::RESULTS_PAGE_URI, $supplierHtml = "")
+    {
+        $titleHtml = "<h3>" . pll__('Change Profile') . "</h3>";
+        if ($hideTitle) {
+            $titleHtml = "";
+        }
 
-		//$hiddenMultipleProvidersHtml = $this->getSuppliersHiddenInputFields($values, $supplierHtml);
         $hiddenMultipleProvidersHtml = '';
 
-		$formNew = "<div class='formWrapper'>
+        $formNew = "<div class='formWrapper'>
                         <form action='" . $resultsPageUri . "' id='yourProfileWizardForm' data-toggle='validator' role='form'>
                         	<div class='container-fluid'>
-	                            <div class='panel-group formWrapper-energy' id='accordion' role='tablist' aria-multiselectable='true'>	                            
+	                            <div class='panel-group formWrapper-energy' id='accordion' role='tablist' aria-multiselectable='true'>
 	                                <!--Compare-->
 	                            	<div class='panel panel-default' id='comparePanel'>
                                         <div class='panel-heading active' role='tab' id='CompareHeading'>
@@ -557,10 +479,6 @@ class AnbCompareEnergy extends AnbCompare
                                                             </li>
                                                         </ul>
                                                         <div class='block-desc'>" . pll__('Combining service often helps you save every year.') . "</div>
-                                                        
-                                                        <!-- div class='buttonWrapper text-left'>
-                                                            <button type='button' class='btn btn-primary'>" . pll__('Ok') . "</button>
-                                                        </div -->
                                                     </div>
                                                 </div>
                                                <div class='buttonWrapper'>
@@ -571,8 +489,8 @@ class AnbCompareEnergy extends AnbCompare
                                             </div>
                                         </div>
                                     </div>
-                                    
-                                    <!--Location-->	                            	
+
+                                    <!--Location-->
 	                            	<div class='panel panel-default' id='locationPanel'>
                                         <div class='panel-heading' role='tab' id='installationHeading'>
                                             <h4 class='panel-title'>
@@ -597,7 +515,7 @@ class AnbCompareEnergy extends AnbCompare
                                                         <div class='col-md-7 col-sm7 col-xs-12'>
                                                             <div class='form-group has-feedback p-l-0'>
                                                                 <div class=''>
-                                                                    <input class='form-control typeahead' id='installation_area' name='zip'
+                                                                    <input class='no-icon form-control typeahead' id='installation_area' name='zip'
                                                                            placeholder='" . pll__('Enter Zipcode') . "' maxlength='4'
                                                                            value='" . ((!empty($values['zip'])) ? $values['zip'] : '') . "' required type='text'>
                                                                     <span class='staricicon form-control-feedback '
@@ -608,22 +526,15 @@ class AnbCompareEnergy extends AnbCompare
                                                         </div>
                                                     </div>
                                                     <div class='block-desc'>" . pll__('Not all packs are available on every location. Thats why we need your zipcode.') . "</div>
-                                                        
+
                                                     <div class='buttonWrapper text-left'>
                                                         <button type='button' class='btn btn-primary'>" . pll__('Ok') . "</button>
                                                     </div>
-                                                    
-                                                    
-                                                    <!--<div class='staticTooltipWrapper'>
-                                                            <div class='staticTooltip'>
-                                                                <p>". pll__('some tooltip here if required'). " </p>
-                                                            </div>
-                                                        </div>-->
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    
+
                                     <!--Use-->
                                     <div class='panel panel-default' id='usagePanel'>
                                         <div class='panel-heading' role='tab' id='consumerHeading'>
@@ -675,7 +586,7 @@ class AnbCompareEnergy extends AnbCompare
                                             </div>
                                         </div>
                                     </div>
-                                    
+
                                     <!--Family Members-->
                                     <div class='panel panel-default family-members-container electricity-content " . (($values['cat'] == 'gas')  ? 'hide' : '') . "' id='familyPanel'>
                                         <div class='panel-heading' role='tab' id='headingOne'>
@@ -695,7 +606,7 @@ class AnbCompareEnergy extends AnbCompare
                                         </div>
                                         <div id='collapseOne' class='panel-collapse collapse' role='tabpanel' aria-labelledby='headingOne'  data-wizard-panel='familyMembers'>
                                             <div class='panel-body'>
-                                    
+
                                                 <div class='totalPersonWizard'>
                                                     <div class='compPanel withStaticToolTip'>
                                                         <div class='selectionPanel clearfix energy-family'>
@@ -703,7 +614,7 @@ class AnbCompareEnergy extends AnbCompare
                                                                 <label class='block bold-600'>". pll__('How many family members?') ."</label>
                                                             </div>
                                                             <fieldset class='person-sel gray fancyComp'>
-                                                                <input class='call-usages-data' type='radio' id='person6' name='f' value='6' 
+                                                                <input class='call-usages-data' type='radio' id='person6' name='f' value='6'
                                                                 " . (("6" == $values['f']) ? 'checked="checked"' : '') . "/>
                                                                 <label class = 'full' for='person6' title='6 ". pll__('persons') ."'>
                                                                     <span class='person-value'>5+</span>
@@ -711,32 +622,32 @@ class AnbCompareEnergy extends AnbCompare
                                                                 <div class='customTooltip'>
                                                                     <p>6 ". pll__('person is betterInfo about extensive use of internet') ." </p>
                                                                 </div>
-                                    
-                                                                <input class='call-usages-data' type='radio' id='person5' name='f' value='5' 
+
+                                                                <input class='call-usages-data' type='radio' id='person5' name='f' value='5'
                                                                 " . (("5" == $values['f']) ? 'checked="checked"' : '') . "/>
                                                                 <label class = 'full' for='person5' title='5 ". pll__('persons') ."'>
                                                                 </label>
                                                                 <div class='customTooltip'>
                                                                     <p>". pll__('5th Person. Info about extensive use of internet.') .". </p>
                                                                 </div>
-                                    
-                                                                <input class='call-usages-data' type='radio' id='person4' name='f' value='4' 
+
+                                                                <input class='call-usages-data' type='radio' id='person4' name='f' value='4'
                                                                 " . (("4" == $values['f']) ? 'checked="checked"' : '') . "/>
                                                                 <label class = 'full' for='person4' title='4 ". pll__('persons') ."'>
                                                                 </label>
                                                                 <div class='customTooltip'>
                                                                     <p>". pll__('4thInfo about extensive use of internet') ." </p>
                                                                 </div>
-                                    
-                                                                <input class='call-usages-data' type='radio' id='person3' name='f' value='3' 
+
+                                                                <input class='call-usages-data' type='radio' id='person3' name='f' value='3'
                                                                 " . (("3" == $values['f']) ? 'checked="checked"' : '') . "/>
                                                                 <label class = 'full' for='person3' title='3 ". pll__('persons') ."'>
                                                                 </label>
                                                                 <div class='customTooltip'>
                                                                     <p>". pll__('3rd Info about extensive use of internet') ."</p>
                                                                 </div>
-                                    
-                                                                <input class='call-usages-data' type='radio' id='person2' name='f' value='2' 
+
+                                                                <input class='call-usages-data' type='radio' id='person2' name='f' value='2'
                                                                 " . (("2" == $values['f']) ? 'checked="checked"' : '') . "/>
                                                                 <label class = 'full' for='person2' title='2 ". pll__('persons') ."'>
 
@@ -744,8 +655,8 @@ class AnbCompareEnergy extends AnbCompare
                                                                 <div class='customTooltip'>
                                                                     <p>". pll__('Two person info about extensive use of internet') ."</p>
                                                                 </div>
-                                    
-                                                                <input class='call-usages-data' type='radio' id='person1' name='f' value='1' 
+
+                                                                <input class='call-usages-data' type='radio' id='person1' name='f' value='1'
                                                                 " . (("1" == $values['f']) ? 'checked="checked"' : '') . "/>
                                                                 <label class = 'full' for='person1' title='1 ". pll__('person') ."'>
 
@@ -753,13 +664,13 @@ class AnbCompareEnergy extends AnbCompare
                                                                 <div class='customTooltip'>
                                                                     <p>". pll__('only one person. Info about extensive use of internet') ."</p>
                                                                 </div>
-                                    
+
                                                             </fieldset>
                                                         </div>
                                                     </div>
-                                                    
+
                                                     <div class='block-desc'>".pll__('Select an option to view information about it')."</div>
-                                                    
+
                                                     <div class='buttonWrapper text-left'>
                                                         <button type='button' class='btn btn-primary'>".pll__('Ok')."</button>
                                                     </div>
@@ -767,7 +678,7 @@ class AnbCompareEnergy extends AnbCompare
                                             </div>
                                         </div>
                                     </div>
-                                    
+
                                     <!-- House -->
                                     <div class='panel panel-default house-type-container gas-content " . (($values['cat'] == 'electricity')  ? 'hide' : '') . "' id='housePanel'>
                                         <div class='panel-heading' role='tab' id='headingFour'>
@@ -793,40 +704,23 @@ class AnbCompareEnergy extends AnbCompare
                                                     </div>
                                                     <div class='house-selector'>
                                                         ".$this->getHouseTypeHtml($values)."
-				                                        <!-- div class='field m-l-10'>
-				                                            <i></i>
-				                                            <input type='text' id='m3_u' name='u' value='". (($values['u']) ?: '') ."'/>
-				                                            <input type='hidden' name='ut' value='m3'/>
-				                                            <label>m3</label>
-				                                            <span class='question-circle custom-tooltip' data-toggle='tooltip' title='".pll__('Informational text for gas')."'></span>
-				                                        </div -->
                                                     </div>
-                                                    
+
                                                     <p class='red-link m-b-20' id='houseMoreDetail'>".pll__('Tell us more for a accurate estimation')."</p>
-                                                    
+
                                                     <div class='block-desc'>".pll__('This is the average consumption of family of 4 with this house charcteristics is 4500 kWh and 1700 m3 gas a year.')."</div>
-                                                
-                                                    
+
+
                                                     <div class='buttonWrapper text-left'>
                                                         <button type='button' class='btn btn-primary'>".pll__('Ok')."</button>
                                                     </div>
-                                                    <!--div class='info'>
-                                                        <p>Some information will come here as well just like any other
-                                                            information so current putting lorem ipsum to see how it
-                                                            looks</p>
-                                                    </div
-                                                    <div class='buttonWrapper'>
-                                                        <button type='button' class='btn btn-primary'><i
-                                                                    class='fa fa-check'></i> " . pll__('Ok') . "
-                                                        </button>
-                                                    </div>-->
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
 
                                     <!-- Solar Energy -->
-                                    <div class='panel panel-default solar-panel-container electricity-content " . (($values['cat'] == 'gas')  ? 'hide' : '') . "' id='solarEnergyPanel'>
+                                    <div class='panel panel-default solar-panel-container electricity-content " . (($values['cat'] == 'gas')  ? 'is-hidden' : '') . "' id='solarEnergyPanel'>
                                         <div class='panel-heading' role='tab' id='headingSix'>
                                             <h4 class='panel-title'>
                                                 <a class='collapsed' role='button' data-toggle='collapse' data-parent='#accordion' href='#collapseSix' aria-expanded='false' aria-controls='collapseSix'>
@@ -855,7 +749,7 @@ class AnbCompareEnergy extends AnbCompare
                                                             </label>
                                                         </div>
                                                     </div>
-                                                    
+
                                                     <div class='form-group text-left'>
                                                         <div class='check fancyCheck'>
                                                             <input type='checkbox' name='transCapacityCheck' id='transCapacityCheck' class='call-usages-data radio-salutation' value='1' ". (($values['transCapacityCheck'] === '1') ? 'checked="checked"' : '') .">
@@ -866,7 +760,7 @@ class AnbCompareEnergy extends AnbCompare
                                                             </label>
                                                         </div>
                                                     </div>
-                                                    
+
                                                     <div id='have_transformer' class='". (($values['transCapacityCheck'] != '1') ? 'hide' : '') ."'>
                                                         <label class='block bold-600 text-left'>" . pll__('Average capacity of the transformer') . "</label>
                                                         <div class='row'>
@@ -881,12 +775,12 @@ class AnbCompareEnergy extends AnbCompare
                                                     <div class='buttonWrapper text-left'>
                                                         <button type='button' class='btn btn-primary'>".pll__('Ok')."</button>
                                                     </div>
-                                                    
+
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    
+
                                      <!-- Double meter -->
                                      <div class='panel panel-default family-members-container electricity-content " . (($values['cat'] == 'gas')  ? 'hide' : '') . "' id='doubleMeterPanel'>
                                         <div class='panel-heading' role='tab' id='headingTwo'>
@@ -915,13 +809,13 @@ class AnbCompareEnergy extends AnbCompare
                                                                 <span></span>
                                                                 <img src='".get_template_directory_uri()."/images/common/single-meter.svg' alt='' height='52' />
                                                             </label>
-                                                            
+
                                                             <label>
                                                                 <input class='call-usages-data' type='radio' value='double' name='meter' ".(($values['meter'] == pll__('double')) ? "checked='checked'" : '')." id='doubleMeterConsumption' class='check-consumption'/>
                                                                 <span></span>
                                                                 <img src='".get_template_directory_uri()."/images/common/double-meter.svg' alt='' height='52' />
                                                             </label>
-                                                            
+
                                                         </div>
                                                     </div>
                                                     <div class='form-group text-left'>
@@ -934,27 +828,17 @@ class AnbCompareEnergy extends AnbCompare
                                                             </label>
                                                         </div>
                                                     </div>
-                                                    
+
                                                     <div class='block-desc'>".pll__('Some usefull information about these options?')."</div>
-                                                    
+
                                                     <div class='buttonWrapper text-left'>
                                                         <button type='button' class='btn btn-primary'>".pll__('Ok')."</button>
                                                     </div>
-                                                    <!--div class='info'>
-                                                        <p>Some information will come here as well just like any other
-                                                            information so current putting lorem ipsum to see how it
-                                                            looks</p>
-                                                    </div
-                                                    <div class='buttonWrapper'>
-                                                        <button type='button' class='btn btn-primary'><i
-                                                                    class='fa fa-check'></i> " . pll__('Ok') . "
-                                                        </button>
-                                                    </div>-->
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    
+
                                     <!-- Electricity -->
                                     <div class='panel panel-default family-members-container electricity-content " . (($values['cat'] == 'gas')  ? 'hide' : '') . "' id='electricityBlockPanel'>
                                         <div class='panel-heading' role='tab' id='headingThree'>
@@ -1007,27 +891,17 @@ class AnbCompareEnergy extends AnbCompare
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    
+
                                                     <div class='block-desc'>".pll__('Where can I find this information?')."</div>
-                                                    
+
                                                     <div class='buttonWrapper text-left'>
                                                         <button type='button' class='btn btn-primary'>".pll__('Ok')."</button>
                                                     </div>
-                                                    <!--div class='info'>
-                                                        <p>Some information will come here as well just like any other
-                                                            information so current putting lorem ipsum to see how it
-                                                            looks</p>
-                                                    </div
-                                                    <div class='buttonWrapper'>
-                                                        <button type='button' class='btn btn-primary'><i
-                                                                    class='fa fa-check'></i> " . pll__('Ok') . "
-                                                        </button>
-                                                    </div>-->
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    
+
                                     <!-- Gas -->
                                     <div class='panel panel-default house-type-container gas-content " . (($values['cat'] == 'electricity')  ? 'hide' : '') . "' id='gasPanel'>
                                         <div class='panel-heading' role='tab' id='headingFive'>
@@ -1083,7 +957,7 @@ class AnbCompareEnergy extends AnbCompare
 
                                                     <div class='block-desc'>".pll__('This is the average consumption of family of 4, 4500 kWh and 1700 m3 gas year')."</div>
                                                     <p class='red-link m-b-20' id='houseMoreDetailBellow'>" . pll__('More accurate estimation? Tell us more about your house') . "</p>
-                                                    
+
                                                     <div class='text-left p-t-10 p-b-20 hide' id='houseMoreDetailContent'>
                                                         <div class='row'>
                                                             <div class='col-md-10'>
@@ -1097,7 +971,7 @@ class AnbCompareEnergy extends AnbCompare
                                                                         </select>
                                                                     </div>
                                                                 </div>
-                                                    
+
                                                                 <div class='form-group'>
                                                                     <label class='text-left bold-600 '>".pll__('Are your walls isolated?')."</label>
                                                                     <div class='custom-select'>
@@ -1108,7 +982,7 @@ class AnbCompareEnergy extends AnbCompare
                                                                         </select>
                                                                     </div>
                                                                 </div>
-                                                    
+
                                                                 <div class='form-group'>
                                                                     <label class='text-left bold-600 '>".pll__('What type of windows do you have?')."</label>
                                                                     <div class='custom-select'>
@@ -1119,7 +993,7 @@ class AnbCompareEnergy extends AnbCompare
                                                                         </select>
                                                                     </div>
                                                                 </div>
-                                                    
+
                                                                 <div class='form-group'>
                                                                     <label class='text-left bold-600 '>".pll__('How old is your boiler?')."</label>
                                                                     <div class='custom-select'>
@@ -1131,7 +1005,7 @@ class AnbCompareEnergy extends AnbCompare
                                                                         </select>
                                                                     </div>
                                                                 </div>
-                                                    
+
                                                                 <div class='form-group'>
                                                                     <label class='text-left bold-600 '>".pll__('What about your CV ketel?')."</label>
                                                                     <div class='custom-select'>
@@ -1147,16 +1021,16 @@ class AnbCompareEnergy extends AnbCompare
                                                         </div>
                                                         <a class='show-less-link' id='houseLessDetail'>".pll__('')."Show less</a>
                                                     </div>
-                                                    
+
                                                     <div class='buttonWrapper text-left'>
                                                         <button type='button' class='btn btn-primary'>".pll__('Ok')."</button>
                                                     </div>
-                                                    
+
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    
+
                                     <!-- Current supplier -->
                                     <div class='panel panel-default' id='currentSupplierPanel'>
                                         <div class='panel-heading' role='tab' id='headingSeven'>
@@ -1198,25 +1072,15 @@ class AnbCompareEnergy extends AnbCompare
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <!-- div class='check fancyCheck'>
-                                                    <input type='checkbox' name='tenMonthCustomer' id='customerSupplier' class='radio-salutation' value='1' ". (($values['tenMonthCustomer'] == '1') ? "checked='checked'" : '') .">
-                                                    <label for='customerSupplier'>
-                                                        <i class='fa fa-circle-o unchecked'></i>
-                                                        <i class='fa fa-check-circle checked'></i>
-                                                        <span class='bold-600'>".pll__('I have been a customer for more than 10 months')." <i class='question-icon custom-tooltip' data-toggle='tooltip' title='Helping text will show here'>?</i></span>
-                                                    </label>
-                                                </div>
-                                                    
-                                                <div class='block-desc'>".pll__('This is the average consumption of family 4,4500 kWh and 1700 m3 gas a year . You can change the amount if you know your exact usage.')."</div -->    
-                                        
+
                                                 <div class='buttonWrapper text-left'>
                                                     <button type='button' class='btn btn-primary'>".pll__('Ok')."</button>
                                                 </div>
-                                    
+
                                             </div>
                                         </div>
-                                    </div>                                   
-                                   
+                                    </div>
+
 		                            <div id='mini_wizard_submit_btn' class='buttonWrapper'>
 		                                <button name='searchSubmit' type='submit' class='btn btn-default'>$submitBtnTxt</button>
 		                            </div>
@@ -1228,11 +1092,11 @@ class AnbCompareEnergy extends AnbCompare
                         </form>
                     </div>";
 
-		return $formNew;
-	}
+        return $formNew;
+    }
 
-	function getHouseTypeHtml($values) {
-		return "<div class='house-type'>
+    function getHouseTypeHtml($values) {
+        return "<div class='house-type'>
                 <label class='single-house' data-toggle='tooltip' title='".pll__('House 1')."'>
                     <input class='call-usages-data' type='radio' name='houseType' id='single_house' value='".pll__('single')."' usage-val='".KWH_SINGLE_HOUSE."' ". (($values['houseType'] === pll__('single')) ? 'checked="checked"' : '') ."/>
                     <i class='houses'></i>
@@ -1258,11 +1122,11 @@ class AnbCompareEnergy extends AnbCompare
                     <i class='houses'></i>
                 </label>
             </div>";
-	}
+    }
 
-	function getPBSBreakDownHTML($prd, $sec){
-	    if(isset($prd->$sec)) {
-	        $prdObj = $prd->$sec;
+    function getPBSBreakDownHTML($prd, $sec){
+        if(isset($prd->$sec)) {
+            $prdObj = $prd->$sec;
             $currPricing = $prd->$sec->pricing;
             $specs = $prd->$sec->specifications;
             $promotions = $prd->$sec->promotions;
@@ -1271,7 +1135,7 @@ class AnbCompareEnergy extends AnbCompare
             $currPricing = $prd->pricing;
             $specs = $prd->product->specifications;
             $promotions = $prd->product->promotions;
-	    }
+        }
         $yearlyPromoPriceArr = formatPriceInParts($currPricing->yearly->promo_price, 2);
         $yearlyPriceArr = formatPriceInParts($currPricing->yearly->price, 2);
 
@@ -1293,7 +1157,6 @@ class AnbCompareEnergy extends AnbCompare
         $html = '';
         $html.= '<li class="packOption">
                     <div class="packageDetail">
-                        <!--div class="packageDesc hasOldPrice">' . intval($greenOrigin->value) . $greenOrigin->unit . ' '.$specs->tariff_type->label.'</div-->
                         <div class="packageDesc hasOldPrice">' . $prdObj->product_name . '</div>
                         <div class="packagePrice">
                             <span class="oldPrice">
@@ -1305,12 +1168,12 @@ class AnbCompareEnergy extends AnbCompare
                                 <span class="cents">' . $yearlyPromoPriceArr['cents'] . '</span>
                             </span>
                         </div>'.$promoHTML.'
-                    </div>                                    
+                    </div>
                 </li>';
         return $html;
     }
 
-	/**
+    /**
 	 * This code was written by danish in anb-search-result-energy.php and Imran moved it here,
 	 * the code is going to remain same the only difference will be that it'll work based on parameters
 	 * @param $firstProduct
@@ -1319,107 +1182,107 @@ class AnbCompareEnergy extends AnbCompare
 	 * @return array|[productData, labels]
 	 */
     function getCompareOverviewData($firstProduct, $secondProduct) {
-	    $comparePopUpData['lowest'] = json_decode( json_encode( $firstProduct ), true);
-	    $comparePopUpData['highest'] = json_decode( json_encode( $secondProduct ), true);
+        $comparePopUpData['lowest'] = json_decode( json_encode( $firstProduct ), true);
+        $comparePopUpData['highest'] = json_decode( json_encode( $secondProduct ), true);
 
-	    $cid = 0;
-	    $logosPlaced = 0;
-	    $productsData = [];
-	    $labels = [];
-	    foreach ($comparePopUpData as $key => $pdata){
-		    if( ($pdata['product']['producttype'] == 'dualfuel_pack' || $pdata['product']['producttype'] == 'electricity') ){
-			    $productsData['products'][$cid]['logo'] = $pdata['product']['supplier']['logo']['200x140']['transparent']['color'];
-			    $productsData['products'][$cid]['title'] = $pdata['product']['product_name'];
-			    $productsData['products'][$cid]['total_yearly'] = formatPrice($pdata['pricing']['yearly']['promo_price'], 2, '&euro; ');
-			    $logosPlaced = 1;
+        $cid = 0;
+        $logosPlaced = 0;
+        $productsData = [];
+        $labels = [];
+        foreach ($comparePopUpData as $key => $pdata){
+            if( ($pdata['product']['producttype'] == 'dualfuel_pack' || $pdata['product']['producttype'] == 'electricity') ){
+                $productsData['products'][$cid]['logo'] = $pdata['product']['supplier']['logo']['200x140']['transparent']['color'];
+                $productsData['products'][$cid]['title'] = $pdata['product']['product_name'];
+                $productsData['products'][$cid]['total_yearly'] = formatPrice($pdata['pricing']['yearly']['promo_price'], 2, '&euro; ');
+                $logosPlaced = 1;
                 $pbsData = $pdata['product']['electricity']['pricing']['yearly']['price_breakdown_structure'];
                 if($pdata['product']['producttype'] == 'electricity'){
                     $pbsData = $pdata['pricing']['yearly']['price_breakdown_structure'];
                 }
-			    $labels['electricity']['main'] = pll__('electricity');
-			    $labels['electricity']['total'] = pll__('Total annual electricity costs (incl.BTW)');
+                $labels['electricity']['main'] = pll__('electricity');
+                $labels['electricity']['total'] = pll__('Total annual electricity costs (incl.BTW)');
                 $labels['electricity']['sub_total_yearly'][$cid] = formatPrice($pdata['product']['electricity']['pricing']['yearly']['promo_price'], 2, '&euro; ');
-			    if($pdata['product']['producttype'] == 'electricity'){
+                if($pdata['product']['producttype'] == 'electricity'){
                     $labels['electricity']['sub_total_yearly'][$cid] = formatPrice($pdata['pricing']['yearly']['promo_price'], 2, '&euro; ');
                 }
-			    $sh = 0;
-			    foreach($pbsData as $thisKey => $priceSection){
-				    $sectionlabel = str_replace(' ','_', strip_tags($priceSection['label']));
-				    if($priceSection['pbs_total']) {
-					    $labels['electricity']['data'][$sectionlabel]['total'][$cid] = formatPrice($priceSection['pbs_total']['value'], 2, $priceSection['pbs_total']['unit'].' ');
-				    }
-				    $labels['electricity']['data'][$sectionlabel]['label'] = $priceSection['label'];
-				    $hh = 0;
-				    foreach ($priceSection['pbs_lines'] as $pbkey => $pbdata){
-					    $label_key = str_replace(' ','_', strip_tags($pbdata['label']));
-					    $labels['electricity']['data'][$sectionlabel]['data'][$label_key] = $pbdata['label'];
-					    $labels['electricity']['data'][$sectionlabel]['products'][$cid][$hh]['label'] = $pbdata['label'];
-					    $labels['electricity']['data'][$sectionlabel]['products'][$cid][$hh]['multiplicand'] = $pbdata['multiplicand']['value'];
-					    $labels['electricity']['data'][$sectionlabel]['products'][$cid][$hh]['multiplier'] = $pbdata['multiplier']['value'].' '.$pbdata['multiplier']['unit'];
-					    $labels['electricity']['data'][$sectionlabel]['products'][$cid][$hh]['product'] = $pbdata['product']['value'].' '.$pbdata['product']['unit'];
-					    $hh++;
-				    }
-				    $sh++;
-			    }
-		    }
+                $sh = 0;
+                foreach($pbsData as $thisKey => $priceSection){
+                    $sectionlabel = str_replace(' ','_', strip_tags($priceSection['label']));
+                    if($priceSection['pbs_total']) {
+                        $labels['electricity']['data'][$sectionlabel]['total'][$cid] = formatPrice($priceSection['pbs_total']['value'], 2, $priceSection['pbs_total']['unit'].' ');
+                    }
+                    $labels['electricity']['data'][$sectionlabel]['label'] = $priceSection['label'];
+                    $hh = 0;
+                    foreach ($priceSection['pbs_lines'] as $pbkey => $pbdata){
+                        $label_key = str_replace(' ','_', strip_tags($pbdata['label']));
+                        $labels['electricity']['data'][$sectionlabel]['data'][$label_key] = $pbdata['label'];
+                        $labels['electricity']['data'][$sectionlabel]['products'][$cid][$hh]['label'] = $pbdata['label'];
+                        $labels['electricity']['data'][$sectionlabel]['products'][$cid][$hh]['multiplicand'] = $pbdata['multiplicand']['value'];
+                        $labels['electricity']['data'][$sectionlabel]['products'][$cid][$hh]['multiplier'] = $pbdata['multiplier']['value'].' '.$pbdata['multiplier']['unit'];
+                        $labels['electricity']['data'][$sectionlabel]['products'][$cid][$hh]['product'] = $pbdata['product']['value'].' '.$pbdata['product']['unit'];
+                        $hh++;
+                    }
+                    $sh++;
+                }
+            }
 
-		    if( ($pdata['product']['producttype'] == 'dualfuel_pack' || $pdata['product']['producttype'] == 'gas') ){
+            if( ($pdata['product']['producttype'] == 'dualfuel_pack' || $pdata['product']['producttype'] == 'gas') ){
                 $pbsData = $pdata['product']['gas']['pricing']['yearly']['price_breakdown_structure'];
-		        if($pdata['product']['producttype'] == 'gas'){
+                if($pdata['product']['producttype'] == 'gas'){
                     $pbsData = $pdata['pricing']['yearly']['price_breakdown_structure'];
                 }
-			    $labels['gas']['main'] = pll__('gas');
-			    $labels['gas']['total'] = pll__('Total annual gas costs (incl.BTW)');
-			    $labels['gas']['sub_total_yearly'][$cid] = formatPrice($pdata['product']['gas']['pricing']['yearly']['promo_price'], 2, '&euro; ');
+                $labels['gas']['main'] = pll__('gas');
+                $labels['gas']['total'] = pll__('Total annual gas costs (incl.BTW)');
+                $labels['gas']['sub_total_yearly'][$cid] = formatPrice($pdata['product']['gas']['pricing']['yearly']['promo_price'], 2, '&euro; ');
                 if($pdata['product']['producttype'] == 'gas'){
                     $labels['gas']['sub_total_yearly'][$cid] = formatPrice($pdata['pricing']['yearly']['promo_price'], 2, '&euro; ');
                 }
-			    if($logosPlaced == 0) {
-				    $productsData['products'][$cid]['logo'] = $pdata['product']['supplier']['logo']['200x140']['transparent']['color'];
-				    $productsData['products'][$cid]['title'] = $pdata['product']['product_name'];
-				    $productsData['products'][$cid]['total_yearly'] = formatPrice($pdata['pricing']['yearly']['promo_price'], 2, '&euro; ');
-			    }
+                if($logosPlaced == 0) {
+                    $productsData['products'][$cid]['logo'] = $pdata['product']['supplier']['logo']['200x140']['transparent']['color'];
+                    $productsData['products'][$cid]['title'] = $pdata['product']['product_name'];
+                    $productsData['products'][$cid]['total_yearly'] = formatPrice($pdata['pricing']['yearly']['promo_price'], 2, '&euro; ');
+                }
 
-			    $sh = 0;
-			    //$logosPlaced = 1;
-			    foreach($pbsData as $thisKey => $priceSection){
-				    $sectionlabel = str_replace(' ','_', strip_tags($priceSection['label']));
-				    if($priceSection['pbs_total']) {
-					    $labels['gas']['data'][$sectionlabel]['total'][$cid] = formatPrice($priceSection['pbs_total']['value'], 2, $priceSection['pbs_total']['unit'].' ');
-				    }
-				    $labels['gas']['data'][$sectionlabel]['label'] = $priceSection['label'];
-				    $hh = 0;
-				    foreach ($priceSection['pbs_lines'] as $pbkey => $pbdata){
-					    $label_key = str_replace(' ','_', strip_tags($pbdata['label']));
-					    $labels['gas']['data'][$sectionlabel]['data'][$label_key] = $pbdata['label'];
-					    $labels['gas']['data'][$sectionlabel]['products'][$cid][$hh]['label'] = $pbdata['label'];
-					    $labels['gas']['data'][$sectionlabel]['products'][$cid][$hh]['multiplicand'] = $pbdata['multiplicand']['value'];
-					    $labels['gas']['data'][$sectionlabel]['products'][$cid][$hh]['multiplier'] = $pbdata['multiplier']['value'].' '.$pbdata['multiplier']['unit'];
-					    $labels['gas']['data'][$sectionlabel]['products'][$cid][$hh]['product'] = $pbdata['product']['value'].' '.$pbdata['product']['unit'];
-					    $hh++;
-				    }
-				    $sh++;
-			    }
-		    }
+                $sh = 0;
+                //$logosPlaced = 1;
+                foreach($pbsData as $thisKey => $priceSection){
+                    $sectionlabel = str_replace(' ','_', strip_tags($priceSection['label']));
+                    if($priceSection['pbs_total']) {
+                        $labels['gas']['data'][$sectionlabel]['total'][$cid] = formatPrice($priceSection['pbs_total']['value'], 2, $priceSection['pbs_total']['unit'].' ');
+                    }
+                    $labels['gas']['data'][$sectionlabel]['label'] = $priceSection['label'];
+                    $hh = 0;
+                    foreach ($priceSection['pbs_lines'] as $pbkey => $pbdata){
+                        $label_key = str_replace(' ','_', strip_tags($pbdata['label']));
+                        $labels['gas']['data'][$sectionlabel]['data'][$label_key] = $pbdata['label'];
+                        $labels['gas']['data'][$sectionlabel]['products'][$cid][$hh]['label'] = $pbdata['label'];
+                        $labels['gas']['data'][$sectionlabel]['products'][$cid][$hh]['multiplicand'] = $pbdata['multiplicand']['value'];
+                        $labels['gas']['data'][$sectionlabel]['products'][$cid][$hh]['multiplier'] = $pbdata['multiplier']['value'].' '.$pbdata['multiplier']['unit'];
+                        $labels['gas']['data'][$sectionlabel]['products'][$cid][$hh]['product'] = $pbdata['product']['value'].' '.$pbdata['product']['unit'];
+                        $hh++;
+                    }
+                    $sh++;
+                }
+            }
             $labels['totalfinal']['main'] = pll__('total electricity and gas');
-		    if($_GET['cat'] == 'gas' || $_GET['cat'] == 'electricity'){
+            if($_GET['cat'] == 'gas' || $_GET['cat'] == 'electricity'){
                 $labels['totalfinal']['main'] = pll__('total '.$_GET['cat']);
             }
-		    $labels['totalfinal']['total'] = pll__('Total annualcosts (incl.BTW)');
-		    $labels['totalfinal']['data']['costpermonth']['label'] = pll__('Cost/month (incl.BTW)');
-		    $labels['totalfinal']['data']['advoneyear']['label'] = pll__('Total advantage 1st year');
-		    $labels['totalfinal']['data']['costpermonth']['total'][$cid] = formatPrice($pdata['pricing']['monthly']['promo_price'], 2, '&euro; ');
-		    $advOneYearTotal = ( $pdata['pricing']['yearly']['advantage'] > 0 ) ? formatPrice($pdata['pricing']['yearly']['advantage'], 2, '&euro; ') : '&nbsp;';
+            $labels['totalfinal']['total'] = pll__('Total annualcosts (incl.BTW)');
+            $labels['totalfinal']['data']['costpermonth']['label'] = pll__('Cost/month (incl.BTW)');
+            $labels['totalfinal']['data']['advoneyear']['label'] = pll__('Total advantage 1st year');
+            $labels['totalfinal']['data']['costpermonth']['total'][$cid] = formatPrice($pdata['pricing']['monthly']['promo_price'], 2, '&euro; ');
+            $advOneYearTotal = ( $pdata['pricing']['yearly']['advantage'] > 0 ) ? formatPrice($pdata['pricing']['yearly']['advantage'], 2, '&euro; ') : '&nbsp;';
             $estimatedSavingTotal = ( $pdata['savings']['yearly']['promo_price'] > 0 ) ? formatPrice($pdata['savings']['yearly']['promo_price'], 2, '&euro; ') : '&nbsp;';
-		    $labels['totalfinal']['data']['advoneyear']['total'][$cid] = $advOneYearTotal;
-		    $labels['totalfinal']['sub_total_yearly'][$cid] = formatPrice($pdata['pricing']['yearly']['promo_price'], 2, '&euro; ');
+            $labels['totalfinal']['data']['advoneyear']['total'][$cid] = $advOneYearTotal;
+            $labels['totalfinal']['sub_total_yearly'][$cid] = formatPrice($pdata['pricing']['yearly']['promo_price'], 2, '&euro; ');
 
-		    $labels['vetsavings']['main'] = pll__('Estimated Savings');
-		    $labels['vetsavings']['estotal'][$cid] = $estimatedSavingTotal;
-		    $cid++;
-	    }
+            $labels['vetsavings']['main'] = pll__('Estimated Savings');
+            $labels['vetsavings']['estotal'][$cid] = $estimatedSavingTotal;
+            $cid++;
+        }
 
-	    return [$productsData, $labels];
+        return [$productsData, $labels];
     }
 
     function compareBetweenResults($listProduct) {
@@ -1438,7 +1301,7 @@ class AnbCompareEnergy extends AnbCompare
         $endScriptTime = getEndTime();
         displayCallTime($startScriptTime, $endScriptTime, "Total page load time for Results page invidual gridView till prepareProductData.");
 
-	    $parentSegment = getSectorOnCats($_SESSION['product']['cat']);
+        $parentSegment = getSectorOnCats($_SESSION['product']['cat']);
 
         list(, , , , $toCartLinkHtml, $checkoutPageLink) = $anbTopDeals->getToCartAnchorHtml($parentSegment, $productData['product_id'], $productData['supplier_id'], $productData['sg'], $productData['producttype'], $forceCheckAvailability);
 

@@ -443,9 +443,11 @@ class AnbCompare extends Base
     {
         $productResponse = '';
 
-        $products = $this->getCompareResults([
-            'detaillevel' => 'supplier,logo,services,price,reviews,texts,promotions,core_features,links'
-        ]);
+        $products = $this->getCompareResults(
+            array(
+                'detaillevel' => 'supplier,logo,services,price,reviews,texts,promotions,core_features,links,order_preferences',
+            )
+        );
 
         $products = json_decode($products);
 
@@ -492,8 +494,8 @@ class AnbCompare extends Base
                 $blockLinkClass = 'missing-zip';
             }
 
-            if($listProduct->links->order_deeplink) {
-                $toCartLinkHtml = "href='".$listProduct->links->order_deeplink."'";
+            if($listProduct->order_preferences->order_type === 'direct_deeplink' && $listProduct->product->links->order_deeplink) {
+                $toCartLinkHtml = "href='".$listProduct->product->links->order_deeplink."'";
             }
 
             if($productData['commission'] === true) {

@@ -453,15 +453,17 @@ class AnbCompareEnergy extends AnbCompare
             $_GET[ 'meter' ] = 'single';
         }
 
-        $products = $this->getCompareResults([
-            'detaillevel' => 'supplier,logo,services,price,reviews,texts,promotions,core_features,specifications,attachments,availability,contact_info,contract_periods,reviews_texts',
-            'du'          => $du,
-            'nu'          => $nu,
-            'nou'         => $nou,
-            'sg'          => $_GET[ 'sg' ],
-            'd'           => isset($_GET[ 'd' ]) ? $_GET[ 'd' ] : 1,
-            'lang'        => getLanguage()
-        ]);
+        $products = $this->getCompareResults(
+            array(
+                'detaillevel' => 'supplier,logo,services,price,reviews,texts,promotions,core_features,specifications,attachments,availability,contact_info,contract_periods,reviews_texts,order_preferences',
+                'du'          => $du,
+                'nu'          => $nu,
+                'nou'         => $nou,
+                'sg'          => $_GET[ 'sg' ],
+                'd'           => isset($_GET[ 'd' ]) ? $_GET[ 'd' ] : 1,
+                'lang'        => getLanguage()
+            )
+        );
 
         $result = \json_decode($products);
         /** @var \AnbTopDeals\AnbProductEnergy $anbTopDeals */

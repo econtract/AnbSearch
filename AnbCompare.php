@@ -904,15 +904,14 @@ class AnbCompare extends Base
         wp_enqueue_script('jq_bootstrapselect_js', 'https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/js/bootstrap-select.min.js');
     }
 
-    function getSuppliers($params = [])
+    function getSuppliers($params = array())
     {
         //'cat' => ['internet', 'idtv', 'telephony', 'mobile', 'packs'],
         $atts = array(
-            'cat' => ['electricity', 'gas'],//products relevant to internet and pack products
+            'cat' => ['internet', 'packs'],//products relevant to internet and pack products
             'pref_cs' => '',
-            'lang' => 'nl',
+            'lang' => $this->getCurrentLang(),
             'detaillevel' => ['null']
-
         );
 
         $params = $params + $atts;
@@ -968,21 +967,6 @@ class AnbCompare extends Base
     //
     //     return $supplierHtml;
     // }
-
-    protected function generateSupplierHtmlEnergy($selectedSuppliers = [])
-    {
-        $suppliers = $this->getSuppliers();
-        $supplierHtml .= "<span class='form-group-title'>".pll__('Your current supplier')."</span>";
-        $supplierHtml = "<select name='pref_cs[]' class='c-search-selector' data-actions-box='true'><option value='none' selected>" . pll__('I do not know my supplier') . "</option>";
-
-        foreach ($suppliers as $supplier) {
-            $supplierHtml .= "<option value='{$supplier->supplier_id}'>{$supplier->name}</option>";
-        }
-
-        $supplierHtml .= "</select></div>";
-
-        return $supplierHtml;
-    }
 
     protected function generateHiddenSupplierHtml($supplierId)
     {
@@ -1319,7 +1303,7 @@ class AnbCompare extends Base
     function getSuppliersHiddenInputFields ($values, $supplierHtml="") {
         $hiddenMultipleProvidersHtml = "";
 
-        if (empty($supplierHtml)) {//If no supplier html generated but pref_cs are present keep them included as hidden values
+        if (empty($supplierHtml) && is_array($values['pref_cs'])) {//If no supplier html generated but pref_cs are present keep them included as hidden values
             $hiddenMultipleProvidersHtml .= '<div id="wizard_popup_pref_cs" class="hidden">';
             foreach ($values['pref_cs'] as $provider) {
                 $hiddenMultipleProvidersHtml .= "<input type='hidden' name='pref_cs[]' value='" . $provider . "' />";

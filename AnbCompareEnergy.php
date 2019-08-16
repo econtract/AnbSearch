@@ -126,13 +126,46 @@ class AnbCompareEnergy extends AnbCompare
         if (!empty($values['hidden_sp'])) {
             $supplierHtml = $this->generateHiddenSupplierHtml($values['hidden_sp']);
         } else {
-            $supplierHtml = $this->generateSupplierHtmlEnergy($values['pref_cs']);
+            $supplierHtml = $this->generateSupplierHtml();
         }
 
         //In below call change '/' . getUriSegment(1) . '/' .pll__('results') to pll__('results') in case you want to submit it on the same URL struture like on provider details page.
         $formNew = $this->getSearchBoxContentHtml($values, $supplierHtml, pll__("Compare Energy Prices"), false, "", '/' . getUriSegment(1) . '/' .pll__('results'));
 
         return $formNew;
+    }
+
+    protected function generateSupplierHtml()
+    {
+        $suppliers = $this->getSuppliers();
+        $supplierHtml = "<span class='form-group-title'>".pll__('Your current supplier')."</span>";
+        $supplierHtml .= "<select name='cmp_sid' class='c-search-selector' data-actions-box='true'><option value='none' selected>" . pll__('I do not know my supplier') . "</option>";
+
+        foreach ($suppliers as $supplier) {
+            $supplierHtml .= "<option value='{$supplier->supplier_id}'>{$supplier->name}</option>";
+        }
+
+        $supplierHtml .= "</select></div>";
+
+        return $supplierHtml;
+    }
+
+    function getSuppliers($params = array())
+    {
+        $atts = array(
+            'cat'               => array( 'electricity', 'gas' ), // products relevant to energy
+            'pref_cs'           => '',
+            'lang'              => $this->getCurrentLang(),
+            'detaillevel'       => array( 'null' )
+        );
+
+        $params = $params + $atts;
+
+        $params = array_filter($params);//remove empty entries
+
+        $suppliers = $this->anbApi->getSuppliers($params);
+
+        return json_decode($suppliers);
     }
 
     /**

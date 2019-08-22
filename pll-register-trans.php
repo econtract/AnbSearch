@@ -32,6 +32,14 @@ function anbSearchTrans() {
     pll_register_string('Search', 'Search', 'AnbSearch');
     pll_register_string('Select the service you like to compare', 'Select the service you like to compare', 'AnbSearch');
     pll_register_string('Need help?', 'Need help?', 'AnbSearch');
+    pll_register_string('estimate annual consumption', 'estimate annual consumption', 'AnbSearch');
+    pll_register_string('i enter my consumption', 'i enter my consumption', 'AnbSearch');
+    pll_register_string('fill in annual consumption', 'fill in annual consumption', 'AnbSearch');
+    pll_register_string('help me estimate', 'help me estimate', 'AnbSearch');
+    pll_register_string('amount family members', 'amount family members', 'AnbSearch');
+    pll_register_string('your home type', 'your home type', 'AnbSearch');
+    pll_register_string('Your current supplier', 'Your current supplier', 'AnbSearch');
+    pll_register_string('I do not know my supplier', 'I do not know my supplier', 'AnbSearch');
 }
 
 add_action('init', 'anbSearchTrans');

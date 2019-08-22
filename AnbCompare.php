@@ -680,7 +680,7 @@ class AnbCompare extends Base
                                                         <a href="' . getTelecomProductPageUri($productData) . '" class="btn btn-primary ">' . pll__('Info and options') . '</a>
                                                         '.$toCartLinkHtml.'
                                                 </div>') . '
-                                               
+
                                           </div>' .
                 $crntpackSelectedEnd .
                 '</div>';
@@ -700,8 +700,8 @@ class AnbCompare extends Base
         $extSuppTbl = new \wpdb(DB_PRODUCT_USER, DB_PRODUCT_PASS, DB_PRODUCT, DB_PRODUCT_HOST);
         $startTime = getStartTime();
         $statemet = $extSuppTbl->prepare(
-            "SELECT producttype,product_id,product_name FROM supplier_products 
-				WHERE supplier_id=%d AND lang=%s AND segment=%s AND (active=%d OR active=%d) AND (producttype=%s OR producttype=%s) 
+            "SELECT producttype,product_id,product_name FROM supplier_products
+				WHERE supplier_id=%d AND lang=%s AND segment=%s AND (active=%d OR active=%d) AND (producttype=%s OR producttype=%s)
 				ORDER BY product_name",
             [
                 $_REQUEST['supplier'],
@@ -747,8 +747,8 @@ class AnbCompare extends Base
         $extSuppTbl = new \wpdb(DB_PRODUCT_USER, DB_PRODUCT_PASS, DB_PRODUCT, DB_PRODUCT_HOST);
         $startTime = getStartTime();
         $statemet = $extSuppTbl->prepare(
-            "SELECT producttype,product_id,product_name,commission_fee_fixed as commission, segment FROM supplier_products 
-			WHERE product_id=%d AND supplier_id=%d AND producttype=%s AND lang=%s AND (active=%d OR active=%d) 
+            "SELECT producttype,product_id,product_name,commission_fee_fixed as commission, segment FROM supplier_products
+			WHERE product_id=%d AND supplier_id=%d AND producttype=%s AND lang=%s AND (active=%d OR active=%d)
 			ORDER BY product_name",
             [
                 $productId,
@@ -914,15 +914,14 @@ class AnbCompare extends Base
         wp_enqueue_script('jq_bootstrapselect_js', 'https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/js/bootstrap-select.min.js');
     }
 
-    function getSuppliers($params = [])
+    function getSuppliers($params = array())
     {
         //'cat' => ['internet', 'idtv', 'telephony', 'mobile', 'packs'],
         $atts = array(
             'cat' => ['internet', 'packs'],//products relevant to internet and pack products
             'pref_cs' => '',
-            'lang' => 'nl',
+            'lang' => $this->getCurrentLang(),
             'detaillevel' => ['null']
-
         );
 
         $params = $params + $atts;
@@ -951,32 +950,33 @@ class AnbCompare extends Base
      *
      * @return string
      */
-    protected function generateSupplierHtml($selectedSuppliers = [])
-    {
-        //Generate option HTML for suppliers
-        $suppliers = $this->getSuppliers();
-        $supplierHtml = "<div class='form-group'>
-                            <label for='provider_preferences'>" . pll__('Provider preferences') . "</label>
-                            <!--<input type='text' class='form-control' id='provider_preferences' placeholder='Select Provider'>-->
-                            <select name='pref_cs[]' id='provider_preferences' class='form-control 
-                            custom-select' data-live-search='true' title='" . pll__('Select Provider') . "' data-selected-text-format='count > 3' 
-                            data-size='10'  data-actions-box='true' multiple>";
-        foreach ($suppliers as $supplier) {
-            if (!empty($selectedSuppliers)) {
-                $selected = '';
-                if (in_array($supplier, $selectedSuppliers)) {
-                    $selected = 'selected';
-                }
-                $supplierHtml .= "<option value='{$supplier->supplier_id}' {$selected}>{$supplier->name}</option>";
-            } else {
-                $supplierHtml .= "<option value='{$supplier->supplier_id}' selected>{$supplier->name}</option>";
-            }
-        }
-        $supplierHtml .= "    </select>
-                          </div>";
-
-        return $supplierHtml;
-    }
+    //    Sophie: Not used at the moment.
+    // protected function generateSupplierHtml($selectedSuppliers = [])
+    // {
+    //     //Generate option HTML for suppliers
+    //     $suppliers = $this->getSuppliers();
+    //     $supplierHtml = "<div class='form-group'>
+    //                         <label for='provider_preferences'>" . pll__('Provider preferences') . "</label>
+    //                         <!--<input type='text' class='form-control' id='provider_preferences' placeholder='Select Provider'>-->
+    //                         <select name='pref_cs[]' id='provider_preferences' class='form-control
+    //                         custom-select' data-live-search='true' title='" . pll__('Select Provider') . "' data-selected-text-format='count > 3'
+    //                         data-size='10'  data-actions-box='true' multiple>";
+    //     foreach ($suppliers as $supplier) {
+    //         if (!empty($selectedSuppliers)) {
+    //             $selected = '';
+    //             if (in_array($supplier, $selectedSuppliers)) {
+    //                 $selected = 'selected';
+    //             }
+    //             $supplierHtml .= "<option value='{$supplier->supplier_id}' {$selected}>{$supplier->name}</option>";
+    //         } else {
+    //             $supplierHtml .= "<option value='{$supplier->supplier_id}' selected>{$supplier->name}</option>";
+    //         }
+    //     }
+    //     $supplierHtml .= "    </select>
+    //                       </div>";
+    //
+    //     return $supplierHtml;
+    // }
 
     protected function generateHiddenSupplierHtml($supplierId)
     {
@@ -1135,7 +1135,7 @@ class AnbCompare extends Base
                                             </li>
                                             <li>
                                                 <div>
-                                                    <input name='cat[]' id='tv_service' type='checkbox' value='tv' 
+                                                    <input name='cat[]' id='tv_service' type='checkbox' value='tv'
                                                     " . ((in_array("tv", $values['cat']) === true) ? 'checked="checked"' : (empty($values['cat'])) ? 'checked="checked"' : '') . ">
                                                     <label for='tv_service'>
                                                         <span class='icon'>
@@ -1182,12 +1182,12 @@ class AnbCompare extends Base
                                                 </div>
                                             </li>
                                         </ul>
-                                    </div>    
+                                    </div>
                                 </div>
                                 {$infoMsg}
                                 <div class='form-group'>
                                     <label for='installation_area'>" . pll__('Installation area') . "</label>
-                                    <input type='text' class='form-control typeahead' id='installation_area' name='zip' 
+                                    <input type='text' class='form-control typeahead' id='installation_area' name='zip'
                                       value='" . ((!empty($values['zip'])) ? $values['zip'] : '') . "' placeholder='" . pll__('Enter Zipcode') . "'
                                       data-error='" . pll__('Please enter valid zip code') . "' autocomplete='off' query_method='cities' query_key='postcode' required>
                                 </div>
@@ -1202,7 +1202,7 @@ class AnbCompare extends Base
                                             <span>". pll__('Show business deals') ."</span>
                                         </label>
                                     </div>
-                                </div>                                
+                                </div>
                                 <div class='btnWrapper'>
                                     {$hiddenMultipleProvidersHtml}
                                     <button name='searchSubmit' type='submit' class='btn btn-default btn-block' >$submitBtnTxt</button>
@@ -1268,7 +1268,7 @@ class AnbCompare extends Base
                                                     " . ((in_array("mobile_internet", $values['cat']) === true) ? 'checked="checked"' : '') . ">
                                                     <label for='mobile_internet'>
                                                         <span class='icon mobile_internet'>
-                                                            
+
                                                             <svg class='svg-mobile-data-sim'> <use xlink:href='".get_bloginfo('template_url') ."/images/svg-sprite.svg#svg-mobile-data-sim'></use> </svg>
                                                         </span>
                                                         <span class='description'>" . pll__('Mobile Internet') . "</span>
@@ -1277,12 +1277,12 @@ class AnbCompare extends Base
                                                 </div>
                                             </li>
                                         </ul>
-                                    </div>    
+                                    </div>
                                 </div>
                                 {$infoMsg}
                                 <div class='form-group'>
                                     <label for='installation_area'>" . pll__('Installation area') . "</label>
-                                    <input type='text' class='form-control typeahead' id='installation_area' name='zip' 
+                                    <input type='text' class='form-control typeahead' id='installation_area' name='zip'
                                       value='" . ((!empty($values['zip'])) ? $values['zip'] : '') . "' placeholder='" . pll__('Enter Zipcode') . "'
                                       data-error='" . pll__('Please enter valid zip code') . "' autocomplete='off' query_method='cities' query_key='postcode' required>
                                 </div>
@@ -1297,7 +1297,7 @@ class AnbCompare extends Base
                                             <span>". pll__('Show business deals') ."</span>
                                         </label>
                                     </div>
-                                </div>                                
+                                </div>
                                 <div class='btnWrapper'>
                                     {$hiddenMultipleProvidersHtml}
                                     <button name='searchSubmit' type='submit' class='btn btn-default btn-block' >$submitBtnTxt</button>
@@ -1313,7 +1313,7 @@ class AnbCompare extends Base
     function getSuppliersHiddenInputFields ($values, $supplierHtml="") {
         $hiddenMultipleProvidersHtml = "";
 
-        if (empty($supplierHtml)) {//If no supplier html generated but pref_cs are present keep them included as hidden values
+        if (empty($supplierHtml) && is_array($values['pref_cs'])) {//If no supplier html generated but pref_cs are present keep them included as hidden values
             $hiddenMultipleProvidersHtml .= '<div id="wizard_popup_pref_cs" class="hidden">';
             foreach ($values['pref_cs'] as $provider) {
                 $hiddenMultipleProvidersHtml .= "<input type='hidden' name='pref_cs[]' value='" . $provider . "' />";
@@ -1347,8 +1347,8 @@ class AnbCompare extends Base
                         <form action='" . $resultsPageUri . "' class='form-horizontal' id='yourProfileWizardForm' data-toggle='validator' role='form'>
                         	<div class='container-fluid'>
 	                            <div class='panel-group' id='accordion' role='tablist' aria-multiselectable='true'>
-	                            
-	                                <!--Compare-->	                            	
+
+	                                <!--Compare-->
 	                            	<div class='panel panel-default' id='comparePanel'>
                                         <div class='panel-heading active' role='tab' id='CompareHeading'>
                                             <h4 class='panel-title'>
@@ -1448,8 +1448,8 @@ class AnbCompare extends Base
                                             </div>
                                         </div>
                                     </div>
-                                    
-                                    <!--Location-->	                            	
+
+                                    <!--Location-->
 	                            	<div class='panel panel-default' id='locationPanel'>
                                         <div class='panel-heading' role='tab' id='installationHeading'>
                                             <h4 class='panel-title'>
@@ -1485,23 +1485,23 @@ class AnbCompare extends Base
                                                             <div class='help-block with-errors'></div>
                                                         </div>
                                                     </div>
-                                                    
+
                                                     <!--<div class='staticTooltipWrapper'>
                                                             <div class='staticTooltip'>
                                                                 <p>".pll__('some tooltip here if required')." </p>
                                                             </div>
                                                         </div>-->
-                                                    
+
                                                     <div class='buttonWrapper'>
                                                         <button type='button' class='btn btn-primary'><i
                                                                     class='fa fa-check'></i> " . pll__('Ok') . "
                                                         </button>
-                                                    </div>    
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    
+
                                     <!--Use-->
                                     <div class='panel panel-default' id='usagePanel'>
                                         <div class='panel-heading' role='tab' id='consumerHeading'>
@@ -1551,7 +1551,7 @@ class AnbCompare extends Base
                                             </div>
                                         </div>
                                     </div>
-                                    
+
                                     <!--Family Members-->
                                     <div class='panel panel-default' id='familyPanel'>
                                         <div class='panel-heading' role='tab' id='headingOne'>
@@ -1573,12 +1573,12 @@ class AnbCompare extends Base
                                         <div id='collapseOne' class='panel-collapse collapse' role='tabpanel'
                                              aria-labelledby='headingOne'  data-wizard-panel='familyMembers'>
                                             <div class='panel-body text-center'>
-                                    
+
                                                 <div class='totalPersonWizard'>
                                                     <div class='compPanel withStaticToolTip'>
                                                         <div class='selectionPanel clearfix'>
                                                             <fieldset class='person-sel gray fancyComp'>
-                                                                <input type='radio' id='person6' name='f' value='6' 
+                                                                <input type='radio' id='person6' name='f' value='6'
                                                                 " . (("6" == $values['f']) ? 'checked="checked"' : '') . "/>
                                                                 <label class = 'full' for='person6' title='6 ". pll__('persons') ."'>
                                                                     <span class='person-value'>5+</span>
@@ -1589,8 +1589,8 @@ class AnbCompare extends Base
                                                                 <div class='customTooltip'>
                                                                     <p>6 ". pll__('person is betterInfo about extensive use of internet') ." </p>
                                                                 </div>
-                                    
-                                                                <input type='radio' id='person5' name='f' value='5' 
+
+                                                                <input type='radio' id='person5' name='f' value='5'
                                                                 " . (("5" == $values['f']) ? 'checked="checked"' : '') . "/>
                                                                 <label class = 'full' for='person5' title='5 ". pll__('persons') ."'>
                                                                     <span class='person-value'>5</span>
@@ -1601,8 +1601,8 @@ class AnbCompare extends Base
                                                                 <div class='customTooltip'>
                                                                     <p>". pll__('5th Person. Info about extensive use of internet.') .". </p>
                                                                 </div>
-                                    
-                                                                <input type='radio' id='person4' name='f' value='4' 
+
+                                                                <input type='radio' id='person4' name='f' value='4'
                                                                 " . (("4" == $values['f']) ? 'checked="checked"' : '') . "/>
                                                                 <label class = 'full' for='person4' title='4 ". pll__('persons') ."'>
                                                                     <span class='person-value'>4</span>
@@ -1613,8 +1613,8 @@ class AnbCompare extends Base
                                                                 <div class='customTooltip'>
                                                                     <p>". pll__('4thInfo about extensive use of internet') ." </p>
                                                                 </div>
-                                    
-                                                                <input type='radio' id='person3' name='f' value='3' 
+
+                                                                <input type='radio' id='person3' name='f' value='3'
                                                                 " . (("3" == $values['f']) ? 'checked="checked"' : '') . "/>
                                                                 <label class = 'full' for='person3' title='3 ". pll__('persons') ."'>
                                                                     <span class='person-value'>3</span>
@@ -1625,8 +1625,8 @@ class AnbCompare extends Base
                                                                 <div class='customTooltip'>
                                                                     <p>". pll__('3rd Info about extensive use of internet') ."</p>
                                                                 </div>
-                                    
-                                                                <input type='radio' id='person2' name='f' value='2' 
+
+                                                                <input type='radio' id='person2' name='f' value='2'
                                                                 " . (("2" == $values['f']) ? 'checked="checked"' : '') . "/>
                                                                 <label class = 'full' for='person2' title='2 ". pll__('persons') ."'>
                                                                     <span class='person-value'>2</span>
@@ -1637,8 +1637,8 @@ class AnbCompare extends Base
                                                                 <div class='customTooltip'>
                                                                     <p>". pll__('Two person info about extensive use of internet') ."</p>
                                                                 </div>
-                                    
-                                                                <input type='radio' id='person1' name='f' value='1' 
+
+                                                                <input type='radio' id='person1' name='f' value='1'
                                                                 " . (("1" == $values['f']) ? 'checked="checked"' : '') . "/>
                                                                 <label class = 'full' for='person1' title='1 ". pll__('person') ."'>
                                                                     <span class='person-value'>1</span>
@@ -1649,17 +1649,17 @@ class AnbCompare extends Base
                                                                 <div class='customTooltip'>
                                                                     <p>". pll__('only one person. Info about extensive use of internet') ."</p>
                                                                 </div>
-                                    
+
                                                             </fieldset>
                                                         </div>
                                                     </div>
-                                    
+
                                                     <div class='staticTooltipWrapper'>
                                                         <div class='staticTooltip'>
                                                             <p>".pll__('Select an option to view information about it')." </p>
                                                         </div>
                                                     </div>
-                                    
+
                                                     <div class='buttonWrapper'>
                                                         <button type='button' class='btn btn-primary'><i
                                                                 class='fa fa-check'></i> ". pll__('Ok')."
@@ -1669,7 +1669,7 @@ class AnbCompare extends Base
                                             </div>
                                         </div>
                                     </div>
-                                    
+
                                     <!--Devices-->
                                     <div class='panel panel-default' id='devicesPanel'>
                                         <div class='panel-heading' role='tab' id='headingTwo'>
@@ -1802,7 +1802,7 @@ class AnbCompare extends Base
                                             </div>
                                         </div>
                                     </div>
-                                    
+
                                     <!--Internet Needs -->
                                     <div class='panel panel-default' id='internetPanel'>
                                         <div class='panel-heading' role='tab' id='headingInternetNeeds'>
@@ -1852,7 +1852,7 @@ class AnbCompare extends Base
                                                             </label>
                                                         </li>
                                                     </ul>
-                                    
+
                                                     <!--only activates if the tooltip in the component is described in a way to hide -->
                                                     <!---->
                                                     <div class='staticTooltipWrapper'>
@@ -1861,17 +1861,17 @@ class AnbCompare extends Base
                                                         </div>
                                                     </div>
                                                 </div>
-                                    
+
                                                 <div class='buttonWrapper'>
                                                     <button type='button' class='btn btn-primary'><i
                                                             class='fa fa-check'></i> " . pll__('Ok') . "
                                                     </button>
                                                 </div>
-                                    
+
                                             </div>
                                         </div>
                                     </div>
-                                    
+
                                     <!--Tv Needs -->
                                     <div class='panel panel-default' id='televisionPanel'>
                                         <div class='panel-heading' role='tab' id='headingTVNeeds'>
@@ -1933,7 +1933,7 @@ class AnbCompare extends Base
                                                             </label>
                                                         </li>
                                                     </ul>
-                                    
+
                                                     <!--only activates if the tooltip in the component is described in a way to hide -->
                                                     <!---->
                                                     <div class='staticTooltipWrapper'>
@@ -1942,17 +1942,17 @@ class AnbCompare extends Base
                                                         </div>
                                                     </div>
                                                 </div>
-                                    
+
                                                 <div class='buttonWrapper'>
                                                     <button type='button' class='btn btn-primary'><i
                                                             class='fa fa-check'></i> " . pll__('Ok') . "
                                                     </button>
                                                 </div>
-                                    
+
                                             </div>
                                         </div>
                                     </div>
-                                    
+
                                     <!--Fixed Lines -->
                                     <div class='panel panel-default' id='fixedLinePanel'>
                                         <div class='panel-heading' role='tab' id='headingFixedLine'>
@@ -2014,7 +2014,7 @@ class AnbCompare extends Base
                                                             </label>
                                                         </li>
                                                     </ul>
-                                    
+
                                                     <!--only activates if the tooltip in the component is described in a way to hide -->
                                                     <!---->
                                                     <div class='staticTooltipWrapper'>
@@ -2023,13 +2023,13 @@ class AnbCompare extends Base
                                                         </div>
                                                     </div>
                                                 </div>
-                                    
+
                                                 <div class='buttonWrapper'>
                                                     <button type='button' class='btn btn-primary'><i
                                                             class='fa fa-check'></i> " . pll__('Ok') . "
                                                     </button>
                                                 </div>
-                                    
+
                                             </div>
                                         </div>
                                     </div>
@@ -2068,9 +2068,9 @@ class AnbCompare extends Base
                                                                 <div class='customTooltip'>
                                                                     <p> " . pll__('I have have more than five subscription') . "</p>
                                                                 </div>
-                                    
-                                    
-                                                                <input type='radio' id='subscription5' name='ms_mobile' value='5' 
+
+
+                                                                <input type='radio' id='subscription5' name='ms_mobile' value='5'
                                                                 " . (("5" == $values['ms_mobile']) ? 'checked="checked"' : '') . " />
                                                                 <label class = 'full' for='subscription5' title='5 ". pll__('subscriptions') ."'>
                                                                     <span class='sub-value'>5</span>
@@ -2078,8 +2078,8 @@ class AnbCompare extends Base
                                                                 <div class='customTooltip'>
                                                                     <p> " . pll__('I have have five subscription') . "</p>
                                                                 </div>
-                                    
-                                                                <input type='radio' id='subscription4' name='ms_mobile' value='4' 
+
+                                                                <input type='radio' id='subscription4' name='ms_mobile' value='4'
                                                                 " . (("4" == $values['ms_mobile']) ? 'checked="checked"' : '') . " />
                                                                 <label class = 'full' for='subscription4' title='4 ". pll__('subscriptions') ."'>
                                                                     <span class='sub-value'>4</span>
@@ -2087,8 +2087,8 @@ class AnbCompare extends Base
                                                                 <div class='customTooltip'>
                                                                     <p> " . pll__('I have have four subscription') . "</p>
                                                                 </div>
-                                    
-                                                                <input type='radio' id='subscription3' name='ms_mobile' value='3' 
+
+                                                                <input type='radio' id='subscription3' name='ms_mobile' value='3'
                                                                 " . (("3" == $values['ms_mobile']) ? 'checked="checked"' : '') . " />
                                                                 <label class = 'full' for='subscription3' title='3 ". pll__('subscriptions') ."'>
                                                                     <span class='sub-value'>3</span>
@@ -2096,8 +2096,8 @@ class AnbCompare extends Base
                                                                 <div class='customTooltip'>
                                                                     <p> " . pll__('I have have three subscription') . "</p>
                                                                 </div>
-                                    
-                                                                <input type='radio' id='subscription2' name='ms_mobile' value='2' 
+
+                                                                <input type='radio' id='subscription2' name='ms_mobile' value='2'
                                                                 " . (("2" == $values['ms_mobile']) ? 'checked="checked"' : '') . " />
                                                                 <label class = 'full' for='subscription2' title='2 ". pll__('subscriptions') ."'>
                                                                     <span class='sub-value'>2</span>
@@ -2105,8 +2105,8 @@ class AnbCompare extends Base
                                                                 <div class='customTooltip'>
                                                                     <p> " . pll__('I have have two subscription') . "</p>
                                                                 </div>
-                                    
-                                                                <input type='radio' id='subscription1' name='ms_mobile' value='1' 
+
+                                                                <input type='radio' id='subscription1' name='ms_mobile' value='1'
                                                                 " . (("1" == $values['ms_mobile']) ? 'checked="checked"' : '') . " />
                                                                 <label class = 'full' for='subscription1' title='1 ". pll__('subscription') ."'>
                                                                     <span class='sub-value'>1</span>
@@ -2114,8 +2114,8 @@ class AnbCompare extends Base
                                                                 <div class='customTooltip'>
                                                                     <p> " . pll__('I have only have one subscription') . "</p>
                                                                 </div>
-                                    
-                                                                <input type='radio' id='no_subscription1' name='ms_mobile' value='-1' class='noSubscription' 
+
+                                                                <input type='radio' id='no_subscription1' name='ms_mobile' value='-1' class='noSubscription'
                                                                 " . (("-1" == $values['ms_mobile']) ? 'checked="checked"' : '') . " />
                                                                 <label class = 'full noSubscription' for='no_subscription1' title='". pll__('no subscription') ."'>
                                                                     <span class='sub-value'>". pll__('none') ."</span>
@@ -2123,28 +2123,28 @@ class AnbCompare extends Base
                                                                 <div class='customTooltip'>
                                                                     <p> " . pll__('I don\'t have any subscription yet') . "</p>
                                                                 </div>
-                                    
+
                                                             </fieldset>
                                                         </div>
                                                     </div>
-                                    
+
                                                     <div class='staticTooltipWrapper'>
                                                         <div class='staticTooltip'>
                                                             <p> " . pll__('Select an option to view information about it') . " </p>
                                                         </div>
                                                     </div>
-                                    
+
                                                     <div class='buttonWrapper'>
                                                         <button type='button' class='btn btn-primary'><i
                                                                 class='fa fa-check'></i> " . pll__('Ok') . "
                                                         </button>
                                                     </div>
-                                    
+
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                                             
+
                                     <!--Value Most -->
                                     <div class='panel panel-default' id='valueMostPanel'>
                                         <div class='panel-heading' role='tab' id='headingValueMost'>
@@ -2171,7 +2171,7 @@ class AnbCompare extends Base
                                                 <ul class='list-unstyled checkBoxComp'>
 
                                                     <li>
-                                                        <input type='checkbox' name='free_install' id='value_most_installation' value='1' 
+                                                        <input type='checkbox' name='free_install' id='value_most_installation' value='1'
                                                         " . (("1" == $values['free_install']) ? 'checked="checked"' : '') . ">
                                                         <label for='value_most_installation'>
                                                             " . pll__('Free Installation') . "
@@ -2180,7 +2180,7 @@ class AnbCompare extends Base
                                                     </li>
                                                     <li>
                                                         <input type='checkbox' name='free_activation' id='free_activation' value='1'
-                                                        " . (("1" == $values['free_activation']) ? 'checked="checked"' : '') . ">                                                        
+                                                        " . (("1" == $values['free_activation']) ? 'checked="checked"' : '') . ">
                                                         <label for='free_activation'>
                                                             " . pll__('Free activation') . "
                                                             <i class='fa fa-check'></i>
@@ -2188,7 +2188,7 @@ class AnbCompare extends Base
                                                     </li>
                                                     <li>
                                                         <input type='checkbox' name='qos_cs' id='qos_cs' value='70'
-                                                        " . (("70" == $values['qos_cs']) ? 'checked="checked"' : '') . ">                                                                                                                
+                                                        " . (("70" == $values['qos_cs']) ? 'checked="checked"' : '') . ">
                                                         <label for='qos_cs'>
                                                             " . pll__('Fast Customer Service') . "
                                                             <i class='fa fa-check'></i>
@@ -2201,11 +2201,11 @@ class AnbCompare extends Base
                                                             class='fa fa-check'></i> " . pll__('Ok') . "
                                                     </button>
                                                 </div>
-                                    
+
                                             </div>
                                         </div>
                                     </div>
-                                    
+
 		                            <div class='buttonWrapper'>
 		                                <button name='searchSubmit' type='submit' class='btn btn-default'>$submitBtnTxt</button>
 		                            </div>

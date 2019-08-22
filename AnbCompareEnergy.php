@@ -19,12 +19,17 @@ class AnbCompareEnergy extends AnbCompare
      */
     const RESULTS_PAGE_URI = "/energy/uitslagen/";
 
+    /** @var int */
+    public $defaultNumberOfResults = 10;
+
+
     public function __construct()
     {
         parent::__construct();
 
         add_action( 'wp_enqueue_scripts', array($this, 'enqueueScripts') );
     }
+
 
     /**
      * enqueue ajax scripts
@@ -470,16 +475,16 @@ class AnbCompareEnergy extends AnbCompare
         $countProducts = 0;
         $chkbox = 100;
         foreach ($results->results as $listProduct) :
-        $countProducts++;
-        $chkbox++;
-        if ($countProducts <= $this->defaultNumberOfResults) {
-            continue;
-        }
-        ob_start();
+            $chkbox++;
+            if ($countProducts < $this->defaultNumberOfResults) {
+                $countProducts++;
+                continue;
+            }
+            ob_start();
 
-        include(locate_template('template-parts/section/energy-results-product.php'));
+            include(locate_template('template-parts/section/energy-results-product.php'));
 
-        $productResp .= ob_get_clean();
+            $productResp .= ob_get_clean();
         endforeach;
         echo $productResp;
         wp_die(); // this is required to terminate immediately and return a proper response

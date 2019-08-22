@@ -316,6 +316,11 @@ class AnbCompare extends Base
         // no need to send this parameter to API call
         unset($params['searchSubmit']);
 
+        // Remove supplier ID parameter if none selected
+        if (!empty($params['cmp_sid']) && $params['cmp_sid'] === 'none') {
+            unset($params['cmp_sid']);
+        }
+
         //get integer value from zip code
         if(!is_numeric($params['zip'])) {
             $params['zip'] = intval($params['zip']);

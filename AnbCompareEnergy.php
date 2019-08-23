@@ -385,8 +385,22 @@ class AnbCompareEnergy extends AnbCompare
 
                                         <div class='col-xs-12 col-md-6 js-is-gas'>
                                             <div class='form-group house-type-container $gasHide'>
-                                                <div class='house-selector kwh-energy'>
-                                                    <input class='is-gas-input' type='text' id='m3_u' name='u' api-value='". $u ."' value='". $u ."'/>
+                                                <div class='house-selector'>
+                                                    <div class='col-xs-6 no-padding'>
+                                                        <input class='is-gas-input' type='text' id='m3_u' name='u' api-value='". $u ."' value='". $u ."'/>
+                                                    </div>
+                                                    <div class='col-xs-6 no-padding'>
+                                                        <div class='box-radio'>
+                                                            <label class='col-xs-6 no-padding'>
+                                                                <input type='radio' name='gas' value='kwh' checked/>
+                                                                <span>kWh</span>
+                                                            </label>
+                                                            <label class='col-xs-6 no-padding'>
+                                                                <input type='radio' name='gas' value='m3'/>
+                                                                <span>m3</span>
+                                                            </label>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>

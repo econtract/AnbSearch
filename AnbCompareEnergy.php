@@ -299,7 +299,7 @@ class AnbCompareEnergy extends AnbCompare
                                             </div>
                                         </div>
 
-                                        <div class='col-xs-12 col-md-7 no-pl no-padding-mobile c-selector'>
+                                        <div class='col-xs-12 col-md-7 no-padding-mobile c-selector'>
                                             <div class='has-border p-1'>
                                                 <div class='house-selector'>
                                                     ".$this->getHouseTypeHtml($values)."

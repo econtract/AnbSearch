@@ -383,11 +383,11 @@ class AnbCompareEnergy extends AnbCompare
                                                     <div class='col-xs-6 no-padding'>
                                                         <div class='box-radio'>
                                                             <label class='col-xs-6 no-padding'>
-                                                                <input type='radio' name='gas' value='kwh' checked/>
+                                                                <input type='radio' name='ut' value='kwh' checked/>
                                                                 <span>kWh</span>
                                                             </label>
                                                             <label class='col-xs-6 no-padding'>
-                                                                <input type='radio' name='gas' value='m3'/>
+                                                                <input type='radio' name='ut' value='m3'/>
                                                                 <span>m3</span>
                                                             </label>
                                                         </div>

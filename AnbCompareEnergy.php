@@ -262,7 +262,7 @@ class AnbCompareEnergy extends AnbCompare
                             <div class='form-group'>
 
                                 <!-- // START: I KNOW MY ANNUAL CONSUMPTION -->
-                                <div class='js-i-know-annual-consumption'>
+                                <div class='js-i-know-annual-consumption h-mb-1'>
                                     <div class='row'>
                                         <div class='col-xs-12 col-md-6'>
                                             <span class='form-group-title'>".pll__('estimate annual consumption')."</span>
@@ -275,7 +275,7 @@ class AnbCompareEnergy extends AnbCompare
 
                                     <div class='row'>
                                         <div class='col-xs-12 col-md-5 no-padding-mobile c-selector'>
-                                            <div class='has-border p-1'>
+                                            <div class='has-border'>
                                                 <fieldset class='person-sel-sm'>
                                                     <input class='call-usages-data' type='radio' id='person6' name='f' value='6' usage-val='".KWH_5_PLUS_PERSON."' usage-val-night='".KWH_5_PLUS_PERSON_NIGHT."' usage-night-ex='".KWH_5_PLUS_PERSON_NIGHT_EX."' ". (($values['f'] === '6') ? 'checked="checked"' : '') .">
                                                     <label class='full custom-tooltip' for='person6' data-toggle='tooltip' title='5+ ".pll__('persons')."'></label>
@@ -300,7 +300,7 @@ class AnbCompareEnergy extends AnbCompare
                                         </div>
 
                                         <div class='col-xs-12 col-md-7 no-padding-mobile c-selector'>
-                                            <div class='has-border p-1'>
+                                            <div class='has-border'>
                                                 <div class='house-selector'>
                                                     ".$this->getHouseTypeHtml($values)."
                                                 </div>
@@ -351,7 +351,7 @@ class AnbCompareEnergy extends AnbCompare
                                                 </div>
                                             </div>
 
-                                            <div class='form-group'>
+                                            <div class='form-group no-m'>
                                                 <div class='js-is-doubleMeter is-doubleMeter check fancyCheck'>
                                                     <input type='checkbox' name='meter' id='doubleMeter' class='call-usages-data radio-salutation' value='double' ". (($values['meter'] === 'double') ? 'checked="checked"' : '') .">
                                                     <label for='doubleMeter'>
@@ -370,16 +370,7 @@ class AnbCompareEnergy extends AnbCompare
                                                     </label>
                                                 </div>
 
-                                                <div class='js-is-solarpanel solar-panel-container'>
-                                                    <div class='check fancyCheck'>
-                                                        <input type='checkbox' name='has_solar' id='solarPanel' class='call-usages-data radio-salutation' value='1' ". (($values['has_solar'] === '1') ? 'checked="checked"' : '') .">
-                                                        <label for='solarPanel'>
-                                                            <i class='fa fa-circle-o unchecked'></i>
-                                                            <i class='fa fa-check-circle checked'></i>
-                                                            <span>".pll__('I have solar panels')."</span>
-                                                        </label>
-                                                    </div>
-                                                </div>
+                                                
                                             </div>
                                         </div>
 
@@ -405,8 +396,20 @@ class AnbCompareEnergy extends AnbCompare
                                             </div>
                                         </div>
                                     </div>
+                                    
                                 </div>
                                 <!-- // END: I DON'T KNOW MY ANNUAL CONSUMPTION -->
+                                
+                                <div class='js-is-solarpanel solar-panel-container'>
+                                    <div class='check fancyCheck'>
+                                        <input type='checkbox' name='has_solar' id='solarPanel' class='call-usages-data radio-salutation' value='1' ". (($values['has_solar'] === '1') ? 'checked="checked"' : '') .">
+                                        <label for='solarPanel'>
+                                            <i class='fa fa-circle-o unchecked'></i>
+                                            <i class='fa fa-check-circle checked'></i>
+                                            <span>".pll__('I have solar panels')."</span>
+                                        </label>
+                                    </div>
+                                </div>
                             </div>
 
                             {$supplierHtml}

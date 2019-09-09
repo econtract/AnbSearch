@@ -274,7 +274,7 @@ class AnbCompareEnergy extends AnbCompare
                                     </div>
 
                                     <div class='row'>
-                                        <div class='col-xs-12 col-md-5 no-padding-mobile c-selector'>
+                                        <div class='col-xs-12 col-sm-5 no-padding-mobile c-selector'>
                                             <div class='has-border'>
                                                 <fieldset class='person-sel-sm'>
                                                     <input class='call-usages-data' type='radio' id='person6' name='f' value='6' usage-val='".KWH_5_PLUS_PERSON."' usage-val-night='".KWH_5_PLUS_PERSON_NIGHT."' usage-night-ex='".KWH_5_PLUS_PERSON_NIGHT_EX."' ". (($values['f'] === '6') ? 'checked="checked"' : '') .">
@@ -299,7 +299,7 @@ class AnbCompareEnergy extends AnbCompare
                                             </div>
                                         </div>
 
-                                        <div class='col-xs-12 col-md-7 no-padding-mobile c-selector'>
+                                        <div class='col-xs-12 col-sm-7 no-padding-mobile c-selector'>
                                             <div class='has-border'>
                                                 <div class='house-selector'>
                                                     ".$this->getHouseTypeHtml($values)."

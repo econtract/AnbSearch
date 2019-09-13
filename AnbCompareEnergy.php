@@ -264,11 +264,11 @@ class AnbCompareEnergy extends AnbCompare
                                 <!-- // START: I KNOW MY ANNUAL CONSUMPTION -->
                                 <div class='js-i-know-annual-consumption h-mb-1'>
                                     <div class='row'>
-                                        <div class='col-xs-12 col-md-6'>
+                                        <div class='col-xs-12 col-sm-6'>
                                             <span class='form-group-title'>".pll__('estimate annual consumption')."</span>
                                         </div>
 
-                                        <div class='col-xs-12 col-md-6 is-consumption-toggle'>
+                                        <div class='col-xs-12 col-sm-6 is-consumption-toggle'>
                                             <a class='js-enter-consumption'>".pll__('i enter my consumption')."</a>
                                         </div>
                                     </div>

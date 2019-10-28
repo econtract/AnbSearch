@@ -31,7 +31,7 @@ class Base
      * @var array
      */
     public $apiConf = [
-        'host'      => ANB_API_HOST,
+        'host'     => ANB_API_HOST,
         'staging'  => ANB_API_STAGING,
         'key'      => ANB_API_KEY,
         'secret'   => ANB_API_SECRET,

@@ -337,16 +337,16 @@ class AnbCompareEnergy extends AnbCompare
                                                     <!--// Input Day/Night meter -->
                                                     <div class='field day-night-energy hide'>
                                                         <div class='kwh-energy'>
-                                                            <input class='day-energy' id='double-meter-du' type='text' name='du' api-value='". $du ."' value='". $du ."'/>
+                                                            <input class='day-energy' id='double-meter-du' type='text' name='du' api-value='". $du ."' value='". $du ."' disabled='disabled'/>
                                                         </div>
                                                         <div class='kwh-energy'>
-                                                            <input class='night-energy' id='double-meter-nu' type='text' name='nu' api-value='". $nu ."' value='". $nu ."'/>
+                                                            <input class='night-energy' id='double-meter-nu' type='text' name='nu' api-value='". $nu ."' value='". $nu ."' disabled='disabled'/>
                                                         </div>
                                                     </div>
 
                                                     <!--// Input Exlusive Night meter -->
                                                     <div class='field exclusive-meter-field kwh-energy hide'>
-                                                        <input class='night-energy' id='exclusive-night-meter-nou' type='text' api-value='". $nou ."' name='nou' value='". $nou ."'/>
+                                                        <input class='night-energy' id='exclusive-night-meter-nou' type='text' api-value='". $nou ."' name='nou' value='". $nou ."' disabled='disabled'/>
                                                     </div>
                                                 </div>
                                             </div>

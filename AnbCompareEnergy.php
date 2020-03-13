@@ -1257,11 +1257,8 @@ class AnbCompareEnergy extends AnbCompare
         $html = '';
         $html.= '<li class="packOption">
                     <div class="packageDetail">
-                        <div class="packageDesc hasOldPrice">' . $prdObj->product_name . '</div>
+                        <div class="packageDesc">' . $prdObj->product_name . '</div>
                         <div class="packagePrice">
-                            <span class="oldPrice">
-                            '.$yearlyPriceArr['currency'].' '.$yearlyPriceArr['price'].'.'.$yearlyPriceArr['cents'].'
-                            </span>
                             <span class="currentPrice">
                                 <span class="currency">' . $yearlyPromoPriceArr['currency'] . '</span>
                                 <span class="amount">' . $yearlyPromoPriceArr['price'] . '</span>

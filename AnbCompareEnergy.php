@@ -409,6 +409,7 @@ class AnbCompareEnergy extends AnbCompare
                                             <span>".pll__('I have solar panels')."</span>
                                         </label>
                                     </div>
+                                    <input type='hidden' name='solar_capacity' value='". SOLAR_USAGE ."'>
                                 </div>
                             </div>
 

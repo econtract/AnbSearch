@@ -1225,6 +1225,11 @@ class AnbCompareEnergy extends AnbCompare
             </div>";
     }
 
+    /**
+     * @param object $prd
+     * @param string $sec
+     * @return string   Generated html
+     */
     function getPBSBreakDownHTML($prd, $sec){
         if(isset($prd->$sec)) {
             $prdObj = $prd->$sec;
@@ -1255,10 +1260,16 @@ class AnbCompareEnergy extends AnbCompare
             $promoHTML.= '</ul>
                         </div>';
         }
+
+        if ($sec && isset($prd->$sec)) {
+            $productType = $sec;
+        } else {
+            $productType = $prdObj->producttype;
+        }
         $html = '';
         $html.= '<li class="packOption">
                     <div class="packageDetail">
-                        <div class="packageDesc">' . $prdObj->product_name . '</div>
+                        <div class="packageDesc">' . sprintf('%s - %s', ucfirst(pll__($productType)), strtolower($prdObj->specifications->tariff_type->label)) . '</div>
                         <div class="packagePrice">
                             <span class="currentPrice">
                                 <span class="currency">' . $yearlyPromoPriceArr['currency'] . '</span>

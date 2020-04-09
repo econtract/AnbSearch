@@ -101,6 +101,42 @@ class AnbCompareEnergy extends AnbCompare
         }
     }
 
+    function searchBarForm($atts)
+    {
+        if (!empty($atts['product_type']) && !empty($atts['cat'])) {
+            $atts['cat'] = $atts['product_type'];
+        }
+
+        $defaults = [
+            'cat'              => '',
+            'zip'              => '',
+            'pref_cs'          => '',
+            'sg'               => 'consumer',
+            'lang'             => $this->getCurrentLang(),
+            'hidden_sp'        => '',
+            'enable_need_help' => false,
+            'hidden_prodsel'   => '',
+            'supplier_service' => '',
+        ];
+
+        $atts = shortcode_atts($defaults, $atts, 'anb_energy_search_bar_form');
+
+        $values    = $atts;
+        $suppliers = $this->getSuppliers();
+
+        if (!empty($_GET)) {
+            $values = $_GET + $atts;
+        }
+
+        $this->convertMultiValToArray($values['cat']);
+
+        ob_start();
+
+        include(locate_template('template-parts/widgets/search-bar-energy.php'));
+
+        return ob_get_clean();
+    }
+
     function searchForm($atts)
     {
         if( ( isset($atts['product_type']) && !empty($atts['product_type']) ) && ( !isset ( $atts['cat'] ) ) ){

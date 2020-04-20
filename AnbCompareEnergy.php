@@ -101,6 +101,55 @@ class AnbCompareEnergy extends AnbCompare
         }
     }
 
+    function searchBarForm($atts)
+    {
+        if (!empty($atts['product_type']) && empty($atts['cat'])) {
+            $atts['cat'] = $atts['product_type'];
+        }
+
+        $defaults = [
+            'cat'              => 'dualfuel_pack',
+            'zip'              => '',
+            'pref_cs'          => '',
+            'f'                => '2',
+            'sg'               => 'consumer',
+            'lang'             => $this->getCurrentLang(),
+            'hidden_sp'        => '',
+            'enable_need_help' => false,
+            'hidden_prodsel'   => '',
+            'supplier_service' => '',
+        ];
+
+        $data      = shortcode_atts($defaults, $atts, 'anb_energy_search_bar_form');
+        $suppliers = $this->getSuppliers();
+
+        if (!empty($_GET)) {
+            $data = $_GET + $atts;
+        }
+
+        $this->convertMultiValToArray($data['cat']);
+
+        // Set GET params as they are used in usageResultsEnergy
+        $_GET['producttype'] = $data['cat'];
+        $_GET['sg']          = $data['sg'];
+        $_GET['f']           = $data['f'];
+
+        $resultsUsages = json_decode($this->usageResultsEnergy());
+
+        $data += [
+            'du'  => $resultsUsages->data->du,
+            'nu'  => $resultsUsages->data->nu,
+            'nou' => $resultsUsages->data->nou,
+            'u'   => $resultsUsages->data->u,
+        ];
+
+        ob_start();
+
+        include(locate_template('template-parts/widgets/search-bar-energy.php'));
+
+        return ob_get_clean();
+    }
+
     function searchForm($atts)
     {
         if( ( isset($atts['product_type']) && !empty($atts['product_type']) ) && ( !isset ( $atts['cat'] ) ) ){

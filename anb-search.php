@@ -33,6 +33,8 @@ add_shortcode( 'anb_mobile_search_form', [$result, 'searchFormMobile'] );
 
 add_shortcode( 'anb_energy_search_form', [$energy, 'searchForm'] );
 
+add_shortcode( 'anb_energy_search_bar', [$energy, 'searchBarForm'] );
+
 // add ajax calls
 add_action('wp_ajax_moreResults', array($result, 'moreResults'));
 add_action( 'wp_ajax_nopriv_moreResults', array($result, 'moreResults'));

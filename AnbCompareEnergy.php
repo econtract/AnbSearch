@@ -46,58 +46,58 @@ class AnbCompareEnergy extends AnbCompare
         if($this->sector == pll__('energy')) {
             wp_enqueue_script('search-results-energy', plugins_url('/js/search-results-energy.js', __FILE__), array('jquery'), '1.0.5', true);
             wp_localize_script('search-results-energy', 'search_compare_obj_energy',
-                               array(
-                                   'ajax_url'              => admin_url('admin-ajax.php'),
-                                   'site_url'              => pll_home_url(),
-                                   'template_uri'          => get_template_directory_uri(),
-                                   'lang'                  => $this->getCurrentLang(),
-                                   'trans_loading_dots'    => pll__('Loading...')
-                               )
-                              );
+                array(
+                    'ajax_url'              => admin_url('admin-ajax.php'),
+                    'site_url'              => pll_home_url(),
+                    'template_uri'          => get_template_directory_uri(),
+                    'lang'                  => $this->getCurrentLang(),
+                    'trans_loading_dots'    => pll__('Loading...')
+                )
+            );
 
             if($this->pagename == pll__('results') || $this->pagename == 'energenie' ) {
                 wp_enqueue_script('compare-results-energy', plugins_url('/js/compare-results-energy.js', __FILE__), array('jquery'), '1.2.7', true);
                 wp_localize_script('compare-results-energy', 'compare_between_results_object_energy',
-                                   array(
-                                       'ajax_url' => admin_url('admin-ajax.php'),
-                                       'site_url' => pll_home_url(),
-                                       'current_pack' => pll__('Your Current Energy Pack'),
-                                       'select_your_pack' => pll__('I dont know the contract'),
-                                       'template_uri' => get_template_directory_uri(),
-                                       'lang' => $this->getCurrentLang(),
-                                       'features_label' => pll__('Features'),
-                                       'telecom_trans' => pll__('telecom'),
-                                       'energy_trans' => pll__('energy'),
-                                       'brands_trans' => pll__('brands'),
-                                       'checkout_button_trans' => pll__('connect now'),
-                                       'details_page_trans' => pll__('Detail'),
-                                       'select_your_energy_pack' => pll__('Select your contract'),
-                                       'change_pack' => pll__('change pack'),
-                                       'trans_loading_dots'    => pll__('Loading...'),
-                                       'trans_idontknow' => pll__('I dont know the contract'),
-                                       'trans_customerrating' => pll__('Customer Score'),
-                                       'trans_guarantee1year' => pll__('guaranteed 1st year'),
-                                       'trans_guarantee1month' => pll__('guaranteed 1st month'),
-                                       'trans_guarantee1yearinfo' => pll__('guaranteed 1st year info text'),
-                                       'trans_guarantee1monthinfo' => pll__('guaranteed 1st month info text'),
-                                       'trans_potentialsaving' => pll__('Potential saving'),
-                                       'trans_youradvantage' => pll__('Your advantage')
-                                   )
-                                  );
+                    array(
+                        'ajax_url' => admin_url('admin-ajax.php'),
+                        'site_url' => pll_home_url(),
+                        'current_pack' => pll__('Your Current Energy Pack'),
+                        'select_your_pack' => pll__('I dont know the contract'),
+                        'template_uri' => get_template_directory_uri(),
+                        'lang' => $this->getCurrentLang(),
+                        'features_label' => pll__('Features'),
+                        'telecom_trans' => pll__('telecom'),
+                        'energy_trans' => pll__('energy'),
+                        'brands_trans' => pll__('brands'),
+                        'checkout_button_trans' => pll__('connect now'),
+                        'details_page_trans' => pll__('Detail'),
+                        'select_your_energy_pack' => pll__('Select your contract'),
+                        'change_pack' => pll__('change pack'),
+                        'trans_loading_dots'    => pll__('Loading...'),
+                        'trans_idontknow' => pll__('I dont know the contract'),
+                        'trans_customerrating' => pll__('Customer Score'),
+                        'trans_guarantee1year' => pll__('guaranteed 1st year'),
+                        'trans_guarantee1month' => pll__('guaranteed 1st month'),
+                        'trans_guarantee1yearinfo' => pll__('guaranteed 1st year info text'),
+                        'trans_guarantee1monthinfo' => pll__('guaranteed 1st month info text'),
+                        'trans_potentialsaving' => pll__('Potential saving'),
+                        'trans_youradvantage' => pll__('Your advantage')
+                    )
+                );
             }
 
             wp_enqueue_script('wizard-energy-script', plugins_url('/js/wizard-energy.js', __FILE__), array('jquery'), '1.0.3', true);
 
             // in JavaScript, object properties are accessed as ajax_object.ajax_url, ajax_object.we_value
             wp_localize_script('wizard-energy-script', 'wizard_energy_object',
-                               array(
-                                   'ajax_url'      => admin_url('admin-ajax.php'),
-                                   'zip_empty'     => pll__('Zip cannot be empty'),
-                                   'zip_invalid'   => pll__('Please enter valid Zip Code'),
-                                   'offers_msg'    => pll__( 'offers' )." " . pll__('starting from'),
-                                   'no_offers_msg' => pll__('No offers in your area'),
-                                   'currency'      => $this->getCurrencySymbol($this->currencyUnit)
-                               ));
+                array(
+                    'ajax_url'      => admin_url('admin-ajax.php'),
+                    'zip_empty'     => pll__('Zip cannot be empty'),
+                    'zip_invalid'   => pll__('Please enter valid Zip Code'),
+                    'offers_msg'    => pll__( 'offers' )." " . pll__('starting from'),
+                    'no_offers_msg' => pll__('No offers in your area'),
+                    'currency'      => $this->getCurrencySymbol($this->currencyUnit)
+                ));
         }
     }
 
@@ -558,14 +558,14 @@ class AnbCompareEnergy extends AnbCompare
     }
 
     /**
-	 * @param $values
-	 * @param string $submitBtnTxt
-	 * @param bool $hideTitle
-	 * @param string $resultsPageUri
-	 * @param string $supplierHtml
-	 *
-	 * @return string
-	 */
+     * @param $values
+     * @param string $submitBtnTxt
+     * @param bool $hideTitle
+     * @param string $resultsPageUri
+     * @param string $supplierHtml
+     *
+     * @return string
+     */
     public function getWizardSearchBoxContentHtml($values, $submitBtnTxt = "Search Deals", $hideTitle = false, $resultsPageUri = self::RESULTS_PAGE_URI, $supplierHtml = "")
     {
         $titleHtml = "<h3>" . pll__('Change Profile') . "</h3>";
@@ -1332,13 +1332,13 @@ class AnbCompareEnergy extends AnbCompare
     }
 
     /**
-	 * This code was written by danish in anb-search-result-energy.php and Imran moved it here,
-	 * the code is going to remain same the only difference will be that it'll work based on parameters
-	 * @param $firstProduct
-	 * @param $secondProduct
-	 *
-	 * @return array|[productData, labels]
-	 */
+     * This code was written by danish in anb-search-result-energy.php and Imran moved it here,
+     * the code is going to remain same the only difference will be that it'll work based on parameters
+     * @param $firstProduct
+     * @param $secondProduct
+     *
+     * @return array|[productData, labels]
+     */
     function getCompareOverviewData($firstProduct, $secondProduct) {
         $comparePopUpData['lowest'] = json_decode( json_encode( $firstProduct ), true);
         $comparePopUpData['highest'] = json_decode( json_encode( $secondProduct ), true);
@@ -1510,114 +1510,141 @@ class AnbCompareEnergy extends AnbCompare
         return $html;
     }
 
-    // uasgae function
-    function usageResultsEnergy($enableCache = true, $cacheDurationSeconds = 86400, $isAjaxCall = false){
+    // usage function
+    function usageResultsEnergy($enableCache = true, $cacheDurationSeconds = 86400, $isAjaxCall = false)
+    {
+        if (!$enableCache) {
+            $enableCache = true;
+        }
 
-        if(!$enableCache){ $enableCache = true; }
-
-        if(defined('COMPARE_API_CACHE_DURATION')) {
+        if (defined('COMPARE_API_CACHE_DURATION')) {
             $cacheDurationSeconds = COMPARE_API_CACHE_DURATION;
         } else {
             $cacheDurationSeconds = 86400;
         }
 
-        if(isset($_GET['ajax']) && $_GET['ajax'] == true){
+        if (isset($_GET['ajax']) && $_GET['ajax'] == true) {
             $isAjaxCall = true;
         }
-        if(isset($_GET['cat']) && !empty($_GET['cat'])){
-            $params['producttype'] =  $_GET['cat'];
+        if (!empty($_GET['cat'])) {
+            $params['producttype'] = $_GET['cat'];
         } else {
-            $params['producttype'] =  'dualfuel_pack';
+            $params['producttype'] = 'dualfuel_pack';
         }
-        if(isset($_GET['sg']) && !empty($_GET['sg'])) {
+        if (!empty($_GET['sg'])) {
             $params['segment'] = ($_GET['sg'] == 'consumer') ? '1' : '2';
+        } else {
+            $params['segment'] = '1';
         }
-        if(isset($_GET['f']) && !empty($_GET['f'])) {
+        if (!empty($_GET['f'])) {
             $params['family_size'] = $_GET['f'];
         }
-        if(isset($_GET['houseType']) && !empty($_GET['houseType'])) {
-            switch ($_GET['houseType']){
-                case pll__('single'): $params['residence_type'] = '4'; break;
-                case pll__('double'): $params['residence_type'] = '3'; break;
-                case pll__('tripple'): $params['residence_type'] = '2'; break;
-                case pll__('tetra'): $params['residence_type'] = '5'; break;
-                case pll__('flat'): $params['residence_type'] = '1'; break;
+        if (!empty($_GET['houseType'])) {
+            switch ($_GET['houseType']) {
+                case pll__('single'):
+                    $params['residence_type'] = '4';
+                    break;
+                case pll__('double'):
+                    $params['residence_type'] = '3';
+                    break;
+                case pll__('tripple'):
+                    $params['residence_type'] = '2';
+                    break;
+                case pll__('tetra'):
+                    $params['residence_type'] = '5';
+                    break;
+                case pll__('flat'):
+                    $params['residence_type'] = '1';
+                    break;
             }
         }
-        if(isset($_GET['home_size']) && !empty($_GET['home_size'])) {
+        if (!empty($_GET['home_size'])) {
             $params['home_size'] = $_GET['home_size'];
         }
-        if(!isset($_GET['meter']) || empty($_GET['meter'])) { $_GET['meter'] = 'single'; }
-        if(isset($_GET['meter']) && !empty($_GET['meter'])) {
-            if($_GET['meter'] == 'single'){
-                $params['meter_type'] = '1';
-                if(isset($_GET['exc_night_meter'])){
-                    $params['meter_type'] = '3';
-                }
-            } else if($_GET['meter'] == 'double'){
-                $params['meter_type'] = '2';
-                if(isset($_GET['exc_night_meter'])){
-                    $params['meter_type'] = '4';
-                }
+
+        if (!empty($_GET['has_double_meter'])) {
+            $_GET['meter'] = 'double';
+        }
+
+        if (empty($_GET['meter'])) {
+            $_GET['meter'] = 'single';
+        }
+        if ($_GET['meter'] == 'single') {
+            $params['meter_type'] = '1';
+            if (isset($_GET['exc_night_meter'])) {
+                $params['meter_type'] = '3';
+            }
+        } elseif ($_GET['meter'] == 'double') {
+            $params['meter_type'] = '2';
+            if (isset($_GET['exc_night_meter'])) {
+                $params['meter_type'] = '4';
             }
         }
-        if(isset($_GET['has_solar']) && !empty($_GET['has_solar'])) {
+
+        if (!empty($_GET['has_solar'])) {
             $params['has_solar'] = '1';
         }
-        if(isset($_GET['roof_isolation']) && !empty($_GET['roof_isolation'])) {
+        if (!empty($_GET['roof_isolation'])) {
             $params['roof_isolation'] = $_GET['roof_isolation'];
         }
-        if(isset($_GET['wall_isolation']) && !empty($_GET['wall_isolation'])) {
+        if (!empty($_GET['wall_isolation'])) {
             $params['wall_isolation'] = $_GET['wall_isolation'];
         }
-        if(isset($_GET['glass']) && !empty($_GET['glass'])) {
+        if (!empty($_GET['glass'])) {
             $params['glass'] = $_GET['glass'];
         }
-        if(isset($_GET['boiler']) && !empty($_GET['boiler']) && $_GET['boiler'] != '0') {
+        if (!empty($_GET['boiler']) && $_GET['boiler'] != '0') {
             $params['boiler'] = $_GET['boiler'];
         }
-        if(isset($params['cv']) && !empty($_GET['cv']) && $_GET['cv'] != '0') {
+        if (!empty($_GET['cv']) && $_GET['cv'] != '0') {
             $params['cv'] = $_GET['cv'];
         }
 
-        $atts = shortcode_atts(array(
-            'producttype' => '',
-            'segment' => '',
-            'family_size' => '',
+        $atts   = shortcode_atts(array(
+            'producttype'    => '',
+            'segment'        => '',
+            'family_size'    => '',
             'residence_type' => '',
-            'home_size' => '',
-            'meter_type' => '',
-            'has_solar' => '',
+            'home_size'      => '',
+            'meter_type'     => '',
+            'has_solar'      => '',
             'roof_isolation' => '',
             'wall_isolation' => '',
-            'glass' => '',
-            'boiler' => '',
-            'cv' => ''
+            'glass'          => '',
+            'boiler'         => '',
+            'cv'             => '',
         ), $atts, 'anb_search_usage');
         $params = array_filter($params);
 
         $this->cleanArrayData($params);
         $params = $this->allowedParams($params, array_keys($atts));//Don't allow all variables to be passed to API
         displayParams($params);
-        $start = getStartTime();
+        $start       = getStartTime();
         $displayText = "Time API (Compare) inside getCompareResults";
 
+        $fromCache = false;
         if ($enableCache && !isset($_GET['no_cache'])) {
             $cacheKey = md5(serialize($params)) . ":usage_vals";
-            $result = mycache_get($cacheKey);
+            $result   = mycache_get($cacheKey);
 
-            if($result === false || empty($result)) {
+            if (empty($result)) {
                 $result = $this->anbApi->getUsageResults($params);
                 mycache_set($cacheKey, $result, $cacheDurationSeconds);
             } else {
+                $fromCache = true;
                 $displayText = "Time API Cached (Compare) inside usage in wizard";
             }
         } else {
             $result = $this->anbApi->getUsageResults($params);
         }
+        $result = json_decode($result, true);
+        $result['parameters'] = $params;
+        $result['from_cache'] = $fromCache;
+        $result = json_encode($result);
+
         $finish = getEndTime();
         displayCallTime($start, $finish, $displayText);
-        if($isAjaxCall){
+        if ($isAjaxCall) {
             echo $result;
             wp_die();
         } else {

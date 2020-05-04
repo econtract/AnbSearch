@@ -145,7 +145,7 @@ class AnbCompareEnergy extends AnbCompare
 
         ob_start();
 
-        include(locate_template('template-parts/widgets/search-bar-energy.php'));
+        include(locate_template('template-parts/widgets/energy/search-bar.php'));
 
         return ob_get_clean();
     }
@@ -1640,6 +1640,16 @@ class AnbCompareEnergy extends AnbCompare
         $result = json_decode($result, true);
         $result['parameters'] = $params;
         $result['from_cache'] = $fromCache;
+
+        if (isset($_GET['includeEstimationSummaryHtml']) && filter_var($_GET['includeEstimationSummaryHtml'], FILTER_VALIDATE_BOOLEAN) === true) {
+            $data       = $result['data'] + $_GET;
+            ob_start();
+
+            include(locate_template('template-parts/widgets/energy/estimation-summary.php'));
+
+            $result['estimationSummaryHtml'] = ob_get_clean();
+        }
+
         $result = json_encode($result);
 
         $finish = getEndTime();

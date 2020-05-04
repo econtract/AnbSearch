@@ -1642,7 +1642,6 @@ class AnbCompareEnergy extends AnbCompare
         $result['from_cache'] = $fromCache;
 
         if (isset($_GET['includeEstimationSummaryHtml']) && filter_var($_GET['includeEstimationSummaryHtml'], FILTER_VALIDATE_BOOLEAN) === true) {
-            $isAjaxCall = true;
             $data       = $result['data'] + $_GET;
             ob_start();
 

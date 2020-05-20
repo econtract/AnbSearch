@@ -1349,6 +1349,7 @@ class AnbCompareEnergy extends AnbCompare
         $labels = [];
         foreach ($comparePopUpData as $key => $pdata){
             if( ($pdata['product']['producttype'] == 'dualfuel_pack' || $pdata['product']['producttype'] == 'electricity') ){
+                $productsData['products'][$cid]['id'] = $pdata['product']['product_id'];
                 $productsData['products'][$cid]['logo'] = $pdata['product']['supplier']['logo']['200x140']['transparent']['color'];
                 $productsData['products'][$cid]['title'] = $pdata['product']['product_name'];
                 $productsData['products'][$cid]['total_yearly'] = formatPrice($pdata['pricing']['yearly']['promo_price'], 2, '&euro; ');
@@ -1396,6 +1397,7 @@ class AnbCompareEnergy extends AnbCompare
                     $labels['gas']['sub_total_yearly'][$cid] = formatPrice($pdata['pricing']['yearly']['promo_price'], 2, '&euro; ');
                 }
                 if($logosPlaced == 0) {
+                    $productsData['products'][$cid]['id'] = $pdata['product']['product_id'];
                     $productsData['products'][$cid]['logo'] = $pdata['product']['supplier']['logo']['200x140']['transparent']['color'];
                     $productsData['products'][$cid]['title'] = $pdata['product']['product_name'];
                     $productsData['products'][$cid]['total_yearly'] = formatPrice($pdata['pricing']['yearly']['promo_price'], 2, '&euro; ');

@@ -145,139 +145,95 @@ class AnbCompare extends Base
         }
     }
 
-    function getCompareResults($atts, $enableCache = true, $cacheDurationSeconds = 86400)
+    function compareResults($params, $enableCache, $cacheDurationSeconds = 86400)
     {
-        if(defined('COMPARE_API_CACHE_DURATION')) {
+        if (defined('COMPARE_API_CACHE_DURATION')) {
             $cacheDurationSeconds = COMPARE_API_CACHE_DURATION;
         }
 
-        if ( !empty($atts['detaillevel']) && !is_array($atts['detaillevel']) ) {
-            $atts['detaillevel'] = explode(',', $atts['detaillevel']);
+        if (!empty($params['detaillevel']) && !is_array($params['detaillevel'])) {
+            $params['detaillevel'] = explode(',', $params['detaillevel']);
         }
 
-        if ( !empty($atts['product_ids']) && !is_array($atts['product_ids']) ) {
-            $atts['product_ids'] = explode(",", $atts['product_ids']);
+        if (!empty($params['product_ids']) && !is_array($params['product_ids'])) {
+            $params['product_ids'] = explode(",", $params['product_ids']);
         }
 
-        $atts = shortcode_atts(array(
-            'cat' => 'internet',
-            'zip' => '',
-            'pref_cs' => '',
-            'detaillevel' => ['supplier,logo,services,price,reviews,texts,promotions,core_features'],
-            'sg' => 'consumer',
-            'lang' => $this->getCurrentLang(),
-            'limit' => '',
-
-            's' => 1,//Min download speed in Bps 1000 Bps = 1Mbps
-            'dl' => '',
-            'ds' => '',
-            'sort' => '',
-            'cp' => '',
-            'nm' => '',
-            'ns' => '',
-            'int' => '',
-            'fleet' => '',
-
-            'pr' => '',
-            'cm' => '',
-            'f' => '',
-            'du' => '',
-            'nu' => '',
-            'nou' => '',
-            'dndu' => '',
-            'dnnu' => '',
-            'u' => '',
-            'ut' => '',
-            'houseType' => '',
-            'has_solar' => '',
-            'solar_capacity' => '',
-            'gp' => '',
-            'l' => '',
-            'd' => '',
-            't' => '',
-            'situation' => '',
-            'ignore_promos' => '',
-
-            'num_pc' => '',
-            'num_tv' => '',
+        $defaults = [
+            'cat'             => 'internet',
+            'zip'             => '',
+            'pref_cs'         => '',
+            'detaillevel'     => ['supplier,logo,services,price,reviews,texts,promotions,core_features'],
+            'sg'              => 'consumer',
+            'lang'            => $this->getCurrentLang(),
+            'limit'           => '',
+            's'               => 1,//Min download speed in Bps 1000 Bps = 1Mbps
+            'dl'              => '',
+            'ds'              => '',
+            'sort'            => '',
+            'cp'              => '',
+            'nm'              => '',
+            'ns'              => '',
+            'int'             => '',
+            'fleet'           => '',
+            'pr'              => '',
+            'cm'              => '',
+            'f'               => '',
+            'du'              => '',
+            'nu'              => '',
+            'nou'             => '',
+            'dndu'            => '',
+            'dnnu'            => '',
+            'u'               => '',
+            'ut'              => '',
+            'houseType'       => '',
+            'has_solar'       => '',
+            'solar_capacity'  => '',
+            'gp'              => '',
+            'l'               => '',
+            'd'               => '',
+            't'               => '',
+            'situation'       => '',
+            'ignore_promos'   => '',
+            'num_pc'          => '',
+            'num_tv'          => '',
             'num_smartphones' => '',
-            'num_tablets' => '',
-            'ms_internet' => '',
-            'ms_idtv' => '',
-            'ms_fixed' => '',
-            'ms_fixed' => '',
-            'ms_mobile' => '',
-            'free_install' => '',
+            'num_tablets'     => '',
+            'ms_internet'     => '',
+            'ms_idtv'         => '',
+            'ms_fixed'        => '',
+            'ms_mobile'       => '',
+            'free_install'    => '',
             'free_activation' => '',
-            'qos_cs' => '',
-            'ms_internet' => '',
-            'ms_idtv' => '',
-            'ms_fixed' => '',
-            'ms_mobile' => '',
-            'pref_pids' => [],
-            'searchSubmit' => '', // conditional param ( this param doesn't belong to API Params)
-            'cmp_pid' => '',
-            'cmp_sid' => '',
-            'excl_sids' => '',
-            'excl_pids' => '',
-            'greenpeace' => '',
-            'meter' => ''
-        ), $atts, 'anb_search');
-        // print_r($atts);die;
+            'qos_cs'          => '',
+            'pref_pids'       => [],
+            'searchSubmit'    => '', // conditional param ( this param doesn't belong to API Params)
+            'cmp_pid'         => '',
+            'cmp_sid'         => '',
+            'excl_sids'       => '',
+            'excl_pids'       => '',
+            'greenpeace'      => '',
+            'meter'           => '',
+        ];
 
-        $getParams = $_GET;
-
-        //$this->cleanArrayData($_GET);
-        if (count($getParams['cat']) >= 2) {
-            $getParams['cp'] = getPacktypeOnCats($getParams['cat']);
-            $this->orignalCats = $getParams['cat'];
-            $getParams['cat'] = 'packs';
-        } else {
-            if (is_array($getParams['cat'])) {
-                $getParams['cat'] = (is_array($getParams['cat'])) ? $getParams['cat'][0] : $getParams['cat'];
-            }
-        }
-
-        //$WizardAllowedParams  = ['ms_internet', 'ms_idtv', 'ms_fixed', 'ms_mobile'];
-
-        $params = array_filter($getParams) + $atts;//append any missing but default values
-
-        //print_r($params);
-        //remove empty params
-        $params = array_filter($params);
+        $params = shortcode_atts($defaults, $params, 'anb_search');
 
         //this will not remove if pref_cs is passed as array but is empty so adding another check to ensure that
-        if(isset($params['pref_cs'][0]) && empty($params['pref_cs'][0])) {
+        if (isset($params['pref_cs'][0]) && empty($params['pref_cs'][0])) {
             unset($params['pref_cs']);
         }
 
-        if($params['cat'] == 'dualfuel_pack' || $params['cat'] == 'electricity' || $params['cat'] == 'gas'){
-            if(!isset($params['d'])) {
+        if ($params['cat'] == 'dualfuel_pack' || $params['cat'] == 'electricity' || $params['cat'] == 'gas') {
+            if (!isset($params['d'])) {
                 $params['d'] = 1;
             }
-            if(!isset($params['situation'])) {
+            if (!isset($params['situation'])) {
                 $params['situation'] = 3;
             }
         }
 
-        if($params['greenpeace']) {
-            $params['greenpeace'] = $params['greenpeace']*5;
-        }
-
-        /**
-         * custom check to allow values from wizard
-         * wizard doesn't contain pack_type so these
-         * values will be used to fetch match records
-         */
-        /*foreach ($WizardAllowedParams as $allowed ) {
-            if (array_key_exists($allowed, $_GET)) {
-                $params[$allowed] = $_GET[$allowed];
-            }
-        }*/
-
-        // set category to packs when it comes from wizard
-        if (isset($getParams['search_via_wizard'])){
-            $params['cat'] = 'packs';
+        if (isset($params['greenpeace']) && is_numeric($params['greenpeace'])) {
+            $params['greenpeace'] = $params['greenpeace'] * 5;
         }
 
         if (strtolower($params['cat']) == "internet") {
@@ -300,7 +256,7 @@ class AnbCompare extends Base
             $params['dl'] = "-1";
         }
 
-        if(isset($params['t'])) {
+        if (isset($params['t']) && is_array($params['t'])) {
             if (in_array('f', $params['t']) && in_array('i', $params['t'])) {
                 $tariffType = 'no';
             } else {
@@ -311,42 +267,48 @@ class AnbCompare extends Base
 
         $this->cleanArrayData($params);
         // get the products
-        $params = $this->allowedParams($params, array_keys($atts));//Don't allow all variables to be passed to API
-
-        // no need to send this parameter to API call
-        unset($params['searchSubmit']);
-
+        $params = $this->allowedParams($params, array_keys($defaults));//Don't allow all variables to be passed to API
         // Remove supplier ID parameter if none selected
         if (!empty($params['cmp_sid']) && $params['cmp_sid'] === 'none') {
             unset($params['cmp_sid']);
         }
 
-        //get integer value from zip code
-        if(!is_numeric($params['zip'])) {
+        if (!is_numeric($params['zip'])) {
             $params['zip'] = intval($params['zip']);
         }
 
-        //generate key from params to store in cache
-        displayParams($params);
-        $start = getStartTime();
-        $displayText = "Time API (Compare) inside getCompareResults";
-        if ($enableCache && !isset($_GET['no_cache'])) {
+        if ($enableCache) {
             $cacheKey = md5(serialize($params)) . ":compare";
-            $result = mycache_get($cacheKey);
+            $result   = mycache_get($cacheKey);
 
-            if($result === false || empty($result)) {
+            if ($result === false || empty($result)) {
                 $result = $this->anbApi->compare($params);
                 mycache_set($cacheKey, $result, $cacheDurationSeconds);
-            } else {
-                $displayText = "Time API Cached (Compare) inside getCompareResults";
             }
         } else {
             $result = $this->anbApi->compare($params);
         }
-        $finish = getEndTime();
-        displayCallTime($start, $finish, $displayText);
 
         return $result;
+    }
+
+    function getCompareResults($atts, $enableCache = true, $cacheDurationSeconds = 86400)
+    {
+        if (isset($_GET['cat'])) {
+            if (is_array($_GET['cat']) && count($_GET['cat']) >= 2) {
+                $atts['cp']        = getPacktypeOnCats($_GET['cat']);
+                $this->orignalCats = $_GET['cat'];
+                $atts['cat']       = 'packs';
+            } elseif (is_array($_GET['cat'])) {
+                $atts['cat'] = $_GET['cat'][0];
+            }
+        }
+
+        if (isset($_GET['search_via_wizard'])) {
+            $atts['cat'] = 'packs';
+        }
+
+        return $this->compareResults($atts, $enableCache, $cacheDurationSeconds);
     }
 
     function getPreviousCompareResults($compareId, $recompare = 1, $enableCache = true, $cacheDurationSeconds = 86400)

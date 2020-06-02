@@ -1499,37 +1499,44 @@ class AnbCompareEnergy extends AnbCompare
         return $html;
     }
 
-    // usage function
-    function usageResultsEnergy($enableCache = true, $cacheDurationSeconds = 86400, $isAjaxCall = false)
+    public function getUsageResults($params)
     {
-        if (!$enableCache) {
-            $enableCache = true;
-        }
+        $defaults = [
+            'producttype'    => '',
+            'segment'        => '',
+            'meter'          => 'single',
+            'residence_type' => '',
+            'family_size'    => '',
+            'home_size'      => '',
+            'has_solar'      => '',
+            'roof_isolation' => '',
+            'wall_isolation' => '',
+            'glass'          => '',
+            'boiler'         => '',
+            'cv'             => '',
+        ];
+        $params   += $defaults;
 
         if (defined('COMPARE_API_CACHE_DURATION')) {
             $cacheDurationSeconds = COMPARE_API_CACHE_DURATION;
         } else {
             $cacheDurationSeconds = 86400;
         }
-
-        if (isset($_GET['ajax']) && $_GET['ajax'] == true) {
-            $isAjaxCall = true;
-        }
-        if (!empty($_GET['cat'])) {
-            $params['producttype'] = $_GET['cat'];
+        if (!empty($params['cat'])) {
+            $params['producttype'] = $params['cat'];
         } else {
             $params['producttype'] = 'dualfuel_pack';
         }
-        if (!empty($_GET['sg'])) {
-            $params['segment'] = ($_GET['sg'] == 'consumer') ? '1' : '2';
+        if (!empty($params['sg'])) {
+            $params['segment'] = ($params['sg'] == 'consumer') ? '1' : '2';
         } else {
             $params['segment'] = '1';
         }
-        if (!empty($_GET['f'])) {
-            $params['family_size'] = $_GET['f'];
+        if (!empty($params['f'])) {
+            $params['family_size'] = $params['f'];
         }
-        if (!empty($_GET['houseType'])) {
-            switch ($_GET['houseType']) {
+        if (!empty($params['houseType'])) {
+            switch ($params['houseType']) {
                 case pll__('single'):
                     $params['residence_type'] = '4';
                     break;
@@ -1547,49 +1554,19 @@ class AnbCompareEnergy extends AnbCompare
                     break;
             }
         }
-        if (!empty($_GET['home_size'])) {
-            $params['home_size'] = $_GET['home_size'];
-        }
-
-        if (!empty($_GET['has_double_meter'])) {
-            $_GET['meter'] = 'double';
-        }
-
-        if (empty($_GET['meter'])) {
-            $_GET['meter'] = 'single';
-        }
-        if ($_GET['meter'] == 'single') {
+        if ($params['meter'] == 'single') {
             $params['meter_type'] = '1';
-            if (isset($_GET['exc_night_meter'])) {
+            if (isset($params['exc_night_meter'])) {
                 $params['meter_type'] = '3';
             }
-        } elseif ($_GET['meter'] == 'double') {
+        } elseif ($params['meter'] == 'double') {
             $params['meter_type'] = '2';
-            if (isset($_GET['exc_night_meter'])) {
+            if (isset($params['exc_night_meter'])) {
                 $params['meter_type'] = '4';
             }
         }
 
-        if (!empty($_GET['has_solar'])) {
-            $params['has_solar'] = '1';
-        }
-        if (!empty($_GET['roof_isolation'])) {
-            $params['roof_isolation'] = $_GET['roof_isolation'];
-        }
-        if (!empty($_GET['wall_isolation'])) {
-            $params['wall_isolation'] = $_GET['wall_isolation'];
-        }
-        if (!empty($_GET['glass'])) {
-            $params['glass'] = $_GET['glass'];
-        }
-        if (!empty($_GET['boiler']) && $_GET['boiler'] != '0') {
-            $params['boiler'] = $_GET['boiler'];
-        }
-        if (!empty($_GET['cv']) && $_GET['cv'] != '0') {
-            $params['cv'] = $_GET['cv'];
-        }
-
-        $atts   = shortcode_atts(array(
+        $atts   = [
             'producttype'    => '',
             'segment'        => '',
             'family_size'    => '',
@@ -1602,53 +1579,50 @@ class AnbCompareEnergy extends AnbCompare
             'glass'          => '',
             'boiler'         => '',
             'cv'             => '',
-        ), $atts, 'anb_search_usage');
+        ];
         $params = array_filter($params);
 
         $this->cleanArrayData($params);
-        $params = $this->allowedParams($params, array_keys($atts));//Don't allow all variables to be passed to API
-        displayParams($params);
-        $start       = getStartTime();
-        $displayText = "Time API (Compare) inside getCompareResults";
 
+        $params    = $this->allowedParams($params, array_keys($atts));//Don't allow all variables to be passed to API
         $fromCache = false;
-        if ($enableCache && !isset($_GET['no_cache'])) {
-            $cacheKey = md5(serialize($params)) . ":usage_vals";
-            $result   = mycache_get($cacheKey);
+        $cacheKey  = md5(serialize($params)) . ":usage_vals";
+        $result    = mycache_get($cacheKey);
 
-            if (empty($result)) {
-                $result = $this->anbApi->getUsageResults($params);
-                mycache_set($cacheKey, $result, $cacheDurationSeconds);
-            } else {
-                $fromCache = true;
-                $displayText = "Time API Cached (Compare) inside usage in wizard";
-            }
-        } else {
+        if (empty($result)) {
             $result = $this->anbApi->getUsageResults($params);
+            mycache_set($cacheKey, $result, $cacheDurationSeconds);
+        } else {
+            $fromCache   = true;
         }
-        $result = json_decode($result, true);
+        $result               = json_decode($result, true);
         $result['parameters'] = $params;
         $result['from_cache'] = $fromCache;
 
+        return $result;
+    }
+
+    // usage function
+    function usageResultsEnergy($enableCache = true, $cacheDurationSeconds = 86400, $isAjaxCall = false)
+    {
+        if (isset($_GET['ajax']) && $_GET['ajax'] == true) {
+            $isAjaxCall = true;
+        }
+        $result               = $this->getUsageResults($_GET);
+
         if (isset($_GET['includeEstimationSummaryHtml']) && filter_var($_GET['includeEstimationSummaryHtml'], FILTER_VALIDATE_BOOLEAN) === true) {
-            $data       = $result['data'] + $_GET;
-            ob_start();
+            $data = $result['data'] + $_GET;
 
-            include(locate_template('template-parts/widgets/energy/estimation-summary.php'));
-
-            $result['estimationSummaryHtml'] = ob_get_clean();
+            $result['estimationSummaryHtml'] = template('template-parts/widgets/energy/estimation-summary.php', compact('data'));
         }
 
         $result = json_encode($result);
 
-        $finish = getEndTime();
-        displayCallTime($start, $finish, $displayText);
         if ($isAjaxCall) {
             echo $result;
             wp_die();
         } else {
             return $result;
         }
-
     }
 }

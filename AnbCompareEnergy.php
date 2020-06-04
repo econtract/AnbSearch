@@ -1377,8 +1377,8 @@ class AnbCompareEnergy extends AnbCompare
                         $labels['electricity']['data'][$pbsKey]['lines'][$lineIndex]['products'][$productIndex] = [
                             'label'        => $pbsLine['label'],
                             'multiplicand' => $pbsLine['multiplicand']['value'],
-                            'multiplier'   => $pbsLine['multiplier']['value'] . ' ' . $pbsLine['multiplier']['unit'],
-                            'product'      => $pbsLine['product']['value'] . ' ' . $pbsLine['product']['unit'],
+                            'multiplier'   => $pbsLine['multiplier'],
+                            'product'      => $pbsLine['product'],
                         ];
                     }
                 }
@@ -1405,20 +1405,31 @@ class AnbCompareEnergy extends AnbCompare
                         $labels['gas']['data'][$pbsKey]['lines'][$lineIndex]['products'][$productIndex] = [
                             'label'        => $pbsLine['label'],
                             'multiplicand' => $pbsLine['multiplicand']['value'],
-                            'multiplier'   => $pbsLine['multiplier']['value'] . ' ' . $pbsLine['multiplier']['unit'],
-                            'product'      => $pbsLine['product']['value'] . ' ' . $pbsLine['product']['unit'],
+                            'multiplier'   => $pbsLine['multiplier'],
+                            'product'      => $pbsLine['product'],
                         ];
                     }
                 }
             }
             if ($productType === 'dualfuel_pack') {
-                $labels['totalfinal']['main'] = pll__('total electricity and gas');
+                $labels['totalfinal']['main'] = pll__('Total dualfuel pack');
             } else {
-                $labels['totalfinal']['main'] = pll__('total ' . $productType);
+                $labels['totalfinal']['main'] = pll__('Total ' . $productType);
             }
-            $labels['totalfinal']['total']                                        = pll__('Total annualcosts (incl.BTW)');
-            $labels['totalfinal']['data']['costpermonth']['label']                = pll__('Cost/month (incl.BTW)');
-            $labels['totalfinal']['data']['advoneyear']['label']                  = pll__('Total advantage 1st year');
+            $labels['totalfinal']['total']                         = pll__('Total yearly costs');
+            $labels['totalfinal']['data']['costpermonth']['label'] = pll__('Estimated monthly deposit');
+            $labels['totalfinal']['data']['advoneyear']['label']   = pll__('Total advantage 1st year');
+
+            if ($secondProduct->product->segment !== 'consumer') {
+                $labels['totalfinal']['total']                         .= ' ' . pll__('(excl. VAT)');
+                $labels['totalfinal']['data']['costpermonth']['label'] .= ' ' . pll__('(excl. VAT)');
+                $labels['totalfinal']['data']['advoneyear']['label']   .= ' ' . pll__('(excl. VAT)');
+            } else {
+                $labels['totalfinal']['total']                         .= ' ' . pll__('(incl. VAT)');
+                $labels['totalfinal']['data']['costpermonth']['label'] .= ' ' . pll__('(incl. VAT)');
+                $labels['totalfinal']['data']['advoneyear']['label']   .= ' ' . pll__('(incl. VAT)');
+            }
+
             $labels['totalfinal']['data']['costpermonth']['total'][$productIndex] = formatPrice($product['pricing']['monthly']['promo_price'], 2, '&euro; ');
             $advOneYearTotal                                                      = ($product['pricing']['yearly']['advantage'] > 0) ? formatPrice($product['pricing']['yearly']['advantage'], 2, '&euro; ') : '&nbsp;';
             $estimatedSavingTotal                                                 = (isset($product['savings']['yearly']['promo_price']) && $product['savings']['yearly']['promo_price'] > 0) ? formatPrice($product['savings']['yearly']['promo_price'], 2, '&euro; ') : '&nbsp;';

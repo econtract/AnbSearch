@@ -1337,7 +1337,7 @@ class AnbCompareEnergy extends AnbCompare
      * @param $firstProduct
      * @param $secondProduct
      *
-     * @return array|[productData, labels]
+     * @return array
      */
     function getCompareOverviewData($firstProduct, $secondProduct)
     {
@@ -1346,35 +1346,42 @@ class AnbCompareEnergy extends AnbCompare
             json_decode(json_encode($secondProduct), true),
         ];
 
-        $productsData = [];
-        $labels       = [];
+        $compareData = [
+            'products' => [],
+            'pbs'      => [],
+            'costs'    => [],
+            'savings'  => [],
+        ];
 
         foreach ($products as $productIndex => $product) {
-            $productType                                             = $product['product']['producttype'];
-            $productsData['products'][$productIndex]['id']           = $product['product']['product_id'];
-            $productsData['products'][$productIndex]['logo']         = $product['product']['supplier']['logo']['200x140']['transparent']['color'];
-            $productsData['products'][$productIndex]['title']        = $product['product']['product_name'];
-            $productsData['products'][$productIndex]['total_yearly'] = formatPrice($product['pricing']['yearly']['promo_price'], 2, '&euro; ');
+            $productType                            = $product['product']['producttype'];
+            $compareData['products'][$productIndex] = [
+                'id'           => $product['product']['product_id'],
+                'logo'         => $product['product']['supplier']['logo']['200x140']['transparent']['color'],
+                'title'        => $product['product']['product_name'],
+                'total_yearly' => formatPrice($product['pricing']['yearly']['promo_price'], 2, '&euro; '),
+            ];
+
             if (in_array($productType, ['dualfuel_pack', 'electricity'])) {
-                $labels['electricity']['main']  = pll__('electricity');
-                $labels['electricity']['total'] = pll__('Total annual electricity costs (incl.BTW)');
+                $compareData['pbs']['electricity']['main'] = pll__('electricity');
+                $compareData['pbs']['electricity']['total'] = pll__('Total yearly electricity costs');
 
                 if ($productType === 'electricity') {
-                    $labels['electricity']['sub_total_yearly'][$productIndex] = formatPrice($product['pricing']['yearly']['promo_price'], 2, '&euro; ');
-                    $pbsData                                                  = $product['pricing']['yearly']['price_breakdown_structure'];
+                    $compareData['pbs']['electricity']['sub_total_yearly'][$productIndex] = formatPrice($product['pricing']['yearly']['promo_price'], 2, '&euro; ');
+                    $pbsData                                                              = $product['pricing']['yearly']['price_breakdown_structure'];
                 } else {
-                    $labels['electricity']['sub_total_yearly'][$productIndex] = formatPrice($product['product']['electricity']['pricing']['yearly']['promo_price'], 2, '&euro; ');
-                    $pbsData                                                  = $product['product']['electricity']['pricing']['yearly']['price_breakdown_structure'];
+                    $compareData['pbs']['electricity']['sub_total_yearly'][$productIndex] = formatPrice($product['product']['electricity']['pricing']['yearly']['promo_price'], 2, '&euro; ');
+                    $pbsData                                                              = $product['product']['electricity']['pricing']['yearly']['price_breakdown_structure'];
                 }
 
                 foreach ($pbsData as $pbsKey => $priceSection) {
-                    $labels['electricity']['data'][$pbsKey]['label'] = $priceSection['label'];
+                    $compareData['pbs']['electricity']['data'][$pbsKey]['label'] = $priceSection['label'];
                     if (isset($priceSection['pbs_total'])) {
-                        $labels['electricity']['data'][$pbsKey]['total'][$productIndex] = formatPrice($priceSection['pbs_total']['value'], 2, $priceSection['pbs_total']['unit'] . ' ');
+                        $compareData['pbs']['electricity']['data'][$pbsKey]['total'][$productIndex] = formatPrice($priceSection['pbs_total']['value'], 2, $priceSection['pbs_total']['unit'] . ' ');
                     }
                     foreach ($priceSection['pbs_lines'] as $lineIndex => $pbsLine) {
-                        $labels['electricity']['data'][$pbsKey]['lines'][$lineIndex]['label']                   = $pbsLine['label'];
-                        $labels['electricity']['data'][$pbsKey]['lines'][$lineIndex]['products'][$productIndex] = [
+                        $compareData['pbs']['electricity']['data'][$pbsKey]['lines'][$lineIndex]['label']                   = $pbsLine['label'];
+                        $compareData['pbs']['electricity']['data'][$pbsKey]['lines'][$lineIndex]['products'][$productIndex] = [
                             'label'        => $pbsLine['label'],
                             'multiplicand' => $pbsLine['multiplicand']['value'],
                             'multiplier'   => $pbsLine['multiplier'],
@@ -1385,24 +1392,25 @@ class AnbCompareEnergy extends AnbCompare
             }
 
             if (in_array($productType, ['dualfuel_pack', 'gas'])) {
-                $labels['gas']['main']  = pll__('gas');
-                $labels['gas']['total'] = pll__('Total annual gas costs (incl.BTW)');
+                $compareData['pbs']['gas']['main'] = pll__('gas');
+                $compareData['pbs']['gas']['total'] = pll__('Total annual gas costs');
+
                 if ($productType === 'gas') {
-                    $labels['gas']['sub_total_yearly'][$productIndex] = formatPrice($product['pricing']['yearly']['promo_price'], 2, '&euro; ');
-                    $pbsData                                          = $product['pricing']['yearly']['price_breakdown_structure'];
+                    $compareData['pbs']['gas']['sub_total_yearly'][$productIndex] = formatPrice($product['pricing']['yearly']['promo_price'], 2, '&euro; ');
+                    $pbsData                                                      = $product['pricing']['yearly']['price_breakdown_structure'];
                 } else {
-                    $labels['gas']['sub_total_yearly'][$productIndex] = formatPrice($product['product']['gas']['pricing']['yearly']['promo_price'], 2, '&euro; ');
-                    $pbsData                                          = $product['product']['gas']['pricing']['yearly']['price_breakdown_structure'];
+                    $compareData['pbs']['gas']['sub_total_yearly'][$productIndex] = formatPrice($product['product']['gas']['pricing']['yearly']['promo_price'], 2, '&euro; ');
+                    $pbsData                                                      = $product['product']['gas']['pricing']['yearly']['price_breakdown_structure'];
                 }
 
                 foreach ($pbsData as $pbsKey => $priceSection) {
-                    $labels['gas']['data'][$pbsKey]['label'] = $priceSection['label'];
+                    $compareData['pbs']['gas']['data'][$pbsKey]['label'] = $priceSection['label'];
                     if (isset($priceSection['pbs_total'])) {
-                        $labels['gas']['data'][$pbsKey]['total'][$productIndex] = formatPrice($priceSection['pbs_total']['value'], 2, $priceSection['pbs_total']['unit'] . ' ');
+                        $compareData['pbs']['gas']['data'][$pbsKey]['total'][$productIndex] = formatPrice($priceSection['pbs_total']['value'], 2, $priceSection['pbs_total']['unit'] . ' ');
                     }
                     foreach ($priceSection['pbs_lines'] as $lineIndex => $pbsLine) {
-                        $labels['gas']['data'][$pbsKey]['lines'][$lineIndex]['label']                   = $pbsLine['label'];
-                        $labels['gas']['data'][$pbsKey]['lines'][$lineIndex]['products'][$productIndex] = [
+                        $compareData['pbs']['gas']['data'][$pbsKey]['lines'][$lineIndex]['label']                   = $pbsLine['label'];
+                        $compareData['pbs']['gas']['data'][$pbsKey]['lines'][$lineIndex]['products'][$productIndex] = [
                             'label'        => $pbsLine['label'],
                             'multiplicand' => $pbsLine['multiplicand']['value'],
                             'multiplier'   => $pbsLine['multiplier'],
@@ -1412,35 +1420,39 @@ class AnbCompareEnergy extends AnbCompare
                 }
             }
             if ($productType === 'dualfuel_pack') {
-                $labels['totalfinal']['main'] = pll__('Total dualfuel pack');
+                $compareData['costs']['main'] = pll__('Total dualfuel pack');
             } else {
-                $labels['totalfinal']['main'] = pll__('Total ' . $productType);
+                $compareData['costs']['main'] = pll__('Total ' . $productType);
             }
-            $labels['totalfinal']['total']                         = pll__('Total yearly costs');
-            $labels['totalfinal']['data']['costpermonth']['label'] = pll__('Estimated monthly deposit');
-            $labels['totalfinal']['data']['advoneyear']['label']   = pll__('Total advantage 1st year');
+            $compareData['costs']['total']['label']            = pll__('Total yearly costs');
+            $compareData['costs']['costpermonth']['label']     = pll__('Estimated monthly deposit');
+            $compareData['costs']['yearlynodiscount']['label'] = pll__('Total yearly costs without discount');
+            $compareData['costs']['advoneyear']['label']       = pll__('Total advantage 1st year');
 
             if ($secondProduct->product->segment !== 'consumer') {
-                $labels['totalfinal']['total']                         .= ' ' . pll__('(excl. VAT)');
-                $labels['totalfinal']['data']['costpermonth']['label'] .= ' ' . pll__('(excl. VAT)');
-                $labels['totalfinal']['data']['advoneyear']['label']   .= ' ' . pll__('(excl. VAT)');
+                $compareData['costs']['total']['label']            .= ' ' . pll__('(excl. VAT)');
+                $compareData['costs']['costpermonth']['label']     .= ' ' . pll__('(excl. VAT)');
+                $compareData['costs']['yearlynodiscount']['label'] .= ' ' . pll__('(excl. VAT)');
+                $compareData['costs']['advoneyear']['label']       .= ' ' . pll__('(excl. VAT)');
             } else {
-                $labels['totalfinal']['total']                         .= ' ' . pll__('(incl. VAT)');
-                $labels['totalfinal']['data']['costpermonth']['label'] .= ' ' . pll__('(incl. VAT)');
-                $labels['totalfinal']['data']['advoneyear']['label']   .= ' ' . pll__('(incl. VAT)');
+                $compareData['costs']['total']['label']            .= ' ' . pll__('(incl. VAT)');
+                $compareData['costs']['costpermonth']['label']     .= ' ' . pll__('(incl. VAT)');
+                $compareData['costs']['yearlynodiscount']['label'] .= ' ' . pll__('(incl. VAT)');
+                $compareData['costs']['advoneyear']['label']       .= ' ' . pll__('(incl. VAT)');
             }
 
-            $labels['totalfinal']['data']['costpermonth']['total'][$productIndex] = formatPrice($product['pricing']['monthly']['promo_price'], 2, '&euro; ');
-            $advOneYearTotal                                                      = ($product['pricing']['yearly']['advantage'] > 0) ? formatPrice($product['pricing']['yearly']['advantage'], 2, '&euro; ') : '&nbsp;';
-            $estimatedSavingTotal                                                 = (isset($product['savings']['yearly']['promo_price']) && $product['savings']['yearly']['promo_price'] > 0) ? formatPrice($product['savings']['yearly']['promo_price'], 2, '&euro; ') : '&nbsp;';
-            $labels['totalfinal']['data']['advoneyear']['total'][$productIndex]   = $advOneYearTotal;
-            $labels['totalfinal']['sub_total_yearly'][$productIndex]              = formatPrice($product['pricing']['yearly']['promo_price'], 2, '&euro; ');
+            $compareData['costs']['costpermonth']['products'][$productIndex]     = formatPrice($product['pricing']['monthly']['promo_price'], 2, '&euro; ');
+            $compareData['costs']['yearlynodiscount']['products'][$productIndex] = formatPrice($product['pricing']['yearly']['price'], 2, '&euro; ');
+            $advOneYearTotal                                                     = $product['pricing']['yearly']['advantage'] > 0 ? formatPrice($product['pricing']['yearly']['advantage'], 2, '&euro; ') : null;
+            $estimatedSavingTotal                                                = isset($product['savings']['yearly']['promo_price']) && $product['savings']['yearly']['promo_price'] > 0 ? formatPrice($product['savings']['yearly']['promo_price'], 2, '&euro; ') : null;
+            $compareData['costs']['advoneyear']['products'][$productIndex]       = $advOneYearTotal;
+            $compareData['costs']['total']['products'][$productIndex] = formatPrice($product['pricing']['yearly']['promo_price'], 2, '&euro; ');
 
-            $labels['vetsavings']['main']                   = pll__('Estimated Savings');
-            $labels['vetsavings']['estotal'][$productIndex] = $estimatedSavingTotal;
+            $compareData['savings']['main']                    = pll__('Estimated Savings');
+            $compareData['savings']['products'][$productIndex] = $estimatedSavingTotal;
         }
 
-        return [$productsData, $labels];
+        return $compareData;
     }
 
     function compareBetweenResults($listProduct) {

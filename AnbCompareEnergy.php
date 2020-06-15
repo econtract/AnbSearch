@@ -479,68 +479,37 @@ class AnbCompareEnergy extends AnbCompare
 
     function moreResults()
     {
-        $productResp = '';
-        $forceCheckAvailability = false;
-        $showTop = false;
-        $parentSegment = getSectorOnCats($_SESSION[ 'product' ][ 'cat' ]);
+        $compareParams = [
+            'detaillevel' => 'supplier,logo,services,price,reviews,texts,promotions,core_features,specifications,attachments,availability,contact_info,contract_periods,reviews_texts',
+            'lang'        => getLanguage(),
+        ];
 
-        if( empty($_GET[ 'zip' ]) ) {
-            //don't continue if zip is empty
-            $forceCheckAvailability = true;
-        }
-        if( isset($_GET[ 'exc_night_meter' ]) && $_GET[ 'exc_night_meter' ] == 1 ) {
-            $nou = $_GET[ 'nou' ];
-        } else {
-            unset($_GET[ 'nou' ]);
-        }
-        $du = $_GET[ 'du' ];
-        if( isset($_GET[ 'meter' ]) && $_GET[ 'meter' ] == 'double' ) {
-            $nu = $_GET[ 'nu' ];
-        } else {
-            unset($_GET[ 'nu' ]);
-        }
-        $has_solar = ( isset($_GET[ 'has_solar' ]) && $_GET[ 'has_solar' ] == 1 ) ? $_GET[ 'has_solar' ] : '';
+        $compareParams += $_GET;
 
-        if( isset($_GET[ 'cmp_pid' ]) && ( $_GET[ 'cmp_pid' ] == 'i_dnt_know_contract' || empty($_GET[ 'cmp_pid' ]) ) && !isset($_GET[ 'currentPack' ]) ) {
-            $_GET[ 'cmp_pid' ] = '';
-            unset($_GET[ 'currentPack' ]);
-        } else {
-            if( empty($_GET[ 'cmp_pid' ]) ) {
-                $_GET[ 'cmp_pid' ] = explode('|', $_GET[ 'currentPack' ])[ 1 ];
-                unset($_GET[ 'currentPack' ]);
-                $paramsTop[ 'cmp_pid' ] = $_GET[ 'cmp_pid' ];
-                $_GET[ 'currentPack' ] = $_GET[ 'cat' ] . '|' . $_GET[ 'cmp_pid' ];
-                if( !isset($_GET[ 'cmp_sid' ]) || empty($_GET[ 'cmp_sid' ]) && isset($_GET[ 'supplier' ]) ) {
-                    $_GET[ 'cmp_sid' ] = $_GET[ 'supplier' ];
-                }
-            }
+        if (!isset($compareParams['exc_night_meter']) || $compareParams['exc_night_meter'] != 1) {
+            unset($compareParams['nou']);
         }
 
-        if( isset($_GET[ 'cmp_sid' ]) && !empty($_GET[ 'cmp_sid' ]) ) {
-            $_GET[ 'supplier' ] = $_GET[ 'cmp_sid' ];
+        if (!isset($compareParams['meter']) || $compareParams['meter'] != 'double') {
+            unset($compareParams['nu']);
         }
 
-        if( !isset($_GET[ 'meter' ]) ) {
-            $_GET[ 'meter' ] = 'single';
+        if (!empty($compareParams['cmp_sid'])) {
+            $compareParams['supplier'] = $compareParams['cmp_sid'];
         }
 
-        $products = $this->getCompareResults(
-            array(
-                'detaillevel' => 'supplier,logo,services,price,reviews,texts,promotions,core_features,specifications,attachments,availability,contact_info,contract_periods,reviews_texts,order_preferences',
-                'du'          => $du,
-                'nu'          => $nu,
-                'nou'         => $nou,
-                'sg'          => $_GET[ 'sg' ],
-                'd'           => isset($_GET[ 'd' ]) ? $_GET[ 'd' ] : 1,
-                'lang'        => getLanguage()
-            )
-        );
+        if (!isset($compareParams['meter'])) {
+            $compareParams['meter'] = 'single';
+        }
+
+        $products = $this->getCompareResults($compareParams);
 
         $results = json_decode($products);
         /** @var \AnbTopDeals\AnbProductEnergy $anbTopDeals */
         $anbTopDeals = wpal_create_instance( \AnbTopDeals\AnbProductEnergy::class );
         $countProducts = 0;
         $chkbox = 100;
+        $productResp = '';
         foreach ($results->results as $listProduct) :
             $chkbox++;
             if ($countProducts < $this->defaultNumberOfResults) {

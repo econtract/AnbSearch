@@ -108,39 +108,31 @@ class AnbCompareEnergy extends AnbCompare
         }
 
         $defaults = [
-            'cat'              => 'dualfuel_pack',
-            'zip'              => '',
-            'pref_cs'          => '',
-            'f'                => '2',
-            'sg'               => 'consumer',
-            'lang'             => $this->getCurrentLang(),
-            'hidden_sp'        => '',
-            'enable_need_help' => false,
-            'hidden_prodsel'   => '',
-            'supplier_service' => '',
+            'cat'       => 'dualfuel_pack',
+            'zip'       => '',
+            'f'         => '',
+            'sg'        => 'consumer',
+            'lang'      => $this->getCurrentLang(),
+            'meter'     => 'double',
+            'estimate'  => 1,
+            'has_solar' => 0,
         ];
 
-        $data      = shortcode_atts($defaults, $atts, 'anb_energy_search_bar_form');
-        $suppliers = $this->getSuppliers();
+        $data = shortcode_atts($defaults, $atts, 'anb_energy_search_bar_form');
 
         if (!empty($_GET)) {
-            $data = $_GET + $atts;
+            $data = $_GET + $data;
         }
 
         $this->convertMultiValToArray($data['cat']);
 
-        // Set GET params as they are used in usageResultsEnergy
-        $_GET['producttype'] = $data['cat'];
-        $_GET['sg']          = $data['sg'];
-        $_GET['f']           = $data['f'];
-
-        $resultsUsages = json_decode($this->usageResultsEnergy());
+        $usageResults = $this->getUsageResults($data);
 
         $data += [
-            'du'  => $resultsUsages->data->du,
-            'nu'  => $resultsUsages->data->nu,
-            'nou' => $resultsUsages->data->nou,
-            'u'   => $resultsUsages->data->u,
+            'du'  => isset($usageResults['data']['du']) ? $usageResults['data']['du'] : null,
+            'nu'  => isset($usageResults['data']['nu']) ? $usageResults['data']['nu'] : null,
+            'nou' => isset($usageResults['data']['nou']) ? $usageResults['data']['nou'] : null,
+            'u'   => isset($usageResults['data']['u']) ? $usageResults['data']['u'] : null,
         ];
 
         ob_start();
@@ -1491,12 +1483,16 @@ class AnbCompareEnergy extends AnbCompare
         return $html;
     }
 
+    /**
+     * @param array $params
+     * @return array
+     */
     public function getUsageResults($params)
     {
         $defaults = [
             'producttype'    => '',
             'segment'        => '',
-            'meter'          => 'single',
+            'meter'          => 'double',
             'residence_type' => '',
             'family_size'    => '',
             'home_size'      => '',
@@ -1548,12 +1544,12 @@ class AnbCompareEnergy extends AnbCompare
         }
         if ($params['meter'] == 'single') {
             $params['meter_type'] = '1';
-            if (isset($params['exc_night_meter'])) {
+            if (!empty($params['exc_night_meter'])) {
                 $params['meter_type'] = '3';
             }
         } elseif ($params['meter'] == 'double') {
             $params['meter_type'] = '2';
-            if (isset($params['exc_night_meter'])) {
+            if (!empty($params['exc_night_meter'])) {
                 $params['meter_type'] = '4';
             }
         }

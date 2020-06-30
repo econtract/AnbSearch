@@ -494,27 +494,24 @@ class AnbCompareEnergy extends AnbCompare
             $compareParams['meter'] = 'single';
         }
 
+        $pageSize    = isset($compareParams['pageSize']) ? $compareParams['pageSize'] : $this->defaultNumberOfResults;
+        $page        = isset($compareParams['page']) ? $compareParams['page'] : 2;
+        $resultIndex = ($page - 1) * $pageSize;
+
         $products = $this->getCompareResults($compareParams);
 
-        $results = json_decode($products);
+        $result         = json_decode($products);
+        $currentProduct = property_exists($result, 'current') ? $result->current : null;
         /** @var \AnbTopDeals\AnbProductEnergy $anbTopDeals */
-        $anbTopDeals = wpal_create_instance( \AnbTopDeals\AnbProductEnergy::class );
-        $countProducts = 0;
-        $chkbox = 100;
-        $productResp = '';
-        foreach ($results->results as $listProduct) :
-            $chkbox++;
-            if ($countProducts < $this->defaultNumberOfResults) {
-                $countProducts++;
-                continue;
-            }
-            ob_start();
+        $anbTopDeals = wpal_create_instance(\AnbTopDeals\AnbProductEnergy::class);
+        $anbComp     = $this;
 
-            include(locate_template('template-parts/section/energy-results-product.php'));
+        $result->results = array_slice($result->results, $resultIndex, $pageSize);
 
-            $productResp .= ob_get_clean();
-        endforeach;
-        echo $productResp;
+        ob_start();
+        include(locate_template('template-parts/section/energy-results.php'));
+
+        echo ob_get_clean();
         wp_die(); // this is required to terminate immediately and return a proper response
     }
 

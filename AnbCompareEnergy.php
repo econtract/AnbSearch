@@ -496,7 +496,7 @@ class AnbCompareEnergy extends AnbCompare
 
         $pageSize    = isset($compareParams['pageSize']) ? $compareParams['pageSize'] : $this->defaultNumberOfResults;
         $page        = isset($compareParams['page']) ? $compareParams['page'] : 2;
-        $resultIndex = ($page - 1) * $pageSize;
+        $resultIndex = isset($compareParams['offset']) ? $compareParams['offset'] : ($page - 1) * $pageSize;
 
         $products = $this->getCompareResults($compareParams);
 
@@ -506,7 +506,15 @@ class AnbCompareEnergy extends AnbCompare
         $anbTopDeals = wpal_create_instance(\AnbTopDeals\AnbProductEnergy::class);
         $anbComp     = $this;
 
-        $result->results = array_slice($result->results, $resultIndex, $pageSize);
+        if ($result->num_results > $resultIndex) {
+            if ($result->num_results > ($resultIndex + $pageSize)) {
+                $result->results = array_slice($result->results, $resultIndex, $pageSize);
+            } else {
+                $result->results = array_slice($result->results, $resultIndex);
+            }
+        } else {
+            $result->results = [];
+        }
 
         ob_start();
         include(locate_template('template-parts/section/energy-results.php'));

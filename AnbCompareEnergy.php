@@ -476,7 +476,18 @@ class AnbCompareEnergy extends AnbCompare
             'lang'        => getLanguage(),
         ];
 
+        $defaults = [
+            'cat'       => 'dualfuel_pack',
+            'zip'       => '',
+            'f'         => '',
+            'ut'        => 'kwh',
+            'sg'        => 'consumer',
+            'meter'     => 'double',
+            'has_solar' => 0,
+        ];
+
         $compareParams += $_GET;
+        $compareParams += $defaults;
 
         if (!isset($compareParams['exc_night_meter']) || $compareParams['exc_night_meter'] != 1) {
             unset($compareParams['nou']);
@@ -490,9 +501,23 @@ class AnbCompareEnergy extends AnbCompare
             $compareParams['supplier'] = $compareParams['cmp_sid'];
         }
 
-        if (!isset($compareParams['meter'])) {
-            $compareParams['meter'] = 'single';
+        if (!empty($compareParams['has_solar'])) {
+            $compareParams['solar_capacity'] = !empty($compareParams['solar_capacity']) ? $compareParams['solar_capacity'] : SOLAR_USAGE;
         }
+
+        if ($compareParams['meter'] != 'double') {
+            unset($compareParams['nu']);
+        }
+
+        $usageResults = $this->getUsageResults($compareParams);
+
+        // Add usage params to compare params
+        $compareParams += [
+            'du'  => isset($usageResults['data']['du']) ? $usageResults['data']['du'] : null,
+            'nu'  => isset($usageResults['data']['nu']) ? $usageResults['data']['nu'] : null,
+            'nou' => isset($usageResults['data']['nou']) ? $usageResults['data']['nou'] : null,
+            'u'   => isset($usageResults['data']['u']) ? $usageResults['data']['u'] : null,
+        ];
 
         $pageSize    = isset($compareParams['pageSize']) ? $compareParams['pageSize'] : $this->defaultNumberOfResults;
         $page        = isset($compareParams['page']) ? $compareParams['page'] : 2;

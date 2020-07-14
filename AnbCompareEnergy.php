@@ -46,59 +46,100 @@ class AnbCompareEnergy extends AnbCompare
         if($this->sector == pll__('energy')) {
             wp_enqueue_script('search-results-energy', plugins_url('/js/search-results-energy.js', __FILE__), array('jquery'), '1.0.5', true);
             wp_localize_script('search-results-energy', 'search_compare_obj_energy',
-                               array(
-                                   'ajax_url'              => admin_url('admin-ajax.php'),
-                                   'site_url'              => pll_home_url(),
-                                   'template_uri'          => get_template_directory_uri(),
-                                   'lang'                  => $this->getCurrentLang(),
-                                   'trans_loading_dots'    => pll__('Loading...')
-                               )
-                              );
+                array(
+                    'ajax_url'              => admin_url('admin-ajax.php'),
+                    'site_url'              => pll_home_url(),
+                    'template_uri'          => get_template_directory_uri(),
+                    'lang'                  => $this->getCurrentLang(),
+                    'trans_loading_dots'    => pll__('Loading...')
+                )
+            );
 
             if($this->pagename == pll__('results') || $this->pagename == 'energenie' ) {
                 wp_enqueue_script('compare-results-energy', plugins_url('/js/compare-results-energy.js', __FILE__), array('jquery'), '1.2.7', true);
                 wp_localize_script('compare-results-energy', 'compare_between_results_object_energy',
-                                   array(
-                                       'ajax_url' => admin_url('admin-ajax.php'),
-                                       'site_url' => pll_home_url(),
-                                       'current_pack' => pll__('Your Current Energy Pack'),
-                                       'select_your_pack' => pll__('I dont know the contract'),
-                                       'template_uri' => get_template_directory_uri(),
-                                       'lang' => $this->getCurrentLang(),
-                                       'features_label' => pll__('Features'),
-                                       'telecom_trans' => pll__('telecom'),
-                                       'energy_trans' => pll__('energy'),
-                                       'brands_trans' => pll__('brands'),
-                                       'checkout_button_trans' => pll__('connect now'),
-                                       'details_page_trans' => pll__('Detail'),
-                                       'select_your_energy_pack' => pll__('Select your contract'),
-                                       'change_pack' => pll__('change pack'),
-                                       'trans_loading_dots'    => pll__('Loading...'),
-                                       'trans_idontknow' => pll__('I dont know the contract'),
-                                       'trans_customerrating' => pll__('Customer Score'),
-                                       'trans_guarantee1year' => pll__('guaranteed 1st year'),
-                                       'trans_guarantee1month' => pll__('guaranteed 1st month'),
-                                       'trans_guarantee1yearinfo' => pll__('guaranteed 1st year info text'),
-                                       'trans_guarantee1monthinfo' => pll__('guaranteed 1st month info text'),
-                                       'trans_potentialsaving' => pll__('Potential saving'),
-                                       'trans_youradvantage' => pll__('Your advantage')
-                                   )
-                                  );
+                    array(
+                        'ajax_url' => admin_url('admin-ajax.php'),
+                        'site_url' => pll_home_url(),
+                        'current_pack' => pll__('Your Current Energy Pack'),
+                        'select_your_pack' => pll__('I dont know the contract'),
+                        'template_uri' => get_template_directory_uri(),
+                        'lang' => $this->getCurrentLang(),
+                        'features_label' => pll__('Features'),
+                        'telecom_trans' => pll__('telecom'),
+                        'energy_trans' => pll__('energy'),
+                        'brands_trans' => pll__('brands'),
+                        'checkout_button_trans' => pll__('connect now'),
+                        'details_page_trans' => pll__('Detail'),
+                        'select_your_energy_pack' => pll__('Select your contract'),
+                        'change_pack' => pll__('change pack'),
+                        'trans_loading_dots'    => pll__('Loading...'),
+                        'trans_idontknow' => pll__('I dont know the contract'),
+                        'trans_customerrating' => pll__('Customer Score'),
+                        'trans_guarantee1year' => pll__('guaranteed 1st year'),
+                        'trans_guarantee1month' => pll__('guaranteed 1st month'),
+                        'trans_guarantee1yearinfo' => pll__('guaranteed 1st year info text'),
+                        'trans_guarantee1monthinfo' => pll__('guaranteed 1st month info text'),
+                        'trans_potentialsaving' => pll__('Potential saving'),
+                        'trans_youradvantage' => pll__('Your advantage')
+                    )
+                );
             }
 
             wp_enqueue_script('wizard-energy-script', plugins_url('/js/wizard-energy.js', __FILE__), array('jquery'), '1.0.3', true);
 
             // in JavaScript, object properties are accessed as ajax_object.ajax_url, ajax_object.we_value
             wp_localize_script('wizard-energy-script', 'wizard_energy_object',
-                               array(
-                                   'ajax_url'      => admin_url('admin-ajax.php'),
-                                   'zip_empty'     => pll__('Zip cannot be empty'),
-                                   'zip_invalid'   => pll__('Please enter valid Zip Code'),
-                                   'offers_msg'    => pll__( 'offers' )." " . pll__('starting from'),
-                                   'no_offers_msg' => pll__('No offers in your area'),
-                                   'currency'      => $this->getCurrencySymbol($this->currencyUnit)
-                               ));
+                array(
+                    'ajax_url'      => admin_url('admin-ajax.php'),
+                    'zip_empty'     => pll__('Zip cannot be empty'),
+                    'zip_invalid'   => pll__('Please enter valid Zip Code'),
+                    'offers_msg'    => pll__( 'offers' )." " . pll__('starting from'),
+                    'no_offers_msg' => pll__('No offers in your area'),
+                    'currency'      => $this->getCurrencySymbol($this->currencyUnit)
+                ));
         }
+    }
+
+    function searchBarForm($atts)
+    {
+        if (!empty($atts['product_type']) && empty($atts['cat'])) {
+            $atts['cat'] = $atts['product_type'];
+        }
+
+        $defaults = [
+            'cat'       => 'dualfuel_pack',
+            'zip'       => '',
+            'f'         => '',
+            'sg'        => 'consumer',
+            'lang'      => $this->getCurrentLang(),
+            'meter'     => 'double',
+            'estimate'  => 1,
+            'has_solar' => 0,
+        ];
+
+        $data = shortcode_atts($defaults, $atts, 'anb_energy_search_bar_form');
+
+        if (!empty($_GET)) {
+            $data = $_GET + $data;
+        }
+
+        $this->convertMultiValToArray($data['cat']);
+
+        $usageResults = $this->getUsageResults($data);
+
+        $data += [
+            'du'  => isset($usageResults['data']['du']) ? $usageResults['data']['du'] : null,
+            'nu'  => isset($usageResults['data']['nu']) ? $usageResults['data']['nu'] : null,
+            'nou' => isset($usageResults['data']['nou']) ? $usageResults['data']['nou'] : null,
+            'u'   => isset($usageResults['data']['u']) ? $usageResults['data']['u'] : null,
+        ];
+
+        ob_start();
+
+        include(locate_template('template-parts/widgets/energy/search-bar.php'));
+
+        return ob_get_clean();
     }
 
     function searchForm($atts)
@@ -430,93 +471,67 @@ class AnbCompareEnergy extends AnbCompare
 
     function moreResults()
     {
-        $productResp = '';
-        $forceCheckAvailability = false;
-        $showTop = false;
-        $parentSegment = getSectorOnCats($_SESSION[ 'product' ][ 'cat' ]);
+        $compareParams = [
+            'detaillevel' => 'supplier,logo,services,price,reviews,texts,promotions,core_features,specifications,attachments,availability,contact_info,contract_periods,reviews_texts',
+            'lang'        => getLanguage(),
+        ];
 
-        if( empty($_GET[ 'zip' ]) ) {
-            //don't continue if zip is empty
-            $forceCheckAvailability = true;
-        }
-        if( isset($_GET[ 'exc_night_meter' ]) && $_GET[ 'exc_night_meter' ] == 1 ) {
-            $nou = $_GET[ 'nou' ];
-        } else {
-            unset($_GET[ 'nou' ]);
-        }
-        $du = $_GET[ 'du' ];
-        if( isset($_GET[ 'meter' ]) && $_GET[ 'meter' ] == 'double' ) {
-            $nu = $_GET[ 'nu' ];
-        } else {
-            unset($_GET[ 'nu' ]);
-        }
-        $has_solar = ( isset($_GET[ 'has_solar' ]) && $_GET[ 'has_solar' ] == 1 ) ? $_GET[ 'has_solar' ] : '';
+        $compareParams += $_GET;
 
-        if( isset($_GET[ 'cmp_pid' ]) && ( $_GET[ 'cmp_pid' ] == 'i_dnt_know_contract' || empty($_GET[ 'cmp_pid' ]) ) && !isset($_GET[ 'currentPack' ]) ) {
-            $_GET[ 'cmp_pid' ] = '';
-            unset($_GET[ 'currentPack' ]);
-        } else {
-            if( empty($_GET[ 'cmp_pid' ]) ) {
-                $_GET[ 'cmp_pid' ] = explode('|', $_GET[ 'currentPack' ])[ 1 ];
-                unset($_GET[ 'currentPack' ]);
-                $paramsTop[ 'cmp_pid' ] = $_GET[ 'cmp_pid' ];
-                $_GET[ 'currentPack' ] = $_GET[ 'cat' ] . '|' . $_GET[ 'cmp_pid' ];
-                if( !isset($_GET[ 'cmp_sid' ]) || empty($_GET[ 'cmp_sid' ]) && isset($_GET[ 'supplier' ]) ) {
-                    $_GET[ 'cmp_sid' ] = $_GET[ 'supplier' ];
-                }
-            }
+        if (!isset($compareParams['exc_night_meter']) || $compareParams['exc_night_meter'] != 1) {
+            unset($compareParams['nou']);
         }
 
-        if( isset($_GET[ 'cmp_sid' ]) && !empty($_GET[ 'cmp_sid' ]) ) {
-            $_GET[ 'supplier' ] = $_GET[ 'cmp_sid' ];
+        if (!isset($compareParams['meter']) || $compareParams['meter'] != 'double') {
+            unset($compareParams['nu']);
         }
 
-        if( !isset($_GET[ 'meter' ]) ) {
-            $_GET[ 'meter' ] = 'single';
+        if (!empty($compareParams['cmp_sid'])) {
+            $compareParams['supplier'] = $compareParams['cmp_sid'];
         }
 
-        $products = $this->getCompareResults(
-            array(
-                'detaillevel' => 'supplier,logo,services,price,reviews,texts,promotions,core_features,specifications,attachments,availability,contact_info,contract_periods,reviews_texts,order_preferences',
-                'du'          => $du,
-                'nu'          => $nu,
-                'nou'         => $nou,
-                'sg'          => $_GET[ 'sg' ],
-                'd'           => isset($_GET[ 'd' ]) ? $_GET[ 'd' ] : 1,
-                'lang'        => getLanguage()
-            )
-        );
+        if (!isset($compareParams['meter'])) {
+            $compareParams['meter'] = 'single';
+        }
 
-        $results = json_decode($products);
+        $pageSize    = isset($compareParams['pageSize']) ? $compareParams['pageSize'] : $this->defaultNumberOfResults;
+        $page        = isset($compareParams['page']) ? $compareParams['page'] : 2;
+        $resultIndex = isset($compareParams['offset']) ? $compareParams['offset'] : ($page - 1) * $pageSize;
+
+        $products = $this->getCompareResults($compareParams);
+
+        $result         = json_decode($products);
+        $currentProduct = property_exists($result, 'current') ? $result->current : null;
         /** @var \AnbTopDeals\AnbProductEnergy $anbTopDeals */
-        $anbTopDeals = wpal_create_instance( \AnbTopDeals\AnbProductEnergy::class );
-        $countProducts = 0;
-        $chkbox = 100;
-        foreach ($results->results as $listProduct) :
-            $chkbox++;
-            if ($countProducts < $this->defaultNumberOfResults) {
-                $countProducts++;
-                continue;
+        $anbTopDeals = wpal_create_instance(\AnbTopDeals\AnbProductEnergy::class);
+        $anbComp     = $this;
+
+        if ($result->num_results > $resultIndex) {
+            if ($result->num_results > ($resultIndex + $pageSize)) {
+                $result->results = array_slice($result->results, $resultIndex, $pageSize);
+            } else {
+                $result->results = array_slice($result->results, $resultIndex);
             }
-            ob_start();
+        } else {
+            $result->results = [];
+        }
 
-            include(locate_template('template-parts/section/energy-results-product.php'));
+        ob_start();
+        include(locate_template('template-parts/section/energy-results.php'));
 
-            $productResp .= ob_get_clean();
-        endforeach;
-        echo $productResp;
+        echo ob_get_clean();
         wp_die(); // this is required to terminate immediately and return a proper response
     }
 
     /**
-	 * @param $values
-	 * @param string $submitBtnTxt
-	 * @param bool $hideTitle
-	 * @param string $resultsPageUri
-	 * @param string $supplierHtml
-	 *
-	 * @return string
-	 */
+     * @param $values
+     * @param string $submitBtnTxt
+     * @param bool $hideTitle
+     * @param string $resultsPageUri
+     * @param string $supplierHtml
+     *
+     * @return string
+     */
     public function getWizardSearchBoxContentHtml($values, $submitBtnTxt = "Search Deals", $hideTitle = false, $resultsPageUri = self::RESULTS_PAGE_URI, $supplierHtml = "")
     {
         $titleHtml = "<h3>" . pll__('Change Profile') . "</h3>";
@@ -1283,115 +1298,127 @@ class AnbCompareEnergy extends AnbCompare
     }
 
     /**
-	 * This code was written by danish in anb-search-result-energy.php and Imran moved it here,
-	 * the code is going to remain same the only difference will be that it'll work based on parameters
-	 * @param $firstProduct
-	 * @param $secondProduct
-	 *
-	 * @return array|[productData, labels]
-	 */
-    function getCompareOverviewData($firstProduct, $secondProduct) {
-        $comparePopUpData['lowest'] = json_decode( json_encode( $firstProduct ), true);
-        $comparePopUpData['highest'] = json_decode( json_encode( $secondProduct ), true);
+     * This code was written by danish in anb-search-result-energy.php and Imran moved it here,
+     * the code is going to remain same the only difference will be that it'll work based on parameters
+     * @param $firstProduct
+     * @param $secondProduct
+     *
+     * @return array
+     */
+    function getCompareOverviewData($firstProduct, $secondProduct)
+    {
+        $products = [
+            json_decode(json_encode($firstProduct), true),
+            json_decode(json_encode($secondProduct), true),
+        ];
 
-        $cid = 0;
-        $logosPlaced = 0;
-        $productsData = [];
-        $labels = [];
-        foreach ($comparePopUpData as $key => $pdata){
-            if( ($pdata['product']['producttype'] == 'dualfuel_pack' || $pdata['product']['producttype'] == 'electricity') ){
-                $productsData['products'][$cid]['logo'] = $pdata['product']['supplier']['logo']['200x140']['transparent']['color'];
-                $productsData['products'][$cid]['title'] = $pdata['product']['product_name'];
-                $productsData['products'][$cid]['total_yearly'] = formatPrice($pdata['pricing']['yearly']['promo_price'], 2, '&euro; ');
-                $logosPlaced = 1;
-                $pbsData = $pdata['product']['electricity']['pricing']['yearly']['price_breakdown_structure'];
-                if($pdata['product']['producttype'] == 'electricity'){
-                    $pbsData = $pdata['pricing']['yearly']['price_breakdown_structure'];
+        $compareData = [
+            'products' => [],
+            'pbs'      => [],
+            'costs'    => [],
+            'savings'  => [],
+        ];
+
+        foreach ($products as $productIndex => $product) {
+            $productType                            = $product['product']['producttype'];
+            $compareData['products'][$productIndex] = [
+                'id'           => $product['product']['product_id'],
+                'logo'         => $product['product']['supplier']['logo']['200x140']['transparent']['color'],
+                'title'        => $product['product']['product_name'],
+                'total_yearly' => formatPrice($product['pricing']['yearly']['promo_price'], 2, '&euro; '),
+            ];
+
+            if (in_array($productType, ['dualfuel_pack', 'electricity'])) {
+                $compareData['pbs']['electricity']['main'] = pll__('electricity');
+                $compareData['pbs']['electricity']['total'] = pll__('Total yearly electricity costs');
+
+                if ($productType === 'electricity') {
+                    $compareData['pbs']['electricity']['sub_total_yearly'][$productIndex] = formatPrice($product['pricing']['yearly']['promo_price'], 2, '&euro; ');
+                    $pbsData                                                              = $product['pricing']['yearly']['price_breakdown_structure'];
+                } else {
+                    $compareData['pbs']['electricity']['sub_total_yearly'][$productIndex] = formatPrice($product['product']['electricity']['pricing']['yearly']['promo_price'], 2, '&euro; ');
+                    $pbsData                                                              = $product['product']['electricity']['pricing']['yearly']['price_breakdown_structure'];
                 }
-                $labels['electricity']['main'] = pll__('electricity');
-                $labels['electricity']['total'] = pll__('Total annual electricity costs (incl.BTW)');
-                $labels['electricity']['sub_total_yearly'][$cid] = formatPrice($pdata['product']['electricity']['pricing']['yearly']['promo_price'], 2, '&euro; ');
-                if($pdata['product']['producttype'] == 'electricity'){
-                    $labels['electricity']['sub_total_yearly'][$cid] = formatPrice($pdata['pricing']['yearly']['promo_price'], 2, '&euro; ');
-                }
-                $sh = 0;
-                foreach($pbsData as $thisKey => $priceSection){
-                    $sectionlabel = str_replace(' ','_', strip_tags($priceSection['label']));
-                    if($priceSection['pbs_total']) {
-                        $labels['electricity']['data'][$sectionlabel]['total'][$cid] = formatPrice($priceSection['pbs_total']['value'], 2, $priceSection['pbs_total']['unit'].' ');
+
+                foreach ($pbsData as $pbsKey => $priceSection) {
+                    $compareData['pbs']['electricity']['data'][$pbsKey]['label'] = $priceSection['label'];
+                    if (isset($priceSection['pbs_total'])) {
+                        $compareData['pbs']['electricity']['data'][$pbsKey]['total'][$productIndex] = formatPrice($priceSection['pbs_total']['value'], 2, $priceSection['pbs_total']['unit'] . ' ');
                     }
-                    $labels['electricity']['data'][$sectionlabel]['label'] = $priceSection['label'];
-                    $hh = 0;
-                    foreach ($priceSection['pbs_lines'] as $pbkey => $pbdata){
-                        $label_key = str_replace(' ','_', strip_tags($pbdata['label']));
-                        $labels['electricity']['data'][$sectionlabel]['data'][$label_key] = $pbdata['label'];
-                        $labels['electricity']['data'][$sectionlabel]['products'][$cid][$hh]['label'] = $pbdata['label'];
-                        $labels['electricity']['data'][$sectionlabel]['products'][$cid][$hh]['multiplicand'] = $pbdata['multiplicand']['value'];
-                        $labels['electricity']['data'][$sectionlabel]['products'][$cid][$hh]['multiplier'] = $pbdata['multiplier']['value'].' '.$pbdata['multiplier']['unit'];
-                        $labels['electricity']['data'][$sectionlabel]['products'][$cid][$hh]['product'] = $pbdata['product']['value'].' '.$pbdata['product']['unit'];
-                        $hh++;
+                    foreach ($priceSection['pbs_lines'] as $lineIndex => $pbsLine) {
+                        $compareData['pbs']['electricity']['data'][$pbsKey]['lines'][$lineIndex]['label']                   = $pbsLine['label'];
+                        $compareData['pbs']['electricity']['data'][$pbsKey]['lines'][$lineIndex]['products'][$productIndex] = [
+                            'label'        => $pbsLine['label'],
+                            'multiplicand' => $pbsLine['multiplicand']['value'],
+                            'multiplier'   => $pbsLine['multiplier'],
+                            'product'      => $pbsLine['product'],
+                        ];
                     }
-                    $sh++;
                 }
             }
 
-            if( ($pdata['product']['producttype'] == 'dualfuel_pack' || $pdata['product']['producttype'] == 'gas') ){
-                $pbsData = $pdata['product']['gas']['pricing']['yearly']['price_breakdown_structure'];
-                if($pdata['product']['producttype'] == 'gas'){
-                    $pbsData = $pdata['pricing']['yearly']['price_breakdown_structure'];
-                }
-                $labels['gas']['main'] = pll__('gas');
-                $labels['gas']['total'] = pll__('Total annual gas costs (incl.BTW)');
-                $labels['gas']['sub_total_yearly'][$cid] = formatPrice($pdata['product']['gas']['pricing']['yearly']['promo_price'], 2, '&euro; ');
-                if($pdata['product']['producttype'] == 'gas'){
-                    $labels['gas']['sub_total_yearly'][$cid] = formatPrice($pdata['pricing']['yearly']['promo_price'], 2, '&euro; ');
-                }
-                if($logosPlaced == 0) {
-                    $productsData['products'][$cid]['logo'] = $pdata['product']['supplier']['logo']['200x140']['transparent']['color'];
-                    $productsData['products'][$cid]['title'] = $pdata['product']['product_name'];
-                    $productsData['products'][$cid]['total_yearly'] = formatPrice($pdata['pricing']['yearly']['promo_price'], 2, '&euro; ');
+            if (in_array($productType, ['dualfuel_pack', 'gas'])) {
+                $compareData['pbs']['gas']['main'] = pll__('gas');
+                $compareData['pbs']['gas']['total'] = pll__('Total annual gas costs');
+
+                if ($productType === 'gas') {
+                    $compareData['pbs']['gas']['sub_total_yearly'][$productIndex] = formatPrice($product['pricing']['yearly']['promo_price'], 2, '&euro; ');
+                    $pbsData                                                      = $product['pricing']['yearly']['price_breakdown_structure'];
+                } else {
+                    $compareData['pbs']['gas']['sub_total_yearly'][$productIndex] = formatPrice($product['product']['gas']['pricing']['yearly']['promo_price'], 2, '&euro; ');
+                    $pbsData                                                      = $product['product']['gas']['pricing']['yearly']['price_breakdown_structure'];
                 }
 
-                $sh = 0;
-                //$logosPlaced = 1;
-                foreach($pbsData as $thisKey => $priceSection){
-                    $sectionlabel = str_replace(' ','_', strip_tags($priceSection['label']));
-                    if($priceSection['pbs_total']) {
-                        $labels['gas']['data'][$sectionlabel]['total'][$cid] = formatPrice($priceSection['pbs_total']['value'], 2, $priceSection['pbs_total']['unit'].' ');
+                foreach ($pbsData as $pbsKey => $priceSection) {
+                    $compareData['pbs']['gas']['data'][$pbsKey]['label'] = $priceSection['label'];
+                    if (isset($priceSection['pbs_total'])) {
+                        $compareData['pbs']['gas']['data'][$pbsKey]['total'][$productIndex] = formatPrice($priceSection['pbs_total']['value'], 2, $priceSection['pbs_total']['unit'] . ' ');
                     }
-                    $labels['gas']['data'][$sectionlabel]['label'] = $priceSection['label'];
-                    $hh = 0;
-                    foreach ($priceSection['pbs_lines'] as $pbkey => $pbdata){
-                        $label_key = str_replace(' ','_', strip_tags($pbdata['label']));
-                        $labels['gas']['data'][$sectionlabel]['data'][$label_key] = $pbdata['label'];
-                        $labels['gas']['data'][$sectionlabel]['products'][$cid][$hh]['label'] = $pbdata['label'];
-                        $labels['gas']['data'][$sectionlabel]['products'][$cid][$hh]['multiplicand'] = $pbdata['multiplicand']['value'];
-                        $labels['gas']['data'][$sectionlabel]['products'][$cid][$hh]['multiplier'] = $pbdata['multiplier']['value'].' '.$pbdata['multiplier']['unit'];
-                        $labels['gas']['data'][$sectionlabel]['products'][$cid][$hh]['product'] = $pbdata['product']['value'].' '.$pbdata['product']['unit'];
-                        $hh++;
+                    foreach ($priceSection['pbs_lines'] as $lineIndex => $pbsLine) {
+                        $compareData['pbs']['gas']['data'][$pbsKey]['lines'][$lineIndex]['label']                   = $pbsLine['label'];
+                        $compareData['pbs']['gas']['data'][$pbsKey]['lines'][$lineIndex]['products'][$productIndex] = [
+                            'label'        => $pbsLine['label'],
+                            'multiplicand' => $pbsLine['multiplicand']['value'],
+                            'multiplier'   => $pbsLine['multiplier'],
+                            'product'      => $pbsLine['product'],
+                        ];
                     }
-                    $sh++;
                 }
             }
-            $labels['totalfinal']['main'] = pll__('total electricity and gas');
-            if($_GET['cat'] == 'gas' || $_GET['cat'] == 'electricity'){
-                $labels['totalfinal']['main'] = pll__('total '.$_GET['cat']);
+            if ($productType === 'dualfuel_pack') {
+                $compareData['costs']['main'] = pll__('Total dualfuel pack');
+            } else {
+                $compareData['costs']['main'] = pll__('Total ' . $productType);
             }
-            $labels['totalfinal']['total'] = pll__('Total annualcosts (incl.BTW)');
-            $labels['totalfinal']['data']['costpermonth']['label'] = pll__('Cost/month (incl.BTW)');
-            $labels['totalfinal']['data']['advoneyear']['label'] = pll__('Total advantage 1st year');
-            $labels['totalfinal']['data']['costpermonth']['total'][$cid] = formatPrice($pdata['pricing']['monthly']['promo_price'], 2, '&euro; ');
-            $advOneYearTotal = ( $pdata['pricing']['yearly']['advantage'] > 0 ) ? formatPrice($pdata['pricing']['yearly']['advantage'], 2, '&euro; ') : '&nbsp;';
-            $estimatedSavingTotal = ( $pdata['savings']['yearly']['promo_price'] > 0 ) ? formatPrice($pdata['savings']['yearly']['promo_price'], 2, '&euro; ') : '&nbsp;';
-            $labels['totalfinal']['data']['advoneyear']['total'][$cid] = $advOneYearTotal;
-            $labels['totalfinal']['sub_total_yearly'][$cid] = formatPrice($pdata['pricing']['yearly']['promo_price'], 2, '&euro; ');
+            $compareData['costs']['total']['label']            = pll__('Total yearly costs');
+            $compareData['costs']['costpermonth']['label']     = pll__('Estimated monthly deposit');
+            $compareData['costs']['yearlynodiscount']['label'] = pll__('Total yearly costs without discount');
+            $compareData['costs']['advoneyear']['label']       = pll__('Total advantage 1st year');
 
-            $labels['vetsavings']['main'] = pll__('Estimated Savings');
-            $labels['vetsavings']['estotal'][$cid] = $estimatedSavingTotal;
-            $cid++;
+            if ($secondProduct->product->segment !== 'consumer') {
+                $compareData['costs']['total']['label']            .= ' ' . pll__('(excl. VAT)');
+                $compareData['costs']['costpermonth']['label']     .= ' ' . pll__('(excl. VAT)');
+                $compareData['costs']['yearlynodiscount']['label'] .= ' ' . pll__('(excl. VAT)');
+                $compareData['costs']['advoneyear']['label']       .= ' ' . pll__('(excl. VAT)');
+            } else {
+                $compareData['costs']['total']['label']            .= ' ' . pll__('(incl. VAT)');
+                $compareData['costs']['costpermonth']['label']     .= ' ' . pll__('(incl. VAT)');
+                $compareData['costs']['yearlynodiscount']['label'] .= ' ' . pll__('(incl. VAT)');
+                $compareData['costs']['advoneyear']['label']       .= ' ' . pll__('(incl. VAT)');
+            }
+
+            $compareData['costs']['costpermonth']['products'][$productIndex]     = formatPrice($product['pricing']['monthly']['promo_price'], 2, '&euro; ');
+            $compareData['costs']['yearlynodiscount']['products'][$productIndex] = formatPrice($product['pricing']['yearly']['price'], 2, '&euro; ');
+            $advOneYearTotal                                                     = $product['pricing']['yearly']['advantage'] > 0 ? formatPrice($product['pricing']['yearly']['advantage'], 2, '&euro; ') : null;
+            $estimatedSavingTotal                                                = isset($product['savings']['yearly']['promo_price']) && $product['savings']['yearly']['promo_price'] > 0 ? formatPrice($product['savings']['yearly']['promo_price'], 2, '&euro; ') : null;
+            $compareData['costs']['advoneyear']['products'][$productIndex]       = $advOneYearTotal;
+            $compareData['costs']['total']['products'][$productIndex] = formatPrice($product['pricing']['yearly']['promo_price'], 2, '&euro; ');
+
+            $compareData['savings']['main']                    = pll__('Estimated Savings');
+            $compareData['savings']['products'][$productIndex] = $estimatedSavingTotal;
         }
 
-        return [$productsData, $labels];
+        return $compareData;
     }
 
     function compareBetweenResults($listProduct) {
@@ -1461,119 +1488,134 @@ class AnbCompareEnergy extends AnbCompare
         return $html;
     }
 
-    // uasgae function
-    function usageResultsEnergy($enableCache = true, $cacheDurationSeconds = 86400, $isAjaxCall = false){
+    /**
+     * @param array $params
+     * @return array
+     */
+    public function getUsageResults($params)
+    {
+        $defaults = [
+            'producttype'    => '',
+            'segment'        => '',
+            'meter'          => 'double',
+            'residence_type' => '',
+            'family_size'    => '',
+            'home_size'      => '',
+            'has_solar'      => '',
+            'roof_isolation' => '',
+            'wall_isolation' => '',
+            'glass'          => '',
+            'boiler'         => '',
+            'cv'             => '',
+        ];
+        $params   += $defaults;
 
-        if(!$enableCache){ $enableCache = true; }
-
-        if(defined('COMPARE_API_CACHE_DURATION')) {
+        if (defined('COMPARE_API_CACHE_DURATION')) {
             $cacheDurationSeconds = COMPARE_API_CACHE_DURATION;
         } else {
             $cacheDurationSeconds = 86400;
         }
-
-        if(isset($_GET['ajax']) && $_GET['ajax'] == true){
-            $isAjaxCall = true;
-        }
-        if(isset($_GET['cat']) && !empty($_GET['cat'])){
-            $params['producttype'] =  $_GET['cat'];
+        if (!empty($params['cat'])) {
+            $params['producttype'] = $params['cat'];
         } else {
-            $params['producttype'] =  'dualfuel_pack';
+            $params['producttype'] = 'dualfuel_pack';
         }
-        if(isset($_GET['sg']) && !empty($_GET['sg'])) {
-            $params['segment'] = ($_GET['sg'] == 'consumer') ? '1' : '2';
+        if (!empty($params['sg'])) {
+            $params['segment'] = ($params['sg'] == 'consumer') ? '1' : '2';
+        } else {
+            $params['segment'] = '1';
         }
-        if(isset($_GET['f']) && !empty($_GET['f'])) {
-            $params['family_size'] = $_GET['f'];
+        if (!empty($params['f'])) {
+            $params['family_size'] = $params['f'];
         }
-        if(isset($_GET['houseType']) && !empty($_GET['houseType'])) {
-            switch ($_GET['houseType']){
-                case pll__('single'): $params['residence_type'] = '4'; break;
-                case pll__('double'): $params['residence_type'] = '3'; break;
-                case pll__('tripple'): $params['residence_type'] = '2'; break;
-                case pll__('tetra'): $params['residence_type'] = '5'; break;
-                case pll__('flat'): $params['residence_type'] = '1'; break;
+        if (!empty($params['houseType'])) {
+            switch ($params['houseType']) {
+                case pll__('single'):
+                    $params['residence_type'] = '4';
+                    break;
+                case pll__('double'):
+                    $params['residence_type'] = '3';
+                    break;
+                case pll__('tripple'):
+                    $params['residence_type'] = '2';
+                    break;
+                case pll__('tetra'):
+                    $params['residence_type'] = '5';
+                    break;
+                case pll__('flat'):
+                    $params['residence_type'] = '1';
+                    break;
             }
         }
-        if(isset($_GET['home_size']) && !empty($_GET['home_size'])) {
-            $params['home_size'] = $_GET['home_size'];
-        }
-        if(!isset($_GET['meter']) || empty($_GET['meter'])) { $_GET['meter'] = 'single'; }
-        if(isset($_GET['meter']) && !empty($_GET['meter'])) {
-            if($_GET['meter'] == 'single'){
-                $params['meter_type'] = '1';
-                if(isset($_GET['exc_night_meter'])){
-                    $params['meter_type'] = '3';
-                }
-            } else if($_GET['meter'] == 'double'){
-                $params['meter_type'] = '2';
-                if(isset($_GET['exc_night_meter'])){
-                    $params['meter_type'] = '4';
-                }
+        if ($params['meter'] == 'single') {
+            $params['meter_type'] = '1';
+            if (!empty($params['exc_night_meter'])) {
+                $params['meter_type'] = '3';
             }
-        }
-        if(isset($_GET['has_solar']) && !empty($_GET['has_solar'])) {
-            $params['has_solar'] = '1';
-        }
-        if(isset($_GET['roof_isolation']) && !empty($_GET['roof_isolation'])) {
-            $params['roof_isolation'] = $_GET['roof_isolation'];
-        }
-        if(isset($_GET['wall_isolation']) && !empty($_GET['wall_isolation'])) {
-            $params['wall_isolation'] = $_GET['wall_isolation'];
-        }
-        if(isset($_GET['glass']) && !empty($_GET['glass'])) {
-            $params['glass'] = $_GET['glass'];
-        }
-        if(isset($_GET['boiler']) && !empty($_GET['boiler']) && $_GET['boiler'] != '0') {
-            $params['boiler'] = $_GET['boiler'];
-        }
-        if(isset($params['cv']) && !empty($_GET['cv']) && $_GET['cv'] != '0') {
-            $params['cv'] = $_GET['cv'];
+        } elseif ($params['meter'] == 'double') {
+            $params['meter_type'] = '2';
+            if (!empty($params['exc_night_meter'])) {
+                $params['meter_type'] = '4';
+            }
         }
 
-        $atts = shortcode_atts(array(
-            'producttype' => '',
-            'segment' => '',
-            'family_size' => '',
+        $atts   = [
+            'producttype'    => '',
+            'segment'        => '',
+            'family_size'    => '',
             'residence_type' => '',
-            'home_size' => '',
-            'meter_type' => '',
-            'has_solar' => '',
+            'home_size'      => '',
+            'meter_type'     => '',
+            'has_solar'      => '',
             'roof_isolation' => '',
             'wall_isolation' => '',
-            'glass' => '',
-            'boiler' => '',
-            'cv' => ''
-        ), $atts, 'anb_search_usage');
+            'glass'          => '',
+            'boiler'         => '',
+            'cv'             => '',
+        ];
         $params = array_filter($params);
 
         $this->cleanArrayData($params);
-        $params = $this->allowedParams($params, array_keys($atts));//Don't allow all variables to be passed to API
-        displayParams($params);
-        $start = getStartTime();
-        $displayText = "Time API (Compare) inside getCompareResults";
 
-        if ($enableCache && !isset($_GET['no_cache'])) {
-            $cacheKey = md5(serialize($params)) . ":usage_vals";
-            $result = mycache_get($cacheKey);
+        $params    = $this->allowedParams($params, array_keys($atts));//Don't allow all variables to be passed to API
+        $fromCache = false;
+        $cacheKey  = md5(serialize($params)) . ":usage_vals";
+        $result    = mycache_get($cacheKey);
 
-            if($result === false || empty($result)) {
-                $result = $this->anbApi->getUsageResults($params);
-                mycache_set($cacheKey, $result, $cacheDurationSeconds);
-            } else {
-                $displayText = "Time API Cached (Compare) inside usage in wizard";
-            }
-        } else {
+        if (empty($result)) {
             $result = $this->anbApi->getUsageResults($params);
+            mycache_set($cacheKey, $result, $cacheDurationSeconds);
+        } else {
+            $fromCache   = true;
         }
-        $finish = getEndTime();
-        displayCallTime($start, $finish, $displayText);
-        if($isAjaxCall){
+        $result               = json_decode($result, true);
+        $result['parameters'] = $params;
+        $result['from_cache'] = $fromCache;
+
+        return $result;
+    }
+
+    // usage function
+    function usageResultsEnergy($enableCache = true, $cacheDurationSeconds = 86400, $isAjaxCall = false)
+    {
+        if (isset($_GET['ajax']) && $_GET['ajax'] == true) {
+            $isAjaxCall = true;
+        }
+        $result               = $this->getUsageResults($_GET);
+
+        if (isset($_GET['includeEstimationSummaryHtml']) && filter_var($_GET['includeEstimationSummaryHtml'], FILTER_VALIDATE_BOOLEAN) === true) {
+            $data = $result['data'] + $_GET;
+
+            $result['estimationSummaryHtml'] = template('template-parts/widgets/energy/estimation-summary.php', compact('data'));
+        }
+
+        $result = json_encode($result);
+
+        if ($isAjaxCall) {
             echo $result;
             wp_die();
         } else {
             return $result;
         }
-
     }
 }

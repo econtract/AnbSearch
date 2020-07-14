@@ -1423,12 +1423,10 @@ class AnbCompareEnergy extends AnbCompare
             if ($secondProduct->product->segment !== 'consumer') {
                 $compareData['costs']['total']['label']            .= ' ' . pll__('(excl. VAT)');
                 $compareData['costs']['costpermonth']['label']     .= ' ' . pll__('(excl. VAT)');
-                $compareData['costs']['yearlynodiscount']['label'] .= ' ' . pll__('(excl. VAT)');
                 $compareData['costs']['advoneyear']['label']       .= ' ' . pll__('(excl. VAT)');
             } else {
                 $compareData['costs']['total']['label']            .= ' ' . pll__('(incl. VAT)');
                 $compareData['costs']['costpermonth']['label']     .= ' ' . pll__('(incl. VAT)');
-                $compareData['costs']['yearlynodiscount']['label'] .= ' ' . pll__('(incl. VAT)');
                 $compareData['costs']['advoneyear']['label']       .= ' ' . pll__('(incl. VAT)');
             }
 

@@ -29,11 +29,13 @@ $energy = wpal_create_instance(AnbCompareEnergy::class);
 add_shortcode( 'anb_search_result', [$result, 'getCompareResults'] );
 
 add_shortcode( 'anb_search_form', [$result, 'searchForm'] );
+add_shortcode( 'anb_search_bar', [$result, 'searchBar'] );
+
 add_shortcode( 'anb_mobile_search_form', [$result, 'searchFormMobile'] );
 
 add_shortcode( 'anb_energy_search_form', [$energy, 'searchForm'] );
 
-add_shortcode( 'anb_energy_search_bar', [$energy, 'searchBarForm'] );
+add_shortcode( 'anb_energy_search_bar', [$energy, 'searchBar'] );
 
 // add ajax calls
 add_action('wp_ajax_moreResults', array($result, 'moreResults'));

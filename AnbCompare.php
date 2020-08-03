@@ -11,6 +11,7 @@ namespace AnbSearch;
 
 use abApiCrm\includes\controller\OrderController;
 use abSuppliers\AbSuppliers;
+use http\Exception\InvalidArgumentException;
 
 if(!function_exists('getUriSegment')) {
     function getUriSegment($n)
@@ -728,6 +729,45 @@ class AnbCompare extends Base
         );
 
         return $extSuppTbl->get_row($statemet, ARRAY_A);
+    }
+
+    /**
+     * Render search bar
+     *
+     * @param array $atts
+     * @return string The rendered search bar
+     */
+    function searchBar($atts)
+    {
+        $dataDefaults = [
+            'cat'  => null,
+            'zip'  => null,
+            'sg'   => 'consumer',
+            'lang' => $this->getCurrentLang(),
+        ];
+
+        $optionsDefaults = [
+            'type'  => 'telecom',
+            'title' => null,
+        ];
+
+        $data = shortcode_atts($dataDefaults, (!empty($_GET) ? $_GET + $atts : $atts), 'anb_search_bar');
+
+        // Options cannot be overridden by GET params
+        $options = shortcode_atts($optionsDefaults, $atts, 'anb_search_bar');
+
+        if (!in_array($options['type'], ['energy', 'telecom', 'mobile'])) {
+            throw new InvalidArgumentException(sprintf('Unknown search bar type %s', $data['type']));
+        }
+
+        $this->convertMultiValToArray($data['cat']);
+
+        ob_start();
+        extract($options);
+
+        include(locate_template('template-parts/widgets/' . $options['type'] . '/search-bar.php'));
+
+        return ob_get_clean();
     }
 
     function searchForm($atts)

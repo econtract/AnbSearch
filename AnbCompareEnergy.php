@@ -101,7 +101,13 @@ class AnbCompareEnergy extends AnbCompare
         }
     }
 
-    function searchBarForm($atts)
+    /**
+     * Render search bar
+     *
+     * @param array $atts
+     * @return string The rendered search bar
+     */
+    function searchBar($atts)
     {
         if (!empty($atts['product_type']) && empty($atts['cat'])) {
             $atts['cat'] = $atts['product_type'];
@@ -118,7 +124,7 @@ class AnbCompareEnergy extends AnbCompare
             'has_solar' => 0,
         ];
 
-        $data = shortcode_atts($defaults, $atts, 'anb_energy_search_bar_form');
+        $data = shortcode_atts($defaults, $atts, 'anb_energy_search_bar');
 
         if (!empty($_GET)) {
             $data = $_GET + $data;

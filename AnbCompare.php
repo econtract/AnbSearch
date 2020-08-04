@@ -219,12 +219,16 @@ class AnbCompare extends Base
 
         $params = shortcode_atts($defaults, $params, 'anb_search');
 
+        $params = array_filter($params, function ($value) {
+            return !empty($value) || is_bool($value) || (is_numeric($value) && (int)$value === 0);
+        });
+
         //this will not remove if pref_cs is passed as array but is empty so adding another check to ensure that
         if (isset($params['pref_cs'][0]) && empty($params['pref_cs'][0])) {
             unset($params['pref_cs']);
         }
 
-        if ($params['cat'] == 'dualfuel_pack' || $params['cat'] == 'electricity' || $params['cat'] == 'gas') {
+        if (in_array($params['cat'], ['dualfuel_pack','electricity', 'gas'])) {
             if (!isset($params['d'])) {
                 $params['d'] = 1;
             }
@@ -241,7 +245,7 @@ class AnbCompare extends Base
             $params['s'] = 0;//TODO: This is just temporary solution as for internet products API currently expecting this value to be passed
         }
 
-        if (isset($params['hidden_sp']) && !empty($params['hidden_sp'])) {
+        if (!empty($params['hidden_sp'])) {
             $params['pref_cs'] = $params['hidden_sp'];
             unset($params['hidden_sp']);
         }
@@ -253,7 +257,7 @@ class AnbCompare extends Base
         }
 
         // in case of Max download limit set parameter to -1
-        if (isset($params['dl']) && !empty($params['dl']) && $params['dl'] == INTERNET_DOWNLOAD_LIMIT) {
+        if (!empty($params['dl']) && $params['dl'] == INTERNET_DOWNLOAD_LIMIT) {
             $params['dl'] = "-1";
         }
 

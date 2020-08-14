@@ -24,6 +24,10 @@ if(!function_exists('getUriSegment')) {
 
 class AnbCompare extends Base
 {
+    const SECTOR_ENERGY  = 'energy';
+    const SECTOR_MOBILE  = 'mobile';
+    const SECTOR_TELECOM = 'telecom';
+
     /**
      * constant form page URI
      */
@@ -63,6 +67,22 @@ class AnbCompare extends Base
         $this->orignalCats = $_GET['cat'];
 
         parent::__construct();
+    }
+
+    /**
+     * @param array|string $catsOrType
+     * @return string
+     */
+    public static function getSector($catsOrType = [])
+    {
+        $catsOrType = (array)$catsOrType;
+
+        if (array_intersect($catsOrType, ['gas', 'electricity', 'dualfuel_pack'])) {
+            return self::SECTOR_ENERGY;
+        } elseif (array_intersect($catsOrType, ['packs', 'internet', 'telephone', 'gsm'])) {
+            return self::SECTOR_TELECOM;
+        }
+        return self::SECTOR_MOBILE;
     }
 
 
@@ -164,7 +184,7 @@ class AnbCompare extends Base
             'cat'             => 'internet',
             'zip'             => '',
             'pref_cs'         => '',
-            'detaillevel'     => ['supplier,logo,services,price,reviews,texts,promotions,core_features'],
+            'detaillevel'     => ['supplier','logo','services','price','reviews','texts','promotions','core_features'],
             'sg'              => 'consumer',
             'lang'            => $this->getCurrentLang(),
             'limit'           => '',
@@ -274,7 +294,7 @@ class AnbCompare extends Base
         // get the products
         $params = $this->allowedParams($params, array_keys($defaults));//Don't allow all variables to be passed to API
         // Remove supplier ID parameter if none selected
-        if (!empty($params['cmp_sid']) && $params['cmp_sid'] === 'none') {
+        if (isset($params['cmp_sid']) && $params['cmp_sid'] === 'none') {
             unset($params['cmp_sid']);
         }
 
@@ -299,17 +319,17 @@ class AnbCompare extends Base
 
     function getCompareResults($atts, $enableCache = true, $cacheDurationSeconds = 86400)
     {
-        if (isset($_GET['cat'])) {
-            if (is_array($_GET['cat']) && count($_GET['cat']) >= 2) {
-                $atts['cp']        = getPacktypeOnCats($_GET['cat']);
-                $this->orignalCats = $_GET['cat'];
+        if (isset($atts['cat'])) {
+            if (is_array($atts['cat']) && count($atts['cat']) >= 2 && getProductCategory($atts['cat']) === 'telecom') {
+                $atts['cp']        = getPacktypeOnCats($atts['cat']);
+                $this->orignalCats = $atts['cat'];
                 $atts['cat']       = 'packs';
-            } elseif (is_array($_GET['cat'])) {
-                $atts['cat'] = $_GET['cat'][0];
+            } elseif (is_array($atts['cat'])) {
+                $atts['cat'] = $atts['cat'][0];
             }
         }
 
-        if (isset($_GET['search_via_wizard'])) {
+        if (isset($atts['search_via_wizard'])) {
             $atts['cat'] = 'packs';
         }
 
@@ -413,151 +433,38 @@ class AnbCompare extends Base
      */
     function moreResults()
     {
-        $productResponse = '';
+        $compareParams = [
+            'detaillevel' => 'supplier,logo,services,price,reviews,texts,promotions,core_features,specifications,attachments,availability,contact_info,contract_periods,reviews_texts',
+            'lang'        => getLanguage(),
+        ];
 
-        $products = $this->getCompareResults(
-            array(
-                'detaillevel' => 'supplier,logo,services,price,reviews,texts,promotions,core_features,links,order_preferences',
-            )
-        );
+        $compareParams += $_GET;
 
-        $products = json_decode($products);
+        $pageSize    = isset($compareParams['pageSize']) ? $compareParams['pageSize'] : $this->defaultNumberOfResults;
+        $page        = isset($compareParams['page']) ? $compareParams['page'] : 2;
+        $resultIndex = isset($compareParams['offset']) ? $compareParams['offset'] : ($page - 1) * $pageSize;
 
-        /** @var \AnbTopDeals\AnbProduct $anbTopDeals */
-        $anbTopDeals = wpal_create_instance( \AnbTopDeals\AnbProduct::class );
+        $products = $this->getCompareResults($compareParams);
 
-        $countProducts = 0;
-        foreach ($products->results as $listProduct) {
+        $result         = json_decode($products);
+        /** @var \AnbTopDeals\AnbProductEnergy $anbTopDeals */
+        $anbTopDeals = wpal_create_instance(\AnbTopDeals\AnbProductEnergy::class);
+        $anbComp     = $this;
 
-            $countProducts++;
-
-            if ($countProducts <= $this->defaultNumberOfResults) {
-                continue;
-            }
-            $currentProduct = $listProduct->product;
-
-            // include badge or text - partner logo
-            $includeText = ($currentProduct->supplier->is_partner == 1) ? false : true;
-
-            list($productData, $priceHtml, $servicesHtml) = $this->extractProductData($this->anbTopDeals, $currentProduct, true);
-
-            //Promotions, Installation/Activation HTML
-            //display installation and activation price
-            $promotionHtml = $this->anbTopDeals->getPromoInternalSection($productData, true);//True here will drop promotions
-
-            list($advPrice, $monthDurationPromo, $firstYearPrice) = $this->anbTopDeals->getPriceInfo($productData);
-
-            $parentSegment = getSectorOnCats($_SESSION['product']['cat']);
-            $checkoutPageLink = '/' . $parentSegment . '/' . pll__('checkout');
-
-            $forceCheckAvailability = false;
-
-            if ( empty( $_GET['zip'] ) ) {
-                //don't continue if zip is empty
-                $forceCheckAvailability = true;
-            }
-
-            list(, , , , $toCartLinkHtml) = $anbTopDeals->getToCartAnchorHtml($parentSegment, $productData['product_id'], $productData['supplier_id'], $productData['sg'], $productData['producttype'], $forceCheckAvailability);
-
-            /*$toCartLinkHtml = "href='" . $checkoutPageLink . "?product_to_cart&product_id=" . $productData['product_id'] .
-                              "&provider_id=" . $productData['supplier_id'] . "&sg={$productData['sg']}&producttype={$productData['producttype']}'";*/
-            $blockLinkClass = '';
-            if($forceCheckAvailability) {
-                $blockLinkClass = 'missing-zip';
-            }
-
-            if($listProduct->order_preferences->order_type === 'direct_deeplink' && $listProduct->product->links->order_deeplink) {
-                $toCartLinkHtml = "href='".$listProduct->product->links->order_deeplink."'";
-            }
-
-            if($productData['commission'] === true) {
-                $toCartLinkHtml = '<a ' . $toCartLinkHtml . ' class="btn btn-primary '.$blockLinkClass.'">' . pll__('Order Now') . '</a>';
+        if ($result->num_results > $resultIndex) {
+            if ($result->num_results > ($resultIndex + $pageSize)) {
+                $result->results = array_slice($result->results, $resultIndex, $pageSize);
             } else {
-                $toCartLinkHtml = '<a href="#not-available" class="btn btn-primary not-available">' . pll__('Not Available') . '</a>';
+                $result->results = array_slice($result->results, $resultIndex);
             }
-            $appendHtml = '<p class="message">' . decorateLatestOrderByProduct($currentProduct->product_id) . '</p>';
-            $orderInfoHtml = '<div class="buttonWrapper">
-                            '.$toCartLinkHtml.'
-                            <a href="' . getTelecomProductPageUri($productData) . '" class="link block-link">' . pll__( 'Info and options' ) . '</a>
-                          </div>';
-            //echo "yoooo...1";die();
-            $productResp .= '<div class="offer">
-                            <div class="row listRow">
-                                <div class="col-md-3">
-                                    '.$this->anbTopDeals->getProductDetailSection( $productData, $servicesHtml, $includeText,false, '', true ).'
-                                </div>
-                                <div class="col-md-3">
-                                    '.$this->anbTopDeals->getPromoSection( $promotionHtml, 0, 'dealFeatures', '' ).'
-                                </div>
-                                <div class="col-md-3">
-                                    '.$this->anbTopDeals->priceSection( $priceHtml, $monthDurationPromo, $firstYearPrice, 'dealPrice', '', '', $productData, true ).'
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="totalCalcWrapper">
-                                        '.$this->anbTopDeals->getTotalAdvHtml($productData['advantage']).'
-                                    </div>
-                                    <div class="actionButtons print-hide">
-                                        '.$orderInfoHtml.'
-                                    </div>
-                                </div>
-                              </div>
-                            <div class="row listRow withSeperator">'.$this->getServiceDetail( $currentProduct, true ).'</div>
-                            <div class="row listRow withSeperator">
-                                <div class="col-md-7">
-                                    <div class="recentOrder">
-                                        '.decorateLatestOrderByProduct($currentProduct->product_id).'
-                                    </div>
-                                </div>
-                                <div class="col-md-5">
-                                    <div class="rightWrapper">
-                                        <!--<span class="waitingTooltip" data-toggle="custom-tooltip-bottom" title="<p>'.pll__('Popover bottom Sed posuere consectetur est at lob ortis. Aenean eu leo quam. Pellentesque ornare sem lacinia quam.').' </p>"><i class="customIcon fa fa-exclamation-triangle"></i> Waiting for input</span> -->
-                                        <span class="lastUpdated" data-toggle="custom-tooltip-bottom" title="<p>'.pll__('Sed posuere consectetur est at lob ortis. Aenean eu leo quam. Pellentesque ornare sem lacinia quam.').' </p>"> '.pll__('Last updated').': <span class="timestamp">'.formatDate($currentProduct->last_update).'</span></span>
-                                        <span class="comparePackage print-hide">
-		                                    <label>
-		                                        <input type="hidden"
-		                                               name="compareProductType'.$currentProduct->product_id.'"
-		                                               value="'.$currentProduct->producttype.'">
-		                                                <input type="checkbox"
-		                                                       value="'.$currentProduct->product_id.'"> '.pll__( 'Compare' ).'
-		                                    </label>
-		                                </span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>';
-
-            //old product response with old design
-            /*$productResponse .= '<div class="offer">
-                            <div class="row listRow">
-                                <div class="col-md-4">
-                                    ' . $this->anbTopDeals->getProductDetailSection($productData, $servicesHtml) . '
-                                </div>
-                                <div class="col-md-3">
-                                ' . $this->anbTopDeals->getPromoSection($promotionHtml, $advPrice, 'dealFeatures', $appendHtml) . '
-                                </div>
-                                <div class="col-md-2">
-                                   ' . $this->anbTopDeals->priceSection($priceHtml, $monthDurationPromo, $firstYearPrice, 'dealPrice', '') . '
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="actionButtons">
-                                        <div class="comparePackage">
-                                            <label>
-                                                <input type="hidden" name="compareProductType' . $currentProduct->product_id . '>" value="' . $currentProduct->producttype . '">
-                                                <input type="checkbox" value="' . $currentProduct->product_id . '"> ' . pll__('Compare') . '
-                                            </label>
-                                        </div>
-                                        <div class="buttonWrapper">
-                                            <a href="/' . pll__('brands') . '/' . $currentProduct->supplier_slug . '/' . $currentProduct->product_slug . '" class="btn btn-primary btn-block">' . pll__('Info and options') . '</a>
-                                            '.$toCartLinkHtml.'
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>';*/
+        } else {
+            $result->results = [];
         }
 
-        echo $productResp;
+        ob_start();
+        include(locate_template('template-parts/section/results/overview.php'));
 
+        echo ob_get_clean();
         wp_die(); // this is required to terminate immediately and return a proper response
     }
 

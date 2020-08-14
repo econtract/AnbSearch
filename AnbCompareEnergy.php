@@ -548,7 +548,7 @@ class AnbCompareEnergy extends AnbCompare
         }
 
         ob_start();
-        include(locate_template('template-parts/section/energy-results.php'));
+        include(locate_template('template-parts/section/results/overview.php'));
 
         echo ob_get_clean();
         wp_die(); // this is required to terminate immediately and return a proper response

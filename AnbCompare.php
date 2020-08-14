@@ -320,7 +320,7 @@ class AnbCompare extends Base
     function getCompareResults($atts, $enableCache = true, $cacheDurationSeconds = 86400)
     {
         if (isset($atts['cat'])) {
-            if (is_array($atts['cat']) && count($atts['cat']) >= 2 && getProductCategory($atts['cat']) === 'telecom') {
+            if (is_array($atts['cat']) && count($atts['cat']) >= 2 && self::getSector($atts['cat']) === self::SECTOR_TELECOM) {
                 $atts['cp']        = getPacktypeOnCats($atts['cat']);
                 $this->orignalCats = $atts['cat'];
                 $atts['cat']       = 'packs';

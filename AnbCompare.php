@@ -228,9 +228,6 @@ class AnbCompare extends Base
         }
 
         if (in_array($params['cat'], ['dualfuel_pack','electricity', 'gas'])) {
-            if (!isset($params['d'])) {
-                $params['d'] = 1;
-            }
             if (!isset($params['situation'])) {
                 $params['situation'] = 3;
             }

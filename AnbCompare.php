@@ -273,11 +273,6 @@ class AnbCompare extends Base
             unset($params['ds']);
         }
 
-        // in case of Max download limit set parameter to -1
-        if (!empty($params['dl']) && $params['dl'] == INTERNET_DOWNLOAD_LIMIT) {
-            $params['dl'] = "-1";
-        }
-
         if (isset($params['t']) && is_array($params['t'])) {
             if (in_array('f', $params['t']) && in_array('i', $params['t'])) {
                 $tariffType = 'no';

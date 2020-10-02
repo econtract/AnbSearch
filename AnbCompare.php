@@ -235,6 +235,7 @@ class AnbCompare extends Base
             'excl_pids'       => '',
             'greenpeace'      => '',
             'meter'           => '',
+            'technology'      => '',
         ];
 
         $params = shortcode_atts($defaults, $params, 'anb_search');

@@ -27,6 +27,7 @@ class AnbCompare extends Base
     const SECTOR_ENERGY  = 'energy';
     const SECTOR_MOBILE  = 'mobile';
     const SECTOR_TELECOM = 'telecom';
+    const SECTOR_OTHER   = 'other';
 
     /**
      * constant form page URI
@@ -79,10 +80,12 @@ class AnbCompare extends Base
 
         if (array_intersect($catsOrType, ['gas', 'electricity', 'dualfuel_pack'])) {
             return self::SECTOR_ENERGY;
-        } elseif (array_intersect($catsOrType, ['packs', 'internet', 'telephone', 'gsm'])) {
+        } elseif (array_intersect($catsOrType, ['packs', 'internet', 'telephone', 'tv', 'gsm', 'idtv', 'telephony'])) {
             return self::SECTOR_TELECOM;
+        } elseif (array_intersect($catsOrType, ['mobile', 'mobile_internet', 'prepaid'])) {
+            return self::SECTOR_MOBILE;
         }
-        return self::SECTOR_MOBILE;
+        return self::SECTOR_OTHER;
     }
 
 

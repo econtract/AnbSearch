@@ -101,7 +101,13 @@ class AnbCompareEnergy extends AnbCompare
         }
     }
 
-    function searchBarForm($atts)
+    /**
+     * Render search bar
+     *
+     * @param array $atts
+     * @return string The rendered search bar
+     */
+    function searchBar($atts)
     {
         if (!empty($atts['product_type']) && empty($atts['cat'])) {
             $atts['cat'] = $atts['product_type'];
@@ -118,7 +124,7 @@ class AnbCompareEnergy extends AnbCompare
             'has_solar' => 0,
         ];
 
-        $data = shortcode_atts($defaults, $atts, 'anb_energy_search_bar_form');
+        $data = shortcode_atts($defaults, $atts, 'anb_energy_search_bar');
 
         if (!empty($_GET)) {
             $data = $_GET + $data;
@@ -542,7 +548,7 @@ class AnbCompareEnergy extends AnbCompare
         }
 
         ob_start();
-        include(locate_template('template-parts/section/energy-results.php'));
+        include(locate_template('template-parts/section/results/overview.php'));
 
         echo ob_get_clean();
         wp_die(); // this is required to terminate immediately and return a proper response

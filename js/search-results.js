@@ -253,7 +253,7 @@ jQuery(document).ready(function($){
     }
 
     //Search results wizard your profile popup
-    $('#yourProfileWizardForm').on('submit', function(e){
+    $('#yourProfileWizardForm:not(.telecom)').on('submit', function(e){
         e.preventDefault();
         showWaitingSearchPopup($(this), '', false, false);
     });

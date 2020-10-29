@@ -53,17 +53,21 @@ class AnbToolbox
     }
 
     function getAdressInfo($zip, $city = "", $street = "", $house = "", $extraParams = []) {
-    	$params = [
-    		'postcode' => intval($zip),
-		    'city' => $city,
-		    'street' => $street,
-		    'house_number' => $house
-	    ] + $extraParams;
+        $params = [
+                'postcode' => intval($zip),
+                'city' => $city,
+                'street' => $street,
+                'house_number' => $house
+            ] + $extraParams;
 
-    	//remove all empty params
-	    $params = array_filter($params);
+        //remove all empty params
+        $params = array_filter($params);
 
-	    return $this->queryApi('addresses', $params, false);
+        if (empty($params)) {
+            return null;
+        }
+
+        return $this->queryApi('addresses', $params, false);
     }
 
     function getConnectionInfoOnAdressId($addressId, $extraParams = []) {

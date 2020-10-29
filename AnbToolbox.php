@@ -47,9 +47,22 @@ class AnbToolbox
         return $jsonRes;
     }
 
-    function getCityOnZip($zip) {
-        $res = $this->queryApi('cities', ['postcode' => $zip], false);
-        return $res->name;
+    /**
+     * @param int|string $zip
+     * @param bool       $cache
+     * @return string|null
+     */
+    function getCityOnZip($zip, $cache = true)
+    {
+        if ($cache === true && function_exists('cache_remember')) {
+            $response = cache_remember('anb_toolbox.city.' . $zip, function () use ($zip) {
+                return $this->queryApi('cities', ['postcode' => $zip], false);
+            });
+        } else {
+            $response = $this->queryApi('cities', ['postcode' => $zip], false);
+        }
+
+        return $response->name;
     }
 
     function getAdressInfo($zip, $city = "", $street = "", $house = "", $extraParams = []) {

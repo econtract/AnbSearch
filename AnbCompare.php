@@ -214,6 +214,7 @@ class AnbCompare extends Base
             'has_solar'       => '',
             'solar_capacity'  => '',
             'gp'              => '',
+            'gp_full'         => '', // 1 -> products should have 100% green power, 0 -> products should have less than 100% green power
             'l'               => '',
             'd'               => '',
             't'               => '',

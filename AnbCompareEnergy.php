@@ -1379,17 +1379,17 @@ class AnbCompareEnergy extends AnbCompare
                     foreach ($priceSection['pbs_lines'] as $lineIndex => $pbsLine) {
                         $compareData['pbs']['electricity']['data'][$pbsKey]['lines'][$lineIndex]['label']                   = $pbsLine['label'];
                         $compareData['pbs']['electricity']['data'][$pbsKey]['lines'][$lineIndex]['products'][$productIndex] = [
-                            'label'        => $pbsLine['label'],
-                            'multiplicand' => $pbsLine['multiplicand']['value'],
-                            'multiplier'   => $pbsLine['multiplier'],
-                            'product'      => $pbsLine['product'],
+                            'label'             => $pbsLine['label'],
+                            'multiplicand'      => $pbsLine['multiplicand'],
+                            'multiplier'        => $pbsLine['multiplier'],
+                            'product'           => $pbsLine['product'],
                         ];
                     }
                 }
             }
 
             if (in_array($productType, ['dualfuel_pack', 'gas'])) {
-                $compareData['pbs']['gas']['main'] = pll__('gas');
+                $compareData['pbs']['gas']['main']  = pll__('gas');
                 $compareData['pbs']['gas']['total'] = pll__('Total annual gas costs');
 
                 if ($productType === 'gas') {
@@ -1408,10 +1408,10 @@ class AnbCompareEnergy extends AnbCompare
                     foreach ($priceSection['pbs_lines'] as $lineIndex => $pbsLine) {
                         $compareData['pbs']['gas']['data'][$pbsKey]['lines'][$lineIndex]['label']                   = $pbsLine['label'];
                         $compareData['pbs']['gas']['data'][$pbsKey]['lines'][$lineIndex]['products'][$productIndex] = [
-                            'label'        => $pbsLine['label'],
-                            'multiplicand' => $pbsLine['multiplicand']['value'],
-                            'multiplier'   => $pbsLine['multiplier'],
-                            'product'      => $pbsLine['product'],
+                            'label'             => $pbsLine['label'],
+                            'multiplicand'      => $pbsLine['multiplicand'],
+                            'multiplier'        => $pbsLine['multiplier'],
+                            'product'           => $pbsLine['product'],
                         ];
                     }
                 }

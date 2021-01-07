@@ -214,6 +214,7 @@ class AnbCompare extends Base
             'has_solar'              => '',
             'solar_meter_type'       => '',
             'solar_calculation_type' => '',
+            'solar_injection_normal' => '',
             'solar_injection_day'    => '',
             'solar_injection_night'  => '',
             'solar_installation'     => '',

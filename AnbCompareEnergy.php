@@ -36,25 +36,7 @@ class AnbCompareEnergy extends AnbCompare
      */
     function enqueueScripts()
     {
-        if($_GET['debug']) {
-            echo "page name>>>";
-            var_dump($this->pagename);
-
-            echo "<br>sector>>>";
-            var_dump($this->sector);
-        }
         if($this->sector == pll__('energy')) {
-            wp_enqueue_script('search-results-energy', plugins_url('/js/search-results-energy.js', __FILE__), array('jquery'), '1.0.5', true);
-            wp_localize_script('search-results-energy', 'search_compare_obj_energy',
-                array(
-                    'ajax_url'              => admin_url('admin-ajax.php'),
-                    'site_url'              => pll_home_url(),
-                    'template_uri'          => get_template_directory_uri(),
-                    'lang'                  => $this->getCurrentLang(),
-                    'trans_loading_dots'    => pll__('Loading...')
-                )
-            );
-
             if($this->pagename == pll__('results') || $this->pagename == 'energenie' ) {
                 wp_enqueue_script('compare-results-energy', plugins_url('/js/compare-results-energy.js', __FILE__), array('jquery'), '1.2.7', true);
                 wp_localize_script('compare-results-energy', 'compare_between_results_object_energy',

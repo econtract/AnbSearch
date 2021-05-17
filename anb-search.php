@@ -17,8 +17,6 @@ if ( ! defined( 'WPINC' ) ) {
     die;
 }
 
-//wpal_load(AnbProduct::class);
-//$product = new AnbProduct();
 
 include(__DIR__ . '/pll-register-trans.php');
 
@@ -28,10 +26,7 @@ $energy = wpal_create_instance(AnbCompareEnergy::class);
 
 add_shortcode( 'anb_search_result', [$result, 'getCompareResults'] );
 
-add_shortcode( 'anb_search_form', [$result, 'searchForm'] );
 add_shortcode( 'anb_search_bar', [$result, 'searchBar'] );
-
-add_shortcode( 'anb_mobile_search_form', [$result, 'searchFormMobile'] );
 
 add_shortcode( 'anb_energy_search_form', [$energy, 'searchForm'] );
 
@@ -65,6 +60,3 @@ add_action( 'wp_ajax_nopriv_ajaxQueryToolboxApi', array($anbToolbox, 'ajaxQueryT
 
 add_action('wp_ajax_verifyWizardZipCode', array($result, 'verifyWizardZipCode'));
 add_action( 'wp_ajax_nopriv_verifyWizardZipCode', array($result, 'verifyWizardZipCode'));
-
-
-//add_shortcode('anb_get_suppliers', [$result, 'anb_get_suppliers'] );

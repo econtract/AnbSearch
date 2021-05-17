@@ -17,7 +17,6 @@ if ( ! defined( 'WPINC' ) ) {
     die;
 }
 
-
 include(__DIR__ . '/pll-register-trans.php');
 
 $result = wpal_create_instance(AnbCompare::class);

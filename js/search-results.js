@@ -69,7 +69,6 @@ function adjustPersonalSettingScenarios() {
     filtersApplied = getParameterByName('filters_applied');//check if the filters are applied
     //alert(filtersApplied);
     if(filtersApplied) {//this means that form has already been submitted once
-        console.log('filtersApplied', filtersApplied);
         //now find out if all the sub-sections were filled or something wasn't
 
         //in case all sub-sections were filled and main button clicked, this is time to keep the sub-sections in default form,
@@ -88,7 +87,6 @@ function adjustPersonalSettingScenarios() {
         jQuery('#yourProfileWizardForm .panel').each(function() {
             var currSubsec = jQuery(this);
             var bypassExistingOk = bypassWizardExistingOkButton(currSubsec);
-            console.log("bypassExistingOk", bypassExistingOk);
 
             if(bypassExistingOk) {
                 currSubsec.find('.panel-body .buttonWrapper button').off('click');
@@ -110,29 +108,6 @@ function adjustPersonalSettingScenarios() {
 }
 
 jQuery(document).ready(function($){
-    $("#calcPbsModal").on("show.bs.modal", function(e) {
-        var link = $(e.relatedTarget);
-        var target = $(this);
-
-        var transLabelsUri = '';
-
-        transLabelsUri = 'trans_monthly_cost=' + search_compare_obj.trans_monthly_cost +
-            '&trans_monthly_total=' + search_compare_obj.trans_monthly_total +
-            '&trans_first_month=' + search_compare_obj.trans_first_month +
-            '&trans_monthly_total_tooltip_txt=' + search_compare_obj.trans_monthly_total_tooltip_txt +
-            '&trans_ontime_costs=' + search_compare_obj.trans_ontime_costs +
-            '&trans_ontime_total=' + search_compare_obj.trans_ontime_total +
-            '&trans_mth=' + search_compare_obj.trans_mth;
-
-        //console.log("search_compare_obj***", search_compare_obj);
-        target.find('.modal-body').html('<div class="ajaxIconWrapper"><div class="ajaxIcon"><img src="'+search_compare_obj.template_uri+'/images/common/icons/ajaxloader.png" alt="'+search_compare_obj.trans_loading_dots+'"></div></div>');
-        $.get(search_compare_obj.site_url+'/api/', link.attr("href")+'&load=product&lang='+search_compare_obj.lang+'&'+transLabelsUri, function(response) {
-
-            target.find(".modal-body").html(response);
-
-        });
-    });
-
     //Adjust the personal settings scenarios on first load
     adjustPersonalSettingScenarios();
 

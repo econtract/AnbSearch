@@ -190,7 +190,7 @@ class AnbCompare extends Base
             unset($params['pref_cs']);
         }
 
-        if (in_array($params['cat'], ['dualfuel_pack','electricity', 'gas'])) {
+        if (isset($params['cat']) && in_array($params['cat'], ['dualfuel_pack','electricity', 'gas'])) {
             if (!isset($params['situation'])) {
                 $params['situation'] = 3;
             }
@@ -200,7 +200,7 @@ class AnbCompare extends Base
             $params['greenpeace'] = $params['greenpeace'] * 5;
         }
 
-        if (strtolower($params['cat']) == "internet") {
+        if (isset($params['cat']) && strtolower($params['cat']) == "internet") {
             $params['s'] = 0;//TODO: This is just temporary solution as for internet products API currently expecting this value to be passed
         }
 
@@ -232,7 +232,7 @@ class AnbCompare extends Base
             unset($params['cmp_sid']);
         }
 
-        if (!is_numeric($params['zip'])) {
+        if (isset($params['zip']) && !is_numeric($params['zip'])) {
             $params['zip'] = intval($params['zip']);
         }
 

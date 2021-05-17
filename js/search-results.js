@@ -23,41 +23,11 @@ function stripUriParams(uri) {
     return url;
 }
 
-function removeDuplicatesFromUri(uri) {
-    //remove any duplicate params
-    /*var redToArr = uri.split('&');
-
-    //remove duplicates with lodash
-    if(typeof _ != "undefined"){
-        redToArr = _.uniq(redToArr);
-    }*/
-    var finalRedirect = stripUriParams(uri);
-    return finalRedirect;
-}
-
 function prependQueryStringQuestionMark(finalRedirect) {
     if(finalRedirect.indexOf('?') === -1) {
         finalRedirect = '?' + finalRedirect;
     }
 
-    return finalRedirect;
-}
-
-function wizardProfileFormSubmitRedirect(object = false) {
-    var redirectTo;
-    var finalRedirect;
-    if(object) {
-        var params = object.serialize();
-        redirectTo = params + '&searchSubmit=&profile_wizard=';
-        finalRedirect = redirectTo;
-    }
-    else{
-        var searchFilterNav = jQuery('#searchFilterNav').serialize();
-        var yourProfileWizardForm = jQuery('#yourProfileWizardForm').serialize();
-
-        redirectTo = yourProfileWizardForm + '&' + searchFilterNav + '&searchSubmit=&profile_wizard=';
-        finalRedirect = removeDuplicatesFromUri(redirectTo);
-    }
     return finalRedirect;
 }
 
@@ -68,21 +38,6 @@ function getFirstUrlParamByName(name, uri) {
 
     return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
 
-}
-
-function getRedirectUrl() {
-    var redirectUrl = "";
-    //if(location.search.indexOf('profile_wizard') >= 0) {
-        redirectUrl = wizardProfileFormSubmitRedirect();
-    /*} else {
-        redirectUrl = jQuery('#searchFilterNav').serialize();
-    }*/
-
-    if(window.location.toString().indexOf("more_results") !== -1) {
-        redirectUrl = appendMoreResultsInUrl(redirectUrl);
-    }
-
-    return redirectUrl;
 }
 
 function bypassWizardExistingOkButton(currSubsec) {
@@ -97,17 +52,11 @@ function bypassWizardExistingOkButton(currSubsec) {
             if(currInput.val().trim() != '0') {
                 bypassExistingOk = true;
                 currSubsec.addClass('bypass-ok');
-                /*console.log("filled***", currInput);
-                console.log("filled val***", currInput.val());
-                console.log("filled val length***", currInput.val().length);*/
             }
         }
         else if(currInput.prop('type') !== 'text' && currInput.prop('type') !== 'number' && !_.isEmpty(val)) {
             bypassExistingOk = true;
             currSubsec.addClass('bypass-ok');
-            /*console.log("filled***", currInput);
-            console.log("filled val***", currInput.val());
-            console.log("filled val length***", currInput.val().length);*/
         }
     });
 
@@ -160,120 +109,7 @@ function adjustPersonalSettingScenarios() {
     }
 }
 
-function showWaitingSearchPopup(callingObj, popupId = '', redirect = false, dontUseCallingObj = false, callback = null, redirectIfModalIsShown = false) {
-    var _self = callingObj;
-
-    if(dontUseCallingObj === true) {
-        _self = jQuery(this);
-    }
-    var openModal = _self.parents('.modal.in');
-    if(_.isEmpty(popupId)) {
-        popupId = openModal.attr('id');
-        var sector = _self.find('#sector').val() || jQuery('#sector').val();
-        if(!_.isEmpty(sector)) {
-            if(sector == 'energy') {
-                //show energy waiting popup
-                popupId = 'searchEnergyDealsPopup';
-            } else {
-                //show telecom waiting popup
-                popupId = 'searchDealsPopup';
-            }
-        }
-    }
-    if(openModal.length){
-        openPopup = true;
-        jQuery('#'+popupId).modal('hide');
-    } else {
-
-        jQuery('#'+popupId).modal('show');
-    }
-
-    //window.location = wizardProfileFormSubmitRedirect();
-    redirectParam = prependQueryStringQuestionMark(wizardProfileFormSubmitRedirect(_self));
-    if(redirect === true) {
-        if(redirectIfModalIsShown === true) {//in any case show the waiting modal
-            if($('#'+popupId).hasClass('in')) {
-                window.location = redirectParam;
-            } else {
-                jQuery('#'+popupId).modal('show');
-                window.location = redirectParam;
-            }
-        } else {
-            window.location = redirectParam;
-        }
-    }
-    
-    if(callback !== null) {
-        callback();
-    }
-}
-
-function waitingCallback() {
-    var $ = jQuery();
-    $('#wizard_popup_pref_cs').html('');//remove all pref_cs from wizard popup as at this moment they are passed from search navigation
-    var redirectUrl = getRedirectUrl() + '&searchSubmit=';
-    var sortBy = $('#sortResults').val();
-    if(typeof sortBy != "undefined") {
-        redirectUrl += '&sort='+sortBy+'&searchSubmit=';
-    }
-    redirectUrl = prependQueryStringQuestionMark(removeDuplicatesFromUri(redirectUrl));
-    window.location = redirectUrl;
-}
-
 jQuery(document).ready(function($){
-
-    $('.loadMore').on('click', function() {
-        var data = {
-            'action': 'moreResults'
-        };
-        var urlParams = window.location.search;
-
-        //check if cat variable is missing if so append that too
-        if(!_.includes(urlParams, 'cat')) {
-            urlParams += '&' + $('input[name*=cat]').serialize();
-        }
-
-        $('.loadMore').html(search_compare_obj.trans_loading_dots);
-        // We can also pass the url value separately from ajaxurl for front end AJAX implementations
-        $.get(search_compare_obj.ajax_url+urlParams, data, function(response) {
-
-            $('.resultsData').html(response);
-            $('.loadMore').hide();
-            //Telecom result page listview Price vertical middle Function is in main.js
-            listViewDealPriceVerticallyCenter();
-
-        });
-
-        window.history.replaceState(null, null, appendMoreResultsInUrl(window.location));
-    });
-
-    //if load_more=true then trigger click on .loadMore, to ensure that user don't click again and again on load more
-    if(window.location.toString().indexOf("more_results") !== -1) {
-        $('.loadMore').trigger('click');
-    }
-
-    //Search results wizard your profile popup
-    $('#yourProfileWizardForm:not(.telecom)').on('submit', function(e){
-        e.preventDefault();
-        showWaitingSearchPopup($(this), '', false, false);
-    });
-
-    //sort feature
-    $('#sortResults').on('change', function() {
-        var sortBy = $(this).val();
-        var redirectUrl = getRedirectUrl() + '&sort='+sortBy+'&searchSubmit=';
-        redirectUrl = removeDuplicatesFromUri(redirectUrl);
-        window.location = prependQueryStringQuestionMark(redirectUrl);
-    });
-
-    //filter results left nav
-    $('#searchFilterNav').on('submit', function(e) {
-        e.preventDefault();
-        var _self = $(this);
-
-        showWaitingSearchPopup($(this), '', false, false);
-    });
-
     $("#calcPbsModal").on("show.bs.modal", function(e) {
         var link = $(e.relatedTarget);
         var target = $(this);
@@ -297,37 +133,12 @@ jQuery(document).ready(function($){
         });
     });
 
-    //enable/open collapsed filters if they are already applied
-    if(filtersApplied) {
-        //jQuery('.refineResult a').trigger('click');//Its is by default now applied so no need to trigger this click here
-    }
-
     //Adjust the personal settings scenarios on first load
     adjustPersonalSettingScenarios();
-    /*jQuery('#yourProfileWizardForm .panel-title a').on('mouseup', function (e) {
-        e.preventDefault();
-        if(filtersApplied) {
-            //.find('.panel-body .buttonWrapper button').off('click')
-            jQuery(this).off('click');
-        }
-        adjustPersonalSettingScenarios();
-    });*/
 
     //Adjust the personal settings when somebody changes the sub-sections
     jQuery('#yourProfileWizardForm .panel').on('change', function () {
         adjustPersonalSettingScenarios();
-    });
-
-    //When mobile subscription is none, unselect the mobile checkbox in services list as well
-    //In case mobile subscription is changed from none it'll then check the appropriate service again
-    $('body').on('change', 'input[name=ms_mobile]', function() {
-        //$('#mobile_service_wiz')
-        var subscVal = $(this).val();
-        if(subscVal == -1) {
-            $('#mobile_service_wiz').removeProp('checked');
-        } else {
-            $('#mobile_service_wiz').prop('checked', true);
-        }
     });
 });
 

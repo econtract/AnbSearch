@@ -259,7 +259,7 @@ class AnbCompare extends Base
             unset($params['pref_cs']);
         }
 
-        if (isset($params['cat']) && in_array($params['cat'], ['dualfuel_pack','electricity', 'gas'])) {
+        if (in_array($params['cat'], ['dualfuel_pack','electricity', 'gas'])) {
             if (!isset($params['situation'])) {
                 $params['situation'] = 3;
             }
@@ -269,7 +269,7 @@ class AnbCompare extends Base
             $params['greenpeace'] = $params['greenpeace'] * 5;
         }
 
-        if (isset($params['cat']) && strtolower($params['cat']) == "internet") {
+        if (strtolower($params['cat']) == "internet") {
             $params['s'] = 0;//TODO: This is just temporary solution as for internet products API currently expecting this value to be passed
         }
 
@@ -301,7 +301,7 @@ class AnbCompare extends Base
             unset($params['cmp_sid']);
         }
 
-        if (isset($params['zip']) && !is_numeric($params['zip'])) {
+        if (!is_numeric($params['zip'])) {
             $params['zip'] = intval($params['zip']);
         }
 
@@ -467,108 +467,6 @@ class AnbCompare extends Base
         include(locate_template('template-parts/section/results/overview.php'));
 
         echo ob_get_clean();
-        wp_die(); // this is required to terminate immediately and return a proper response
-    }
-
-    /**
-     * compare between already fetched results
-     */
-    function compareBetweenResults($listProduct)
-    {
-        $productResponse = '';
-        $crntpackSelected = $crntpackSelectedEnd = $crntpackSelectedClass = '';
-
-        $category = (is_array($_REQUEST['productTypes']) ? $_REQUEST['productTypes'][0] : $_REQUEST['productTypes']);
-
-        $getProducts = $this->anbProduct->getProducts(
-            [
-                'productid' => $_REQUEST['products'],
-                'sg' => trim($_REQUEST['sg']),
-                'lang' => $this->getCurrentLang(),
-                'status' => $this->productStatus,
-                'cat' => $category,
-                'detaillevel' => ['supplier', 'logo', 'services', 'price', 'reviews', 'texts', 'promotions', 'core_features', 'links']
-            ]
-        );
-
-        $products = json_decode($getProducts);
-
-        $countProducts = 0;
-
-        foreach ($products as $listProduct) {
-
-            $countProducts++;
-
-            $currentProduct = $listProduct;
-
-            // include badge or text - partner logo
-            $includeText = ($currentProduct->supplier->is_partner == 1) ? false : true;
-
-            list($productData, $priceHtml, $servicesHtml) = $this->extractProductData($this->anbTopDeals, $currentProduct);
-
-            //Promotions, Installation/Activation HTML
-            //display installation and activation price
-            $promotionHtml = $this->anbTopDeals->getPromoInternalSection($productData, true);//True here will drop promotions
-
-            list($advPrice, $monthDurationPromo, $firstYearPrice) = $this->anbTopDeals->getPriceInfo($productData);
-
-            $parentSegment = getSectorOnCats($_SESSION['product']['cat']);
-            $checkoutPageLink = '/' . $parentSegment . '/' . pll__('checkout');
-            $toCartLinkHtml = "href='" . $checkoutPageLink . "?product_to_cart&product_id=" . $productData['product_id'] .
-                "&provider_id=" . $productData['supplier_id'] . "&sg={$productData['sg']}&producttype={$productData['producttype']}'";
-
-            if($listProduct->links->order_deeplink) {
-                $toCartLinkHtml = "href='".$listProduct->links->order_deeplink."'";
-            }
-            $toCartLinkHtml = '<a ' . $toCartLinkHtml . ' class="link block-link">' . pll__('Order Now') . '</a>';
-
-            $selectedVal = !empty($_REQUEST['crntPack']) ? $_REQUEST['crntPack'] : pll__('Selected Pack') . ' ' . $countProducts;
-
-            if (!empty($_REQUEST['crntPack'])) {
-                $crntpackSelected = '<div class="selectedOfferWrapper">';
-                $crntpackSelectedEnd = '</div>';
-                $crntpackSelectedClass = 'selected';
-                $crntPackHtml = '<a href="#" class="edit" data-toggle="modal" data-target="#selectCurrentPack">
-                                 <i class="fa fa-chevron-right"></i>' . pll__('change pack') . '</a>
-                                 <a href="#" class="close closeCrntPack"><span>×</span></a>';
-
-                $toCartLinkHtml = "<p class='link block-link'>&nbsp;</p>";
-            } else {
-                if($productData['commission'] === false) {
-                    $toCartLinkHtml = '<a href="#not-available" class="link block-link not-available">' . pll__('Not Available') . '</a>';
-                }
-            }
-
-            $productResponse .= '<div class="col-md-4 offer-col ' . $crntpackSelectedClass . '">' .
-                $crntpackSelected .
-                '<div class="selection">
-                                            <h4>' . $selectedVal . '</h4>' .
-                $crntPackHtml .
-                '</div>' .
-
-                '<div class="offer">' .
-                $this->anbTopDeals->getProductDetailSection($productData, $servicesHtml, $includeText) .
-                $this->anbTopDeals->priceSection($priceHtml, $monthDurationPromo, $firstYearPrice, 'dealPrice', '', '', $productData, true) .
-                $this->anbTopDeals->getPromoSection($promotionHtml, $productData['advantage'], 'dealFeatures',
-                    '<a href="' . getTelecomProductPageUri($productData) . '" class="btn btn-primary ">' . pll__('Info and options') . '</a>
-                                                     '.$toCartLinkHtml.'
-                                                     <p class="message">' . decorateLatestOrderByProduct($productData['product_id']) . '</p>') .
-                '<div class="packageInfo">' .
-                $this->getServiceDetail($currentProduct) .
-                '</div>' .
-
-                $this->anbTopDeals->priceSection($priceHtml, $monthDurationPromo, $firstYearPrice, 'dealPrice last', '<div class="buttonWrapper">
-                                                        <a href="' . getTelecomProductPageUri($productData) . '" class="btn btn-primary ">' . pll__('Info and options') . '</a>
-                                                        '.$toCartLinkHtml.'
-                                                </div>') . '
-
-                                          </div>' .
-                $crntpackSelectedEnd .
-                '</div>';
-        }
-
-        print $productResponse;
-
         wp_die(); // this is required to terminate immediately and return a proper response
     }
 

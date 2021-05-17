@@ -217,16 +217,27 @@ class AnbCompareEnergy extends AnbCompare
         $hideTitle = false, $infoMsg = "", $resultsPageUri = self::RESULTS_PAGE_URI
     )
     {
+        $values += [
+            'cat' => null,
+            'f' => null,
+            'houseType' => null,
+            'supplier_service' => null,
+            'hidden_prodsel' => null,
+            'meter' => null,
+            'exc_night_meter' => null,
+            'has_solar' => null,
+            'sg' => null,
+        ];
         $_GET['producttype'] = (!isset($_GET['producttype'])) ? $values['cat'] : $_GET['producttype'];
         if(empty($_GET['producttype'])){ $_GET['producttype'] = 'dualfuel_pack'; }
         $_GET['sg'] = (!isset($_GET['sg'])) ? 'consumer' : $_GET['sg'];
         $_GET['f'] = (!isset($_GET['f'])) ? '2' : $_GET['f'];
         $resultsUsages = json_decode($this->usageResultsEnergy());
 
-        $du = (empty($values['du'])) ? $resultsUsages->data->du : $values['du'];
-        $nu = (empty($values['nu'])) ? $resultsUsages->data->nu : $values['nu'];
-        $nou = (empty($values['nou'])) ? $resultsUsages->data->nou : $values['nou'];
-        $u = (empty($values['u'])) ? $resultsUsages->data->u : $values['u'];
+        $du = (empty($values['du'])) ? (isset($resultsUsages->data->du) ? $resultsUsages->data->du : null): $values['du'];
+        $nu = (empty($values['nu'])) ? (isset($resultsUsages->data->nu) ? $resultsUsages->data->nu : null) : $values['nu'];
+        $nou = (empty($values['nou'])) ? (isset($resultsUsages->data->nou) ? $resultsUsages->data->nou : null) : $values['nou'];
+        $u = (empty($values['u'])) ? (isset($resultsUsages->data->u) ? $resultsUsages->data->u : null) : $values['u'];
 
         $electricityHide = $gasHide = '';
         if($values['supplier_service'] === 'electricity' || $values['cat'] == 'electricity'){ $gasHide = 'hide'; }
@@ -399,7 +410,7 @@ class AnbCompareEnergy extends AnbCompare
                                                     </label>
                                                 </div>
 
-                                                
+
                                             </div>
                                         </div>
 
@@ -425,10 +436,10 @@ class AnbCompareEnergy extends AnbCompare
                                             </div>
                                         </div>
                                     </div>
-                                    
+
                                 </div>
                                 <!-- // END: I DON'T KNOW MY ANNUAL CONSUMPTION -->
-                                
+
                                 <div class='js-is-solarpanel solar-panel-container'>
                                     <div class='check fancyCheck'>
                                         <input type='checkbox' name='has_solar' id='solarPanel' class='call-usages-data radio-salutation' value='1' ". (($values['has_solar'] === '1') ? 'checked="checked"' : '') .">
@@ -1430,73 +1441,6 @@ class AnbCompareEnergy extends AnbCompare
         }
 
         return $compareData;
-    }
-
-    function compareBetweenResults($listProduct) {
-        /*echo '<pre>';
-        print_r($current);
-        echo '</pre>';*/
-        /** @var \AnbTopDeals\AnbProductEnergy $anbTopDeals */
-        $anbTopDeals = wpal_create_instance( \AnbTopDeals\AnbProductEnergy::class );
-        $countProducts = 0;
-        $product     = ($listProduct->product) ?: $listProduct;
-        $pricing     = ($listProduct->pricing) ?: '';
-        $productData = $anbTopDeals->prepareProductData( $product );
-        $productId   = $product->product_id;
-        $supplierId  = $product->supplier_id;
-        $productType = $product->producttype;
-        $endScriptTime = getEndTime();
-        displayCallTime($startScriptTime, $endScriptTime, "Total page load time for Results page invidual gridView till prepareProductData.");
-
-        $parentSegment = getSectorOnCats($_SESSION['product']['cat']);
-
-        list(, , , , $toCartLinkHtml, $checkoutPageLink) = $anbTopDeals->getToCartAnchorHtml($parentSegment, $productData['product_id'], $productData['supplier_id'], $productData['sg'], $productData['producttype'], $forceCheckAvailability);
-
-        $blockLinkClass = 'block-link';
-        if($forceCheckAvailability) {
-            $blockLinkClass = 'block-link missing-zip';
-        }
-        $toCartLinkHtml = '<a '.$toCartLinkHtml.' class="link '.$blockLinkClass.'">' . pll__( 'Order Now' ) . '</a>';
-
-        if($productData['commission'] === false) {
-            $toCartLinkHtml = '<a href="#not-available" class="link block-link not-available">' . pll__('Not Available') . '</a>';
-        }
-        $servicesHtml = $anbTopDeals->getServicesHtml( $product, $pricing );
-
-        //TODO provide the following code with required objects, and it will then work
-        $advHtml = '';
-        if($pricing) {
-            $yearAdv = $pricing->yearly->price - $pricing->yearly->promo_price;
-            if ( $yearAdv !== 0 ) {
-                $yearAdvArr  = formatPriceInParts( $yearAdv, 2 );
-                $monthlyAdv  = $pricing->monthly->price - $pricing->monthly->promo_price;
-                $monthAdvArr = formatPriceInParts( $monthlyAdv, 2 );
-                $advHtml     .= "<div class='price-label'>
-                        <label>". pll__('Your advantage') ."</label>
-                        <div class='price yearly'>
-                            " . $yearAdvArr['currency'] . " " . $yearAdvArr['price'] . "
-                            <small>," . $yearAdvArr['cents'] . "</small>
-                        </div>
-                        <div class='price monthly hide'>
-                            " . $monthAdvArr['currency'] . ' ' . $monthAdvArr['price'] . "
-                            <small>," . $monthAdvArr['cents'] . "</small>
-                        </div>
-                     </div>";
-            }
-        }
-
-        $html = "<div class='current-package' >
-                <div class='selection'>
-                    <h4>" . pll__( 'Your Current Energy Pack' ) . "</h4>
-                    <a href='#' class='edit' data-toggle='modal' data-target='#selectCurrentPack'><i class='fa fa-chevron-right'></i>" . pll__( 'change pack' ) . "</a>
-                    <a href='#' class='close'><span>×</span></a>
-                </div>";
-        ob_start();
-        $currentProduct = 1;
-        include(locate_template('template-parts/section/energy-results-product.php')) ;
-        $html.= ob_get_clean();
-        $html.= "</div>";
-        return $html;
     }
 
     /**

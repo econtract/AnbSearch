@@ -16,9 +16,9 @@ use http\Exception\InvalidArgumentException;
 if(!function_exists('getUriSegment')) {
     function getUriSegment($n)
     {
-        $segment = explode("/", parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
+        $segments = explode("/", parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
 
-        return count($segment) > 0 && count($segment) >= ($n - 1) ? $segment[$n] : '';
+        return isset($segments[$n]) ? $segments[$n] : '';
     }
 }
 
@@ -408,7 +408,6 @@ class AnbCompare extends Base
     public function productsCallback()
     {
         $extSuppTbl = new \wpdb(DB_PRODUCT_USER, DB_PRODUCT_PASS, DB_PRODUCT, DB_PRODUCT_HOST);
-        $startTime = getStartTime();
         $statemet = $extSuppTbl->prepare(
             "SELECT producttype,product_id,product_name FROM supplier_products
 				WHERE supplier_id=%d AND lang=%s AND segment=%s AND (active=%d OR active=%d) AND (producttype=%s OR producttype=%s)
@@ -425,17 +424,11 @@ class AnbCompare extends Base
         );
 
         $products = $extSuppTbl->get_results($statemet, ARRAY_A);
-        $endTime = getEndTime();
-
-        if($_GET['debug']) {
-            displayCallTime($startTime, $endTime, 'Display Time for Comp Query+++');
-        }
 
         if (empty($products)) {
             return $html = '';
         }
 
-        $startTime = getStartTime();
         $html = '<option value="">' . pll__('Select your pack') . '</option>';
 
         foreach ($products as $product) {
@@ -443,10 +436,7 @@ class AnbCompare extends Base
         }
 
         print $html;
-        $endTime = getStartTime();
-        if($_GET['debug']) {
-            displayCallTime($startTime, $endTime, '+++HTML GENERATED+++');
-        }
+
         wp_die(); // this is required to terminate immediately and return a proper response
     }
 

@@ -23,13 +23,11 @@ $result = wpal_create_instance(AnbCompare::class);
 
 $energy = wpal_create_instance(AnbCompareEnergy::class);
 
+add_action( 'wp_enqueue_scripts', array($energy, 'enqueueScripts') );
+
 add_shortcode( 'anb_search_result', [$result, 'getCompareResults'] );
 
 add_shortcode( 'anb_search_bar', [$result, 'searchBar'] );
-
-add_shortcode( 'anb_energy_search_form', [$energy, 'searchForm'] );
-
-add_shortcode( 'anb_energy_search_bar', [$energy, 'searchBar'] );
 
 // add ajax calls
 add_action('wp_ajax_moreResults', array($result, 'moreResults'));
@@ -43,14 +41,6 @@ add_action( 'wp_ajax_nopriv_productsCallback', array($result, 'productsCallback'
 
 add_action('wp_ajax_getCompareResultsForWizard', array($result, 'getCompareResultsForWizard'));
 add_action( 'wp_ajax_nopriv_getCompareResultsForWizard', array($result, 'getCompareResultsForWizard'));
-
-
-// energy ajax call
-add_action('wp_ajax_moreResultsEnergy', array($energy, 'moreResults'));
-add_action( 'wp_ajax_nopriv_moreResultsEnergy', array($energy, 'moreResults'));
-
-add_action('wp_ajax_usageResultsEnergy', array($energy, 'usageResultsEnergy'));
-add_action( 'wp_ajax_nopriv_usageResultsEnergy', array($energy, 'usageResultsEnergy'));
 
 /** @var AnbToolbox $anbToolbox */
 $anbToolbox = wpal_create_instance( AnbToolbox::class );

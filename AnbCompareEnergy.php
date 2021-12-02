@@ -27,51 +27,7 @@ class AnbCompareEnergy extends AnbCompare
      */
     function enqueueScripts()
     {
-        if($this->sector == pll__('energy')) {
-            if($this->pagename == pll__('results') || $this->pagename == 'energenie' ) {
-                wp_enqueue_script('compare-results-energy', plugins_url('/js/compare-results-energy.js', __FILE__), array('jquery'), '1.2.7', true);
-                wp_localize_script('compare-results-energy', 'compare_between_results_object_energy',
-                    array(
-                        'ajax_url' => admin_url('admin-ajax.php'),
-                        'site_url' => pll_home_url(),
-                        'current_pack' => pll__('Your Current Energy Pack'),
-                        'select_your_pack' => pll__('I dont know the contract'),
-                        'template_uri' => get_template_directory_uri(),
-                        'lang' => $this->getCurrentLang(),
-                        'features_label' => pll__('Features'),
-                        'telecom_trans' => pll__('telecom'),
-                        'energy_trans' => pll__('energy'),
-                        'brands_trans' => pll__('brands'),
-                        'checkout_button_trans' => pll__('connect now'),
-                        'details_page_trans' => pll__('Detail'),
-                        'select_your_energy_pack' => pll__('Select your contract'),
-                        'change_pack' => pll__('change pack'),
-                        'trans_loading_dots'    => pll__('Loading...'),
-                        'trans_idontknow' => pll__('I dont know the contract'),
-                        'trans_customerrating' => pll__('Customer Score'),
-                        'trans_guarantee1year' => pll__('guaranteed 1st year'),
-                        'trans_guarantee1month' => pll__('guaranteed 1st month'),
-                        'trans_guarantee1yearinfo' => pll__('guaranteed 1st year info text'),
-                        'trans_guarantee1monthinfo' => pll__('guaranteed 1st month info text'),
-                        'trans_potentialsaving' => pll__('Potential saving'),
-                        'trans_youradvantage' => pll__('Your advantage')
-                    )
-                );
-            }
 
-            wp_enqueue_script('wizard-energy-script', plugins_url('/js/wizard-energy.js', __FILE__), array('jquery'), '1.0.3', true);
-
-            // in JavaScript, object properties are accessed as ajax_object.ajax_url, ajax_object.we_value
-            wp_localize_script('wizard-energy-script', 'wizard_energy_object',
-                array(
-                    'ajax_url'      => admin_url('admin-ajax.php'),
-                    'zip_empty'     => pll__('Zip cannot be empty'),
-                    'zip_invalid'   => pll__('Please enter valid Zip Code'),
-                    'offers_msg'    => pll__( 'offers' )." " . pll__('starting from'),
-                    'no_offers_msg' => pll__('No offers in your area'),
-                    'currency'      => $this->getCurrencySymbol($this->currencyUnit)
-                ));
-        }
     }
 
     /**

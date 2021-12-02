@@ -39,11 +39,6 @@ class AnbCompare extends Base
      */
     public $currencyUnit = 'EUR';
 
-    /**
-     * @var
-     */
-    private $abSuppliers;
-
     public $orignalCats = [];
 
     public $sector;
@@ -59,10 +54,6 @@ class AnbCompare extends Base
     {
         $this->sector = getUriSegment(1);
         $this->pagename = getUriSegment(2);
-        //enqueue JS scripts
-        add_action( 'wp_enqueue_scripts', array($this, 'enqueueScripts') );
-
-        $this->abSuppliers = wpal_create_instance( AbSuppliers::class );
 
         $_GET = $this->cleanInputGet();
         $this->orignalCats = isset($_GET['cat']) ? $_GET['cat'] : [];
@@ -86,18 +77,6 @@ class AnbCompare extends Base
             return self::SECTOR_MOBILE;
         }
         return self::SECTOR_OTHER;
-    }
-
-
-    /**
-     * enqueue ajax scripts
-     */
-    function enqueueScripts()
-    {
-        if($this->pagename == pll__('results')) {
-            //This is required for ssearchFilterNav functionality on energy too
-            wp_enqueue_script('search-compare-script', plugins_url('/js/search-results.js', __FILE__), array('jquery'), '1.2.9', true);
-        }
     }
 
     function compareResults($params, $enableCache, $cacheDurationSeconds = 86400)
@@ -297,71 +276,6 @@ class AnbCompare extends Base
     }
 
     /**
-     * get result for compare wizard to show number of found records against search criteria in wizard
-     * also get minimum prices of results
-     */
-    function getCompareResultsForWizard()
-    {
-        $result = $this->getCompareResults([]);
-
-        if (is_null($result)) {
-            return;
-        }
-
-        $result = json_decode($result);
-
-        $partners = $this->abSuppliers->getSupplierIds(true);
-        $prices = $this->fetchMinimumPriceOfResultsGroupBySupplier($result);
-
-        $pricesKeys = !is_null($prices) ? array_keys($prices) : [];
-
-        echo json_encode([
-            'count'        => $result->num_results,
-            'prices'       => $prices,
-            'no_offer_ids' => array_diff($partners, $pricesKeys)
-        ]);
-
-        wp_die();
-
-    }
-
-    /**
-     * @param $results
-     * @return mixed|void
-     */
-    function fetchMinimumPriceOfResultsGroupBySupplier ($results) {
-        $prices = $units = [];
-
-        if (is_null($results)) {
-            return;
-        }
-
-        foreach ($results->results as $listResults) {
-            $currentResult = $listResults->product;
-
-            $prices[$currentResult->supplier_id][$currentResult->product_id] = (float)$currentResult->monthly_fee->value;
-
-            // Each supplier will have same currency for all products, so no need to make multi dimensional
-            if (!isset($minPrice[$currentResult->supplier_id]['unit'])) {
-                $units[$currentResult->supplier_id]['unit'] = $currentResult->monthly_fee->unit;
-            }
-
-        }
-
-        $prices = array_map('min', $prices);
-        $minPrices = array_map( function ($k, $v) use ($prices) {
-
-            $response[$k] = [
-                'price' => str_replace( '.', ',', $prices[$k]),
-                'unit' => $v['unit'],
-            ];
-            return $response;
-        }, array_keys($units), $units);
-
-        return call_user_func_array('array_replace', $minPrices);
-    }
-
-    /**
      * get more results and return in html form
      */
     function moreResults()
@@ -399,68 +313,6 @@ class AnbCompare extends Base
 
         echo ob_get_clean();
         wp_die(); // this is required to terminate immediately and return a proper response
-    }
-
-    /**
-     *  call back will fetch data from API
-     *  detail level added just to minimize response time
-     */
-    public function productsCallback()
-    {
-        $extSuppTbl = new \wpdb(DB_PRODUCT_USER, DB_PRODUCT_PASS, DB_PRODUCT, DB_PRODUCT_HOST);
-        $statemet = $extSuppTbl->prepare(
-            "SELECT producttype,product_id,product_name FROM supplier_products
-				WHERE supplier_id=%d AND lang=%s AND segment=%s AND (active=%d OR active=%d) AND (producttype=%s OR producttype=%s)
-				ORDER BY product_name",
-            [
-                $_REQUEST['supplier'],
-                $this->getCurrentLang(),
-                $_REQUEST['sg'],
-                $this->productStatus[0],
-                $this->productStatus[1],
-                $this->productTypes[0],
-                $this->productTypes[1],
-            ]
-        );
-
-        $products = $extSuppTbl->get_results($statemet, ARRAY_A);
-
-        if (empty($products)) {
-            return $html = '';
-        }
-
-        $html = '<option value="">' . pll__('Select your pack') . '</option>';
-
-        foreach ($products as $product) {
-            $html .= '<option value="' . $product['producttype'] . '|' . $product['product_id'] . '">' . $product['product_name'] . '</option>';
-        }
-
-        print $html;
-
-        wp_die(); // this is required to terminate immediately and return a proper response
-    }
-
-    function getProductDetails($productId, $supplierId, $producttype, $lang = "") {
-        if(empty($lang)) {
-            $lang = $this->getCurrentLang();
-        }
-        $extSuppTbl = new \wpdb(DB_PRODUCT_USER, DB_PRODUCT_PASS, DB_PRODUCT, DB_PRODUCT_HOST);
-        $startTime = getStartTime();
-        $statemet = $extSuppTbl->prepare(
-            "SELECT producttype,product_id,product_name,commission_fee_fixed as commission, segment FROM supplier_products
-			WHERE product_id=%d AND supplier_id=%d AND producttype=%s AND lang=%s AND (active=%d OR active=%d)
-			ORDER BY product_name",
-            [
-                $productId,
-                $supplierId,
-                $producttype,
-                $lang,
-                $this->productStatus[0],
-                $this->productStatus[1],
-            ]
-        );
-
-        return $extSuppTbl->get_row($statemet, ARRAY_A);
     }
 
     /**
@@ -511,26 +363,6 @@ class AnbCompare extends Base
         }
     }
 
-    function getSuppliers($params = array())
-    {
-        //'cat' => ['internet', 'idtv', 'telephony', 'mobile', 'packs'],
-        $atts = array(
-            'cat' => ['internet', 'packs'],//products relevant to internet and pack products
-            'pref_cs' => '',
-            'lang' => $this->getCurrentLang(),
-            'detaillevel' => ['null']
-        );
-
-        $params = $params + $atts;
-
-        $params = array_filter($params);//remove empty entries
-
-        $suppliers = $this->anbApi->getSuppliers($params);
-
-        return json_decode($suppliers);
-    }
-
-
     /**
      * @param $value
      */
@@ -567,20 +399,6 @@ class AnbCompare extends Base
         $this->plainInputToArray($value);
     }
 
-    function getSuppliersHiddenInputFields ($values, $supplierHtml="") {
-        $hiddenMultipleProvidersHtml = "";
-
-        if (empty($supplierHtml) && is_array($values['pref_cs'])) {//If no supplier html generated but pref_cs are present keep them included as hidden values
-            $hiddenMultipleProvidersHtml .= '<div id="wizard_popup_pref_cs" class="hidden">';
-            foreach ($values['pref_cs'] as $provider) {
-                $hiddenMultipleProvidersHtml .= "<input type='hidden' name='pref_cs[]' value='" . $provider . "' />";
-            }
-            $hiddenMultipleProvidersHtml .= '</div>';
-        }
-
-        return $hiddenMultipleProvidersHtml;
-    }
-
     public function cleanInputGet()
     {
         $get = filter_input_array(INPUT_GET, FILTER_SANITIZE_STRING);//Clean Params
@@ -609,30 +427,6 @@ class AnbCompare extends Base
             },
             ARRAY_FILTER_USE_KEY
         );*/
-    }
-
-    /**
-     * verify zip code is valid
-     * against valid zip code city will be found
-     */
-    public function verifyWizardZipCode()
-    {
-
-        /** @var \AnbSearch\AnbToolbox $anbToolbox */
-        $anbToolbox = wpal_create_instance(AnbToolbox::class);
-
-        $zip = $_POST['zip'];
-        $isFound = false;
-
-        $city = $anbToolbox->getCityOnZip($zip);
-
-        if ($city) {
-            $isFound = true;
-        }
-
-        print $isFound;
-
-        wp_die();
     }
 
     /**
